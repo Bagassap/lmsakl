@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+:root {
+  --background: #ffffff;
+  --foreground: #000000;
+
+  --color-brand: #7d39eb;
+  --color-brand-dark: #5e2bc0;
+  --color-accent: #c6ff33;
+
+  --color-lavender: #EDF2F4;
+  --color-pink: #FBC9CE;
+  --color-violet: #F4485C;
+  --color-blue: #EF233C;
+  --color-navy: #D90429;
+  --color-deep: #8D031B;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand: var(--color-brand);
+  --color-brand-dark: var(--color-brand-dark);
+  --color-accent: var(--color-accent);
+  --font-sans: var(--font-satoshi);
+
+  --color-lavender: var(--color-lavender);
+  --color-pink: var(--color-pink);
+  --color-violet: var(--color-violet);
+  --color-blue: var(--color-blue);
+  --color-navy: var(--color-navy);
+  --color-deep: var(--color-deep);
+
+
+  --color-primary: #D90429;
+  --color-primary-light: #FBE7EA;
+  --color-primary-dark: #A80320;
+
+  --color-surface: #F5F7FA;
+}
+
+*,
+*::before,
+*::after {
+  border-color: #e2e8f0;
+}
+html.dark *,
+html.dark *::before,
+html.dark *::after {
+  border-color: #27303e;
+}
+
+.dark {
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+@keyframes toast-shrink {
+  from { transform: scaleX(1); }
+  to   { transform: scaleX(0); }
+}
+
+.thin-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+.thin-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.thin-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
+}
+html.dark .thin-scrollbar {
+  scrollbar-color: #475569 transparent;
+}
+html.dark .thin-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #475569;
+}
+html.dark .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #64748b;
+}
