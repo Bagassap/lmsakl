@@ -178,13 +178,13 @@ export function Sidebar({
         className={[
           "fixed inset-y-0 left-0 z-40 flex h-dvh shrink-0 flex-col transition-all duration-300 ease-in-out",
           open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-          collapsed ? "w-20 p-2" : "w-64 p-3",
+          collapsed ? "w-20" : "w-64",
         ].join(" ")}
       >
         <div
           className={[
-            "relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-linear-to-b from-primary to-primary-dark shadow-xl shadow-primary/25",
-            collapsed ? "px-2 py-3" : "p-3",
+            "relative flex h-full w-full flex-col overflow-hidden rounded-r-2xl bg-linear-to-b from-primary to-primary-dark shadow-xl shadow-primary/25",
+            collapsed ? "px-2 py-4" : "p-4",
           ].join(" ")}
         >
           <div className="pointer-events-none absolute inset-0 opacity-[0.07] bg-[radial-gradient(circle,rgba(255,255,255,0.9)_1px,transparent_1px)] bg-size-[16px_16px]" />
