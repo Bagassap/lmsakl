@@ -32,7 +32,7 @@ interface DashboardData {
 }
 
 
-const P = "#EA580C";
+const P = "#D90429";
 const R = "#EF4444";
 const G = "#10B981";
 
@@ -173,7 +173,7 @@ export default function GuruDashboardPage() {
       label: "Pengumuman",
       value: data.pengumuman.length,
       suffix: " info",
-      gradient: "linear-gradient(135deg, #fb923c 0%, #ea580c 100%)",
+      gradient: "linear-gradient(135deg, #F4485C 0%, #D90429 100%)",
       icon: Megaphone,
     },
   ] as const;
@@ -291,7 +291,7 @@ export default function GuruDashboardPage() {
                   transition={{ delay: 0.5 + i * 0.06 }}
                   className="flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/30">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-extrabold text-white"
-                    style={{ background: "linear-gradient(135deg,#6334F4,#EA580C)" }}>
+                    style={{ background: "linear-gradient(135deg,#6334F4,#D90429)" }}>
                     {k.nama.charAt(0)}
                   </div>
                   <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{k.nama}</p>

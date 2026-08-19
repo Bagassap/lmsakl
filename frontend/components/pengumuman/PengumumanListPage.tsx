@@ -19,7 +19,7 @@ type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 const KATEGORI_GRADIENT: Record<string, string> = {
   Umum:     "linear-gradient(135deg, #6334F4 0%, #977DFF 100%)",
   Akademik: "linear-gradient(135deg, #3B7CE8 0%, #4F8EF7 100%)",
-  Magang:   "linear-gradient(135deg, #F97316 0%, #FB923C 100%)",
+  Magang:   "linear-gradient(135deg, #EF233C 0%, #F4485C 100%)",
   Ujian:    "linear-gradient(135deg, #EF4444 0%, #F87171 100%)",
   Lainnya:  "linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%)",
 };
@@ -465,7 +465,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
     <div className="space-y-5">
 
       <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: "linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)" }}>
+        style={{ background: "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)" }}>
         <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
         <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
         <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>

@@ -103,8 +103,8 @@ const ROLE_LABEL: Record<string, string> = {
   SISWA: "Pelajar",
 };
 
-const SIDEBAR_GRADIENT = "linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)";
-const SIDEBAR_ACCENT = "#F97316";
+const SIDEBAR_GRADIENT = "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)";
+const SIDEBAR_ACCENT = "#EF233C";
 
 const TOGGLE_BTN_CLASS =
   "flex items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 shadow-sm transition-all duration-200 hover:border-primary/30 hover:bg-primary/10 hover:text-primary dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-white/20 dark:hover:bg-white/15 dark:hover:text-white";
@@ -176,7 +176,7 @@ export function Sidebar({
     <aside
       className={[
         "fixed inset-y-0 left-0 z-40 flex flex-col bg-white transition-all duration-300 ease-in-out",
-        "shadow-[4px_0_24px_rgba(234,88,12,0.08)] dark:bg-[#1c2434] dark:shadow-[4px_0_24px_rgba(0,0,0,0.3)]",
+        "shadow-[4px_0_24px_rgba(217,4,41,0.08)] dark:bg-[#1c2434] dark:shadow-[4px_0_24px_rgba(0,0,0,0.3)]",
         collapsed ? "w-18" : "w-64",
         open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       ].join(" ")}
@@ -207,7 +207,7 @@ export function Sidebar({
                 <Image src="/AKL.png" alt="AKL" width={18} height={23} className="h-4.5 w-auto" />
               </div>
               <span className="flex items-baseline gap-1">
-                <span className="bg-gradient-to-br from-[#FB923C] via-[#F97316] to-[#EA580C] bg-clip-text text-[17px] font-black tracking-tight text-transparent dark:from-[#F79AA3] dark:via-[#FB923C] dark:to-[#F97316]">
+                <span className="bg-gradient-to-br from-[#F4485C] via-[#EF233C] to-[#D90429] bg-clip-text text-[17px] font-black tracking-tight text-transparent dark:from-[#F79AA3] dark:via-[#F4485C] dark:to-[#EF233C]">
                   LMS
                 </span>
                 <span className="text-[11px] font-bold tracking-[0.15em] text-slate-400 dark:text-slate-500">
@@ -266,7 +266,7 @@ export function Sidebar({
             <p className="mt-0.5 text-[11px] text-slate-400 dark:text-slate-300">
               {ROLE_LABEL[user.role]} · SMK Ma&apos;arif
             </p>
-            <p className="mt-2 rounded-full bg-[#F97316]/[0.08] px-3 py-1 text-[10px] font-medium italic text-[#F97316] dark:bg-white/10 dark:text-red-200">
+            <p className="mt-2 rounded-full bg-[#EF233C]/[0.08] px-3 py-1 text-[10px] font-medium italic text-[#EF233C] dark:bg-white/10 dark:text-red-200">
               &ldquo;{greeting}&rdquo;
             </p>
           </div>
@@ -301,7 +301,7 @@ export function Sidebar({
                       <span
                         className={[
                           "relative flex h-7 w-7 items-center justify-center rounded-lg",
-                          active ? "bg-[#F97316]" : "",
+                          active ? "bg-[#EF233C]" : "",
                         ].join(" ")}
                       >
                         <item.icon size={16} style={{ color: active ? "#fff" : "#94a3b8" }} />
@@ -329,7 +329,7 @@ export function Sidebar({
                       <span
                         className={[
                           "relative flex h-7 w-7 items-center justify-center rounded-lg",
-                          active ? "bg-[#F97316]" : "",
+                          active ? "bg-[#EF233C]" : "",
                         ].join(" ")}
                       >
                         <item.icon size={16} style={{ color: active ? "#fff" : "#94a3b8" }} />
@@ -356,7 +356,7 @@ export function Sidebar({
                   <span
                     className={[
                       "relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                      active ? "bg-[#F97316]" : "",
+                      active ? "bg-[#EF233C]" : "",
                     ].join(" ")}
                   >
                     {!active && <span className="absolute inset-0 rounded-xl bg-slate-100 dark:bg-white/[0.07]" />}
@@ -365,7 +365,7 @@ export function Sidebar({
                   <span
                     className={[
                       "relative flex-1 text-left text-[13px] font-semibold",
-                      active ? "text-[#F97316] dark:text-white" : "text-slate-700 dark:text-slate-300",
+                      active ? "text-[#EF233C] dark:text-white" : "text-slate-700 dark:text-slate-300",
                     ].join(" ")}
                   >
                     {item.label}
@@ -378,7 +378,7 @@ export function Sidebar({
                       className={[
                         "relative shrink-0 transition-transform duration-200",
                         isExp ? "rotate-180" : "",
-                        active ? "text-[#F97316] dark:text-white" : "text-slate-400",
+                        active ? "text-[#EF233C] dark:text-white" : "text-slate-400",
                       ].join(" ")}
                     />
                   )}
@@ -425,19 +425,19 @@ export function Sidebar({
                                   className={[
                                     "flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12.5px] transition-all duration-150",
                                     subActive
-                                      ? "bg-primary/10 font-semibold text-[#F97316] dark:text-white"
+                                      ? "bg-primary/10 font-semibold text-[#EF233C] dark:text-white"
                                       : "font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
                                   ].join(" ")}
                                 >
                                   <span
                                     className={[
                                       "flex h-5 w-5 shrink-0 items-center justify-center rounded-md",
-                                      subActive ? "bg-[#F97316]/20" : "",
+                                      subActive ? "bg-[#EF233C]/20" : "",
                                     ].join(" ")}
                                   >
                                     <sub.icon
                                       size={12}
-                                      className={subActive ? "text-[#F97316] dark:text-white" : "text-slate-400"}
+                                      className={subActive ? "text-[#EF233C] dark:text-white" : "text-slate-400"}
                                     />
                                   </span>
                                   <span>{sub.label}</span>
@@ -474,7 +474,7 @@ export function Sidebar({
                   <span
                     className={[
                       "relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                      active ? "bg-[#F97316]" : "",
+                      active ? "bg-[#EF233C]" : "",
                     ].join(" ")}
                   >
                     {!active && <span className="absolute inset-0 rounded-xl bg-slate-100 dark:bg-white/[0.07]" />}
@@ -484,7 +484,7 @@ export function Sidebar({
                   <span
                     className={[
                       "relative flex-1 text-[13px] font-semibold",
-                      active ? "text-[#F97316] dark:text-white" : "text-slate-700 dark:text-slate-300",
+                      active ? "text-[#EF233C] dark:text-white" : "text-slate-700 dark:text-slate-300",
                     ].join(" ")}
                   >
                     {item.label}
@@ -498,7 +498,7 @@ export function Sidebar({
 
                   <ChevronRight
                     size={13}
-                    className={active ? "relative shrink-0 text-[#F97316] dark:text-white" : "relative shrink-0 text-slate-300"}
+                    className={active ? "relative shrink-0 text-[#EF233C] dark:text-white" : "relative shrink-0 text-slate-300"}
                   />
                 </Link>
               </li>

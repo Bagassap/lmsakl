@@ -49,7 +49,7 @@ export default function GreetingHero({
   return (
     <div
       className="relative overflow-hidden rounded-3xl px-6 py-7 md:px-8 md:py-8"
-      style={{ background: "linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)" }}
+      style={{ background: "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)" }}
     >
       <div className="pointer-events-none absolute -right-10 -top-10 h-60 w-60 rounded-full bg-white/10" />
       <div className="pointer-events-none absolute -bottom-14 right-28 h-52 w-52 rounded-full bg-white/6" />
@@ -59,7 +59,7 @@ export default function GreetingHero({
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.06) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(154,52,18,0.35) 0%, transparent 50%)",
+            "radial-gradient(ellipse at 80% 50%, rgba(255,255,255,0.06) 0%, transparent 60%), radial-gradient(ellipse at 20% 80%, rgba(141,3,27,0.35) 0%, transparent 50%)",
         }}
       />
 

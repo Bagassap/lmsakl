@@ -25,7 +25,7 @@ export const STATUS_GRADIENT: Record<StatusAbsensi, string> = {
 };
 export const PULANG_GRADIENT = "linear-gradient(135deg,#0033FF,#738FFF)";
 
-export const BRAND_GRADIENT = "linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)";
+export const BRAND_GRADIENT = "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)";
 
 export const CARD_GRADIENTS = [
   "linear-gradient(135deg,#0033FF,#335CFF)",
@@ -46,19 +46,19 @@ export const CARD_ACCENT = ["#0033FF", "#EF4444", "#F59E0B", "#10B981", "#6334F4
 // cards on this page read as part of the same visual family.
 export const DASHBOARD_GRADIENTS = [
   "linear-gradient(135deg,#4ade80,#22c55e)", // green
-  "linear-gradient(135deg,#F97316,#EA580C)", // red (sidebar's primary red)
+  "linear-gradient(135deg,#EF233C,#D90429)", // red (sidebar's primary red)
   "linear-gradient(135deg,#a78bfa,#7c3aed)", // purple
-  "linear-gradient(135deg,#fb923c,#ea580c)", // orange
+  "linear-gradient(135deg,#F4485C,#D90429)", // orange
 ];
-export const DASHBOARD_ACCENT = ["#22c55e", "#F97316", "#7c3aed", "#ea580c"];
-export const DASHBOARD_PASTEL = ["#E7F9EE", "#FFEDD5", "#F0ECFF", "#FFF1E6"];
+export const DASHBOARD_ACCENT = ["#22c55e", "#EF233C", "#7c3aed", "#D90429"];
+export const DASHBOARD_PASTEL = ["#E7F9EE", "#FBE7EA", "#F0ECFF", "#FFF1E6"];
 
 // Wallet-card style palette for the "Kelas" row on the admin Absensi Harian
 // page — order matches the orange/blue/cyan/green sequence of the reference
 // design exactly, cycling by kelas index.
 export const WALLET_GRADIENTS = [
-  "linear-gradient(135deg,#fb923c,#ea580c)", // orange
-  "linear-gradient(135deg,#F97316,#EA580C)", // red (sidebar's primary red)
+  "linear-gradient(135deg,#F4485C,#D90429)", // orange
+  "linear-gradient(135deg,#EF233C,#D90429)", // red (sidebar's primary red)
   "linear-gradient(135deg,#22D3EE,#06B6D4)", // cyan
   "linear-gradient(135deg,#4ade80,#22c55e)", // green
 ];
@@ -82,7 +82,7 @@ export const WALLET_DOT_SIZE = "18px 18px";
 export const RANGE_MODE_CARDS: { key: "harian" | "mingguan" | "bulanan"; label: string; caption: string; icon: React.ElementType; gradient: string }[] = [
   { key: "harian", label: "Harian", caption: "Rekap hari ini", icon: CalendarDays, gradient: "linear-gradient(135deg,#6334F4,#4F46E5)" },
   { key: "mingguan", label: "Mingguan", caption: "Rekap minggu ini", icon: CalendarRange, gradient: "linear-gradient(135deg,#4ade80,#22c55e)" },
-  { key: "bulanan", label: "Bulanan", caption: "Rekap bulan ini", icon: CalendarCheck2, gradient: "linear-gradient(135deg,#fb923c,#ea580c)" },
+  { key: "bulanan", label: "Bulanan", caption: "Rekap bulan ini", icon: CalendarCheck2, gradient: "linear-gradient(135deg,#F4485C,#D90429)" },
 ];
 
 // Date.prototype.toISOString() always renders the UTC calendar date, not the

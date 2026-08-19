@@ -108,11 +108,11 @@ export function LengkapiFotoProfilForm() {
           onClick={() => inputRef.current?.click()}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="group relative mx-auto mb-8 flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-blue/30 bg-blue/5 transition-colors hover:border-blue/55 hover:bg-blue/10 sm:h-44 sm:w-44"
+          className="group relative mx-auto mb-8 flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#F97316]/30 bg-[#F97316]/5 transition-colors hover:border-[#F97316]/55 hover:bg-[#F97316]/10 sm:h-44 sm:w-44"
         >
           <div className="flex flex-col items-center gap-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue/10 transition-colors group-hover:bg-blue/20">
-              <ImagePlus size={22} className="text-blue" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#F97316]/10 transition-colors group-hover:bg-[#F97316]/20">
+              <ImagePlus size={22} className="text-[#F97316]" />
             </div>
             <p className="px-4 text-xs font-semibold text-black/70">Pilih Foto</p>
           </div>
@@ -166,7 +166,7 @@ export function LengkapiFotoProfilForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-pink bg-[#9A3412] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#FED7AA] bg-[#9A3412] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>

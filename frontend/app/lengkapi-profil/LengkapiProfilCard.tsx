@@ -46,8 +46,8 @@ export function LengkapiProfilCard() {
           }}
         />
 
-        <div className="pointer-events-none absolute -left-16 -top-16 hidden h-48 w-48 rounded-full bg-violet/50 blur-3xl sm:block" />
-        <div className="pointer-events-none absolute -bottom-20 -right-16 hidden h-56 w-56 rounded-full bg-pink/30 blur-3xl sm:block" />
+        <div className="pointer-events-none absolute -left-16 -top-16 hidden h-48 w-48 rounded-full bg-[#FB923C]/50 blur-3xl sm:block" />
+        <div className="pointer-events-none absolute -bottom-20 -right-16 hidden h-56 w-56 rounded-full bg-[#FED7AA]/30 blur-3xl sm:block" />
 
         <div className="relative z-10 flex flex-row items-center gap-3 sm:flex-col sm:gap-0 sm:text-center">
           <motion.div
@@ -55,7 +55,7 @@ export function LengkapiProfilCard() {
             className="relative flex shrink-0 items-center justify-center"
           >
             <motion.div
-              className="absolute h-24 w-24 rounded-full bg-violet/35 blur-2xl sm:h-40 sm:w-40"
+              className="absolute h-24 w-24 rounded-full bg-[#FB923C]/35 blur-2xl sm:h-40 sm:w-40"
               animate={{ scale: [1, 1.15, 1], opacity: [0.45, 0.85, 0.45] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
