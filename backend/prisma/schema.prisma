@@ -73,6 +73,7 @@ model User {
   komentarPengumuman KomentarPengumuman[]
   diskusiUkk         DiskusiUKK[]
   notifications      Notification[]
+  materiDibuat       Materi[]
 
   passwordResetRequests   PasswordResetRequest[] @relation("PasswordResetRequestUser")
   processedPasswordResets PasswordResetRequest[] @relation("PasswordResetRequestProcessor")
@@ -177,8 +178,23 @@ model Guru {
   soalUkk        SoalUKK[]
   nilaiUkk       NilaiUKK[]
   jadwalUjianUkk JadwalUjianUKK[]
+  mapelDiampu    GuruMapel[]
 
   @@map("guru")
+}
+
+// Mata pelajaran yang diampu tiap guru — dipakai untuk membatasi pilihan
+// mapel saat guru membuat Materi (lihat MateriService.assertGuruMapel).
+model GuruMapel {
+  id     String @id @default(cuid())
+  guruId String
+  guru   Guru   @relation(fields: [guruId], references: [id], onDelete: Cascade)
+  nama   String
+
+  createdAt DateTime @default(now())
+
+  @@unique([guruId, nama])
+  @@map("guru_mapel")
 }
 
 model Kelas {
@@ -191,8 +207,27 @@ model Kelas {
 
   siswa         Siswa[]
   absensiHarian AbsensiHarian[]
+  materi        Materi[]
 
   @@map("kelas")
+}
+
+model Materi {
+  id          String  @id @default(cuid())
+  judul       String
+  deskripsi   String? @db.Text
+  mapel       String
+  kelasId     String?
+  kelas       Kelas?  @relation(fields: [kelasId], references: [id])
+  fileUrl     String?
+  fileName    String?
+  createdById String
+  createdBy   User    @relation(fields: [createdById], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("materi")
 }
 
 model AbsensiHarian {

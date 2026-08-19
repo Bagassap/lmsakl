@@ -13,6 +13,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { UjianUkkModule } from './ujian-ukk/ujian-ukk.module';
 import { NotificationModule } from './notification/notification.module';
 import { UsersModule } from './users/users.module';
+import { MateriModule } from './materi/materi.module';
+import { MapelModule } from './mapel/mapel.module';
 
 @Module({
   imports: [
@@ -30,6 +32,8 @@ import { UsersModule } from './users/users.module';
     UjianUkkModule,
     NotificationModule,
     UsersModule,
+    MateriModule,
+    MapelModule,
   ],
   controllers: [AppController],
   providers: [AppService],
