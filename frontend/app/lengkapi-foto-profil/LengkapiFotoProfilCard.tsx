@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
+import { Camera } from "lucide-react";
 import { LengkapiFotoProfilForm } from "./LengkapiFotoProfilForm";
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.96 },
+  hidden: { opacity: 0, y: 24, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
@@ -15,11 +16,12 @@ const cardVariants: Variants = {
 };
 
 const logoVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.7 },
+  hidden: { opacity: 0, scale: 0.6, rotate: -8 },
   visible: {
     opacity: 1,
     scale: 1,
-    transition: { duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] },
+    rotate: 0,
+    transition: { duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -29,102 +31,60 @@ export function LengkapiFotoProfilCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 flex w-full max-w-3xl flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(244,72,92,0.18),0_4px_16px_rgba(217,4,41,0.08),0_20px_56px_rgba(217,4,41,0.12),0_40px_100px_rgba(239,35,60,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
+      className="relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_0_0_1px_rgba(194,65,12,0.12),0_4px_16px_rgba(154,52,18,0.08),0_20px_56px_rgba(154,52,18,0.14),0_40px_100px_rgba(234,88,12,0.10)]"
     >
+      {/* ── Header band: lockup horizontal, bukan panel sisi ────────── */}
       <div
-        className="relative overflow-hidden rounded-3xl px-6 py-5 sm:w-[280px] sm:shrink-0 sm:px-8 sm:py-12"
+        className="relative overflow-hidden px-6 py-5 sm:px-8 sm:py-6"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse at 75% 10%, rgba(244,72,92,0.55), transparent 50%), linear-gradient(160deg, #F4485C 0%, #EF233C 45%, #D90429 72%, #8D031B 100%)",
+            "linear-gradient(115deg, #7C2D12 0%, #C2410C 55%, #F97316 115%)",
         }}
       >
         <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
+          className="pointer-events-none absolute inset-0 opacity-[0.15]"
           style={{
             backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
-            backgroundSize: "18px 18px",
+            backgroundSize: "16px 16px",
           }}
         />
+        <div className="pointer-events-none absolute -right-10 -top-14 h-40 w-40 rounded-full bg-white/10 blur-2xl" />
 
-        <div className="pointer-events-none absolute -left-16 -top-16 hidden h-48 w-48 rounded-full bg-violet/50 blur-3xl sm:block" />
-        <div className="pointer-events-none absolute -bottom-20 -right-16 hidden h-56 w-56 rounded-full bg-pink/30 blur-3xl sm:block" />
-
-        <div className="relative z-10 flex flex-row items-center gap-3 sm:flex-col sm:gap-0 sm:text-center">
-          <motion.div
-            variants={logoVariants}
-            className="relative flex shrink-0 items-center justify-center"
-          >
-            <motion.div
-              className="absolute h-24 w-24 rounded-full bg-violet/35 blur-2xl sm:h-40 sm:w-40"
-              animate={{ scale: [1, 1.15, 1], opacity: [0.45, 0.85, 0.45] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <div
-              className="absolute hidden h-28 w-28 rounded-full blur-xl sm:block"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(244,72,92,0.45), rgba(239,35,60,0.2) 60%, transparent 80%)",
-              }}
-            />
-            <Image
-              src="/AKL.png"
-              alt="Logo AKL"
-              width={628}
-              height={810}
-              priority
-              className="relative h-12 w-auto sm:h-22"
-              style={{
-                filter:
-                  "drop-shadow(0 0 22px rgba(244,72,92,0.7))",
-              }}
-            />
+        <div className="relative z-10 flex items-center gap-3.5">
+          <motion.div variants={logoVariants} className="relative shrink-0">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/95 p-1.5 shadow-[0_0_20px_rgba(251,146,60,0.55)] sm:h-14 sm:w-14">
+              <Image
+                src="/AKL.png"
+                alt="Logo AKL"
+                width={628}
+                height={810}
+                priority
+                className="h-full w-auto object-contain"
+              />
+            </div>
           </motion.div>
 
-          <div className="relative z-10 sm:mt-8">
-            <p className="hidden text-[9.5px] font-semibold uppercase tracking-[0.22em] text-white/45 sm:block">
-              Wajib Diisi
+          <div className="min-w-0 flex-1">
+            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-orange-100/70">
+              Satu Langkah Terakhir
             </p>
-
-            <h1 className="mt-0.5 hidden text-[1.75rem] font-bold leading-[1.2] tracking-wide text-white sm:block">
-              Lengkapi
-              <br />
-              <span
-                style={{
-                  background: "linear-gradient(90deg, #EDF2F4 20%, #F4485C 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  backgroundClip: "text",
-                }}
-              >
-                Foto Profil
-              </span>
-            </h1>
-            <h1 className="text-base font-semibold text-white sm:hidden">
+            <h1 className="mt-0.5 truncate text-lg font-bold text-white sm:text-xl">
               Lengkapi Foto Profil
             </h1>
-
-            <div
-              className="mx-auto mt-4 hidden h-px w-16 sm:block"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, rgba(244,72,92,0.9), rgba(239,35,60,0.7), transparent)",
-              }}
-            />
-
-            <p className="mt-3 hidden text-[11.5px] font-light leading-relaxed text-white/60 sm:block">
-              Foto ini wajib diisi sekali
-              <br />
-              sebelum lanjut ke dashboard
-            </p>
           </div>
+
+          <span className="hidden shrink-0 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-white/85 sm:inline-flex">
+            <Camera size={11} />
+            Wajib
+          </span>
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col justify-center rounded-3xl bg-[#ffffff] px-8 py-10 sm:px-10 sm:py-12">
-        <h2 className="text-2xl font-semibold text-black">Lengkapi Foto Profil</h2>
-        <p className="mt-2 text-sm text-black/55">
-          Foto profil wajib diisi dengan foto diri yang jelas, format rasio 1:1 (persegi).
-          Foto ini akan digunakan sebagai identitas Anda di sistem.
+      {/* ── Konten: form terpusat, bukan grid dua kolom ─────────────── */}
+      <div className="flex flex-col items-center px-6 py-8 text-center sm:px-10 sm:py-10">
+        <p className="max-w-xs text-sm leading-relaxed text-black/55">
+          Unggah satu foto diri yang jelas (rasio 1:1). Foto ini menjadi identitas Anda
+          di seluruh sistem dan hanya perlu diisi sekali.
         </p>
 
         <LengkapiFotoProfilForm />

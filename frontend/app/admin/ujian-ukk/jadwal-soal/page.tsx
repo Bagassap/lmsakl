@@ -18,7 +18,7 @@ const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loa
   </div>
 )});
 
-const PRIMARY = "#D90429";
+const PRIMARY = "#EA580C";
 
 const PALETTE = [
   { bg: "#EEF4FF", text: "#4F8EF7",  bar: "#4F8EF7",  gradient: "linear-gradient(135deg,#4F8EF7,#6366F1)" },
@@ -116,8 +116,8 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
               <div
                 className="w-9 h-9 flex items-center justify-center rounded-full text-sm transition-all cursor-default select-none"
                 style={{
-                  background: isUkk ? "#D90429" : "transparent",
-                  color:      isUkk ? "#fff" : isToday ? "#D90429" : "inherit",
+                  background: isUkk ? "#EA580C" : "transparent",
+                  color:      isUkk ? "#fff" : isToday ? "#EA580C" : "inherit",
                   fontWeight: isUkk || isToday ? 700 : 400,
                 }}>
                 {d.getDate()}
@@ -127,7 +127,7 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
                   {tasks.map((tk) => (
                     <div key={tk.id}
                       className="whitespace-nowrap text-[10px] font-semibold px-2.5 py-1 rounded-lg shadow-lg text-white"
-                      style={{ background: "#D90429" }}>
+                      style={{ background: "#EA580C" }}>
                       {tk.judul}
                     </div>
                   ))}
@@ -734,7 +734,7 @@ export default function AdminJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{ background: "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)" }}>
+            style={{ background: "linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)" }}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -1010,26 +1010,26 @@ export default function AdminJadwalSoalPage() {
               </div>
 
           <div className="flex-1 min-w-0 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col">
-            <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(217,4,41,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
+            <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(234,88,12,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#D90429,#6366F1)"}}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#EA580C,#6366F1)"}}>
                     <BookOpen size={14} className="text-white"/>
                   </div>
                   <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
                 </div>
                 <button onClick={() => { setEditTarget(null); setOpenTahapan(true); }}
                   className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-xl text-white shadow-sm"
-                  style={{background:"linear-gradient(135deg,#D90429,#6366F1)"}}>
+                  style={{background:"linear-gradient(135deg,#EA580C,#6366F1)"}}>
                   <Plus size={13} /> Tambah Task
                 </button>
               </div>
               <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
                 <button onClick={() => setTab("active")}
                   className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active" ? "border-primary" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                  style={tab==="active"?{color:"#D90429"}:{}}>
+                  style={tab==="active"?{color:"#EA580C"}:{}}>
                   Active Task
-                  {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#D90429"}}>{active.length}</span>}
+                  {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#EA580C"}}>{active.length}</span>}
                 </button>
                 <button onClick={() => setTab("completed")}
                   className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
@@ -1189,7 +1189,7 @@ export default function AdminJadwalSoalPage() {
                 className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
 
                 <div className="relative p-6 shrink-0"
-                  style={{background:"linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)"}}>
+                  style={{background:"linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)"}}>
                   <div className="pointer-events-none absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10"/>
                   <button onClick={() => setSubmisiModalTahapan(null)}
                     className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition-colors">

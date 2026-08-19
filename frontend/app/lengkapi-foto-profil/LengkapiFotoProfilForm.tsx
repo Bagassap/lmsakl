@@ -106,17 +106,19 @@ export function LengkapiFotoProfilForm() {
           variants={item}
           type="button"
           onClick={() => inputRef.current?.click()}
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          className="flex flex-col items-center justify-center gap-3 rounded-2xl border-2 border-dashed border-blue/25 bg-blue/5 px-6 py-14 text-center transition-colors hover:border-blue/45 hover:bg-blue/8"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="group relative mx-auto mb-8 flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-blue/30 bg-blue/5 transition-colors hover:border-blue/55 hover:bg-blue/10 sm:h-44 sm:w-44"
         >
-          <div className="flex h-14 w-14 items-center justify-center rounded-full bg-blue/10">
-            <ImagePlus size={24} className="text-blue" />
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue/10 transition-colors group-hover:bg-blue/20">
+              <ImagePlus size={22} className="text-blue" />
+            </div>
+            <p className="px-4 text-xs font-semibold text-black/70">Pilih Foto</p>
           </div>
-          <div>
-            <p className="text-sm font-semibold text-black/80">Pilih foto dari galeri atau kamera</p>
-            <p className="mt-1 text-xs text-black/45">JPG, PNG, atau WEBP — maksimal 5MB</p>
-          </div>
+          <span className="absolute -bottom-7 left-1/2 w-48 -translate-x-1/2 text-[11px] text-black/40">
+            JPG, PNG, WEBP · maks 5MB
+          </span>
         </motion.button>
       ) : (
         <motion.div variants={item} className="flex flex-col gap-4">
@@ -143,7 +145,7 @@ export function LengkapiFotoProfilForm() {
               step={0.01}
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
-              className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#EF233C]"
+              className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#F97316]"
             />
           </div>
 
@@ -164,7 +166,7 @@ export function LengkapiFotoProfilForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-pink bg-[#8D031B] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-pink bg-[#9A3412] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -177,8 +179,8 @@ export function LengkapiFotoProfilForm() {
         disabled={!imageSrc || !croppedAreaPixels || loading}
         whileHover={imageSrc ? { scale: 1.02 } : undefined}
         whileTap={imageSrc ? { scale: 0.98 } : undefined}
-        className="mt-1 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(239,35,60,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(239,35,60,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
-        style={{ background: "linear-gradient(to right, #F4485C, #EF233C)" }}
+        className="mt-1 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(249,115,22,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(249,115,22,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
+        style={{ background: "linear-gradient(to right, #FB923C, #EA580C)" }}
       >
         {loading ? (
           <>

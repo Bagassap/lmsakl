@@ -197,7 +197,7 @@ export default function GuruJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{background:"linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)"}}>
+            style={{background:"linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)"}}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -421,10 +421,10 @@ export default function GuruJadwalSoalPage() {
               </div>
 
               <div className="flex-1 min-w-0 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col">
-              <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(217,4,41,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
+              <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(234,88,12,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#D90429,#6366F1)"}}>
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#EA580C,#6366F1)"}}>
                       <BookOpen size={14} className="text-white"/>
                     </div>
                     <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
@@ -439,9 +439,9 @@ export default function GuruJadwalSoalPage() {
                   </button>
                   <button onClick={()=>setTab("active")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active" ? "border-primary" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                    style={tab==="active"?{color:"#D90429"}:{}}>
+                    style={tab==="active"?{color:"#EA580C"}:{}}>
                     Aktif
-                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#D90429"}}>{active.length}</span>}
+                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#EA580C"}}>{active.length}</span>}
                   </button>
                   <button onClick={()=>setTab("completed")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}

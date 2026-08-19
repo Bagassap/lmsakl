@@ -34,7 +34,7 @@ type SiswaProfil = {
   user: { id: string; nama: string; email: string | null; fotoProfil?: string | null } | null;
 };
 
-const HERO_GRADIENT = "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)";
+const HERO_GRADIENT = "linear-gradient(160deg,#FB923C 0%,#F97316 45%,#EA580C 72%,#9A3412 100%)";
 const ACCENT_VIOLET = "linear-gradient(135deg,#6366F1,#4F46E5)";
 const ACCENT_ORANGE = "linear-gradient(135deg,#F59E0B,#F97316)";
 const PROFILE_CARD_GRADIENT = "linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0ea5e9 100%)";

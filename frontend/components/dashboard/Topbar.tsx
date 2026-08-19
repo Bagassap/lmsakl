@@ -445,7 +445,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                 src={user.fotoProfil}
                 nama={user.nama}
                 sizePx={28}
-                fallbackBg="linear-gradient(135deg, #F4485C, #D90429)"
+                fallbackBg="linear-gradient(135deg, #FB923C, #EA580C)"
                 textClassName="text-[11px] font-bold"
               />
               <span className="hidden text-sm font-medium text-gray-700 dark:text-slate-200 sm:block">
@@ -554,7 +554,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                         onClick={() => { setSearchOpen(false); router.push(item.href); }}
                         onMouseEnter={() => setSelectedIdx(i)}
                         className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-slate-700/50"
-                        style={isSelected ? { backgroundColor: "rgba(217,4,41,0.1)" } : {}}
+                        style={isSelected ? { backgroundColor: "rgba(234,88,12,0.1)" } : {}}
                       >
                         <div
                           className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
@@ -570,7 +570,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                         <div className="min-w-0 flex-1">
                           <p
                             className="text-sm font-medium"
-                            style={{ color: isSelected ? "#D90429" : undefined }}
+                            style={{ color: isSelected ? "#EA580C" : undefined }}
                           >
                             {item.label}
                           </p>

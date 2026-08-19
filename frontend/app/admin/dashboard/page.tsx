@@ -16,7 +16,7 @@ import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal
 import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { KehadiranBarChart } from "@/components/dashboard/KehadiranBarChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
-const P = "#D90429";   
+const P = "#EA580C";   
 const R = "#EF4444";   
 const B = "#6366F1";   
 const G = "#10B981";   

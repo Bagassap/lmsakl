@@ -30,7 +30,7 @@ interface DashboardData {
 }
 
 
-const P = "#D90429";
+const P = "#EA580C";
 const R = "#EF4444";
 const G = "#10B981";
 

@@ -224,7 +224,7 @@ export function LengkapiProfilForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-pink bg-[#8D031B] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-pink bg-[#9A3412] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -236,8 +236,8 @@ export function LengkapiProfilForm() {
         disabled={!canSubmit}
         whileHover={canSubmit ? { scale: 1.02 } : undefined}
         whileTap={canSubmit ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(239,35,60,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(239,35,60,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
-        style={{ background: "linear-gradient(to right, #F4485C, #EF233C)" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(249,115,22,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(249,115,22,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
+        style={{ background: "linear-gradient(to right, #FB923C, #F97316)" }}
       >
         {loading ? (
           <>

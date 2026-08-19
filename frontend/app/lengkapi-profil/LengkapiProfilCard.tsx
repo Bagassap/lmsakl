@@ -29,13 +29,13 @@ export function LengkapiProfilCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 flex w-full max-w-4xl flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(244,72,92,0.18),0_4px_16px_rgba(217,4,41,0.08),0_20px_56px_rgba(217,4,41,0.12),0_40px_100px_rgba(239,35,60,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
+      className="relative z-10 flex w-full max-w-4xl flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(251,146,60,0.18),0_4px_16px_rgba(234,88,12,0.08),0_20px_56px_rgba(234,88,12,0.12),0_40px_100px_rgba(249,115,22,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
     >
       <div
         className="relative overflow-hidden rounded-3xl px-6 py-5 sm:w-[280px] sm:shrink-0 sm:px-8 sm:py-12"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse at 75% 10%, rgba(244,72,92,0.55), transparent 50%), linear-gradient(160deg, #F4485C 0%, #EF233C 45%, #D90429 72%, #8D031B 100%)",
+            "radial-gradient(ellipse at 75% 10%, rgba(251,146,60,0.55), transparent 50%), linear-gradient(160deg, #FB923C 0%, #F97316 45%, #EA580C 72%, #9A3412 100%)",
         }}
       >
         <div
@@ -63,7 +63,7 @@ export function LengkapiProfilCard() {
               className="absolute hidden h-28 w-28 rounded-full blur-xl sm:block"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(244,72,92,0.45), rgba(239,35,60,0.2) 60%, transparent 80%)",
+                  "radial-gradient(circle, rgba(251,146,60,0.45), rgba(249,115,22,0.2) 60%, transparent 80%)",
               }}
             />
             <Image
@@ -75,7 +75,7 @@ export function LengkapiProfilCard() {
               className="relative h-12 w-auto sm:h-22"
               style={{
                 filter:
-                  "drop-shadow(0 0 22px rgba(244,72,92,0.7))",
+                  "drop-shadow(0 0 22px rgba(251,146,60,0.7))",
               }}
             />
           </motion.div>
@@ -90,7 +90,7 @@ export function LengkapiProfilCard() {
               <br />
               <span
                 style={{
-                  background: "linear-gradient(90deg, #EDF2F4 20%, #F4485C 100%)",
+                  background: "linear-gradient(90deg, #FFF7ED 20%, #FB923C 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -107,7 +107,7 @@ export function LengkapiProfilCard() {
               className="mx-auto mt-4 hidden h-px w-16 sm:block"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, rgba(244,72,92,0.9), rgba(239,35,60,0.7), transparent)",
+                  "linear-gradient(90deg, transparent, rgba(251,146,60,0.9), rgba(249,115,22,0.7), transparent)",
               }}
             />
 
