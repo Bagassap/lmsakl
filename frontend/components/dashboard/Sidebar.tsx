@@ -103,11 +103,14 @@ const ROLE_LABEL: Record<string, string> = {
   SISWA: "Pelajar",
 };
 
-const SIDEBAR_GRADIENT = "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)";
-const SIDEBAR_ACCENT = "#EF233C";
+// Sidebar merah solid (bukan putih) — kartu profil di header sekarang
+// horizontal (avatar kiri, nama/role kanan) menggantikan blok besar
+// vertikal-tengah dengan ring + pill kutipan dari versi sebelumnya.
+const SIDEBAR_GRADIENT = "linear-gradient(180deg,#EF233C 0%,#D90429 55%,#A80320 100%)";
+const AVATAR_RING = "#FBC9CE";
 
 const TOGGLE_BTN_CLASS =
-  "flex items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 shadow-sm transition-all duration-200 hover:border-primary/30 hover:bg-primary/10 hover:text-primary dark:border-white/10 dark:bg-white/5 dark:text-slate-300 dark:hover:border-white/20 dark:hover:bg-white/15 dark:hover:text-white";
+  "flex items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/80 shadow-sm transition-all duration-200 hover:border-white/35 hover:bg-white/20 hover:text-white";
 
 const GREETINGS = [
   "Semoga harimu menyenangkan!",
@@ -148,7 +151,6 @@ export function Sidebar({
       .catch(() => {});
     return () => { cancelled = true; };
   }, [isSuperAdmin]);
-  const PRIMARY  = SIDEBAR_ACCENT;
   const greeting = GREETINGS[new Date().getDay() % GREETINGS.length];
 
   const [expanded, setExpanded] = useState<Set<string>>(() => {
@@ -175,17 +177,16 @@ export function Sidebar({
   return (
     <aside
       className={[
-        "fixed inset-y-0 left-0 z-40 flex flex-col bg-white transition-all duration-300 ease-in-out",
-        "shadow-[4px_0_24px_rgba(217,4,41,0.08)] dark:bg-[#1c2434] dark:shadow-[4px_0_24px_rgba(0,0,0,0.3)]",
+        "fixed inset-y-0 left-0 z-40 flex flex-col text-white transition-all duration-300 ease-in-out",
+        "shadow-[4px_0_24px_rgba(168,3,32,0.28)]",
         collapsed ? "w-18" : "w-64",
         open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
       ].join(" ")}
-      style={{ "--color-primary": PRIMARY } as React.CSSProperties}
+      style={{ backgroundImage: SIDEBAR_GRADIENT }}
     >
-
       <div
         className={[
-          "flex h-16 shrink-0 items-center border-b border-slate-100 dark:border-white/6",
+          "flex h-16 shrink-0 items-center border-b border-white/15",
           collapsed ? "justify-center" : "justify-between px-5",
         ].join(" ")}
       >
@@ -200,80 +201,76 @@ export function Sidebar({
         ) : (
           <>
             <div className="flex items-center gap-2.5">
-              <div
-                className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl shadow-md shadow-red-900/25 ring-1 ring-white/40 dark:shadow-black/40 dark:ring-white/10"
-                style={{ background: SIDEBAR_GRADIENT }}
-              >
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md shadow-black/20">
                 <Image src="/AKL.png" alt="AKL" width={18} height={23} className="h-4.5 w-auto" />
               </div>
               <span className="flex items-baseline gap-1">
-                <span className="bg-gradient-to-br from-[#F4485C] via-[#EF233C] to-[#D90429] bg-clip-text text-[17px] font-black tracking-tight text-transparent dark:from-[#F79AA3] dark:via-[#F4485C] dark:to-[#EF233C]">
-                  LMS
-                </span>
-                <span className="text-[11px] font-bold tracking-[0.15em] text-slate-400 dark:text-slate-500">
-                  AKL
-                </span>
+                <span className="text-[17px] font-black tracking-tight text-white">LMS</span>
+                <span className="text-[11px] font-bold tracking-[0.15em] text-white/55">AKL</span>
               </span>
             </div>
 
-            <button
-              onClick={onClose}
-              title="Tutup sidebar"
-              className={`h-8 w-8 ${TOGGLE_BTN_CLASS} lg:hidden`}
-            >
-              <X size={16} />
-            </button>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={onClose}
+                title="Tutup sidebar"
+                className={`h-8 w-8 ${TOGGLE_BTN_CLASS} lg:hidden`}
+              >
+                <X size={16} />
+              </button>
 
-            <button
-              onClick={onToggleCollapse}
-              title="Sembunyikan sidebar"
-              className={`hidden h-8 w-8 ${TOGGLE_BTN_CLASS} lg:flex`}
-            >
-              <ChevronsLeft size={18} />
-            </button>
+              <button
+                onClick={onToggleCollapse}
+                title="Sembunyikan sidebar"
+                className={`hidden h-8 w-8 ${TOGGLE_BTN_CLASS} lg:flex`}
+              >
+                <ChevronsLeft size={18} />
+              </button>
+            </div>
           </>
         )}
       </div>
 
-      <div className="border-b border-slate-100 dark:border-white/6">
+      <div className="border-b border-white/15">
         {collapsed ? (
           <div className="flex justify-center py-3" title={user.nama}>
             <Avatar
               src={user.fotoProfil}
               nama={user.nama}
               sizePx={40}
-              fallbackBg={SIDEBAR_GRADIENT}
+              fallbackBg="rgba(255,255,255,0.15)"
               textClassName="text-sm font-extrabold"
             />
           </div>
         ) : (
-          <div className="flex flex-col items-center px-5 pb-5 pt-6">
-            <div
-              className="mb-3 rounded-full ring-4 ring-offset-2 dark:ring-offset-[#1c2434]"
-              style={{ "--tw-ring-color": `${PRIMARY}40` } as React.CSSProperties}
-            >
-              <Avatar
-                src={user.fotoProfil}
-                nama={user.nama}
-                sizePx={64}
-                fallbackBg={SIDEBAR_GRADIENT}
-                textClassName="text-2xl font-extrabold"
-              />
+          <div className="px-4 py-4">
+            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-3">
+              <div className="rounded-full ring-2" style={{ "--tw-ring-color": AVATAR_RING } as React.CSSProperties}>
+                <Avatar
+                  src={user.fotoProfil}
+                  nama={user.nama}
+                  sizePx={44}
+                  fallbackBg="rgba(255,255,255,0.18)"
+                  textClassName="text-base font-extrabold"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-[14px] font-bold text-white">
+                  Hello, {user.nama.split(" ")[0]}
+                </p>
+                <p className="mt-0.5 truncate text-[10.5px] text-white/60">
+                  {ROLE_LABEL[user.role]} · SMK Ma&apos;arif
+                </p>
+              </div>
             </div>
-            <p className="text-[15px] font-bold text-slate-800 dark:text-white">
-              Hello, {user.nama.split(" ")[0]}
-            </p>
-            <p className="mt-0.5 text-[11px] text-slate-400 dark:text-slate-300">
-              {ROLE_LABEL[user.role]} · SMK Ma&apos;arif
-            </p>
-            <p className="mt-2 rounded-full bg-[#EF233C]/[0.08] px-3 py-1 text-[10px] font-medium italic text-[#EF233C] dark:bg-white/10 dark:text-red-200">
+            <p className="mt-2.5 px-1 text-[10.5px] italic leading-relaxed text-white/55">
               &ldquo;{greeting}&rdquo;
             </p>
           </div>
         )}
       </div>
 
-      <nav className={["flex-1 overflow-y-auto", collapsed ? "px-2 py-1" : "px-3 py-1"].join(" ")}>
+      <nav className={["flex-1 overflow-y-auto", collapsed ? "px-2 py-2" : "px-3 py-2"].join(" ")}>
         <ul className="space-y-0.5">
           {items.map((item) => {
             const active = isItemActive(item);
@@ -291,22 +288,17 @@ export function Sidebar({
                       {active && (
                         <motion.div
                           layoutId="c-pill"
-                          className="absolute inset-0 rounded-xl bg-primary/10"
+                          className="absolute inset-0 rounded-xl bg-white/20"
                           transition={{ type: "spring", stiffness: 400, damping: 32 }}
                         />
                       )}
                       {!active && (
-                        <span className="absolute inset-0 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-white/[0.06]" />
+                        <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/10" />
                       )}
-                      <span
-                        className={[
-                          "relative flex h-7 w-7 items-center justify-center rounded-lg",
-                          active ? "bg-[#EF233C]" : "",
-                        ].join(" ")}
-                      >
-                        <item.icon size={16} style={{ color: active ? "#fff" : "#94a3b8" }} />
+                      <span className="relative flex h-7 w-7 items-center justify-center">
+                        <item.icon size={17} style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }} />
                         {item.key === "permintaan-password" && pendingResetCount > 0 && (
-                          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#1c2434]" />
+                          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-white ring-2 ring-[#D90429]" />
                         )}
                       </span>
                     </Link>
@@ -319,20 +311,15 @@ export function Sidebar({
                       {active && (
                         <motion.div
                           layoutId="c-pill"
-                          className="absolute inset-0 rounded-xl bg-primary/10"
+                          className="absolute inset-0 rounded-xl bg-white/20"
                           transition={{ type: "spring", stiffness: 400, damping: 32 }}
                         />
                       )}
                       {!active && (
-                        <span className="absolute inset-0 rounded-xl transition-colors hover:bg-slate-100 dark:hover:bg-white/[0.06]" />
+                        <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/10" />
                       )}
-                      <span
-                        className={[
-                          "relative flex h-7 w-7 items-center justify-center rounded-lg",
-                          active ? "bg-[#EF233C]" : "",
-                        ].join(" ")}
-                      >
-                        <item.icon size={16} style={{ color: active ? "#fff" : "#94a3b8" }} />
+                      <span className="relative flex h-7 w-7 items-center justify-center">
+                        <item.icon size={17} style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }} />
                       </span>
                     </button>
                   )}
@@ -346,39 +333,35 @@ export function Sidebar({
                   {active && (
                     <motion.div
                       layoutId="e-pill"
-                      className="absolute inset-0 rounded-xl bg-primary/10"
+                      className="absolute inset-0 rounded-xl bg-white/15"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
                   )}
                   {!active && (
-                    <span className="absolute inset-0 rounded-xl transition-colors hover:bg-slate-50 dark:hover:bg-white/5" />
+                    <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/[0.08]" />
                   )}
-                  <span
-                    className={[
-                      "relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                      active ? "bg-[#EF233C]" : "",
-                    ].join(" ")}
-                  >
-                    {!active && <span className="absolute inset-0 rounded-xl bg-slate-100 dark:bg-white/[0.07]" />}
-                    <item.icon size={16} className="relative" style={{ color: active ? "#fff" : "#64748b" }} />
-                  </span>
+                  <item.icon
+                    size={17}
+                    className="relative shrink-0"
+                    style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }}
+                  />
                   <span
                     className={[
                       "relative flex-1 text-left text-[13px] font-semibold",
-                      active ? "text-[#EF233C] dark:text-white" : "text-slate-700 dark:text-slate-300",
+                      active ? "text-white" : "text-white/70",
                     ].join(" ")}
                   >
                     {item.label}
                   </span>
                   {item.locked ? (
-                    <Lock size={12} className="relative shrink-0 text-slate-300 dark:text-slate-600" />
+                    <Lock size={12} className="relative shrink-0 text-white/35" />
                   ) : (
                     <ChevronDown
                       size={14}
                       className={[
                         "relative shrink-0 transition-transform duration-200",
                         isExp ? "rotate-180" : "",
-                        active ? "text-[#EF233C] dark:text-white" : "text-slate-400",
+                        active ? "text-white" : "text-white/45",
                       ].join(" ")}
                     />
                   )}
@@ -391,14 +374,14 @@ export function Sidebar({
                     <Link
                       href={item.href}
                       onClick={onClose}
-                      className="relative flex w-full items-center gap-3 rounded-xl px-2.5 py-2 transition-all duration-200"
+                      className="relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
                     >
                       {innerContent}
                     </Link>
                   ) : (
                     <button
                       onClick={() => toggleExpand(item.key)}
-                      className="relative flex w-full items-center gap-3 rounded-xl px-2.5 py-2 transition-all duration-200"
+                      className="relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
                     >
                       {innerContent}
                     </button>
@@ -414,7 +397,7 @@ export function Sidebar({
                         transition={{ duration: 0.22, ease: "easeInOut" }}
                         className="overflow-hidden"
                       >
-                        <div className="ml-[52px] mt-1 mb-1 space-y-0.5">
+                        <div className="ml-[30px] mt-1 mb-1 space-y-0.5 border-l border-white/15 pl-4">
                           {item.submenu.map((sub) => {
                             const subActive = pathname === sub.href || pathname.startsWith(sub.href + "/");
                             return (
@@ -425,21 +408,14 @@ export function Sidebar({
                                   className={[
                                     "flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12.5px] transition-all duration-150",
                                     subActive
-                                      ? "bg-primary/10 font-semibold text-[#EF233C] dark:text-white"
-                                      : "font-normal text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-slate-200",
+                                      ? "font-semibold text-white"
+                                      : "font-normal text-white/55 hover:text-white/80",
                                   ].join(" ")}
                                 >
-                                  <span
-                                    className={[
-                                      "flex h-5 w-5 shrink-0 items-center justify-center rounded-md",
-                                      subActive ? "bg-[#EF233C]/20" : "",
-                                    ].join(" ")}
-                                  >
-                                    <sub.icon
-                                      size={12}
-                                      className={subActive ? "text-[#EF233C] dark:text-white" : "text-slate-400"}
-                                    />
-                                  </span>
+                                  <sub.icon
+                                    size={12}
+                                    style={{ color: subActive ? "#fff" : "rgba(255,255,255,0.5)" }}
+                                  />
                                   <span>{sub.label}</span>
                                 </Link>
                               </li>
@@ -458,47 +434,44 @@ export function Sidebar({
                 <Link
                   href={item.href!}
                   onClick={onClose}
-                  className="relative flex items-center gap-3 rounded-xl px-2.5 py-2 transition-all duration-200"
+                  className="relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
                 >
                   {active && (
                     <motion.div
                       layoutId="e-pill"
-                      className="absolute inset-0 rounded-xl bg-primary/10"
+                      className="absolute inset-0 rounded-xl bg-white/15"
                       transition={{ type: "spring", stiffness: 400, damping: 32 }}
                     />
                   )}
                   {!active && (
-                    <span className="absolute inset-0 rounded-xl transition-colors hover:bg-slate-50 dark:hover:bg-white/5" />
+                    <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/[0.08]" />
                   )}
 
-                  <span
-                    className={[
-                      "relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl",
-                      active ? "bg-[#EF233C]" : "",
-                    ].join(" ")}
-                  >
-                    {!active && <span className="absolute inset-0 rounded-xl bg-slate-100 dark:bg-white/[0.07]" />}
-                    <item.icon size={16} className="relative" style={{ color: active ? "#fff" : "#64748b" }} />
-                  </span>
+                  <item.icon
+                    size={17}
+                    className="relative shrink-0"
+                    style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }}
+                  />
 
                   <span
                     className={[
                       "relative flex-1 text-[13px] font-semibold",
-                      active ? "text-[#EF233C] dark:text-white" : "text-slate-700 dark:text-slate-300",
+                      active ? "text-white" : "text-white/70",
                     ].join(" ")}
                   >
                     {item.label}
                   </span>
 
                   {item.key === "permintaan-password" && pendingResetCount > 0 && (
-                    <span className="relative flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-red-500 px-1.5 text-[10px] font-bold text-white">
+                    <span className="relative flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-white px-1.5 text-[10px] font-bold text-[#D90429]">
                       {pendingResetCount > 99 ? "99+" : pendingResetCount}
                     </span>
                   )}
 
                   <ChevronRight
                     size={13}
-                    className={active ? "relative shrink-0 text-[#EF233C] dark:text-white" : "relative shrink-0 text-slate-300"}
+                    className="relative shrink-0"
+                    style={{ color: active ? "#fff" : "rgba(255,255,255,0.35)" }}
                   />
                 </Link>
               </li>
@@ -508,11 +481,11 @@ export function Sidebar({
       </nav>
 
       {!collapsed && (
-        <div className="shrink-0 border-t border-slate-100 px-5 py-4 dark:border-white/6">
-          <p className="text-[10px] leading-relaxed text-slate-400 dark:text-slate-600">
+        <div className="shrink-0 border-t border-white/15 px-5 py-4">
+          <p className="text-[10px] leading-relaxed text-white/45">
             LMS AKL — SMK Ma&apos;arif NU 01 Limpung
           </p>
-          <p className="mt-0.5 text-[10px] text-slate-300 dark:text-slate-700">
+          <p className="mt-0.5 text-[10px] text-white/30">
             © 2024 All Rights Reserved
           </p>
         </div>
