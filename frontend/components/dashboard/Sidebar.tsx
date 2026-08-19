@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X, LayoutDashboard, Bell, Users, Briefcase,
-  FileText, UserCircle, ChevronRight, ChevronDown,
-  ChevronsLeft, ChevronsRight, Lock, KeyRound, Inbox,
+  FileText, UserCircle, ChevronDown,
+  PanelLeftClose, PanelLeftOpen, Lock, KeyRound, Inbox,
   Building2, ClipboardCheck, Activity, FileBarChart,
-  CalendarDays, Trophy,
+  CalendarDays, Trophy, Search, ShieldCheck,
 } from "lucide-react";
 import type { UserPayload } from "@/lib/auth";
 import { SUPER_ADMIN_LOGIN_ID } from "@/lib/constants";
@@ -103,24 +103,8 @@ const ROLE_LABEL: Record<string, string> = {
   SISWA: "Pelajar",
 };
 
-// Sidebar merah solid (bukan putih) — kartu profil di header sekarang
-// horizontal (avatar kiri, nama/role kanan) menggantikan blok besar
-// vertikal-tengah dengan ring + pill kutipan dari versi sebelumnya.
-const SIDEBAR_GRADIENT = "linear-gradient(180deg,#EF233C 0%,#D90429 55%,#A80320 100%)";
-const AVATAR_RING = "#FBC9CE";
-
 const TOGGLE_BTN_CLASS =
-  "flex items-center justify-center rounded-full border border-white/20 bg-white/10 text-white/80 shadow-sm transition-all duration-200 hover:border-white/35 hover:bg-white/20 hover:text-white";
-
-const GREETINGS = [
-  "Semoga harimu menyenangkan!",
-  "Tetap semangat belajar hari ini!",
-  "Sukses selalu untuk aktivitasmu!",
-  "Jangan lupa istirahat, ya!",
-  "Konsisten itu kunci keberhasilan.",
-  "Hari baru, semangat baru!",
-  "Terus berkarya dan berkembang!",
-];
+  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-white/15 text-white/80 transition-colors duration-200 hover:bg-white hover:text-primary";
 
 export function Sidebar({
   user, open, collapsed, onClose, onToggleCollapse,
@@ -151,7 +135,6 @@ export function Sidebar({
       .catch(() => {});
     return () => { cancelled = true; };
   }, [isSuperAdmin]);
-  const greeting = GREETINGS[new Date().getDay() % GREETINGS.length];
 
   const [expanded, setExpanded] = useState<Set<string>>(() => {
     const s = new Set<string>();
@@ -174,322 +157,269 @@ export function Sidebar({
     return item.submenu?.some((s) => pathname.startsWith(s.href)) ?? false;
   }
 
+  const [query, setQuery] = useState("");
+  const visibleItems = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return items;
+    return items.filter(
+      (item) =>
+        item.label.toLowerCase().includes(q) ||
+        item.submenu?.some((s) => s.label.toLowerCase().includes(q)),
+    );
+  }, [items, query]);
+
   return (
-    <aside
-      className={[
-        "fixed inset-y-0 left-0 z-40 flex flex-col text-white transition-all duration-300 ease-in-out",
-        "shadow-[4px_0_24px_rgba(168,3,32,0.28)]",
-        collapsed ? "w-18" : "w-64",
-        open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
-      ].join(" ")}
-      style={{ backgroundImage: SIDEBAR_GRADIENT }}
-    >
-      <div
+    <>
+      {open && (
+        <div onClick={onClose} className="fixed inset-0 z-30 bg-black/40 lg:hidden" />
+      )}
+
+      <aside
         className={[
-          "flex h-16 shrink-0 items-center border-b border-white/15",
-          collapsed ? "justify-center" : "justify-between px-5",
+          "fixed inset-y-0 left-0 z-40 flex h-dvh shrink-0 flex-col transition-all duration-300 ease-in-out",
+          open ? "translate-x-0" : "-translate-x-full lg:translate-x-0",
+          collapsed ? "w-20 p-2" : "w-64 p-3",
         ].join(" ")}
       >
-        {collapsed ? (
+        <div
+          className={[
+            "relative flex h-full w-full flex-col overflow-hidden rounded-2xl bg-linear-to-b from-primary to-primary-dark shadow-xl shadow-primary/25",
+            collapsed ? "px-2 py-3" : "p-3",
+          ].join(" ")}
+        >
+          <div className="pointer-events-none absolute inset-0 opacity-[0.07] bg-[radial-gradient(circle,rgba(255,255,255,0.9)_1px,transparent_1px)] bg-size-[16px_16px]" />
+          <div className="pointer-events-none absolute -right-14 -top-12 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+          <div className="pointer-events-none absolute -bottom-16 -left-10 h-40 w-40 rounded-full bg-white/10 blur-3xl" />
+
           <button
-            onClick={onToggleCollapse}
-            title="Buka sidebar"
-            className={`h-9 w-9 ${TOGGLE_BTN_CLASS}`}
+            type="button"
+            onClick={onClose}
+            aria-label="Tutup menu"
+            className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white/80 transition-colors duration-200 hover:bg-white hover:text-primary lg:hidden"
           >
-            <ChevronsRight size={18} />
+            <X className="h-4 w-4" strokeWidth={2.25} />
           </button>
-        ) : (
-          <>
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-white shadow-md shadow-black/20">
-                <Image src="/AKL.png" alt="AKL" width={18} height={23} className="h-4.5 w-auto" />
-              </div>
-              <span className="flex items-baseline gap-1">
-                <span className="text-[17px] font-black tracking-tight text-white">LMS</span>
-                <span className="text-[11px] font-bold tracking-[0.15em] text-white/55">AKL</span>
+
+          <div className="relative z-10 flex h-full flex-col gap-4">
+            <div className={collapsed ? "flex flex-col items-center gap-2" : "flex items-center justify-between gap-2 px-1"}>
+              <span
+                className={[
+                  "flex shrink-0 items-center justify-center rounded-xl bg-white shadow-sm",
+                  collapsed ? "h-9 w-9" : "h-9 px-2.5",
+                ].join(" ")}
+              >
+                <Image src="/AKL.png" alt="LMS AKL" width={18} height={23} className="h-5 w-auto object-contain" />
+                {!collapsed && <span className="ml-1.5 text-[13px] font-black tracking-tight text-primary">LMS AKL</span>}
               </span>
-            </div>
-
-            <div className="flex items-center gap-1">
-              <button
-                onClick={onClose}
-                title="Tutup sidebar"
-                className={`h-8 w-8 ${TOGGLE_BTN_CLASS} lg:hidden`}
-              >
-                <X size={16} />
-              </button>
 
               <button
+                type="button"
                 onClick={onToggleCollapse}
-                title="Sembunyikan sidebar"
-                className={`hidden h-8 w-8 ${TOGGLE_BTN_CLASS} lg:flex`}
+                aria-label={collapsed ? "Perluas sidebar" : "Ciutkan sidebar"}
+                className={`hidden lg:flex ${TOGGLE_BTN_CLASS}`}
               >
-                <ChevronsLeft size={18} />
+                {collapsed ? <PanelLeftOpen className="h-4 w-4" strokeWidth={2.25} /> : <PanelLeftClose className="h-4 w-4" strokeWidth={2.25} />}
               </button>
             </div>
-          </>
-        )}
-      </div>
 
-      <div className="border-b border-white/15">
-        {collapsed ? (
-          <div className="flex justify-center py-3" title={user.nama}>
-            <Avatar
-              src={user.fotoProfil}
-              nama={user.nama}
-              sizePx={40}
-              fallbackBg="rgba(255,255,255,0.15)"
-              textClassName="text-sm font-extrabold"
-            />
-          </div>
-        ) : (
-          <div className="px-4 py-4">
-            <div className="flex items-center gap-3 rounded-2xl border border-white/15 bg-white/10 px-3 py-3">
-              <div className="rounded-full ring-2" style={{ "--tw-ring-color": AVATAR_RING } as React.CSSProperties}>
-                <Avatar
-                  src={user.fotoProfil}
-                  nama={user.nama}
-                  sizePx={44}
-                  fallbackBg="rgba(255,255,255,0.18)"
-                  textClassName="text-base font-extrabold"
+            {!collapsed && (
+              <div className="flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2.5 backdrop-blur-sm transition-colors focus-within:border-white/30 focus-within:bg-white/15">
+                <Search className="h-4 w-4 shrink-0 text-white/70" strokeWidth={2.25} />
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Cari menu..."
+                  className="w-full bg-transparent text-sm font-medium text-white placeholder:text-white/50 focus:outline-none"
                 />
               </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[14px] font-bold text-white">
-                  Hello, {user.nama.split(" ")[0]}
-                </p>
-                <p className="mt-0.5 truncate text-[10.5px] text-white/60">
-                  {ROLE_LABEL[user.role]} · SMK Ma&apos;arif
-                </p>
-              </div>
-            </div>
-            <p className="mt-2.5 px-1 text-[10.5px] italic leading-relaxed text-white/55">
-              &ldquo;{greeting}&rdquo;
-            </p>
-          </div>
-        )}
-      </div>
+            )}
 
-      <nav className={["flex-1 overflow-y-auto", collapsed ? "px-2 py-2" : "px-3 py-2"].join(" ")}>
-        <ul className="space-y-0.5">
-          {items.map((item) => {
-            const active = isItemActive(item);
-            const isExp  = expanded.has(item.key);
+            <nav className="flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto overflow-x-hidden">
+              {visibleItems.map((item) => {
+                const active = isItemActive(item);
+                const isExp  = expanded.has(item.key);
 
-            if (collapsed) {
-              return (
-                <li key={item.key}>
-                  {item.href ? (
-                    <Link
-                      href={item.href}
-                      title={item.label}
-                      className="relative flex h-11 w-full items-center justify-center rounded-xl transition-all duration-200"
-                    >
+                if (item.submenu) {
+                  const rowClass = [
+                    "group relative flex w-full items-center rounded-xl text-sm transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] py-2.5",
+                    collapsed ? "justify-center px-0" : "gap-3 pr-3 pl-2",
+                  ].join(" ");
+
+                  const inner = (
+                    <>
                       {active && (
-                        <motion.div
-                          layoutId="c-pill"
-                          className="absolute inset-0 rounded-xl bg-white/20"
-                          transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                        <motion.span
+                          layoutId="sidebar-active-pill"
+                          transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                          className="absolute inset-0 rounded-xl bg-white shadow-lg shadow-black/10"
                         />
                       )}
-                      {!active && (
-                        <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/10" />
-                      )}
-                      <span className="relative flex h-7 w-7 items-center justify-center">
-                        <item.icon size={17} style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }} />
-                        {item.key === "permintaan-password" && pendingResetCount > 0 && (
-                          <span className="absolute -right-0.5 -top-0.5 h-2.5 w-2.5 rounded-full bg-white ring-2 ring-[#D90429]" />
-                        )}
-                      </span>
-                    </Link>
-                  ) : (
-                    <button
-                      onClick={() => toggleExpand(item.key)}
-                      title={item.label}
-                      className="relative flex h-11 w-full items-center justify-center rounded-xl transition-all duration-200"
-                    >
-                      {active && (
-                        <motion.div
-                          layoutId="c-pill"
-                          className="absolute inset-0 rounded-xl bg-white/20"
-                          transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                        />
-                      )}
-                      {!active && (
-                        <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/10" />
-                      )}
-                      <span className="relative flex h-7 w-7 items-center justify-center">
-                        <item.icon size={17} style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }} />
-                      </span>
-                    </button>
-                  )}
-                </li>
-              );
-            }
-
-            if (item.submenu) {
-              const innerContent = (
-                <>
-                  {active && (
-                    <motion.div
-                      layoutId="e-pill"
-                      className="absolute inset-0 rounded-xl bg-white/15"
-                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                    />
-                  )}
-                  {!active && (
-                    <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/[0.08]" />
-                  )}
-                  <item.icon
-                    size={17}
-                    className="relative shrink-0"
-                    style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }}
-                  />
-                  <span
-                    className={[
-                      "relative flex-1 text-left text-[13px] font-semibold",
-                      active ? "text-white" : "text-white/70",
-                    ].join(" ")}
-                  >
-                    {item.label}
-                  </span>
-                  {item.locked ? (
-                    <Lock size={12} className="relative shrink-0 text-white/35" />
-                  ) : (
-                    <ChevronDown
-                      size={14}
-                      className={[
-                        "relative shrink-0 transition-transform duration-200",
-                        isExp ? "rotate-180" : "",
-                        active ? "text-white" : "text-white/45",
-                      ].join(" ")}
-                    />
-                  )}
-                </>
-              );
-
-              return (
-                <li key={item.key}>
-                  {item.locked && item.href ? (
-                    <Link
-                      href={item.href}
-                      onClick={onClose}
-                      className="relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
-                    >
-                      {innerContent}
-                    </Link>
-                  ) : (
-                    <button
-                      onClick={() => toggleExpand(item.key)}
-                      className="relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
-                    >
-                      {innerContent}
-                    </button>
-                  )}
-
-                  <AnimatePresence initial={false}>
-                    {isExp && !item.locked && (
-                      <motion.ul
-                        key="sub"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.22, ease: "easeInOut" }}
-                        className="overflow-hidden"
+                      <span
+                        className={[
+                          "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
+                          active ? "text-primary" : "text-white/75 group-hover:bg-white/10 group-hover:text-white",
+                        ].join(" ")}
                       >
-                        <div className="ml-[30px] mt-1 mb-1 space-y-0.5 border-l border-white/15 pl-4">
-                          {item.submenu.map((sub) => {
-                            const subActive = pathname === sub.href || pathname.startsWith(sub.href + "/");
-                            return (
-                              <li key={sub.href}>
-                                <Link
-                                  href={sub.href}
-                                  onClick={onClose}
-                                  className={[
-                                    "flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12.5px] transition-all duration-150",
-                                    subActive
-                                      ? "font-semibold text-white"
-                                      : "font-normal text-white/55 hover:text-white/80",
-                                  ].join(" ")}
-                                >
-                                  <sub.icon
-                                    size={12}
-                                    style={{ color: subActive ? "#fff" : "rgba(255,255,255,0.5)" }}
-                                  />
-                                  <span>{sub.label}</span>
-                                </Link>
-                              </li>
-                            );
-                          })}
-                        </div>
-                      </motion.ul>
-                    )}
-                  </AnimatePresence>
-                </li>
-              );
-            }
+                        <item.icon size={17} />
+                      </span>
+                      {!collapsed && (
+                        <>
+                          <span className={["relative z-10 flex-1 text-left font-semibold", active ? "text-primary" : "text-white/85 group-hover:text-white"].join(" ")}>
+                            {item.label}
+                          </span>
+                          {item.locked ? (
+                            <Lock size={12} className={["relative z-10 shrink-0", active ? "text-primary/50" : "text-white/35"].join(" ")} />
+                          ) : (
+                            <ChevronDown
+                              size={14}
+                              className={[
+                                "relative z-10 shrink-0 transition-transform duration-200",
+                                isExp ? "rotate-180" : "",
+                                active ? "text-primary" : "text-white/45",
+                              ].join(" ")}
+                            />
+                          )}
+                        </>
+                      )}
+                    </>
+                  );
 
-            return (
-              <li key={item.key}>
-                <Link
-                  href={item.href!}
-                  onClick={onClose}
-                  className="relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200"
-                >
-                  {active && (
-                    <motion.div
-                      layoutId="e-pill"
-                      className="absolute inset-0 rounded-xl bg-white/15"
-                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                    />
-                  )}
-                  {!active && (
-                    <span className="absolute inset-0 rounded-xl transition-colors hover:bg-white/[0.08]" />
-                  )}
+                  return (
+                    <Fragment key={item.key}>
+                      {item.locked && item.href ? (
+                        <Link href={item.href} onClick={onClose} title={collapsed ? item.label : undefined} className={rowClass}>
+                          {inner}
+                        </Link>
+                      ) : (
+                        <button type="button" onClick={() => toggleExpand(item.key)} title={collapsed ? item.label : undefined} className={rowClass}>
+                          {inner}
+                        </button>
+                      )}
 
-                  <item.icon
-                    size={17}
-                    className="relative shrink-0"
-                    style={{ color: active ? "#fff" : "rgba(255,255,255,0.6)" }}
-                  />
+                      {!collapsed && (
+                        <AnimatePresence initial={false}>
+                          {isExp && !item.locked && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.22, ease: "easeInOut" }}
+                              className="overflow-hidden"
+                            >
+                              <div className="ml-[27px] mb-1 mt-0.5 space-y-0.5 border-l border-white/15 pl-4">
+                                {item.submenu.map((sub) => {
+                                  const subActive = pathname === sub.href || pathname.startsWith(sub.href + "/");
+                                  return (
+                                    <Link
+                                      key={sub.href}
+                                      href={sub.href}
+                                      onClick={onClose}
+                                      className={[
+                                        "flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12.5px] transition-colors duration-150",
+                                        subActive ? "font-semibold text-white" : "font-normal text-white/55 hover:text-white/85",
+                                      ].join(" ")}
+                                    >
+                                      <sub.icon size={12} className={subActive ? "text-white" : "text-white/45"} />
+                                      <span>{sub.label}</span>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      )}
+                    </Fragment>
+                  );
+                }
 
-                  <span
+                return (
+                  <Link
+                    key={item.key}
+                    href={item.href!}
+                    onClick={onClose}
+                    title={collapsed ? item.label : undefined}
                     className={[
-                      "relative flex-1 text-[13px] font-semibold",
-                      active ? "text-white" : "text-white/70",
+                      "group relative flex items-center rounded-xl text-sm transition-transform duration-200 hover:scale-[1.01] active:scale-[0.99] py-2.5",
+                      collapsed ? "justify-center px-0" : "gap-3 pr-3 pl-2",
                     ].join(" ")}
                   >
-                    {item.label}
-                  </span>
-
-                  {item.key === "permintaan-password" && pendingResetCount > 0 && (
-                    <span className="relative flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full bg-white px-1.5 text-[10px] font-bold text-[#D90429]">
-                      {pendingResetCount > 99 ? "99+" : pendingResetCount}
+                    {active && (
+                      <motion.span
+                        layoutId="sidebar-active-pill"
+                        transition={{ type: "spring", stiffness: 420, damping: 32 }}
+                        className="absolute inset-0 rounded-xl bg-white shadow-lg shadow-black/10"
+                      />
+                    )}
+                    <span
+                      className={[
+                        "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
+                        active ? "text-primary" : "text-white/75 group-hover:bg-white/10 group-hover:text-white",
+                      ].join(" ")}
+                    >
+                      <item.icon size={17} />
                     </span>
+                    {!collapsed && (
+                      <span className={["relative z-10 flex-1 font-semibold", active ? "text-primary" : "text-white/85 group-hover:text-white"].join(" ")}>
+                        {item.label}
+                      </span>
+                    )}
+                    {item.key === "permintaan-password" && pendingResetCount > 0 && (
+                      <span
+                        className={[
+                          "relative z-10 flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-bold",
+                          active ? "bg-primary text-white" : "bg-white text-primary",
+                          collapsed ? "absolute -right-1 -top-1" : "",
+                        ].join(" ")}
+                      >
+                        {pendingResetCount > 99 ? "99+" : pendingResetCount}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="border-t border-white/10 pt-3">
+              <div className={["relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-sm", collapsed ? "flex justify-center p-2" : "p-2.5"].join(" ")}>
+                <div className={`relative flex items-center ${collapsed ? "" : "gap-3"}`}>
+                  <span className="relative shrink-0 rounded-full ring-2 ring-white/30">
+                    <Avatar src={user.fotoProfil} nama={user.nama} sizePx={40} fallbackBg="rgba(255,255,255,0.25)" textClassName="text-xs" />
+                    <motion.span
+                      animate={{ opacity: [1, 0.4, 1] }}
+                      transition={{ duration: 1.6, repeat: Infinity }}
+                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-400 ring-2 ring-primary"
+                    />
+                  </span>
+                  {!collapsed && (
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-white">{user.nama}</p>
+                      <div className="mt-1 flex flex-wrap items-center gap-1">
+                        <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold text-white/90">
+                          <ShieldCheck size={10} />
+                          {ROLE_LABEL[user.role]}
+                        </span>
+                        {isSuperAdmin && (
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-white/15 px-2 py-0.5 text-[10px] font-bold text-white/90">
+                            Superadmin
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   )}
+                </div>
+              </div>
 
-                  <ChevronRight
-                    size={13}
-                    className="relative shrink-0"
-                    style={{ color: active ? "#fff" : "rgba(255,255,255,0.35)" }}
-                  />
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </nav>
-
-      {!collapsed && (
-        <div className="shrink-0 border-t border-white/15 px-5 py-4">
-          <p className="text-[10px] leading-relaxed text-white/45">
-            LMS AKL — SMK Ma&apos;arif NU 01 Limpung
-          </p>
-          <p className="mt-0.5 text-[10px] text-white/30">
-            © 2024 All Rights Reserved
-          </p>
+              {!collapsed && (
+                <p className="mt-3 px-1 text-[10px] leading-relaxed text-white/40">
+                  LMS AKL — SMK Ma&apos;arif NU 01 Limpung
+                </p>
+              )}
+            </div>
+          </div>
         </div>
-      )}
-    </aside>
+      </aside>
+    </>
   );
 }
