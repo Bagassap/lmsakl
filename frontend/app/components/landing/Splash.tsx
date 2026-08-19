@@ -4,7 +4,7 @@ import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { BookOpen, GraduationCap } from "lucide-react";
+import { Scale, Landmark, Calculator, Receipt } from "lucide-react";
 
 const STYLES = `
   @keyframes gradientShift {
@@ -15,18 +15,18 @@ const STYLES = `
 `;
 
 const PARTICLES: { x: string; y: string; size: number; color: string; delay: number; dur: number }[] = [
-  { x: "11%",  y: "15%", size: 3,   color: "#F4485C", delay: 0,    dur: 6.2 },
+  { x: "11%",  y: "15%", size: 3,   color: "#FBBF24", delay: 0,    dur: 6.2 },
   { x: "79%",  y: "10%", size: 2,   color: "#ffffff", delay: 1.3,  dur: 7.6 },
-  { x: "54%",  y: "6%",  size: 3.5, color: "#EF233C", delay: 0.7,  dur: 5.9 },
-  { x: "89%",  y: "43%", size: 2,   color: "#F4485C", delay: 1.9,  dur: 8.1 },
+  { x: "54%",  y: "6%",  size: 3.5, color: "#DC2626", delay: 0.7,  dur: 5.9 },
+  { x: "89%",  y: "43%", size: 2,   color: "#FBBF24", delay: 1.9,  dur: 8.1 },
   { x: "23%",  y: "74%", size: 3,   color: "#ffffff", delay: 0.4,  dur: 6.6 },
-  { x: "66%",  y: "82%", size: 2,   color: "#EF233C", delay: 2.2,  dur: 7.1 },
-  { x: "93%",  y: "68%", size: 2.5, color: "#F4485C", delay: 1.0,  dur: 5.6 },
+  { x: "66%",  y: "82%", size: 2,   color: "#DC2626", delay: 2.2,  dur: 7.1 },
+  { x: "93%",  y: "68%", size: 2.5, color: "#FBBF24", delay: 1.0,  dur: 5.6 },
   { x: "7%",   y: "52%", size: 2,   color: "#ffffff", delay: 1.6,  dur: 8.6 },
-  { x: "37%",  y: "90%", size: 3,   color: "#EF233C", delay: 2.5,  dur: 6.3 },
-  { x: "73%",  y: "33%", size: 2,   color: "#F4485C", delay: 0.8,  dur: 7.3 },
+  { x: "37%",  y: "90%", size: 3,   color: "#DC2626", delay: 2.5,  dur: 6.3 },
+  { x: "73%",  y: "33%", size: 2,   color: "#FBBF24", delay: 0.8,  dur: 7.3 },
   { x: "46%",  y: "60%", size: 1.5, color: "#ffffff", delay: 3.0,  dur: 9.0 },
-  { x: "18%",  y: "38%", size: 2,   color: "#EF233C", delay: 1.1,  dur: 6.8 },
+  { x: "18%",  y: "38%", size: 2,   color: "#DC2626", delay: 1.1,  dur: 6.8 },
 ];
 
 const container: Variants = {
@@ -58,7 +58,7 @@ const fadeUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
-const DOT_COLORS = ["#F4485C", "#EF233C", "#ffffff"] as const;
+const DOT_COLORS = ["#FBBF24", "#DC2626", "#ffffff"] as const;
 
 export function Splash() {
   const router = useRouter();
@@ -76,9 +76,9 @@ export function Splash() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 70% 5%, rgba(244,72,92,0.65), transparent 50%)," +
-            "radial-gradient(ellipse at 5% 95%, rgba(217,4,41,0.8), transparent 50%)," +
-            "linear-gradient(165deg, #F4485C 0%, #EF233C 38%, #D90429 68%, #8D031B 100%)",
+            "radial-gradient(ellipse at 70% 5%, rgba(245,158,11,0.45), transparent 50%)," +
+            "radial-gradient(ellipse at 5% 95%, rgba(185,28,28,0.55), transparent 50%)," +
+            "linear-gradient(165deg, #451A03 0%, #78350F 38%, #92400E 68%, #7A1414 100%)",
           backgroundSize: "200% 200%",
           animation: "gradientShift 9s ease-in-out infinite",
         }}
@@ -86,25 +86,25 @@ export function Splash() {
 
       <motion.div
         className="pointer-events-none absolute left-[4%] top-[4%] h-100 w-100 rounded-full blur-[110px]"
-        style={{ background: "rgba(244,72,92,0.22)" }}
+        style={{ background: "rgba(245,158,11,0.25)" }}
         animate={{ x: [0, 48, -12, 0], y: [0, 28, -16, 0] }}
         transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="pointer-events-none absolute bottom-[4%] right-[4%] h-90 w-90 rounded-full blur-[115px]"
-        style={{ background: "rgba(239,35,60,0.18)" }}
+        style={{ background: "rgba(220,38,38,0.20)" }}
         animate={{ x: [0, -38, 18, 0], y: [0, -22, 12, 0] }}
         transition={{ duration: 34, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="pointer-events-none absolute bottom-[-8%] left-[18%] h-80 w-80 rounded-full blur-[95px]"
-        style={{ background: "rgba(217,4,41,0.28)" }}
+        style={{ background: "rgba(180,83,9,0.30)" }}
         animate={{ x: [0, 26, 0], y: [0, -18, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
         className="pointer-events-none absolute right-[14%] top-[22%] h-65 w-65 rounded-full blur-[85px]"
-        style={{ background: "rgba(244,72,92,0.13)" }}
+        style={{ background: "rgba(245,158,11,0.16)" }}
         animate={{ x: [0, -22, 10, 0], y: [0, 32, -10, 0] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -132,7 +132,7 @@ export function Splash() {
         animate={{ y: [0, -9, 0], rotate: [0, 5, 0] }}
         transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
       >
-        <BookOpen size={38} />
+        <Scale size={38} />
       </motion.div>
       <motion.div
         className="pointer-events-none absolute bottom-9 right-7 text-white"
@@ -140,7 +140,7 @@ export function Splash() {
         animate={{ y: [0, -8, 0], rotate: [0, -5, 0] }}
         transition={{ duration: 8.5, repeat: Infinity, ease: "easeInOut", delay: 1.3 }}
       >
-        <GraduationCap size={42} />
+        <Landmark size={42} />
       </motion.div>
       <motion.div
         className="pointer-events-none absolute right-9 top-14 text-white"
@@ -148,7 +148,7 @@ export function Splash() {
         animate={{ y: [0, -11, 0], rotate: [0, 8, 0] }}
         transition={{ duration: 9, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
       >
-        <GraduationCap size={26} />
+        <Calculator size={26} />
       </motion.div>
       <motion.div
         className="pointer-events-none absolute bottom-14 left-9 text-white"
@@ -156,7 +156,7 @@ export function Splash() {
         animate={{ y: [0, -7, 0], rotate: [0, -6, 0] }}
         transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 2.1 }}
       >
-        <BookOpen size={22} />
+        <Receipt size={22} />
       </motion.div>
 
       <div
@@ -180,7 +180,7 @@ export function Splash() {
               width: 200,
               height: 200,
               background:
-                "radial-gradient(circle, rgba(244,72,92,0.55), rgba(239,35,60,0.3) 55%, transparent 80%)",
+                "radial-gradient(circle, rgba(245,158,11,0.55), rgba(220,38,38,0.25) 55%, transparent 80%)",
               filter: "blur(40px)",
             }}
             animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.9, 0.5] }}
@@ -192,24 +192,22 @@ export function Splash() {
               width: 136,
               height: 136,
               background:
-                "radial-gradient(circle, rgba(244,72,92,0.4), rgba(239,35,60,0.2) 60%, transparent 80%)",
+                "radial-gradient(circle, rgba(245,158,11,0.45), rgba(220,38,38,0.18) 60%, transparent 80%)",
               filter: "blur(18px)",
             }}
             animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
           />
-          <Image
-            src="/PPLG.png"
-            alt="Logo AKL"
-            width={676}
-            height={904}
-            priority
-            className="relative h-28 w-auto sm:h-32"
-            style={{
-              filter:
-                "drop-shadow(0 0 32px rgba(244,72,92,0.75)) drop-shadow(0 0 64px rgba(239,35,60,0.4))",
-            }}
-          />
+          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-amber-300/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(245,158,11,0.5)] sm:h-32 sm:w-32">
+            <Image
+              src="/AKL.png"
+              alt="Logo AKL"
+              width={628}
+              height={810}
+              priority
+              className="h-full w-auto object-contain"
+            />
+          </div>
         </motion.div>
 
         <div className="flex flex-wrap items-baseline justify-center gap-x-3 overflow-hidden">
@@ -217,19 +215,19 @@ export function Splash() {
             variants={slideLeft}
             className="text-[1.65rem] font-bold leading-tight text-white sm:text-[2rem]"
           >
-            Sistem
+            Akuntansi
           </motion.span>
           <motion.span
             variants={slideRight}
             className="text-[1.65rem] font-bold leading-tight sm:text-[2rem]"
             style={{
-              background: "linear-gradient(90deg, #FF8A93 0%, #F4485C 100%)",
+              background: "linear-gradient(90deg, #FDE68A 15%, #FBBF24 55%, #FCA5A5 100%)",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
               backgroundClip: "text",
             }}
           >
-            Pembelajaran
+            Keuangan Lembaga
           </motion.span>
         </div>
 
@@ -238,7 +236,7 @@ export function Splash() {
           className="mt-4 text-xs font-light text-white/68 sm:text-sm"
           style={{ letterSpacing: "0.13em" }}
         >
-          Akuntansi dan Keuangan Lembaga
+          Sistem Pembelajaran &amp; Presensi Digital
         </motion.p>
 
         <motion.div variants={fadeUp} className="mt-5">
@@ -248,7 +246,7 @@ export function Splash() {
           >
             <span
               className="h-1.25 w-1.25 shrink-0 rounded-full"
-              style={{ background: "#F4485C", boxShadow: "0 0 6px #F4485C" }}
+              style={{ background: "#FBBF24", boxShadow: "0 0 6px #FBBF24" }}
             />
             SMK Ma&apos;arif NU 01 Limpung
           </span>

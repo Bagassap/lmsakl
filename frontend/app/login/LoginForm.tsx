@@ -76,13 +76,13 @@ export function LoginForm() {
       className="mt-8 flex flex-col gap-5"
     >
       <motion.div variants={item} className="flex flex-col gap-1.5">
-        <label htmlFor="login" className="text-sm font-medium text-black/70">
+        <label htmlFor="login" className="text-sm font-medium text-stone-600">
           NIS
         </label>
         <div className="relative">
           <User
             size={18}
-            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-black/35"
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
           />
           <input
             id="login"
@@ -93,19 +93,19 @@ export function LoginForm() {
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             placeholder="NIS atau email"
-            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-blue focus:bg-white focus:ring-2 focus:ring-blue/15"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/15"
           />
         </div>
       </motion.div>
 
       <motion.div variants={item} className="flex flex-col gap-1.5">
-        <label htmlFor="password" className="text-sm font-medium text-black/70">
+        <label htmlFor="password" className="text-sm font-medium text-stone-600">
           Password
         </label>
         <div className="relative">
           <Lock
             size={18}
-            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-black/35"
+            className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400"
           />
           <input
             id="password"
@@ -116,12 +116,12 @@ export function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Kata sandi"
-            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-blue focus:bg-white focus:ring-2 focus:ring-blue/15"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 pr-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/15"
           />
           <button
             type="button"
             onClick={() => setShowPassword((v) => !v)}
-            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-black/35 transition-colors hover:text-black/60"
+            className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 transition-colors hover:text-stone-600"
             aria-label={
               showPassword ? "Sembunyikan password" : "Tampilkan password"
             }
@@ -135,7 +135,7 @@ export function LoginForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-pink bg-[#8D031B] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-amber-400 bg-red-800 px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -147,8 +147,8 @@ export function LoginForm() {
         disabled={loading}
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(239,35,60,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(239,35,60,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "linear-gradient(to right, #F4485C, #EF233C)" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(217,119,6,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(217,119,6,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
+        style={{ background: "linear-gradient(to right, #D97706, #DC2626)" }}
       >
         {loading ? (
           <>
@@ -163,7 +163,7 @@ export function LoginForm() {
       <motion.div variants={item} className="text-center">
         <Link
           href="/lupa-password"
-          className="text-sm text-black/40 transition-colors hover:text-black/70"
+          className="text-sm text-stone-400 transition-colors hover:text-amber-700"
         >
           Lupa Password?
         </Link>

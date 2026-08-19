@@ -204,7 +204,7 @@ export function Sidebar({
                 className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl shadow-md shadow-red-900/25 ring-1 ring-white/40 dark:shadow-black/40 dark:ring-white/10"
                 style={{ background: SIDEBAR_GRADIENT }}
               >
-                <Image src="/PPLG.png" alt="AKL" width={18} height={22} className="h-4.5 w-auto" />
+                <Image src="/AKL.png" alt="AKL" width={18} height={23} className="h-4.5 w-auto" />
               </div>
               <span className="flex items-baseline gap-1">
                 <span className="bg-gradient-to-br from-[#F4485C] via-[#EF233C] to-[#D90429] bg-clip-text text-[17px] font-black tracking-tight text-transparent dark:from-[#F79AA3] dark:via-[#F4485C] dark:to-[#EF233C]">

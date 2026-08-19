@@ -67,10 +67,10 @@ export function LupaPasswordCard() {
               }}
             />
             <Image
-              src="/PPLG.png"
+              src="/AKL.png"
               alt="Logo AKL"
-              width={676}
-              height={904}
+              width={628}
+              height={810}
               priority
               className="relative h-12 w-auto sm:h-27.5"
               style={{

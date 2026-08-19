@@ -2,10 +2,11 @@
 
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
+import { Landmark, Scale } from "lucide-react";
 import { LoginForm } from "./LoginForm";
 
 const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 24, scale: 0.96 },
+  hidden: { opacity: 0, y: 24, scale: 0.97 },
   visible: {
     opacity: 1,
     y: 0,
@@ -15,10 +16,11 @@ const cardVariants: Variants = {
 };
 
 const logoVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.7 },
+  hidden: { opacity: 0, scale: 0.7, rotate: -6 },
   visible: {
     opacity: 1,
     scale: 1,
+    rotate: 0,
     transition: { duration: 0.7, delay: 0.15, ease: [0.22, 1, 0.36, 1] },
   },
 };
@@ -29,97 +31,76 @@ export function LoginCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 flex w-full max-w-235 flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(244,72,92,0.18),0_4px_16px_rgba(217,4,41,0.08),0_20px_56px_rgba(217,4,41,0.12),0_40px_100px_rgba(239,35,60,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
+      className="relative z-10 grid w-full max-w-235 grid-cols-1 overflow-hidden rounded-tl-[20px] rounded-tr-[56px] rounded-bl-[56px] rounded-br-[20px] bg-white shadow-[0_0_0_1px_rgba(180,83,9,0.14),0_4px_16px_rgba(120,53,15,0.08),0_20px_56px_rgba(120,53,15,0.14),0_40px_100px_rgba(180,83,9,0.10)] md:grid-cols-[300px_1fr]"
     >
+      {/* ── Panel kiri: identitas AKL ────────────────────────────────── */}
       <div
-        className="relative overflow-hidden rounded-3xl px-6 py-5 sm:w-[320px] sm:shrink-0 sm:px-10 sm:py-12"
+        className="relative overflow-hidden px-6 py-8 sm:px-10 sm:py-12"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse at 75% 10%, rgba(244,72,92,0.55), transparent 50%), linear-gradient(160deg, #F4485C 0%, #EF233C 45%, #D90429 72%, #8D031B 100%)",
+            "radial-gradient(ellipse at 20% 0%, rgba(245,158,11,0.35), transparent 55%), linear-gradient(165deg, #451A03 0%, #78350F 42%, #92400E 68%, #B91C1C 130%)",
         }}
       >
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{
-            backgroundImage: "radial-gradient(circle, white 1px, transparent 1px)",
-            backgroundSize: "18px 18px",
-          }}
-        />
+        {/* ikon dekoratif finansial, samar di pojok */}
+        <Scale className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 text-amber-200/[0.08] sm:h-36 sm:w-36" />
 
-        <div className="pointer-events-none absolute -left-16 -top-16 hidden h-48 w-48 rounded-full bg-violet/50 blur-3xl sm:block" />
-        <div className="pointer-events-none absolute -bottom-20 -right-16 hidden h-56 w-56 rounded-full bg-pink/30 blur-3xl sm:block" />
-
-        <div className="relative z-10 flex flex-row items-center gap-3 sm:flex-col sm:gap-0 sm:text-center">
+        <div className="relative z-10 flex flex-row items-center gap-4 sm:flex-col sm:gap-0 sm:text-center">
           <motion.div
             variants={logoVariants}
             className="relative flex shrink-0 items-center justify-center"
           >
             <motion.div
-              className="absolute h-24 w-24 rounded-full bg-violet/35 blur-2xl sm:h-48 sm:w-48"
-              animate={{ scale: [1, 1.15, 1], opacity: [0.45, 0.85, 0.45] }}
+              className="absolute h-20 w-20 rounded-full bg-amber-400/30 blur-2xl sm:h-40 sm:w-40"
+              animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.9, 0.5] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
-            <div
-              className="absolute hidden h-32 w-32 rounded-full blur-xl sm:block"
-              style={{
-                background:
-                  "radial-gradient(circle, rgba(244,72,92,0.45), rgba(239,35,60,0.2) 60%, transparent 80%)",
-              }}
-            />
-            <Image
-              src="/PPLG.png"
-              alt="Logo AKL"
-              width={676}
-              height={904}
-              priority
-              className="relative h-12 w-auto sm:h-27.5"
-              style={{
-                filter:
-                  "drop-shadow(0 0 22px rgba(244,72,92,0.7))",
-              }}
-            />
+            <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-amber-300/60 bg-white/95 p-2 shadow-[0_0_28px_rgba(245,158,11,0.55)] sm:h-24 sm:w-24 sm:p-3">
+              <Image
+                src="/AKL.png"
+                alt="Logo AKL"
+                width={628}
+                height={810}
+                priority
+                className="h-full w-auto object-contain"
+              />
+            </div>
           </motion.div>
 
-          <div className="relative z-10 sm:mt-8">
-            <p className="hidden text-[9.5px] font-semibold uppercase tracking-[0.22em] text-white/45 sm:block">
-              Platform Pendidikan
+          <div className="relative z-10 sm:mt-7">
+            <p className="hidden items-center justify-center gap-1.5 text-[9.5px] font-semibold uppercase tracking-[0.24em] text-amber-200/70 sm:flex">
+              <Landmark size={11} className="shrink-0" />
+              Kompetensi Keahlian
             </p>
 
-            <h1 className="mt-0.5 hidden text-[1.75rem] font-bold leading-[1.2] tracking-wide text-white sm:block">
-              Sistem
+            <h1 className="mt-1 hidden text-[1.85rem] font-bold leading-[1.15] tracking-wide text-white sm:block">
+              Akuntansi
               <br />
               <span
                 style={{
-                  background: "linear-gradient(90deg, #EDF2F4 20%, #F4485C 100%)",
+                  background: "linear-gradient(90deg, #FDE68A 15%, #FBBF24 55%, #FCA5A5 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
                 }}
               >
-                Pembelajaran
+                Keuangan Lembaga
               </span>
             </h1>
             <h1 className="text-base font-semibold text-white sm:hidden">
-              Sistem Pembelajaran
+              Akuntansi &amp; Keuangan Lembaga
             </h1>
 
-            <div
-              className="mx-auto mt-4 hidden h-px w-16 sm:block"
-              style={{
-                background:
-                  "linear-gradient(90deg, transparent, rgba(244,72,92,0.9), rgba(239,35,60,0.7), transparent)",
-              }}
-            />
+            <div className="mx-auto mt-4 hidden h-px w-16 sm:block bg-[linear-gradient(90deg,transparent,rgba(251,191,36,0.9),rgba(220,38,38,0.6),transparent)]" />
 
-            <p className="mt-3 hidden text-[11.5px] font-light leading-relaxed text-white/60 sm:block">
-              Akuntansi dan Keuangan
+            <p className="mt-3 hidden text-[11.5px] font-light leading-relaxed text-amber-50/60 sm:block">
+              Sistem Pembelajaran &amp; Presensi
               <br />
-              Lembaga
+              Digital Siswa
             </p>
 
             <div className="mt-5 hidden sm:flex sm:justify-center">
-              <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/[0.07] px-3.5 py-1.5 text-[9.5px] font-medium uppercase tracking-[0.12em] text-white/75">
-                <span className="h-1 w-1 shrink-0 rounded-full bg-lavender/70" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-amber-200/25 bg-white/[0.08] px-3.5 py-1.5 text-[9.5px] font-medium uppercase tracking-[0.12em] text-amber-50/80">
+                <span className="h-1 w-1 shrink-0 rounded-full bg-amber-300" />
                 SMK Ma&apos;arif NU 01 Limpung
               </span>
             </div>
@@ -127,17 +108,24 @@ export function LoginCard() {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col justify-center rounded-3xl bg-[#ffffff] px-8 py-10 sm:px-12 sm:py-14">
-        <h2 className="text-2xl font-semibold text-black">Selamat Datang</h2>
-        <p className="mt-2 text-sm text-black/55">
-          Masuk ke akun Anda untuk mengakses sistem pembelajaran
+      {/* ── Sobekan tiket pemisah antar panel (hanya desktop) ──────────── */}
+      <div className="pointer-events-none absolute inset-y-0 left-[300px] z-20 hidden w-4 -translate-x-1/2 md:block">
+        <div className="mx-auto h-full w-px border-l-2 border-dashed border-amber-900/15" />
+        <span className="absolute -top-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#FBF4E6]" />
+        <span className="absolute -bottom-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#FBF4E6]" />
+      </div>
+
+      {/* ── Panel kanan: form login ─────────────────────────────────── */}
+      <div className="flex flex-1 flex-col justify-center px-8 py-10 sm:px-12 sm:py-14">
+        <h2 className="text-2xl font-semibold text-stone-900">Selamat Datang Kembali</h2>
+        <p className="mt-2 text-sm text-stone-500">
+          Masuk dengan NIS dan kata sandi Anda untuk mengakses LMS AKL
         </p>
 
         <LoginForm />
 
-        <p className="mt-8 text-center text-xs text-black/35">
-          &copy; {new Date().getFullYear()} LMS AKL &middot; SMK Ma&apos;arif
-          NU 01 Limpung
+        <p className="mt-8 text-center text-xs text-stone-400">
+          {`© ${new Date().getFullYear()} LMS AKL · SMK Ma'arif NU 01 Limpung`}
         </p>
       </div>
     </motion.div>
