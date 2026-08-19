@@ -10,6 +10,11 @@
 /*.jpg
 /*.jpeg
 
+# Spreadsheets with account credentials/PII must never be committed
+# (frontend/public/ is served as static files — never put secrets there)
+*.xlsx
+*.xls
+
 # OS
 .DS_Store
 Thumbs.db
