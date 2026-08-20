@@ -192,7 +192,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
                       <button key={opt.key} type="button" onClick={() => setPeriode(opt.key)}
                         className={`rounded-lg px-3 py-1 text-xs font-bold transition-colors ${
                           periode === opt.key
-                            ? "bg-violet-500 text-white shadow-sm"
+                            ? "bg-[#6E6E6E] text-white shadow-sm"
                             : "text-slate-500 dark:text-slate-400"
                         }`}>
                         {opt.label}

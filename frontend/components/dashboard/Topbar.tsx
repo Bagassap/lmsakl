@@ -105,9 +105,9 @@ const NOTIF_TYPE_STYLE: Record<ApiNotifType, NotifType> = {
 
 const NOTIF_STYLE: Record<NotifType, { bg: string; color: string }> = {
   info:    { bg: "#E1EDEE", color: "#4F7377" },
-  success: { bg: "#E1EDEE", color: "#22C55E" },
-  warning: { bg: "#FF5B19", color: "#FF5B19" },
-  error:   { bg: "#FEF2F2", color: "#161616" },
+  success: { bg: "#F2F0E4", color: "#9C9776" },
+  warning: { bg: "#FFE8DA", color: "#FF5B19" },
+  error:   { bg: "#E8E7E4", color: "#161616" },
 };
 
 const NOTIF_ICON: Record<NotifType, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {
@@ -351,7 +351,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
             >
               <Bell size={16} />
               {unreadCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-red-500 text-[8px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#6E6E6E] text-[8px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -402,7 +402,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                           key={n.id}
                           onClick={() => handleNotifClick(n)}
                           className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-slate-700/50 ${
-                            !n.isRead ? "bg-red-50/40 dark:bg-red-900/10" : ""
+                            !n.isRead ? "bg-[#F5F5F4]/40 dark:bg-[#161616]/10" : ""
                           }`}
                         >
                           <div
@@ -483,7 +483,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-red-500 transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-[#6E6E6E] transition-colors hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20"
                   >
                     <LogOut size={14} />
                     Keluar

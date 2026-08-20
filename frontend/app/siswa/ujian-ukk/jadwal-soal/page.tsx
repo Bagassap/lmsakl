@@ -15,7 +15,7 @@ const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), {
   ssr: false,
   loading: () => (
     <div className="flex-1 flex items-center justify-center py-20">
-      <Loader2 size={28} className="animate-spin text-amber-500" />
+      <Loader2 size={28} className="animate-spin text-[#FF5B19]" />
     </div>
   ),
 });
@@ -30,7 +30,7 @@ function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", {
 function statusInfo(s: "TERKIRIM"|"DITERIMA"|"REVISI") {
   if (s === "DITERIMA") return { bg:"#E1EDEE", color:"#6E9CA0", label:"Diterima",      icon: <CheckCircle size={10}/> };
   if (s === "REVISI")   return { bg:"#FFEDD5", color:"#FF5B19", label:"Perlu Revisi",  icon: <AlertCircle size={10}/> };
-  return                       { bg:"#EEF2FF", color:"#3D3D3D", label:"Menunggu Review", icon: <Clock size={10}/> };
+  return                       { bg:"#E8E7E4", color:"#3D3D3D", label:"Menunggu Review", icon: <Clock size={10}/> };
 }
 
 const ROW_PALETTES = [
@@ -108,21 +108,21 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
               </div>
             </div>
             <form onSubmit={submit} className="p-6 space-y-4">
-              <div className="flex items-start gap-3 bg-blue-50 dark:bg-blue-900/20 rounded-xl p-3.5">
+              <div className="flex items-start gap-3 bg-[#F2F8F8] dark:bg-[#283C3D]/20 rounded-xl p-3.5">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{background:"#4285F4"}}>
                   <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white"><path d="M6.18 15L3.12 9.72 9.24 0h5.51L8.63 9.72 6.18 15zm5.82 0H7.76l2.45-4.28h7.13L14.89 15h-2.89zM12 7.5l2.89-5h2.89L21 7.5h-5.78L12 7.5zM20.88 15l-2.45-4.28h2.01L24 15h-3.12z"/></svg>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-blue-700 dark:text-blue-300">Pastikan file sudah dishare</p>
-                  <p className="text-[11px] text-blue-500 dark:text-blue-400 mt-0.5">Set sharing Google Drive ke "Anyone with the link can view" sebelum kirim link.</p>
+                  <p className="text-xs font-bold text-[#4F7377] dark:text-[#AECACD]">Pastikan file sudah dishare</p>
+                  <p className="text-[11px] text-[#6E9CA0] dark:text-[#8FB4B7] mt-0.5">Set sharing Google Drive ke "Anyone with the link can view" sebelum kirim link.</p>
                 </div>
               </div>
 
               <div>
                 <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1.5 block">
-                  Link Google Drive <span className="text-red-500">*</span>
+                  Link Google Drive <span className="text-[#6E6E6E]">*</span>
                 </label>
-                <div className={`flex items-center gap-2 rounded-xl border-2 px-3 py-2.5 transition-colors ${urlError ? "border-red-400 bg-red-50 dark:bg-red-900/10" : "border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 focus-within:border-emerald-400"}`}>
+                <div className={`flex items-center gap-2 rounded-xl border-2 px-3 py-2.5 transition-colors ${urlError ? "border-[#8C8C8C] bg-[#F5F5F4] dark:bg-[#161616]/10" : "border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 focus-within:border-[#8FB4B7]"}`}>
                   <Link2 size={15} className="text-slate-400 shrink-0"/>
                   <input
                     type="url"
@@ -132,15 +132,15 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
                     className="flex-1 text-sm bg-transparent text-slate-700 dark:text-slate-200 outline-none placeholder:text-slate-400"
                   />
                   {driveUrl && isValidDriveUrl(driveUrl) && (
-                    <CheckCircle size={15} className="text-emerald-500 shrink-0"/>
+                    <CheckCircle size={15} className="text-[#6E9CA0] shrink-0"/>
                   )}
                 </div>
-                {urlError && <p className="mt-1 text-[11px] text-red-500">{urlError}</p>}
+                {urlError && <p className="mt-1 text-[11px] text-[#6E6E6E]">{urlError}</p>}
               </div>
 
               {driveUrl && isValidDriveUrl(driveUrl) && (
                 <a href={driveUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs font-semibold text-emerald-600 hover:text-emerald-700">
+                  className="flex items-center gap-2 text-xs font-semibold text-[#5C868A] hover:text-[#4F7377]">
                   <ExternalLink size={12}/> Cek link (buka di tab baru)
                 </a>
               )}
@@ -149,7 +149,7 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
                 <label className="text-xs font-semibold text-slate-500 mb-1 block">Catatan (opsional)</label>
                 <textarea value={catatan} onChange={e=>setCatatan(e.target.value)} rows={2}
                   placeholder="Tambahkan keterangan jika diperlukan..."
-                  className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-emerald-400 placeholder:text-slate-400"/>
+                  className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#8FB4B7] placeholder:text-slate-400"/>
               </div>
 
               <div className="flex gap-3">
@@ -232,8 +232,8 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
                   <p className="text-xs leading-relaxed" style={{color:bc.text}}>{d.konten}</p>
                 </div>
                 <div className="flex gap-2 mt-1">
-                  <button onClick={()=>setReplyTo({id:d.id,nama:d.user.nama})} className="text-[10px] text-slate-400 hover:text-violet-500">Balas</button>
-                  {d.user.id === currentUserId && <button onClick={()=>hapus(d.id)} className="text-[10px] text-slate-400 hover:text-red-500">Hapus</button>}
+                  <button onClick={()=>setReplyTo({id:d.id,nama:d.user.nama})} className="text-[10px] text-slate-400 hover:text-[#6E6E6E]">Balas</button>
+                  {d.user.id === currentUserId && <button onClick={()=>hapus(d.id)} className="text-[10px] text-slate-400 hover:text-[#6E6E6E]">Hapus</button>}
                 </div>
               </div>
             </div>
@@ -242,14 +242,14 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
       </div>
       <div className="shrink-0 px-4 py-3 border-t border-slate-100 dark:border-slate-700 space-y-2">
         {replyTo && (
-          <div className="flex items-center gap-2 text-xs bg-violet-50 dark:bg-violet-900/20 text-violet-600 px-3 py-1.5 rounded-lg">
+          <div className="flex items-center gap-2 text-xs bg-[#F5F5F4] dark:bg-[#161616]/20 text-[#545454] px-3 py-1.5 rounded-lg">
             Balas ke <strong>{replyTo.nama}</strong>
             <button onClick={()=>setReplyTo(null)} className="ml-auto"><X size={11}/></button>
           </div>
         )}
         <div className="flex gap-2">
           <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&send()}
-            placeholder="Tulis pesan..." className="flex-1 text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none focus:border-violet-400"/>
+            placeholder="Tulis pesan..." className="flex-1 text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none focus:border-[#8C8C8C]"/>
           <button onClick={send} disabled={sending||!input.trim()}
             className="w-8 h-8 flex items-center justify-center rounded-xl text-white shrink-0 disabled:opacity-50"
             style={{background:"linear-gradient(135deg,#3D3D3D,#3D3D3D)"}}>
@@ -406,7 +406,7 @@ export default function SiswaJadwalSoalPage() {
                     </div>
                     {curSoal ? <SoalPdfViewer soal={curSoal} onClose={()=>setOpenJadwalModal(false)}/> : (
                       <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                        <FileText size={30} className="text-amber-300"/>
+                        <FileText size={30} className="text-[#FFA372]"/>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada file jadwal</p>
                       </div>
                     )}
@@ -454,7 +454,7 @@ export default function SiswaJadwalSoalPage() {
                     </div>
                     {curSoal ? <SoalPdfViewer soal={curSoal} onClose={()=>setOpenSoalModal(false)}/> : (
                       <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                        <FileText size={30} className="text-indigo-300"/>
+                        <FileText size={30} className="text-[#B0B0B0]"/>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada soal</p>
                       </div>
                     )}
@@ -536,7 +536,7 @@ export default function SiswaJadwalSoalPage() {
                 </div>
                 <div className="flex gap-5 border-b border-slate-100 dark:border-slate-700">
                   <button onClick={()=>setTab("all")}
-                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="all"?"border-violet-500":"text-slate-400 border-transparent hover:text-slate-600"}`}
+                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="all"?"border-[#6E6E6E]":"text-slate-400 border-transparent hover:text-slate-600"}`}
                     style={tab==="all"?{color:"#3D3D3D"}:{}}>
                     Semua
                     {tab==="all" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#3D3D3D"}}>{tahapanList.length}</span>}
@@ -548,7 +548,7 @@ export default function SiswaJadwalSoalPage() {
                     {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5B19"}}>{active.length}</span>}
                   </button>
                   <button onClick={()=>setTab("completed")}
-                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed"?"border-emerald-500":"text-slate-400 border-transparent hover:text-slate-600"}`}
+                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed"?"border-[#6E9CA0]":"text-slate-400 border-transparent hover:text-slate-600"}`}
                     style={tab==="completed"?{color:"#6E9CA0"}:{}}>
                     Completed
                     {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#6E9CA0"}}>{completed.length}</span>}
@@ -578,7 +578,7 @@ export default function SiswaJadwalSoalPage() {
                     : isRevisi
                     ? { label:"Revisi", icon:<AlertCircle size={11}/>, bg:"#FF5B19", clr:"#FF5B19", border:"#FF5B19", onClick:()=>setRevisiModal(myS!) }
                     : isTerkirim
-                    ? { label:"Terkirim", icon:<CheckCircle size={11}/>, bg:"#EEF2FF", clr:"#3D3D3D", border:"#3D3D3D", onClick:()=>setDetailTarget(myS!) }
+                    ? { label:"Terkirim", icon:<CheckCircle size={11}/>, bg:"#E8E7E4", clr:"#3D3D3D", border:"#3D3D3D", onClick:()=>setDetailTarget(myS!) }
                     : { label:"Kirim", icon:<Send size={11}/>, bg:"#E1EDEE", clr:"#6E9CA0", border:"#6E9CA0", onClick:()=>globalSoal && setSubmitSoal(globalSoal) };
 
                   return (
@@ -675,16 +675,16 @@ export default function SiswaJadwalSoalPage() {
               </div>
               <div className="p-6 space-y-4">
                 {detailTarget.status==="DITERIMA" && (
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-100 dark:border-emerald-500/20">
-                    <CheckCircle size={18} className="text-emerald-500 shrink-0"/>
-                    <p className="text-sm font-bold text-emerald-700 dark:text-emerald-400">Project kamu telah diterima! UKK selesai.</p>
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F2F8F8] dark:bg-[#6E9CA0]/10 border border-[#E1EDEE] dark:border-[#6E9CA0]/20">
+                    <CheckCircle size={18} className="text-[#6E9CA0] shrink-0"/>
+                    <p className="text-sm font-bold text-[#4F7377] dark:text-[#8FB4B7]">Project kamu telah diterima! UKK selesai.</p>
                   </div>
                 )}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between py-2 border-b border-slate-100 dark:border-slate-700">
                     <span className="text-xs text-slate-500">Status</span>
                     <span className="text-xs font-bold px-2.5 py-1 rounded-full"
-                      style={{backgroundColor: detailTarget.status==="DITERIMA"?"#E1EDEE":"#EEF2FF",
+                      style={{backgroundColor: detailTarget.status==="DITERIMA"?"#E1EDEE":"#E8E7E4",
                               color: detailTarget.status==="DITERIMA"?"#6E9CA0":"#3D3D3D"}}>
                       {detailTarget.status==="DITERIMA" ? "Diterima" : "Menunggu Review"}
                     </span>
@@ -742,12 +742,12 @@ export default function SiswaJadwalSoalPage() {
                 </div>
               </div>
               <div className="p-6 space-y-4">
-                <div className="rounded-xl border border-amber-200 dark:border-amber-500/30 bg-amber-50 dark:bg-amber-500/10 px-4 py-4">
+                <div className="rounded-xl border border-[#FFC7A5] dark:border-[#FF5B19]/30 bg-[#FFF3EC] dark:bg-[#FF5B19]/10 px-4 py-4">
                   <div className="flex items-start gap-2.5">
-                    <AlertCircle size={15} className="text-amber-500 mt-0.5 shrink-0"/>
+                    <AlertCircle size={15} className="text-[#FF5B19] mt-0.5 shrink-0"/>
                     <div>
-                      <p className="text-xs font-bold text-amber-700 dark:text-amber-400 mb-1.5">Catatan dari Penguji</p>
-                      <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed whitespace-pre-line">
+                      <p className="text-xs font-bold text-[#CC4913] dark:text-[#FF7D47] mb-1.5">Catatan dari Penguji</p>
+                      <p className="text-sm text-[#A63B10] dark:text-[#FFA372] leading-relaxed whitespace-pre-line">
                         {revisiModal.pesanRevisi || "Silakan perbaiki project kamu dan kirim ulang."}
                       </p>
                     </div>

@@ -10,7 +10,7 @@ type Scope = "semua" | "kelas" | "jurusan";
 const SCOPE_CARDS: { key: Scope; label: string; caption: string; icon: React.ElementType; gradient: string }[] = [
   { key: "semua", label: "Semua Siswa", caption: "Seluruh data", icon: Users, gradient: "linear-gradient(135deg,#3D3D3D,#161616)" },
   { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "linear-gradient(135deg,#AECACD,#6E9CA0)" },
-  { key: "jurusan", label: "Jurusan Ini", caption: "Satu jurusan", icon: BookOpen, gradient: "linear-gradient(135deg,#fb923c,#ff5b19)" },
+  { key: "jurusan", label: "Jurusan Ini", caption: "Satu jurusan", icon: BookOpen, gradient: "linear-gradient(135deg,#ff8a54,#ff5b19)" },
 ];
 
 export function UnduhDataSiswaCard({
@@ -75,7 +75,7 @@ export function UnduhDataSiswaCard({
       </div>
 
       <p className="mt-3 flex items-center gap-1.5 truncate text-[11px] font-semibold text-slate-500 dark:text-slate-300">
-        <School size={12} className="shrink-0 text-violet-500" />
+        <School size={12} className="shrink-0 text-[#6E6E6E]" />
         {caption}
       </p>
 
@@ -88,7 +88,7 @@ export function UnduhDataSiswaCard({
       </div>
 
       <p className="mt-3 flex items-center gap-1.5 text-[10px] text-slate-400 dark:text-slate-500">
-        <Download size={11} className="shrink-0 text-violet-500" />
+        <Download size={11} className="shrink-0 text-[#6E6E6E]" />
         Pilih cakupan, lalu klik salah satu tombol ekspor
       </p>
     </div>

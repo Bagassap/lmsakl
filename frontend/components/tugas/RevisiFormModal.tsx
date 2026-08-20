@@ -49,22 +49,22 @@ export function RevisiFormModal({
             </div>
 
             <div className="px-6 py-5 space-y-4">
-              <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20">
-                <AlertCircle size={15} className="text-amber-500 mt-0.5 shrink-0" />
-                <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+              <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF3EC] dark:bg-[#FF5B19]/10 border border-[#FFE3D2] dark:border-[#FF5B19]/20">
+                <AlertCircle size={15} className="text-[#FF5B19] mt-0.5 shrink-0" />
+                <p className="text-xs text-[#CC4913] dark:text-[#FF7D47] leading-relaxed">
                   Siswa akan menerima notifikasi revisi dan <strong>wajib mengirim ulang</strong> tugas mereka.
                 </p>
               </div>
               <div>
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">
-                  Pesan Revisi <span className="text-red-500">*</span>
+                  Pesan Revisi <span className="text-[#6E6E6E]">*</span>
                 </label>
                 <textarea
                   value={pesan}
                   onChange={(e) => setPesan(e.target.value)}
                   rows={4}
                   placeholder="Tuliskan catatan revisi untuk siswa…"
-                  className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-amber-400 placeholder:text-slate-400"
+                  className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7D47] placeholder:text-slate-400"
                   autoFocus
                 />
               </div>

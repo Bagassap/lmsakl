@@ -14,7 +14,7 @@ import { todayJakarta } from "@/components/absensi-harian/shared";
 
 const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loading: () => (
   <div className="flex-1 flex items-center justify-center py-20">
-    <Loader2 size={28} className="animate-spin text-amber-500"/>
+    <Loader2 size={28} className="animate-spin text-[#FF5B19]"/>
   </div>
 )});
 
@@ -210,7 +210,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <div className="w-14 h-14 rounded-2xl mb-3 flex items-center justify-center"
               style={{ background: "linear-gradient(135deg,#3D3D3D22,#3D3D3D22)" }}>
-              <Send size={22} className="text-purple-300"/>
+              <Send size={22} className="text-[#B0B0B0]"/>
             </div>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Belum ada diskusi</p>
             <p className="text-xs text-slate-400 mt-1">Mulai percakapan di bawah</p>
@@ -240,12 +240,12 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
                 </div>
                 <div className="flex gap-3 mt-1">
                   <button onClick={() => setReplyTo({ id: d.id, nama: d.user.nama })}
-                    className="text-[10px] font-semibold text-slate-400 hover:text-indigo-500 transition-colors">
+                    className="text-[10px] font-semibold text-slate-400 hover:text-[#6E6E6E] transition-colors">
                     Balas
                   </button>
                   {d.user.id === currentUserId && (
                     <button onClick={() => hapus(d.id)}
-                      className="text-[10px] font-semibold text-slate-400 hover:text-red-500 transition-colors">
+                      className="text-[10px] font-semibold text-slate-400 hover:text-[#6E6E6E] transition-colors">
                       Hapus
                     </button>
                   )}
@@ -259,7 +259,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
       <div className="shrink-0 px-4 py-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 space-y-2">
         {replyTo && (
           <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-xl font-semibold"
-            style={{ backgroundColor: "#EEF2FF", color: "#3D3D3D" }}>
+            style={{ backgroundColor: "#E8E7E4", color: "#3D3D3D" }}>
             <ChevronRight size={11}/> Balas ke <strong>{replyTo.nama}</strong>
             <button onClick={() => setReplyTo(null)} className="ml-auto opacity-60 hover:opacity-100"><X size={11}/></button>
           </div>
@@ -268,7 +268,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
           <input value={input} onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && send()}
             placeholder="Tulis pesan..."
-            className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all placeholder:text-slate-300"/>
+            className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 outline-none focus:border-[#8C8C8C] focus:ring-2 focus:ring-[#E8E7E4] dark:focus:ring-[#161616]/30 transition-all placeholder:text-slate-300"/>
           <button onClick={send} disabled={sending || !input.trim()}
             className="w-9 h-9 flex items-center justify-center rounded-xl text-white shrink-0 disabled:opacity-40 transition-all hover:brightness-110"
             style={{ background: "linear-gradient(135deg,#3D3D3D,#3D3D3D)" }}>
@@ -282,7 +282,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
 
 interface TahapanForm { hariKe: number; judul: string; tanggal: string; jamMulai: string; jamSelesai: string; lokasi: string; penguji: string; keterangan: string; }
 
-const INPUT_CLS = "w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-500";
+const INPUT_CLS = "w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none focus:border-[#8C8C8C] focus:ring-2 focus:ring-[#E8E7E4] dark:focus:ring-[#161616]/30 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-500";
 
 function TahapanModal({ open, onClose, onSave, initial }: { open: boolean; onClose: () => void; onSave: (d: TahapanForm) => Promise<void>; initial?: Partial<TahapanForm>; }) {
   const [form, setForm] = useState<TahapanForm>({ hariKe: 1, judul: "", tanggal: "", jamMulai: "08:00", jamSelesai: "12:00", lokasi: "", penguji: "", keterangan: "", ...initial });
@@ -816,7 +816,7 @@ export default function AdminJadwalSoalPage() {
                       )}
                       {curSoal && (
                         <button onClick={async()=>{ await deleteSoal(curSoal.id); setSoalJadwalIdx(i=>Math.max(0,i-1)); }}
-                          className="w-8 h-8 rounded-xl bg-red-500/70 flex items-center justify-center text-white hover:bg-red-500 transition-colors" title="Hapus jadwal ini">
+                          className="w-8 h-8 rounded-xl bg-[#6E6E6E]/70 flex items-center justify-center text-white hover:bg-[#6E6E6E] transition-colors" title="Hapus jadwal ini">
                           <Trash2 size={14}/>
                         </button>
                       )}
@@ -836,7 +836,7 @@ export default function AdminJadwalSoalPage() {
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
                       <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#FF5B1922,#FF5B1922)"}}>
-                        <FileText size={30} className="text-amber-400"/>
+                        <FileText size={30} className="text-[#FF7D47]"/>
                       </div>
                       <div>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada file jadwal</p>
@@ -896,7 +896,7 @@ export default function AdminJadwalSoalPage() {
                             )}
                             {curSoal && (
                               <button onClick={async()=>{ await deleteSoal(curSoal.id); setSoalSoalIdx(i=>Math.max(0,i-1)); }}
-                                className="w-8 h-8 rounded-xl bg-red-500/70 flex items-center justify-center text-white hover:bg-red-500 transition-colors" title="Hapus soal ini">
+                                className="w-8 h-8 rounded-xl bg-[#6E6E6E]/70 flex items-center justify-center text-white hover:bg-[#6E6E6E] transition-colors" title="Hapus soal ini">
                                 <Trash2 size={14}/>
                               </button>
                             )}
@@ -916,7 +916,7 @@ export default function AdminJadwalSoalPage() {
                         ) : (
                           <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
                             <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#3D3D3D22,#16161622)"}}>
-                              <FileText size={30} className="text-indigo-400"/>
+                              <FileText size={30} className="text-[#8C8C8C]"/>
                             </div>
                             <div>
                               <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada soal</p>
@@ -1032,7 +1032,7 @@ export default function AdminJadwalSoalPage() {
                   {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5B19"}}>{active.length}</span>}
                 </button>
                 <button onClick={() => setTab("completed")}
-                  className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+                  className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
                   style={tab==="completed"?{color:"#6E9CA0"}:{}}>
                   Completed
                   {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#6E9CA0"}}>{completed.length}</span>}
@@ -1115,7 +1115,7 @@ export default function AdminJadwalSoalPage() {
                             <Pencil size={13}/>
                           </button>
                           <button onClick={() => deleteTahapan(t.id)}
-                            className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-300 hover:text-red-500">
+                            className="p-1.5 rounded-lg hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20 text-slate-300 hover:text-[#6E6E6E]">
                             <Trash2 size={13}/>
                           </button>
                         </div>
@@ -1149,7 +1149,7 @@ export default function AdminJadwalSoalPage() {
                           <Pencil size={12}/>
                         </button>
                         <button onClick={() => deleteTahapan(t.id)}
-                          className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-slate-300 hover:text-red-500">
+                          className="p-1.5 rounded-lg hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20 text-slate-300 hover:text-[#6E6E6E]">
                           <Trash2 size={12}/>
                         </button>
                       </div>
@@ -1271,7 +1271,7 @@ export default function AdminJadwalSoalPage() {
                           GDrive
                         </a>
                         {isDone ? (
-                          <span className="text-xs font-bold text-emerald-500 shrink-0">Selesai ✓</span>
+                          <span className="text-xs font-bold text-[#6E9CA0] shrink-0">Selesai ✓</span>
                         ) : (
                           <div className="flex gap-2 shrink-0">
                             <button onClick={() => updateStatus(s.id, "DITERIMA")}
@@ -1293,8 +1293,8 @@ export default function AdminJadwalSoalPage() {
 
                 <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    <span className="font-semibold text-amber-500">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
-                    <span className="font-semibold text-emerald-500">Terima</span> → UKK selesai
+                    <span className="font-semibold text-[#FF5B19]">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
+                    <span className="font-semibold text-[#6E9CA0]">Terima</span> → UKK selesai
                   </p>
                   <button onClick={() => setSubmisiModalTahapan(null)}
                     className="px-5 py-2 text-sm font-semibold rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 shrink-0 transition-colors">
@@ -1367,22 +1367,22 @@ export default function AdminJadwalSoalPage() {
               </div>
 
               <div className="px-6 py-5 space-y-4">
-                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-amber-50 dark:bg-amber-500/10 border border-amber-100 dark:border-amber-500/20">
-                  <AlertCircle size={15} className="text-amber-500 mt-0.5 shrink-0"/>
-                  <p className="text-xs text-amber-700 dark:text-amber-400 leading-relaxed">
+                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF3EC] dark:bg-[#FF5B19]/10 border border-[#FFE3D2] dark:border-[#FF5B19]/20">
+                  <AlertCircle size={15} className="text-[#FF5B19] mt-0.5 shrink-0"/>
+                  <p className="text-xs text-[#CC4913] dark:text-[#FF7D47] leading-relaxed">
                     Siswa akan menerima notifikasi revisi dan <strong>wajib mengirim ulang</strong> project mereka.
                   </p>
                 </div>
                 <div>
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">
-                    Pesan Revisi <span className="text-red-500">*</span>
+                    Pesan Revisi <span className="text-[#6E6E6E]">*</span>
                   </label>
                   <textarea
                     value={pesanRevisi}
                     onChange={(e)=>setPesanRevisi(e.target.value)}
                     rows={4}
                     placeholder="Tuliskan catatan revisi untuk siswa, misalnya: &quot;Tampilan UI belum responsif, perbaiki layout mobile dan tambahkan validasi form login.&quot;"
-                    className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-amber-400 placeholder:text-slate-400"
+                    className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7D47] placeholder:text-slate-400"
                     autoFocus
                   />
                   <p className="text-[11px] text-slate-400 mt-1">{pesanRevisi.length} karakter</p>

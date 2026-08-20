@@ -70,10 +70,10 @@ export function LupaPasswordForm() {
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-amber-500/15 bg-amber-500/[0.04] px-6 py-8 text-center"
+        className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-[#FF5B19]/15 bg-[#FF5B19]/[0.04] px-6 py-8 text-center"
       >
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-amber-50">
-          <Clock size={28} className="text-amber-500" />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#FFF3EC]">
+          <Clock size={28} className="text-[#FF5B19]" />
         </div>
         <p className="text-sm font-semibold text-black/80">
           Tunggu Konfirmasi Admin
@@ -99,8 +99,8 @@ export function LupaPasswordForm() {
         animate={{ opacity: 1, y: 0 }}
         className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-black/8 bg-black/[0.02] px-6 py-8 text-center"
       >
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-emerald-50">
-          <CheckCircle2 size={28} className="text-emerald-500" />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#F2F8F8]">
+          <CheckCircle2 size={28} className="text-[#6E9CA0]" />
         </div>
         <p className="text-sm font-semibold text-black/80">
           Permintaan Anda telah dikirim ke Admin.

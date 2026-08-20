@@ -15,7 +15,7 @@ const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), {
   ssr: false,
   loading: () => (
     <div className="flex-1 flex items-center justify-center py-20">
-      <Loader2 size={28} className="animate-spin text-amber-500" />
+      <Loader2 size={28} className="animate-spin text-[#FF5B19]" />
     </div>
   ),
 });
@@ -109,8 +109,8 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
                   <p className="text-xs leading-relaxed" style={{color: bc.text}}>{d.konten}</p>
                 </div>
                 <div className="flex gap-2 mt-1">
-                  <button onClick={() => setReplyTo({id:d.id, nama:d.user.nama})} className="text-[10px] text-slate-400 hover:text-violet-500">Balas</button>
-                  {d.user.id === currentUserId && <button onClick={() => hapus(d.id)} className="text-[10px] text-slate-400 hover:text-red-500">Hapus</button>}
+                  <button onClick={() => setReplyTo({id:d.id, nama:d.user.nama})} className="text-[10px] text-slate-400 hover:text-[#6E6E6E]">Balas</button>
+                  {d.user.id === currentUserId && <button onClick={() => hapus(d.id)} className="text-[10px] text-slate-400 hover:text-[#6E6E6E]">Hapus</button>}
                 </div>
               </div>
             </div>
@@ -120,14 +120,14 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
 
       <div className="shrink-0 px-4 py-3 border-t border-slate-100 dark:border-slate-700 space-y-2">
         {replyTo && (
-          <div className="flex items-center gap-2 text-xs bg-violet-50 dark:bg-violet-900/20 text-violet-600 px-3 py-1.5 rounded-lg">
+          <div className="flex items-center gap-2 text-xs bg-[#F5F5F4] dark:bg-[#161616]/20 text-[#545454] px-3 py-1.5 rounded-lg">
             Balas ke <strong>{replyTo.nama}</strong>
             <button onClick={() => setReplyTo(null)} className="ml-auto"><X size={11}/></button>
           </div>
         )}
         <div className="flex gap-2">
           <input value={input} onChange={e=>setInput(e.target.value)} onKeyDown={e=>e.key==="Enter"&&!e.shiftKey&&send()}
-            placeholder="Tulis pesan..." className="flex-1 text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none focus:border-violet-400"/>
+            placeholder="Tulis pesan..." className="flex-1 text-xs px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none focus:border-[#8C8C8C]"/>
           <button onClick={send} disabled={sending || !input.trim()}
             className="w-8 h-8 flex items-center justify-center rounded-xl text-white shrink-0 disabled:opacity-50"
             style={{background:"linear-gradient(135deg,#3D3D3D,#3D3D3D)"}}>
@@ -277,7 +277,7 @@ export default function GuruJadwalSoalPage() {
                       <SoalPdfViewer soal={curSoal} onClose={()=>setOpenJadwalModal(false)}/>
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                        <FileText size={30} className="text-amber-300"/>
+                        <FileText size={30} className="text-[#FFA372]"/>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada file jadwal</p>
                       </div>
                     )}
@@ -333,7 +333,7 @@ export default function GuruJadwalSoalPage() {
                       <SoalPdfViewer soal={curSoal} onClose={()=>setOpenSoalModal(false)}/>
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                        <FileText size={30} className="text-indigo-300"/>
+                        <FileText size={30} className="text-[#B0B0B0]"/>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada soal</p>
                       </div>
                     )}
@@ -432,7 +432,7 @@ export default function GuruJadwalSoalPage() {
                 </div>
                 <div className="flex gap-5 border-b border-slate-100 dark:border-slate-700">
                   <button onClick={()=>setTab("all")}
-                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="all" ? "border-violet-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="all" ? "border-[#6E6E6E]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
                     style={tab==="all"?{color:"#3D3D3D"}:{}}>
                     Semua
                     {tab==="all" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#3D3D3D"}}>{tahapanList.length}</span>}
@@ -444,7 +444,7 @@ export default function GuruJadwalSoalPage() {
                     {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5B19"}}>{active.length}</span>}
                   </button>
                   <button onClick={()=>setTab("completed")}
-                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+                    className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
                     style={tab==="completed"?{color:"#6E9CA0"}:{}}>
                     Selesai
                     {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#6E9CA0"}}>{completed.length}</span>}
@@ -531,7 +531,7 @@ export default function GuruJadwalSoalPage() {
                                     const statusCfg: Record<string,{label:string;color:string;bg:string}> = {
                                       DITERIMA:{ label:"Diterima", color:"#6E9CA0", bg:"#E1EDEE" },
                                       REVISI:  { label:"Revisi",   color:"#FF5B19", bg:"#FFEDD5" },
-                                      TERKIRIM:{ label:"Menunggu", color:"#3D3D3D", bg:"#EEF2FF" },
+                                      TERKIRIM:{ label:"Menunggu", color:"#3D3D3D", bg:"#E8E7E4" },
                                     };
                                     const cfg = statusCfg[s.status];
                                     return (

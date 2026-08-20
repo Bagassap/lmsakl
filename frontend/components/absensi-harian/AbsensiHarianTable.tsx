@@ -153,16 +153,16 @@ export function AbsensiHarianTable({
                   <div className="flex justify-center">
                     {fotoRaw ? (
                       <button onClick={openDokumen} title="Lihat foto selfie"
-                        className="flex h-6 w-6 items-center justify-center rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-900/20">
-                        <Camera size={13} className="text-emerald-500" />
+                        className="flex h-6 w-6 items-center justify-center rounded-lg hover:bg-[#F2F8F8] dark:hover:bg-[#283C3D]/20">
+                        <Camera size={13} className="text-[#6E9CA0]" />
                       </button>
                     ) : <Camera size={13} className="text-slate-200 dark:text-slate-700" />}
                   </div>
                   <div className="flex justify-center">
                     {ttdRaw ? (
                       <button onClick={openDokumen} title="Lihat tanda tangan"
-                        className="flex h-6 w-6 items-center justify-center rounded-lg hover:bg-violet-50 dark:hover:bg-violet-900/20">
-                        <PenTool size={13} className="text-violet-500" />
+                        className="flex h-6 w-6 items-center justify-center rounded-lg hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20">
+                        <PenTool size={13} className="text-[#6E6E6E]" />
                       </button>
                     ) : <PenTool size={13} className="text-slate-200 dark:text-slate-700" />}
                   </div>
@@ -204,7 +204,7 @@ export function AbsensiHarianTable({
                       <button onClick={() => setTablePage(i)}
                         className={`flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-colors ${
                           i === tablePage
-                            ? "bg-violet-500 text-white shadow-sm"
+                            ? "bg-[#6E6E6E] text-white shadow-sm"
                             : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"
                         }`}>
                         {i + 1}

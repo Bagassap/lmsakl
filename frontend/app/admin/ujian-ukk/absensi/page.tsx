@@ -249,7 +249,7 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                       </div>
                       <a href={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}`} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 rounded-lg bg-red-50 dark:bg-red-900/20 px-2.5 py-1 text-[10px] font-bold text-red-500 dark:text-red-400 hover:bg-red-100">
+                        className="flex items-center gap-1.5 rounded-lg bg-[#F5F5F4] dark:bg-[#161616]/20 px-2.5 py-1 text-[10px] font-bold text-[#6E6E6E] dark:text-[#8C8C8C] hover:bg-[#E8E7E4]">
                         <ExternalLink size={10}/> Maps
                       </a>
                     </div>
@@ -257,7 +257,7 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                       src={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}&output=embed`}
                       className="h-40 w-full border-0" loading="lazy" title="Lokasi absensi"/>
                     <div className="flex items-center gap-2 px-4 py-2.5">
-                      <MapPin size={11} className="shrink-0 text-red-400"/>
+                      <MapPin size={11} className="shrink-0 text-[#8C8C8C]"/>
                       <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">{lokasi.lat}, {lokasi.lng}</span>
                     </div>
                   </div>
@@ -618,7 +618,7 @@ export default function AdminUkkAbsensiPage() {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal Absensi</span>
           </div>
           <input type="date" value={tanggal} onChange={e => setTanggal(e.target.value)}
-            className="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-400"/>
+            className="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#8FB4B7]"/>
           <div className="flex-1"/>
           <span className="text-xs text-slate-400">{sudahAbsen}/{total} sudah absen</span>
           <button
@@ -786,7 +786,7 @@ export default function AdminUkkAbsensiPage() {
                       {lokasiParsed ? (
                         <a href={`https://maps.google.com/maps?q=${lokasiParsed.lat},${lokasiParsed.lng}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[11px] text-red-500 hover:underline truncate">
+                          className="flex items-center gap-1 text-[11px] text-[#6E6E6E] hover:underline truncate">
                           <MapPin size={10} className="shrink-0"/>
                           <span className="font-mono truncate">{lokasiParsed.lat.slice(0,8)}…</span>
                         </a>

@@ -47,7 +47,7 @@ function todayJakartaStr(): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Jakarta" }).format(new Date());
 }
 
-const INPUT = "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 transition-all focus:border-violet-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-violet-100 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200";
+const INPUT = "w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-800 transition-all focus:border-[#8C8C8C] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#E8E7E4] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200";
 const LABEL = "mb-1 block text-[11px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500";
 
 export function JadwalAbsenCard() {
@@ -146,7 +146,7 @@ export function JadwalAbsenCard() {
         <motion.button
           type="button" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
           onClick={() => openForm()}
-          className="flex items-center gap-1 rounded-lg bg-violet-500 px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-violet-600"
+          className="flex items-center gap-1 rounded-lg bg-[#6E6E6E] px-3 py-1.5 text-xs font-bold text-white shadow-sm hover:bg-[#545454]"
         >
           <Plus size={13} /> Atur Jadwal
         </motion.button>
@@ -158,7 +158,7 @@ export function JadwalAbsenCard() {
         <div className="grid grid-cols-2 gap-2.5">
           <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              <LogIn size={11} className="text-emerald-500" /> Absen Datang
+              <LogIn size={11} className="text-[#6E9CA0]" /> Absen Datang
             </p>
             <p className="mt-1 text-sm font-bold text-slate-800 dark:text-white">
               {hariIni.isWeekend ? "Libur" : `${fmtMinutes(hariIni.hadirStartMinutes)} - ${fmtMinutes(hariIni.hadirEndMinutes)}`}
@@ -166,14 +166,14 @@ export function JadwalAbsenCard() {
           </div>
           <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              <LogOut size={11} className="text-blue-500" /> Absen Pulang
+              <LogOut size={11} className="text-[#6E9CA0]" /> Absen Pulang
             </p>
             <p className="mt-1 text-sm font-bold text-slate-800 dark:text-white">
               {hariIni.isWeekend ? "Libur" : `${fmtMinutes(hariIni.pulangStartMinutes)} - ${fmtMinutes(hariIni.pulangEndMinutes)}`}
             </p>
           </div>
           {isOverriddenToday && (
-            <div className="col-span-2 flex items-start gap-1.5 rounded-xl bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-900/20 dark:text-amber-400">
+            <div className="col-span-2 flex items-start gap-1.5 rounded-xl bg-[#FFF3EC] px-3 py-2 text-[11px] text-[#CC4913] dark:bg-[#7A2C0C]/20 dark:text-[#FF7D47]">
               <Sparkles size={12} className="mt-0.5 shrink-0" />
               <span>Jadwal hari ini disesuaikan{hariIni.override?.keterangan ? ` — ${hariIni.override.keterangan}` : ""}</span>
             </div>
@@ -200,7 +200,7 @@ export function JadwalAbsenCard() {
                 </p>
               </div>
               <button type="button" onClick={() => handleDelete(o.tanggal)}
-                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-red-400 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/20">
+                className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-[#8C8C8C] hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
                 <Trash2 size={13} />
               </button>
             </div>
@@ -232,8 +232,8 @@ export function JadwalAbsenCard() {
                   <input type="date" required value={form.tanggal} onChange={(e) => setForm((f) => ({ ...f, tanggal: e.target.value }))} className={INPUT} />
                 </div>
 
-                <div className="rounded-2xl border border-emerald-100 bg-emerald-50/50 p-3 dark:border-emerald-900/30 dark:bg-emerald-900/10">
-                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-emerald-600 dark:text-emerald-400">
+                <div className="rounded-2xl border border-[#E1EDEE] bg-[#F2F8F8]/50 p-3 dark:border-[#283C3D]/30 dark:bg-[#283C3D]/10">
+                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#5C868A] dark:text-[#8FB4B7]">
                     <LogIn size={12} /> Absen Datang
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -248,8 +248,8 @@ export function JadwalAbsenCard() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-blue-100 bg-blue-50/50 p-3 dark:border-blue-900/30 dark:bg-blue-900/10">
-                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-blue-600 dark:text-blue-400">
+                <div className="rounded-2xl border border-[#E1EDEE] bg-[#F2F8F8]/50 p-3 dark:border-[#283C3D]/30 dark:bg-[#283C3D]/10">
+                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#5C868A] dark:text-[#8FB4B7]">
                     <LogOut size={12} /> Absen Pulang
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -275,7 +275,7 @@ export function JadwalAbsenCard() {
                     Batal
                   </button>
                   <button type="submit" disabled={saving}
-                    className="flex items-center gap-1.5 rounded-xl bg-violet-500 px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-violet-600 disabled:opacity-60">
+                    className="flex items-center gap-1.5 rounded-xl bg-[#6E6E6E] px-4 py-2 text-sm font-bold text-white shadow-sm hover:bg-[#545454] disabled:opacity-60">
                     {saving && <Loader2 size={14} className="animate-spin" />}
                     {saving ? "Menyimpan..." : "Simpan Jadwal"}
                   </button>

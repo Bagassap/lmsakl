@@ -198,7 +198,7 @@ export function Splash() {
             animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
           />
-          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-amber-300/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(255,91,25,0.5)] sm:h-32 sm:w-32">
+          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#FFA372]/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(255,91,25,0.5)] sm:h-32 sm:w-32">
             <Image
               src="/AKL.png"
               alt="Logo AKL"

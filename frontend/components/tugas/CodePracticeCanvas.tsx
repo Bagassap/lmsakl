@@ -120,7 +120,7 @@ export function CodePracticeCanvas({
             transition={{ type: "spring", damping: 22, stiffness: 340 }}
             className="pointer-events-none absolute inset-0 z-40 flex items-center justify-center p-4"
           >
-            <div className="flex items-center gap-3 rounded-2xl bg-red-500 px-5 py-3.5 text-white shadow-2xl">
+            <div className="flex items-center gap-3 rounded-2xl bg-[#6E6E6E] px-5 py-3.5 text-white shadow-2xl">
               <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/20">
                 <ShieldAlert size={18} />
               </span>

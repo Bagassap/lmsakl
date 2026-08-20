@@ -90,25 +90,25 @@ export function ResetPasswordModal({
           <div className="space-y-4 px-5 py-5">
             {resetToNis && (
               alreadyChanged ? (
-                <div className="flex items-start gap-2.5 rounded-xl border border-green-100 bg-green-50 px-3.5 py-3 dark:border-green-900/30 dark:bg-green-900/10">
-                  <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-green-500" />
-                  <p className="text-xs leading-relaxed text-green-700 dark:text-green-400">
+                <div className="flex items-start gap-2.5 rounded-xl border border-[#E1EDEE] bg-[#F2F8F8] px-3.5 py-3 dark:border-[#283C3D]/30 dark:bg-[#283C3D]/10">
+                  <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-[#6E9CA0]" />
+                  <p className="text-xs leading-relaxed text-[#4F7377] dark:text-[#8FB4B7]">
                     <strong>Siswa ini sudah mengganti password sendiri.</strong>
                   </p>
                 </div>
               ) : (
-                <div className="flex items-start gap-2.5 rounded-xl border border-amber-100 bg-amber-50 px-3.5 py-3 dark:border-amber-900/30 dark:bg-amber-900/10">
-                  <ShieldAlert size={16} className="mt-0.5 shrink-0 text-amber-500" />
-                  <p className="text-xs leading-relaxed text-amber-700 dark:text-amber-400">
+                <div className="flex items-start gap-2.5 rounded-xl border border-[#FFE3D2] bg-[#FFF3EC] px-3.5 py-3 dark:border-[#7A2C0C]/30 dark:bg-[#7A2C0C]/10">
+                  <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#FF5B19]" />
+                  <p className="text-xs leading-relaxed text-[#CC4913] dark:text-[#FF7D47]">
                     <strong>Siswa ini belum mengganti password</strong> (masih menggunakan NIS).
                   </p>
                 </div>
               )
             )}
 
-            <div className="flex items-start gap-2.5 rounded-xl border border-amber-100 bg-amber-50 px-3.5 py-3 dark:border-amber-900/30 dark:bg-amber-900/10">
-              <ShieldAlert size={16} className="mt-0.5 shrink-0 text-amber-500" />
-              <p className="text-xs leading-relaxed text-amber-700 dark:text-amber-400">
+            <div className="flex items-start gap-2.5 rounded-xl border border-[#FFE3D2] bg-[#FFF3EC] px-3.5 py-3 dark:border-[#7A2C0C]/30 dark:bg-[#7A2C0C]/10">
+              <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#FF5B19]" />
+              <p className="text-xs leading-relaxed text-[#CC4913] dark:text-[#FF7D47]">
                 {resetToNis
                   ? (alreadyChanged
                       ? <>Siswa sudah memiliki password sendiri. Reset akan mengembalikan password ke <strong>NIS siswa ({nis})</strong> dan siswa akan diminta membuat password baru lagi saat login berikutnya.</>
@@ -169,7 +169,7 @@ export function ResetPasswordModal({
                 di sistem belum akurat sehingga siswa tidak bisa lolos verifikasi sendiri.
               </span>
             </label>
-            {error && <p className="text-xs text-red-500">{error}</p>}
+            {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
           </div>
           <div className="flex items-center justify-end gap-2 border-t border-gray-100 px-5 py-4 dark:border-slate-800">
             <button type="button" onClick={onClose}

@@ -144,7 +144,7 @@ function EditProfilModal({
             </button>
           </div>
           <div className="max-h-[60vh] space-y-4 overflow-y-auto px-6 py-5">
-            <p className="rounded-xl bg-blue-50 px-3.5 py-2.5 text-xs text-blue-600 dark:bg-blue-900/20 dark:text-blue-300">
+            <p className="rounded-xl bg-[#F2F8F8] px-3.5 py-2.5 text-xs text-[#5C868A] dark:bg-[#283C3D]/20 dark:text-[#AECACD]">
               Lengkapi data diri kamu di bawah ini.
             </p>
             <div className="flex flex-col gap-1.5">
@@ -213,7 +213,7 @@ function EditProfilModal({
                 </div>
               </div>
             </div>
-            {error && <p className="text-xs text-red-500">{error}</p>}
+            {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
           </div>
           <div className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4 dark:border-slate-700/50">
             <button onClick={onClose}
@@ -324,7 +324,7 @@ export default function SiswaProfilPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-violet-200 border-t-violet-600" />
+        <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#D4D3D0] border-t-[#545454]" />
       </div>
     );
   }
@@ -384,7 +384,7 @@ export default function SiswaProfilPage() {
             { label: kelasShort(profil.kelas.nama), bg: "bg-white/15" },
             { label: profil.jurusan ?? "—", bg: "bg-white/10" },
             { label: `Angkatan ${profil.angkatan}`, bg: "bg-white/10" },
-            { label: profil.jenisKelamin ?? "—", bg: isP ? "bg-pink-400/30" : "bg-sky-400/20" },
+            { label: profil.jenisKelamin ?? "—", bg: isP ? "bg-[#8C8C8C]/30" : "bg-[#8FB4B7]/20" },
           ].map(({ label, bg }, i) => (
             <span key={i} className={`rounded-full px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm ${bg}`}>
               {label}
@@ -431,9 +431,9 @@ export default function SiswaProfilPage() {
             </div>
 
             <h2 className="text-center text-lg font-extrabold text-slate-800 dark:text-white">{nama}</h2>
-            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-blue-600/10 px-3.5 py-1.5 dark:bg-blue-400/15">
-              <IdCard size={14} className="text-blue-600 dark:text-blue-300" />
-              <span className="font-mono text-sm font-extrabold tracking-wide text-blue-600 dark:text-blue-300">
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#5C868A]/10 px-3.5 py-1.5 dark:bg-[#8FB4B7]/15">
+              <IdCard size={14} className="text-[#5C868A] dark:text-[#AECACD]" />
+              <span className="font-mono text-sm font-extrabold tracking-wide text-[#5C868A] dark:text-[#AECACD]">
                 NIS {profil.nis}
               </span>
             </div>
@@ -447,8 +447,8 @@ export default function SiswaProfilPage() {
             {profil.jenisKelamin && (
               <span className={`mt-3 rounded-full px-3.5 py-1.5 text-[11px] font-bold ${
                 isP
-                  ? "bg-pink-50 text-pink-600 dark:bg-pink-900/20 dark:text-pink-400"
-                  : "bg-sky-50 text-sky-600 dark:bg-sky-900/20 dark:text-sky-400"
+                  ? "bg-[#F5F5F4] text-[#545454] dark:bg-[#161616]/20 dark:text-[#8C8C8C]"
+                  : "bg-[#F2F8F8] text-[#5C868A] dark:bg-[#283C3D]/20 dark:text-[#8FB4B7]"
               }`}>
                 {profil.jenisKelamin}
               </span>
@@ -490,11 +490,11 @@ export default function SiswaProfilPage() {
               <InfoField icon={GraduationCap} label="Kelas" value={profil.kelas.nama}
                 iconBg="#E8E7E4" iconColor="#161616" />
               <InfoField icon={BookOpen} label="Jurusan" value={profil.jurusan}
-                iconBg="#E8E7E4" iconColor="#4f46e5" />
+                iconBg="#E8E7E4" iconColor="#3D3D3D" />
               <InfoField icon={Users} label="Nama Orang Tua" value={profil.namaOrtu}
                 iconBg="#e1edee" iconColor="#4f7377" />
               <InfoField icon={Hash} label="NIS" value={profil.nis}
-                iconBg="#ecfeff" iconColor="#0891b2" />
+                iconBg="#E1EDEE" iconColor="#4F7377" />
             </div>
           </SectionCard>
 

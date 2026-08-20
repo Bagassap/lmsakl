@@ -111,7 +111,7 @@ export function SubmisiTugasModal({
                 </button>
                 <button onClick={() => setTab("belum")}
                   className={`flex items-center gap-1.5 rounded-t-xl px-4 py-2 text-xs font-bold transition-colors ${
-                    tab === "belum" ? "bg-red-50 text-red-500 dark:bg-red-900/20" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                    tab === "belum" ? "bg-[#F5F5F4] text-[#6E6E6E] dark:bg-[#161616]/20" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}>
                   <UserX size={13} /> Belum Mengumpulkan ({belumLoading ? "…" : belumList.length})
                 </button>
@@ -125,21 +125,21 @@ export function SubmisiTugasModal({
                     </div>
                   ) : belumList.length === 0 ? (
                     <div className="py-16 text-center">
-                      <CheckCircle size={36} className="mx-auto mb-3 text-emerald-200" />
+                      <CheckCircle size={36} className="mx-auto mb-3 text-[#C3DBDD]" />
                       <p className="text-sm font-semibold text-slate-400">Semua siswa sudah mengumpulkan tugas ini</p>
                     </div>
                   ) : belumList.map((s) => {
                     const nama = s.user?.nama || s.nama || "Siswa";
                     return (
                       <div key={s.id} className="flex flex-wrap items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-sm font-bold text-red-500 dark:bg-red-900/30">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8E7E4] text-sm font-bold text-[#6E6E6E] dark:bg-[#161616]/30">
                           {nama[0]?.toUpperCase() ?? "?"}
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{nama}</p>
                           {s.kelas && <p className="text-xs text-slate-400">{s.kelas.nama}</p>}
                         </div>
-                        <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-bold text-red-500 dark:bg-red-900/20">
+                        <span className="shrink-0 rounded-full bg-[#F5F5F4] px-2.5 py-1 text-[11px] font-bold text-[#6E6E6E] dark:bg-[#161616]/20">
                           Belum Kumpul
                         </span>
                       </div>
@@ -165,7 +165,7 @@ export function SubmisiTugasModal({
                         <p className="text-xs text-slate-400 truncate">{formatTglJam(s.submittedAt)}{s.catatan ? ` · ${s.catatan}` : ""}</p>
                       </div>
                       {(tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY") && s.nilai !== null && (
-                        <span className="shrink-0 rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-bold text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+                        <span className="shrink-0 rounded-full bg-[#FFF3EC] px-2.5 py-1 text-[11px] font-bold text-[#E64F13] dark:bg-[#7A2C0C]/20 dark:text-[#FF7D47]">
                           Nilai {s.nilai}
                         </span>
                       )}
@@ -189,7 +189,7 @@ export function SubmisiTugasModal({
                         </a>
                       )}
                       {isDone ? (
-                        <span className="text-xs font-bold text-emerald-500 shrink-0">Selesai ✓</span>
+                        <span className="text-xs font-bold text-[#6E9CA0] shrink-0">Selesai ✓</span>
                       ) : (
                         <div className="flex gap-2 shrink-0">
                           <button onClick={() => onTerima(s.id)}
@@ -211,8 +211,8 @@ export function SubmisiTugasModal({
 
               <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  <span className="font-semibold text-amber-500">Revisi</span> → siswa kirim ulang ·{" "}
-                  <span className="font-semibold text-emerald-500">Terima</span> → tugas selesai
+                  <span className="font-semibold text-[#FF5B19]">Revisi</span> → siswa kirim ulang ·{" "}
+                  <span className="font-semibold text-[#6E9CA0]">Terima</span> → tugas selesai
                 </p>
                 <button onClick={onClose}
                   className="px-5 py-2 text-sm font-semibold rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 shrink-0 transition-colors">

@@ -158,14 +158,14 @@ export function MateriListPage({
         <AnimatePresence>
           {!canCreate && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-amber-100 bg-amber-50 px-4 py-3 text-sm text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/20 dark:text-amber-400">
+              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#FFE3D2] bg-[#FFF3EC] px-4 py-3 text-sm text-[#CC4913] dark:border-[#7A2C0C]/40 dark:bg-[#7A2C0C]/20 dark:text-[#FF7D47]">
               <AlertCircle size={14} className="shrink-0" />
               Anda belum terdaftar sebagai pengampu mata pelajaran apa pun, jadi belum bisa menambahkan materi. Hubungi admin bila ini keliru.
             </motion.div>
           )}
           {error && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-400">
+              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#E8E7E4] bg-[#F5F5F4] px-4 py-3 text-sm text-[#545454] dark:border-[#161616]/40 dark:bg-[#161616]/20 dark:text-[#8C8C8C]">
               <AlertCircle size={14} className="shrink-0" />{error}
             </motion.div>
           )}
@@ -234,11 +234,11 @@ export function MateriListPage({
                           {canEdit(m) && (
                             <>
                               <button onClick={() => { setEditItem(m); setModalOpen(true); }} title="Edit"
-                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-amber-50 hover:text-amber-500 dark:hover:bg-amber-900/20">
+                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFF3EC] hover:text-[#FF5B19] dark:hover:bg-[#7A2C0C]/20">
                                 <Pencil size={14} />
                               </button>
                               <button onClick={() => handleDelete(m)} title="Hapus"
-                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/20">
+                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
                                 <Trash2 size={14} />
                               </button>
                             </>

@@ -105,7 +105,7 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
         <AnimatePresence>
           {error && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600 dark:border-red-900/40 dark:bg-red-900/20 dark:text-red-400">
+              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#E8E7E4] bg-[#F5F5F4] px-4 py-3 text-sm text-[#545454] dark:border-[#161616]/40 dark:bg-[#161616]/20 dark:text-[#8C8C8C]">
               <AlertCircle size={14} className="shrink-0" />{error}
             </motion.div>
           )}

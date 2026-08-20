@@ -93,7 +93,7 @@ export function LoginForm() {
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             placeholder="NIS atau email"
-            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/15"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-[#FF5B19] focus:bg-white focus:ring-2 focus:ring-[#FF5B19]/15"
           />
         </div>
       </motion.div>
@@ -116,7 +116,7 @@ export function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Kata sandi"
-            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 pr-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/15"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 pr-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-[#FF5B19] focus:bg-white focus:ring-2 focus:ring-[#FF5B19]/15"
           />
           <button
             type="button"
@@ -135,7 +135,7 @@ export function LoginForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-amber-400 bg-red-800 px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#FF7D47] bg-[#262626] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -163,7 +163,7 @@ export function LoginForm() {
       <motion.div variants={item} className="text-center">
         <Link
           href="/lupa-password"
-          className="text-sm text-stone-400 transition-colors hover:text-amber-700"
+          className="text-sm text-stone-400 transition-colors hover:text-[#CC4913]"
         >
           Lupa Password?
         </Link>

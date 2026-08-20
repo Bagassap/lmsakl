@@ -86,7 +86,7 @@ export default function SiswaCatatanSayaPage() {
                 <div className="mb-1.5 flex items-start justify-between gap-2">
                   <p className="text-sm font-bold text-slate-800 dark:text-white">{c.judul}</p>
                   {c.poin != null && (
-                    <span className="shrink-0 rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-bold text-red-600 dark:bg-red-900/30 dark:text-red-400">{c.poin} poin</span>
+                    <span className="shrink-0 rounded-full bg-[#F5F5F4] px-2.5 py-1 text-[11px] font-bold text-[#545454] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">{c.poin} poin</span>
                   )}
                 </div>
                 <p className="whitespace-pre-wrap text-sm leading-relaxed text-slate-600 dark:text-slate-300">{c.catatan}</p>

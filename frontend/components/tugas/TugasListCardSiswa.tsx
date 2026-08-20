@@ -8,9 +8,9 @@ import { formatTgl, isTugasActive, tipeLabel } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Code2; cls: string }> = {
-  PRAKTIK: { icon: Code2, cls: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400" },
-  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400" },
-  ESSAY: { icon: PenLine, cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400" },
+  PRAKTIK: { icon: Code2, cls: "bg-[#E1EDEE] text-[#4F7377] dark:bg-[#283C3D]/40 dark:text-[#8FB4B7]" },
+  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#FFE3D2] text-[#CC4913] dark:bg-[#7A2C0C]/40 dark:text-[#FF7D47]" },
+  ESSAY: { icon: PenLine, cls: "bg-[#E1EDEE] text-[#4F7377] dark:bg-[#283C3D]/40 dark:text-[#8FB4B7]" },
 };
 
 const ROW_PALETTES = [
@@ -55,13 +55,13 @@ export function TugasListCardSiswa({
         </div>
         <div className="flex gap-5 border-b border-slate-100 dark:border-slate-700">
           <button onClick={() => setTab("active")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-blue-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
             style={tab === "active" ? { color: "#6E9CA0" } : {}}>
             Aktif
             {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{active.length}</span>}
           </button>
           <button onClick={() => setTab("completed")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
             style={tab === "completed" ? { color: "#6E9CA0" } : {}}>
             Selesai
             {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{completed.length}</span>}
@@ -101,7 +101,7 @@ export function TugasListCardSiswa({
                   : isRevisi
                   ? { label: "Revisi", icon: <AlertCircle size={11} />, bg: "#FF5B19", clr: "#FF5B19", border: "#FF5B19", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isTerkirim
-                  ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#EEF2FF", clr: "#4F7377", border: "#4F7377", onClick: () => onLihatDetail(mySubmisi!, t) }
+                  ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#E1EDEE", clr: "#4F7377", border: "#4F7377", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : overdue
                   ? { label: "Terlambat", icon: <AlertCircle size={11} />, bg: "#E8E7E4", clr: "#161616", border: "#161616", onClick: () => onKumpulkan(t) }
                   : { label: t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY" ? "Kerjakan" : t.tipe === "PRAKTIK" ? "Mulai Praktik" : "Kumpulkan", icon: <Send size={11} />, bg: "#E1EDEE", clr: "#6E9CA0", border: "#6E9CA0", onClick: () => onKumpulkan(t) };
@@ -134,13 +134,13 @@ export function TugasListCardSiswa({
                     <td className="px-4 py-3 text-right">
                       <div className="flex flex-wrap items-center justify-end gap-1.5">
                         {(t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY") && mySubmisi?.nilai !== null && mySubmisi?.nilai !== undefined && (
-                          <span className="inline-flex items-center rounded-full bg-amber-50 px-2 py-1 text-[11px] font-bold text-amber-600 dark:bg-amber-900/20 dark:text-amber-400">
+                          <span className="inline-flex items-center rounded-full bg-[#FFF3EC] px-2 py-1 text-[11px] font-bold text-[#E64F13] dark:bg-[#7A2C0C]/20 dark:text-[#FF7D47]">
                             Nilai {mySubmisi.nilai}
                           </span>
                         )}
                         {t.fileUrl && (
                           <a href={t.fileUrl} target="_blank" rel="noopener noreferrer" title={`Unduh lampiran${t.fileName ? `: ${t.fileName}` : ""}`}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-blue-50 hover:text-blue-500 dark:hover:bg-blue-900/20">
+                            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F2F8F8] hover:text-[#6E9CA0] dark:hover:bg-[#283C3D]/20">
                             <Download size={14} />
                           </a>
                         )}

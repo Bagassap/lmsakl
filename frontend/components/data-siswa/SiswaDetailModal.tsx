@@ -115,7 +115,7 @@ export function SiswaDetailModal({ siswa, onEdit, onClose }: {
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-bold text-slate-700 dark:text-white">Kelengkapan Data {pct}%</p>
                     {missing.length === 0 ? (
-                      <p className="mt-0.5 flex items-center gap-1 text-[11px] text-emerald-600 dark:text-emerald-400">
+                      <p className="mt-0.5 flex items-center gap-1 text-[11px] text-[#5C868A] dark:text-[#8FB4B7]">
                         <CheckCircle2 size={11} /> Semua data sudah lengkap
                       </p>
                     ) : (

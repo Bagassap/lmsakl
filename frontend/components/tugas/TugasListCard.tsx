@@ -8,9 +8,9 @@ import { formatTgl, isTugasActive, tipeLabel } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Code2; cls: string }> = {
-  PRAKTIK: { icon: Code2, cls: "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-400" },
-  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400" },
-  ESSAY: { icon: PenLine, cls: "bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-400" },
+  PRAKTIK: { icon: Code2, cls: "bg-[#E1EDEE] text-[#4F7377] dark:bg-[#283C3D]/40 dark:text-[#8FB4B7]" },
+  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#FFE3D2] text-[#CC4913] dark:bg-[#7A2C0C]/40 dark:text-[#FF7D47]" },
+  ESSAY: { icon: PenLine, cls: "bg-[#E1EDEE] text-[#4F7377] dark:bg-[#283C3D]/40 dark:text-[#8FB4B7]" },
 };
 
 const ROW_PALETTES = [
@@ -74,13 +74,13 @@ export function TugasListCard({
         </div>
         <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
           <button onClick={() => setTab("active")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-blue-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
             style={tab === "active" ? { color: "#6E9CA0" } : {}}>
             Aktif
             {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{active.length}</span>}
           </button>
           <button onClick={() => setTab("completed")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
             style={tab === "completed" ? { color: "#6E9CA0" } : {}}>
             Selesai
             {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{completed.length}</span>}
@@ -156,7 +156,7 @@ export function TugasListCard({
                               <Pencil size={12} />
                             </button>
                             <button onClick={() => onDeleteTugas(t.id)}
-                              className="rounded-lg p-1.5 text-slate-300 hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/20">
+                              className="rounded-lg p-1.5 text-slate-300 hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
                               <Trash2 size={12} />
                             </button>
                           </>

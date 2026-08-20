@@ -246,7 +246,7 @@ export default function PengumumanDetailModal({
                         disabled={pinning}
                         whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                         className={`flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors ${
-                          pengumuman.isPinned ? "bg-amber-400/30 hover:bg-amber-400/40" : "bg-white/15 hover:bg-white/25"
+                          pengumuman.isPinned ? "bg-[#FF7D47]/30 hover:bg-[#FF7D47]/40" : "bg-white/15 hover:bg-white/25"
                         }`}
                       >
                         {pinning ? <Loader2 size={12} className="animate-spin" /> : <Pin size={12} />}
@@ -256,7 +256,7 @@ export default function PengumumanDetailModal({
                         onClick={handleDelete}
                         disabled={deleting}
                         whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                        className="flex items-center gap-2 rounded-xl bg-red-500/25 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors hover:bg-red-500/40"
+                        className="flex items-center gap-2 rounded-xl bg-[#6E6E6E]/25 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors hover:bg-[#6E6E6E]/40"
                       >
                         {deleting ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
                         Hapus

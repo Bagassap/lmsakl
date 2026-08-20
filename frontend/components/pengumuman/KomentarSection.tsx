@@ -25,7 +25,7 @@ const ROLE_BADGE: Record<string, { label: string; cls: string; dot: string }> = 
 const AVATAR_PALETTE = [
   "linear-gradient(135deg,#3D3D3D,#6E6E6E)",
   "linear-gradient(135deg,#161616,#3D3D3D)",
-  "linear-gradient(135deg,#FF5B19,#FB923C)",
+  "linear-gradient(135deg,#FF5B19,#FF8A54)",
   "linear-gradient(135deg,#CC4913,#FFC49E)",
   "linear-gradient(135deg,#4F7377,#6E9CA0)",
   "linear-gradient(135deg,#6E9CA0,#AECACD)",
@@ -137,7 +137,7 @@ function KomentarBubble({
               {!isReply && (
                 <button
                   onClick={() => setShowReplyForm((v) => !v)}
-                  className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-slate-400 transition-all hover:bg-blue-50 hover:text-[#4f7377] dark:hover:bg-blue-900/20 dark:hover:text-blue-400"
+                  className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-semibold text-slate-400 transition-all hover:bg-[#F2F8F8] hover:text-[#4f7377] dark:hover:bg-[#283C3D]/20 dark:hover:text-[#8FB4B7]"
                 >
                   <CornerDownRight size={11} /> Balas
                 </button>
@@ -145,7 +145,7 @@ function KomentarBubble({
               {canDelete && (
                 <button
                   onClick={() => onDelete(k.id)}
-                  className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium text-slate-300 transition-all hover:bg-red-50 hover:text-red-500 dark:text-slate-600 dark:hover:bg-red-900/20 dark:hover:text-red-400"
+                  className="flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium text-slate-300 transition-all hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:text-slate-600 dark:hover:bg-[#161616]/20 dark:hover:text-[#8C8C8C]"
                 >
                   <Trash2 size={10} /> Hapus
                 </button>
@@ -161,7 +161,7 @@ function KomentarBubble({
                 exit={{ opacity: 0, height: 0 }}
                 className="mt-2 overflow-hidden"
               >
-                <div className="flex items-end gap-2 rounded-xl border border-[#4f7377]/25 bg-gradient-to-br from-blue-50 to-white p-3 dark:border-blue-700/30 dark:from-blue-900/10 dark:to-[#1c2434]">
+                <div className="flex items-end gap-2 rounded-xl border border-[#4f7377]/25 bg-gradient-to-br from-[#F2F8F8] to-white p-3 dark:border-[#4F7377]/30 dark:from-[#283C3D]/10 dark:to-[#1c2434]">
                   <textarea
                     rows={2}
                     value={replyText}
@@ -189,7 +189,7 @@ function KomentarBubble({
         <div className="ml-12">
           <button
             onClick={() => setShowReplies((v) => !v)}
-            className="mb-2 flex items-center gap-1.5 rounded-lg px-2 py-1 text-[11px] font-bold text-[#4f7377]/70 transition-all hover:bg-blue-50 hover:text-[#4f7377] dark:hover:bg-blue-900/20"
+            className="mb-2 flex items-center gap-1.5 rounded-lg px-2 py-1 text-[11px] font-bold text-[#4f7377]/70 transition-all hover:bg-[#F2F8F8] hover:text-[#4f7377] dark:hover:bg-[#283C3D]/20"
           >
             <ChevronDown size={12} className={`transition-transform duration-200 ${showReplies ? "rotate-180" : ""}`} />
             {k.replies.length} balasan
@@ -200,7 +200,7 @@ function KomentarBubble({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="space-y-2 border-l-2 border-[#4f7377]/15 pl-3 dark:border-blue-700/25"
+                className="space-y-2 border-l-2 border-[#4f7377]/15 pl-3 dark:border-[#4F7377]/25"
               >
                 {k.replies.map((r) => (
                   <KomentarBubble
@@ -338,7 +338,7 @@ export function KomentarSection({
       {komentar.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-100 bg-gradient-to-br from-slate-50 to-white py-10 text-center dark:border-slate-700/40 dark:from-slate-800/30 dark:to-[#1c2434]">
           <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#4f7377]/10 to-[#4f7377]/10">
-            <Sparkles size={20} className="text-[#4f7377] dark:text-blue-400" />
+            <Sparkles size={20} className="text-[#4f7377] dark:text-[#8FB4B7]" />
           </div>
           <p className="text-[13px] font-bold text-slate-500 dark:text-slate-400">Belum ada komentar</p>
           <p className="mt-1 text-[11px] text-slate-400 dark:text-slate-500">Jadilah yang pertama berkomentar!</p>
@@ -362,7 +362,7 @@ export function KomentarSection({
               className={`flex w-full items-center justify-center gap-1.5 rounded-xl border border-dashed py-2 text-[12px] font-bold transition-all ${
                 showAll
                   ? "border-slate-200 text-slate-400 hover:bg-slate-50 dark:border-slate-700/50 dark:hover:bg-slate-800/40"
-                  : "border-slate-200 text-[#4f7377] hover:bg-blue-50 dark:border-slate-700/50 dark:hover:bg-blue-900/20"
+                  : "border-slate-200 text-[#4f7377] hover:bg-[#F2F8F8] dark:border-slate-700/50 dark:hover:bg-[#283C3D]/20"
               }`}
             >
               <ChevronDown size={13} className={showAll ? "rotate-180" : ""} />

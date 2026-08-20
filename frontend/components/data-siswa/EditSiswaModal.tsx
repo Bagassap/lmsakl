@@ -187,7 +187,7 @@ export function EditSiswaModal({ siswa, kelasList, onClose, onSave }: {
                   </Field>
                 </div>
               </div>
-              {error && <p className="text-xs text-red-500">{error}</p>}
+              {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
             </div>
           </div>
           <div className="flex items-center justify-between border-t border-gray-100 px-5 py-4 dark:border-slate-800">

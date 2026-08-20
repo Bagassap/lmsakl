@@ -42,7 +42,7 @@ export function LoginCard() {
         }}
       >
         {/* ikon dekoratif finansial, samar di pojok */}
-        <Scale className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 text-amber-200/[0.08] sm:h-36 sm:w-36" />
+        <Scale className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 text-[#FFC7A5]/[0.08] sm:h-36 sm:w-36" />
 
         <div className="relative z-10 flex flex-row items-center gap-4 sm:flex-col sm:gap-0 sm:text-center">
           <motion.div
@@ -50,11 +50,11 @@ export function LoginCard() {
             className="relative flex shrink-0 items-center justify-center"
           >
             <motion.div
-              className="absolute h-20 w-20 rounded-full bg-amber-400/30 blur-2xl sm:h-40 sm:w-40"
+              className="absolute h-20 w-20 rounded-full bg-[#FF7D47]/30 blur-2xl sm:h-40 sm:w-40"
               animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.9, 0.5] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
-            <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-amber-300/60 bg-white/95 p-2 shadow-[0_0_28px_rgba(255,91,25,0.55)] sm:h-24 sm:w-24 sm:p-3">
+            <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-[#FFA372]/60 bg-white/95 p-2 shadow-[0_0_28px_rgba(255,91,25,0.55)] sm:h-24 sm:w-24 sm:p-3">
               <Image
                 src="/AKL.png"
                 alt="Logo AKL"
@@ -67,7 +67,7 @@ export function LoginCard() {
           </motion.div>
 
           <div className="relative z-10 sm:mt-7">
-            <p className="hidden items-center justify-center gap-1.5 text-[9.5px] font-semibold uppercase tracking-[0.24em] text-amber-200/70 sm:flex">
+            <p className="hidden items-center justify-center gap-1.5 text-[9.5px] font-semibold uppercase tracking-[0.24em] text-[#FFC7A5]/70 sm:flex">
               <Landmark size={11} className="shrink-0" />
               Kompetensi Keahlian
             </p>
@@ -85,15 +85,15 @@ export function LoginCard() {
 
             <div className="mx-auto mt-4 hidden h-px w-16 sm:block bg-[linear-gradient(90deg,transparent,rgba(255,91,25,0.9),rgba(220,38,38,0.6),transparent)]" />
 
-            <p className="mt-3 hidden text-[11.5px] font-light leading-relaxed text-amber-50/60 sm:block">
+            <p className="mt-3 hidden text-[11.5px] font-light leading-relaxed text-[#FFF3EC]/60 sm:block">
               Sistem Pembelajaran &amp; Presensi
               <br />
               Digital Siswa
             </p>
 
             <div className="mt-5 hidden sm:flex sm:justify-center">
-              <span className="inline-flex items-center gap-2 rounded-full border border-amber-200/25 bg-white/[0.08] px-3.5 py-1.5 text-[9.5px] font-medium uppercase tracking-[0.12em] text-amber-50/80">
-                <span className="h-1 w-1 shrink-0 rounded-full bg-amber-300" />
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#FFC7A5]/25 bg-white/[0.08] px-3.5 py-1.5 text-[9.5px] font-medium uppercase tracking-[0.12em] text-[#FFF3EC]/80">
+                <span className="h-1 w-1 shrink-0 rounded-full bg-[#FFA372]" />
                 SMK Ma&apos;arif NU 01 Limpung
               </span>
             </div>
@@ -103,7 +103,7 @@ export function LoginCard() {
 
       {/* ── Sobekan tiket pemisah antar panel (hanya desktop) ──────────── */}
       <div className="pointer-events-none absolute inset-y-0 left-[300px] z-20 hidden w-4 -translate-x-1/2 md:block">
-        <div className="mx-auto h-full w-px border-l-2 border-dashed border-amber-900/15" />
+        <div className="mx-auto h-full w-px border-l-2 border-dashed border-[#7A2C0C]/15" />
         <span className="absolute -top-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#F2F0E4]" />
         <span className="absolute -bottom-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#F2F0E4]" />
       </div>

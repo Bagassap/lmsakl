@@ -144,9 +144,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
       {bypassIdentityVerification ? (
         <motion.div
           variants={item}
-          className="flex items-start gap-2.5 rounded-xl border border-emerald-500/20 bg-emerald-500/5 px-3.5 py-3"
+          className="flex items-start gap-2.5 rounded-xl border border-[#6E9CA0]/20 bg-[#6E9CA0]/5 px-3.5 py-3"
         >
-          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-emerald-600" />
+          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#5C868A]" />
           <p className="text-xs leading-relaxed text-black/65">
             Identitas Anda sudah diverifikasi oleh admin — langsung buat password baru di bawah ini.
           </p>
@@ -155,9 +155,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         <>
           <motion.div
             variants={item}
-            className="flex items-start gap-2.5 rounded-xl border border-amber-500/20 bg-amber-500/5 px-3.5 py-3"
+            className="flex items-start gap-2.5 rounded-xl border border-[#FF5B19]/20 bg-[#FF5B19]/5 px-3.5 py-3"
           >
-            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-amber-600" />
+            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#E64F13]" />
             <p className="text-xs leading-relaxed text-black/65">
               Untuk keamanan, konfirmasi identitas Anda sebelum membuat password baru —
               ini mencegah orang lain mengganti password akun Anda dengan NIS yang bukan miliknya.
@@ -197,9 +197,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2.5 rounded-xl border border-red-500/20 bg-red-500/5 px-3.5 py-3"
+              className="flex items-start gap-2.5 rounded-xl border border-[#6E6E6E]/20 bg-[#6E6E6E]/5 px-3.5 py-3"
             >
-              <AlertTriangle size={16} className="mt-0.5 shrink-0 text-red-600" />
+              <AlertTriangle size={16} className="mt-0.5 shrink-0 text-[#545454]" />
               <p className="text-xs leading-relaxed text-black/70">
                 Sudah gagal beberapa kali? Kemungkinan {profileCompleted ? "tanggal lahir" : "nama"} yang tersimpan
                 di sistem sekolah berbeda dari yang Anda ingat — bukan berarti Anda salah ketik.

@@ -22,11 +22,11 @@ export type PengumumanItem = {
 const KATEGORI_OPTIONS = ["Umum", "Akademik", "Magang", "Ujian", "Lainnya"];
 const PRIORITAS_OPTIONS = [
   { value: "NORMAL",   label: "Normal",   cls: "bg-gray-100 text-gray-600 dark:bg-slate-700 dark:text-slate-300" },
-  { value: "PENTING",  label: "Penting",  cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400" },
-  { value: "MENDESAK", label: "Mendesak", cls: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400" },
+  { value: "PENTING",  label: "Penting",  cls: "bg-[#FFE3D2] text-[#CC4913] dark:bg-[#7A2C0C]/40 dark:text-[#FF7D47]" },
+  { value: "MENDESAK", label: "Mendesak", cls: "bg-[#E8E7E4] text-[#3D3D3D] dark:bg-[#161616]/40 dark:text-[#8C8C8C]" },
 ];
 
-const INPUT_CLS = "w-full rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 transition-all focus:border-[#3D3D3D] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3D3D3D]/15 dark:border-slate-600 dark:bg-slate-700/60 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-purple-500 dark:focus:bg-slate-700";
+const INPUT_CLS = "w-full rounded-xl border border-gray-200 bg-gray-50 px-3.5 py-2.5 text-sm text-gray-800 placeholder:text-gray-400 transition-all focus:border-[#3D3D3D] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#3D3D3D]/15 dark:border-slate-600 dark:bg-slate-700/60 dark:text-slate-100 dark:placeholder:text-slate-500 dark:focus:border-[#6E6E6E] dark:focus:bg-slate-700";
 
 export function PengumumanFormModal({
   open,
@@ -142,7 +142,7 @@ export function PengumumanFormModal({
             <form onSubmit={handleSubmit} className="space-y-4 p-6">
               <div>
                 <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                  Judul <span className="text-red-500">*</span>
+                  Judul <span className="text-[#6E6E6E]">*</span>
                 </label>
                 <input
                   type="text"
@@ -187,7 +187,7 @@ export function PengumumanFormModal({
 
               <div>
                 <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                  Konten <span className="text-red-500">*</span>
+                  Konten <span className="text-[#6E6E6E]">*</span>
                 </label>
                 <textarea
                   rows={6}
@@ -198,7 +198,7 @@ export function PengumumanFormModal({
                 />
               </div>
 
-              <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-colors hover:bg-[#3D3D3D]/5 dark:border-slate-600 dark:bg-slate-700/40 dark:hover:bg-purple-900/20">
+              <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-gray-200 bg-gray-50 px-4 py-3 transition-colors hover:bg-[#3D3D3D]/5 dark:border-slate-600 dark:bg-slate-700/40 dark:hover:bg-[#161616]/20">
                 <input
                   type="checkbox"
                   checked={isPinned}
@@ -213,7 +213,7 @@ export function PengumumanFormModal({
               </label>
 
               {error && (
-                <p className="rounded-xl bg-red-50 px-4 py-2.5 text-sm text-red-600 dark:bg-red-900/30 dark:text-red-400">
+                <p className="rounded-xl bg-[#F5F5F4] px-4 py-2.5 text-sm text-[#545454] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">
                   {error}
                 </p>
               )}

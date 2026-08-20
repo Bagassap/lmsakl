@@ -65,7 +65,7 @@ export function LengkapiFotoProfilCard() {
           </motion.div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-orange-100/70">
+            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-[#FFE3D2]/70">
               Satu Langkah Terakhir
             </p>
             <h1 className="mt-0.5 truncate text-lg font-bold text-white sm:text-xl">

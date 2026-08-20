@@ -165,7 +165,7 @@ export function LengkapiProfilForm() {
             placeholder="Contoh: 08123456789" className={INPUT_CLASS}
           />
           {values.noHp.trim().length > 0 && !phoneValid && (
-            <p className="text-[11px] text-red-500">Format nomor HP tidak valid.</p>
+            <p className="text-[11px] text-[#6E6E6E]">Format nomor HP tidak valid.</p>
           )}
         </motion.div>
       </div>
