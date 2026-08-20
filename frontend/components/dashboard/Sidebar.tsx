@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   X, LayoutDashboard, Bell, Users, Briefcase,
   FileText, UserCircle, ChevronDown,
-  PanelLeftClose, PanelLeftOpen, Lock, KeyRound, Inbox,
+  PanelLeftClose, PanelLeftOpen, Lock, KeyRound,
   Building2, ClipboardCheck, Activity, FileBarChart,
   CalendarDays, Trophy, Search, ShieldCheck, BookOpen, NotebookPen,
 } from "lucide-react";
@@ -35,7 +35,6 @@ const MENUS: Record<string, MenuItem[]> = {
     { key: "data-siswa",   href: "/admin/data-siswa",   label: "Data Siswa",  icon: Users },
     { key: "catatan-siswa", href: "/admin/catatan-siswa", label: "Catatan Siswa", icon: NotebookPen },
     { key: "manajemen-password", href: "/admin/manajemen-password", label: "Manajemen Password", icon: KeyRound },
-    { key: "permintaan-password", href: "/admin/permintaan-password", label: "Permintaan Password", icon: Inbox },
     {
       key: "magang", label: "PKL", icon: Briefcase,
       submenu: [
@@ -124,7 +123,7 @@ export function Sidebar({
   const pathname = usePathname();
   const isSuperAdmin = user.loginId === SUPER_ADMIN_LOGIN_ID;
   const items = (MENUS[user.role] ?? []).filter(
-    (item) => (item.key !== "manajemen-password" && item.key !== "permintaan-password") || isSuperAdmin,
+    (item) => item.key !== "manajemen-password" || isSuperAdmin,
   );
 
   const [pendingResetCount, setPendingResetCount] = useState(0);
@@ -371,7 +370,7 @@ export function Sidebar({
                         {item.label}
                       </span>
                     )}
-                    {item.key === "permintaan-password" && pendingResetCount > 0 && (
+                    {item.key === "manajemen-password" && pendingResetCount > 0 && (
                       <span
                         className={[
                           "relative z-10 flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-bold",
