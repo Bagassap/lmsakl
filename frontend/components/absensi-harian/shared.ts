@@ -46,19 +46,19 @@ export const CARD_ACCENT = ["#0033FF", "#EF4444", "#EA580C", "#10B981", "#6334F4
 // cards on this page read as part of the same visual family.
 export const DASHBOARD_GRADIENTS = [
   "linear-gradient(135deg,#4ade80,#22c55e)", // green
-  "linear-gradient(135deg,#EA580C,#EA580C)", // red (sidebar's primary red)
+  "linear-gradient(135deg,#0033FF,#335CFF)", // blue
   "linear-gradient(135deg,#a78bfa,#7c3aed)", // purple
   "linear-gradient(135deg,#EA580C,#EA580C)", // orange
 ];
-export const DASHBOARD_ACCENT = ["#22c55e", "#EA580C", "#7c3aed", "#EA580C"];
+export const DASHBOARD_ACCENT = ["#22c55e", "#0033FF", "#7c3aed", "#EA580C"];
 export const DASHBOARD_PASTEL = ["#E7F9EE", "#FFEDD5", "#F0ECFF", "#FFF1E6"];
 
 // Wallet-card style palette for the "Kelas" row on the admin Absensi Harian
 // page — order matches the orange/blue/cyan/green sequence of the reference
 // design exactly, cycling by kelas index.
 export const WALLET_GRADIENTS = [
-  "linear-gradient(135deg,#EA580C,#EA580C)", // orange
-  "linear-gradient(135deg,#EA580C,#EA580C)", // red (sidebar's primary red)
+  "linear-gradient(135deg,#EA580C,#EA580C)", // orange (brand)
+  "linear-gradient(135deg,#7C3AED,#6334F4)", // purple
   "linear-gradient(135deg,#22D3EE,#06B6D4)", // cyan
   "linear-gradient(135deg,#4ade80,#22c55e)", // green
 ];
