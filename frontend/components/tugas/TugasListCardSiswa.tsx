@@ -16,8 +16,8 @@ const TIPE_BADGE: Record<string, { icon: typeof Code2; cls: string }> = {
 const ROW_PALETTES = [
   { bar: "#4F8EF7", gradient: "linear-gradient(135deg,#4F8EF7,#2563EB)" },
   { bar: "#00D67F", gradient: "linear-gradient(135deg,#00D67F,#0D9488)" },
-  { bar: "#EF4444", gradient: "linear-gradient(135deg,#EF4444,#F59E0B)" },
-  { bar: "#F59E0B", gradient: "linear-gradient(135deg,#F59E0B,#EF4444)" },
+  { bar: "#EF4444", gradient: "linear-gradient(135deg,#EF4444,#EA580C)" },
+  { bar: "#EA580C", gradient: "linear-gradient(135deg,#EA580C,#EF4444)" },
   { bar: "#2563EB", gradient: "linear-gradient(135deg,#2563EB,#0EA5E9)" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
@@ -99,7 +99,7 @@ export function TugasListCardSiswa({
                 const btn = isDiterima
                   ? { label: "Diterima", icon: <CheckCircle size={11} />, bg: "#ECFDF5", clr: "#00D67F", border: "#00D67F", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isRevisi
-                  ? { label: "Revisi", icon: <AlertCircle size={11} />, bg: "#FFFBEB", clr: "#F59E0B", border: "#F59E0B", onClick: () => onLihatDetail(mySubmisi!, t) }
+                  ? { label: "Revisi", icon: <AlertCircle size={11} />, bg: "#EA580C", clr: "#EA580C", border: "#EA580C", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isTerkirim
                   ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#EEF2FF", clr: "#2563EB", border: "#2563EB", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : overdue

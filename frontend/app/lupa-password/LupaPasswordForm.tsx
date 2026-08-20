@@ -84,7 +84,7 @@ export function LupaPasswordForm() {
         </p>
         <Link
           href="/login"
-          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#F59E0B] transition-colors hover:text-[#F59E0B]/70"
+          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#EA580C] transition-colors hover:text-[#EA580C]/70"
         >
           <ArrowLeft size={15} /> Kembali ke halaman login
         </Link>
@@ -110,7 +110,7 @@ export function LupaPasswordForm() {
         </p>
         <Link
           href="/login"
-          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#F59E0B] transition-colors hover:text-[#F59E0B]/70"
+          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#EA580C] transition-colors hover:text-[#EA580C]/70"
         >
           <ArrowLeft size={15} /> Kembali ke halaman login
         </Link>
@@ -144,7 +144,7 @@ export function LupaPasswordForm() {
             value={loginIdDiajukan}
             onChange={(e) => setLoginIdDiajukan(e.target.value)}
             placeholder="NIS atau kode login Anda"
-            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F59E0B] focus:bg-white focus:ring-2 focus:ring-[#F59E0B]/15"
+            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#EA580C] focus:bg-white focus:ring-2 focus:ring-[#EA580C]/15"
           />
         </div>
       </motion.div>
@@ -167,7 +167,7 @@ export function LupaPasswordForm() {
             value={namaPengaju}
             onChange={(e) => setNamaPengaju(e.target.value)}
             placeholder="Nama lengkap Anda"
-            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F59E0B] focus:bg-white focus:ring-2 focus:ring-[#F59E0B]/15"
+            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#EA580C] focus:bg-white focus:ring-2 focus:ring-[#EA580C]/15"
           />
         </div>
       </motion.div>
@@ -188,7 +188,7 @@ export function LupaPasswordForm() {
             value={keterangan}
             onChange={(e) => setKeterangan(e.target.value)}
             placeholder="Alasan lupa password, atau info tambahan lain..."
-            className="w-full resize-none rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F59E0B] focus:bg-white focus:ring-2 focus:ring-[#F59E0B]/15"
+            className="w-full resize-none rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#EA580C] focus:bg-white focus:ring-2 focus:ring-[#EA580C]/15"
           />
         </div>
       </motion.div>
@@ -197,7 +197,7 @@ export function LupaPasswordForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#FDE68A] bg-[#78350F] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#EA580C] bg-[#EA580C] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -209,8 +209,8 @@ export function LupaPasswordForm() {
         disabled={loading}
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(245,158,11,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(245,158,11,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "linear-gradient(to right, #FBBF24, #F59E0B)" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(234,88,12,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(234,88,12,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
+        style={{ background: "linear-gradient(to right, #EA580C, #EA580C)" }}
       >
         {loading ? (
           <>

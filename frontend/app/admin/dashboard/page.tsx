@@ -16,7 +16,7 @@ import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal
 import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { KehadiranBarChart } from "@/components/dashboard/KehadiranBarChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
-const P = "#D97706";   
+const P = "#EA580C";   
 const R = "#EF4444";   
 const B = "#6366F1";   
 const G = "#10B981";   
@@ -192,7 +192,7 @@ export default function AdminDashboardPage() {
       suffix: " kelas",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #FBBF24 0%, #D97706 100%)",
+      gradient: "linear-gradient(135deg, #EA580C 0%, #EA580C 100%)",
       icon: FileText,
     },
   ] as const;
@@ -244,7 +244,7 @@ export default function AdminDashboardPage() {
                 <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: P }} />Hadir
               </span>
               <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#F59E0B" }} />Total
+                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#EA580C" }} />Total
               </span>
             </div>
           </div>

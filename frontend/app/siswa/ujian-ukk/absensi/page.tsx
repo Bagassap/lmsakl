@@ -40,7 +40,7 @@ const STATUS_CFG: Record<StatusAbsensi, {
 const CARD_GRADIENTS_BY_STATUS: Record<string, string> = {
   HADIR: "linear-gradient(135deg,#10B981,#34D399)",
   IZIN:  "linear-gradient(135deg,#6334F4,#8B5CF6)",
-  SAKIT: "linear-gradient(135deg,#F59E0B,#FCD34D)",
+  SAKIT: "linear-gradient(135deg,#EA580C,#FCD34D)",
   ALPA:  "linear-gradient(135deg,#EF4444,#F87171)",
   BELUM: "linear-gradient(135deg,#64748B,#94A3B8)",
 };
@@ -313,7 +313,7 @@ export default function SiswaUkkAbsensiPage() {
   const headerStats = [
     { label: "Sesi",   val: tahapanList.length,    clr: "rgba(255,255,255,0.9)"  },
     { label: "Hadir",  val: rekapTotal.HADIR,       clr: "#86EFAC" },
-    { label: "Belum",  val: rekapTotal.BELUM,       clr: "#FCA5A5" },
+    { label: "Belum",  val: rekapTotal.BELUM,       clr: "#EA580C" },
   ];
 
   if (loading) {

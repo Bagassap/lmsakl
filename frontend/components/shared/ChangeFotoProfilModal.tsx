@@ -145,7 +145,7 @@ export function ChangeFotoProfilModal({ onClose, gradient }: { onClose: () => vo
                   <input
                     type="range" min={1} max={3} step={0.01} value={zoom}
                     onChange={(e) => setZoom(Number(e.target.value))}
-                    className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#F59E0B]"
+                    className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#EA580C]"
                   />
                 </div>
                 <button

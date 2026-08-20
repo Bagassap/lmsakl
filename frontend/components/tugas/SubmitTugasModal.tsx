@@ -231,7 +231,7 @@ function SubmitSoalModal({
   });
   const [catatan, setCatatan] = useState("");
   const [saving, setSaving] = useState(false);
-  const warna = isPg ? "#F59E0B" : "#2563EB";
+  const warna = isPg ? "#EA580C" : "#2563EB";
 
   async function submit() {
     setSaving(true);

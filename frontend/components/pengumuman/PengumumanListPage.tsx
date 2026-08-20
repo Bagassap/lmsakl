@@ -19,9 +19,9 @@ type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 const KATEGORI_GRADIENT: Record<string, string> = {
   Umum:     "linear-gradient(135deg, #6334F4 0%, #977DFF 100%)",
   Akademik: "linear-gradient(135deg, #3B7CE8 0%, #4F8EF7 100%)",
-  Magang:   "linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%)",
+  Magang:   "linear-gradient(135deg, #EA580C 0%, #EA580C 100%)",
   Ujian:    "linear-gradient(135deg, #EF4444 0%, #F87171 100%)",
-  Lainnya:  "linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%)",
+  Lainnya:  "linear-gradient(135deg, #EA580C 0%, #FCD34D 100%)",
 };
 
 const MONTH_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -150,7 +150,7 @@ function AccordionCard({
   onPin: () => void;
 }) {
   const gradient = p.isPinned
-    ? "linear-gradient(135deg, #F59E0B 0%, #FCD34D 100%)"
+    ? "linear-gradient(135deg, #EA580C 0%, #FCD34D 100%)"
     : (KATEGORI_GRADIENT[p.kategori] ?? KATEGORI_GRADIENT.Lainnya);
 
   function timeAgo(iso: string): string {
@@ -465,7 +465,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
     <div className="space-y-5">
 
       <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: "linear-gradient(160deg,#FBBF24 0%,#F59E0B 45%,#D97706 72%,#78350F 100%)" }}>
+        style={{ background: "linear-gradient(160deg,#EA580C 0%,#EA580C 45%,#EA580C 72%,#EA580C 100%)" }}>
         <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
         <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
         <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>

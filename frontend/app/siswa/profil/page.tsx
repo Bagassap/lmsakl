@@ -34,9 +34,9 @@ type SiswaProfil = {
   user: { id: string; nama: string; email: string | null; fotoProfil?: string | null } | null;
 };
 
-const HERO_GRADIENT = "linear-gradient(160deg,#FBBF24 0%,#F59E0B 45%,#D97706 72%,#78350F 100%)";
+const HERO_GRADIENT = "linear-gradient(160deg,#EA580C 0%,#EA580C 45%,#EA580C 72%,#EA580C 100%)";
 const ACCENT_VIOLET = "linear-gradient(135deg,#6366F1,#4F46E5)";
-const ACCENT_ORANGE = "linear-gradient(135deg,#F59E0B,#F59E0B)";
+const ACCENT_ORANGE = "linear-gradient(135deg,#EA580C,#EA580C)";
 const PROFILE_CARD_GRADIENT = "linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0ea5e9 100%)";
 
 function getNama(s: SiswaProfil): string { return s.nama ?? s.user?.nama ?? "—"; }
@@ -486,7 +486,7 @@ export default function SiswaProfilPage() {
               <InfoField icon={Users} label="Jenis Kelamin" value={profil.jenisKelamin}
                 iconBg={isP ? "#fdf2f8" : "#eff6ff"} iconColor={isP ? "#db2777" : "#3b82f6"} />
               <InfoField icon={Calendar} label="Tempat, Tgl Lahir" value={tglLahir}
-                iconBg="#FFFBEB" iconColor="#D97706" />
+                iconBg="#EA580C" iconColor="#EA580C" />
               <InfoField icon={GraduationCap} label="Kelas" value={profil.kelas.nama}
                 iconBg="#f5f3ff" iconColor="#7c3aed" />
               <InfoField icon={BookOpen} label="Jurusan" value={profil.jurusan}
@@ -516,7 +516,7 @@ export default function SiswaProfilPage() {
               <InfoField icon={Phone} label="No. HP" value={profil.noHp}
                 iconBg="#eff6ff" iconColor="#3b82f6" />
               <InfoField icon={MapPin} label="Alamat Lengkap" value={formatAlamatLengkap(profil)}
-                iconBg="#FFFBEB" iconColor="#F59E0B" />
+                iconBg="#EA580C" iconColor="#EA580C" />
             </div>
           </SectionCard>
         </div>

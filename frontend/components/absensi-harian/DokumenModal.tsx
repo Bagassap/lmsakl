@@ -187,13 +187,13 @@ export function DokumenModal({ siswa, tanggal, kelas, onClose, source = "hadir" 
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#F59E0B18" }}>
-                          <MapPin size={13} style={{ color: "#F59E0B" }} />
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#EA580C18" }}>
+                          <MapPin size={13} style={{ color: "#EA580C" }} />
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                       </div>
                       <a href={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}`} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-bold hover:opacity-80" style={{ background: "#E8EDFF", color: "#F59E0B" }}>
+                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-bold hover:opacity-80" style={{ background: "#E8EDFF", color: "#EA580C" }}>
                         <ExternalLink size={10} /> Maps
                       </a>
                     </div>

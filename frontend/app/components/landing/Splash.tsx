@@ -15,18 +15,18 @@ const STYLES = `
 `;
 
 const PARTICLES: { x: string; y: string; size: number; color: string; delay: number; dur: number }[] = [
-  { x: "11%",  y: "15%", size: 3,   color: "#FBBF24", delay: 0,    dur: 6.2 },
+  { x: "11%",  y: "15%", size: 3,   color: "#EA580C", delay: 0,    dur: 6.2 },
   { x: "79%",  y: "10%", size: 2,   color: "#ffffff", delay: 1.3,  dur: 7.6 },
-  { x: "54%",  y: "6%",  size: 3.5, color: "#DC2626", delay: 0.7,  dur: 5.9 },
-  { x: "89%",  y: "43%", size: 2,   color: "#FBBF24", delay: 1.9,  dur: 8.1 },
+  { x: "54%",  y: "6%",  size: 3.5, color: "#EA580C", delay: 0.7,  dur: 5.9 },
+  { x: "89%",  y: "43%", size: 2,   color: "#EA580C", delay: 1.9,  dur: 8.1 },
   { x: "23%",  y: "74%", size: 3,   color: "#ffffff", delay: 0.4,  dur: 6.6 },
-  { x: "66%",  y: "82%", size: 2,   color: "#DC2626", delay: 2.2,  dur: 7.1 },
-  { x: "93%",  y: "68%", size: 2.5, color: "#FBBF24", delay: 1.0,  dur: 5.6 },
+  { x: "66%",  y: "82%", size: 2,   color: "#EA580C", delay: 2.2,  dur: 7.1 },
+  { x: "93%",  y: "68%", size: 2.5, color: "#EA580C", delay: 1.0,  dur: 5.6 },
   { x: "7%",   y: "52%", size: 2,   color: "#ffffff", delay: 1.6,  dur: 8.6 },
-  { x: "37%",  y: "90%", size: 3,   color: "#DC2626", delay: 2.5,  dur: 6.3 },
-  { x: "73%",  y: "33%", size: 2,   color: "#FBBF24", delay: 0.8,  dur: 7.3 },
+  { x: "37%",  y: "90%", size: 3,   color: "#EA580C", delay: 2.5,  dur: 6.3 },
+  { x: "73%",  y: "33%", size: 2,   color: "#EA580C", delay: 0.8,  dur: 7.3 },
   { x: "46%",  y: "60%", size: 1.5, color: "#ffffff", delay: 3.0,  dur: 9.0 },
-  { x: "18%",  y: "38%", size: 2,   color: "#DC2626", delay: 1.1,  dur: 6.8 },
+  { x: "18%",  y: "38%", size: 2,   color: "#EA580C", delay: 1.1,  dur: 6.8 },
 ];
 
 const container: Variants = {
@@ -58,7 +58,7 @@ const fadeUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
-const DOT_COLORS = ["#FBBF24", "#DC2626", "#ffffff"] as const;
+const DOT_COLORS = ["#EA580C", "#EA580C", "#ffffff"] as const;
 
 export function Splash() {
   const router = useRouter();
@@ -76,9 +76,9 @@ export function Splash() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 70% 5%, rgba(245,158,11,0.45), transparent 50%)," +
+            "radial-gradient(ellipse at 70% 5%, rgba(234,88,12,0.45), transparent 50%)," +
             "radial-gradient(ellipse at 5% 95%, rgba(185,28,28,0.55), transparent 50%)," +
-            "linear-gradient(165deg, #451A03 0%, #78350F 38%, #92400E 68%, #7A1414 100%)",
+            "linear-gradient(165deg, #EA580C 0%, #EA580C 38%, #EA580C 68%, #EA580C 100%)",
           backgroundSize: "200% 200%",
           animation: "gradientShift 9s ease-in-out infinite",
         }}
@@ -86,7 +86,7 @@ export function Splash() {
 
       <motion.div
         className="pointer-events-none absolute left-[4%] top-[4%] h-100 w-100 rounded-full blur-[110px]"
-        style={{ background: "rgba(245,158,11,0.25)" }}
+        style={{ background: "rgba(234,88,12,0.25)" }}
         animate={{ x: [0, 48, -12, 0], y: [0, 28, -16, 0] }}
         transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -104,7 +104,7 @@ export function Splash() {
       />
       <motion.div
         className="pointer-events-none absolute right-[14%] top-[22%] h-65 w-65 rounded-full blur-[85px]"
-        style={{ background: "rgba(245,158,11,0.16)" }}
+        style={{ background: "rgba(234,88,12,0.16)" }}
         animate={{ x: [0, -22, 10, 0], y: [0, 32, -10, 0] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -180,7 +180,7 @@ export function Splash() {
               width: 200,
               height: 200,
               background:
-                "radial-gradient(circle, rgba(245,158,11,0.55), rgba(220,38,38,0.25) 55%, transparent 80%)",
+                "radial-gradient(circle, rgba(234,88,12,0.55), rgba(220,38,38,0.25) 55%, transparent 80%)",
               filter: "blur(40px)",
             }}
             animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.9, 0.5] }}
@@ -192,13 +192,13 @@ export function Splash() {
               width: 136,
               height: 136,
               background:
-                "radial-gradient(circle, rgba(245,158,11,0.45), rgba(220,38,38,0.18) 60%, transparent 80%)",
+                "radial-gradient(circle, rgba(234,88,12,0.45), rgba(220,38,38,0.18) 60%, transparent 80%)",
               filter: "blur(18px)",
             }}
             animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
           />
-          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-amber-300/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(245,158,11,0.5)] sm:h-32 sm:w-32">
+          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-amber-300/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(234,88,12,0.5)] sm:h-32 sm:w-32">
             <Image
               src="/AKL.png"
               alt="Logo AKL"
@@ -219,13 +219,7 @@ export function Splash() {
           </motion.span>
           <motion.span
             variants={slideRight}
-            className="text-[1.65rem] font-bold leading-tight sm:text-[2rem]"
-            style={{
-              background: "linear-gradient(90deg, #FDE68A 15%, #FBBF24 55%, #FCA5A5 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
+            className="text-[1.65rem] font-bold leading-tight text-white sm:text-[2rem]"
           >
             Keuangan Lembaga
           </motion.span>
@@ -246,7 +240,7 @@ export function Splash() {
           >
             <span
               className="h-1.25 w-1.25 shrink-0 rounded-full"
-              style={{ background: "#FBBF24", boxShadow: "0 0 6px #FBBF24" }}
+              style={{ background: "#EA580C", boxShadow: "0 0 6px #EA580C" }}
             />
             SMK Ma&apos;arif NU 01 Limpung
           </span>
