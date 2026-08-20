@@ -1,7 +1,7 @@
 "use client";
 
-import { MateriSiswaPage } from "@/components/materi/MateriSiswaPage";
+import { MateriTugasSiswaPage } from "@/components/materi/MateriTugasSiswaPage";
 
 export default function SiswaMateriPage() {
-  return <MateriSiswaPage />;
+  return <MateriTugasSiswaPage />;
 }

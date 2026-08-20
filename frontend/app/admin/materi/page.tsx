@@ -1,7 +1,7 @@
 "use client";
 
-import { MateriListPage } from "@/components/materi/MateriListPage";
+import { MateriTugasAdminPage } from "@/components/materi/MateriTugasAdminPage";
 
 export default function AdminMateriPage() {
-  return <MateriListPage roleBadge="Admin" />;
+  return <MateriTugasAdminPage />;
 }

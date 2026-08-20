@@ -60,7 +60,7 @@ export class TugasService {
     });
     await this.notificationService.createMany(
       siswaUsers.map((s) => s.userId!),
-      { title, message, type: NotificationType.TUGAS, link: '/siswa/tugas' },
+      { title, message, type: NotificationType.TUGAS, link: '/materi?tab=tugas' },
     );
   }
 
@@ -326,7 +326,7 @@ export class TugasService {
       title: 'Tugas dikumpulkan',
       message: `${siswa.nama ?? 'Siswa'} mengumpulkan tugas "${tugas.judul}"`,
       type: NotificationType.TUGAS,
-      link: '/guru/tugas',
+      link: '/materi?tab=tugas',
     });
 
     return this.prisma.tugasSubmisi.findUnique({
@@ -354,7 +354,7 @@ export class TugasService {
         title: status === 'DITERIMA' ? 'Tugas diterima!' : 'Tugas perlu direvisi',
         message: `Tugas "${submisi.tugas.judul}" ${status === 'DITERIMA' ? 'telah diterima' : 'perlu kamu perbaiki dan kirim ulang'}`,
         type: NotificationType.TUGAS,
-        link: '/siswa/tugas',
+        link: '/materi?tab=tugas',
       });
     }
     return updated;
@@ -381,7 +381,7 @@ export class TugasService {
         title: 'Tugas dinilai',
         message: `Nilai kamu untuk tugas "${submisi.tugas.judul}" adalah ${nilai}`,
         type: NotificationType.TUGAS,
-        link: '/siswa/tugas',
+        link: '/materi?tab=tugas',
       });
     }
     return updated;
