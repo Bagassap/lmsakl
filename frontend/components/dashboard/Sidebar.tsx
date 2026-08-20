@@ -10,7 +10,7 @@ import {
   FileText, UserCircle, ChevronDown,
   PanelLeftClose, PanelLeftOpen, Lock, KeyRound, Inbox,
   Building2, ClipboardCheck, Activity, FileBarChart,
-  CalendarDays, Trophy, Search, ShieldCheck, BookOpen, NotebookPen,
+  CalendarDays, Trophy, Search, ShieldCheck, BookOpen, NotebookPen, ClipboardList,
 } from "lucide-react";
 import type { UserPayload } from "@/lib/auth";
 import { SUPER_ADMIN_LOGIN_ID } from "@/lib/constants";
@@ -32,6 +32,7 @@ const MENUS: Record<string, MenuItem[]> = {
     { key: "absensi-harian", href: "/admin/absensi-harian", label: "Absensi Harian", icon: ClipboardCheck },
     { key: "pengumuman",   href: "/admin/pengumuman",   label: "Pengumuman",  icon: Bell },
     { key: "materi",       href: "/admin/materi",       label: "Materi",      icon: BookOpen },
+    { key: "tugas",        href: "/admin/tugas",        label: "Tugas",       icon: ClipboardList },
     { key: "data-siswa",   href: "/admin/data-siswa",   label: "Data Siswa",  icon: Users },
     { key: "catatan-siswa", href: "/admin/catatan-siswa", label: "Catatan Siswa", icon: NotebookPen },
     { key: "manajemen-password", href: "/admin/manajemen-password", label: "Manajemen Password", icon: KeyRound },
@@ -58,6 +59,7 @@ const MENUS: Record<string, MenuItem[]> = {
     { key: "absensi-harian", href: "/guru/absensi-harian", label: "Absensi Harian", icon: ClipboardCheck },
     { key: "pengumuman",   href: "/guru/pengumuman",   label: "Pengumuman",  icon: Bell },
     { key: "materi",       href: "/guru/materi",       label: "Materi",      icon: BookOpen },
+    { key: "tugas",        href: "/guru/tugas",        label: "Tugas",       icon: ClipboardList },
     { key: "data-siswa",   href: "/guru/data-siswa",   label: "Data Siswa",  icon: Users },
     { key: "catatan-siswa", href: "/guru/catatan-siswa", label: "Catatan Siswa", icon: NotebookPen },
     {
@@ -82,6 +84,7 @@ const MENUS: Record<string, MenuItem[]> = {
     { key: "absensi-harian", href: "/siswa/absensi-harian", label: "Absensi Harian", icon: ClipboardCheck },
     { key: "pengumuman",   href: "/siswa/pengumuman",   label: "Pengumuman",  icon: Bell },
     { key: "materi",       href: "/siswa/materi",       label: "Materi",      icon: BookOpen },
+    { key: "tugas",        href: "/siswa/tugas",        label: "Tugas",       icon: ClipboardList },
     { key: "catatan-siswa", href: "/siswa/catatan-siswa", label: "Catatan Saya", icon: NotebookPen },
     { key: "profil",       href: "/siswa/profil",       label: "Profil Saya", icon: UserCircle },
     {
