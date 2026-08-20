@@ -31,14 +31,14 @@ export function LengkapiFotoProfilCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_0_0_1px_rgba(234,88,12,0.12),0_4px_16px_rgba(234,88,12,0.08),0_20px_56px_rgba(234,88,12,0.14),0_40px_100px_rgba(234,88,12,0.10)]"
+      className="relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_0_0_1px_rgba(255,91,25,0.12),0_4px_16px_rgba(255,91,25,0.08),0_20px_56px_rgba(255,91,25,0.14),0_40px_100px_rgba(255,91,25,0.10)]"
     >
       {/* ── Header band: lockup horizontal, bukan panel sisi ────────── */}
       <div
         className="relative overflow-hidden px-6 py-5 sm:px-8 sm:py-6"
         style={{
           backgroundImage:
-            "linear-gradient(115deg, #EA580C 0%, #EA580C 55%, #EA580C 115%)",
+            "linear-gradient(115deg, #FF5B19 0%, #FF5B19 55%, #FF5B19 115%)",
         }}
       >
         <div
@@ -52,7 +52,7 @@ export function LengkapiFotoProfilCard() {
 
         <div className="relative z-10 flex items-center gap-3.5">
           <motion.div variants={logoVariants} className="relative shrink-0">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/95 p-1.5 shadow-[0_0_20px_rgba(234,88,12,0.55)] sm:h-14 sm:w-14">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/95 p-1.5 shadow-[0_0_20px_rgba(255,91,25,0.55)] sm:h-14 sm:w-14">
               <Image
                 src="/AKL.png"
                 alt="Logo AKL"

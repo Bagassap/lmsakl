@@ -108,11 +108,11 @@ export function LengkapiFotoProfilForm() {
           onClick={() => inputRef.current?.click()}
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
-          className="group relative mx-auto mb-8 flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#EA580C]/30 bg-[#EA580C]/5 transition-colors hover:border-[#EA580C]/55 hover:bg-[#EA580C]/10 sm:h-44 sm:w-44"
+          className="group relative mx-auto mb-8 flex h-40 w-40 items-center justify-center rounded-full border-2 border-dashed border-[#FF5B19]/30 bg-[#FF5B19]/5 transition-colors hover:border-[#FF5B19]/55 hover:bg-[#FF5B19]/10 sm:h-44 sm:w-44"
         >
           <div className="flex flex-col items-center gap-2">
-            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#EA580C]/10 transition-colors group-hover:bg-[#EA580C]/20">
-              <ImagePlus size={22} className="text-[#EA580C]" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#FF5B19]/10 transition-colors group-hover:bg-[#FF5B19]/20">
+              <ImagePlus size={22} className="text-[#FF5B19]" />
             </div>
             <p className="px-4 text-xs font-semibold text-black/70">Pilih Foto</p>
           </div>
@@ -145,7 +145,7 @@ export function LengkapiFotoProfilForm() {
               step={0.01}
               value={zoom}
               onChange={(e) => setZoom(Number(e.target.value))}
-              className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#EA580C]"
+              className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#FF5B19]"
             />
           </div>
 
@@ -166,7 +166,7 @@ export function LengkapiFotoProfilForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#EA580C] bg-[#EA580C] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#FF5B19] bg-[#FF5B19] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -179,8 +179,8 @@ export function LengkapiFotoProfilForm() {
         disabled={!imageSrc || !croppedAreaPixels || loading}
         whileHover={imageSrc ? { scale: 1.02 } : undefined}
         whileTap={imageSrc ? { scale: 0.98 } : undefined}
-        className="mt-1 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(234,88,12,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(234,88,12,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
-        style={{ background: "linear-gradient(to right, #EA580C, #EA580C)" }}
+        className="mt-1 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(255,91,25,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(255,91,25,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
+        style={{ background: "linear-gradient(to right, #FF5B19, #FF5B19)" }}
       >
         {loading ? (
           <>

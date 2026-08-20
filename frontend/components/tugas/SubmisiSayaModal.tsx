@@ -37,7 +37,7 @@ export function SubmisiSayaModal({
             className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}>
             <div className="relative px-6 py-5 overflow-hidden"
-              style={{ background: isDiterima ? "#00D67F" : isRevisi ? "#EA580C" : "#2563EB" }}>
+              style={{ background: isDiterima ? "#00D67F" : isRevisi ? "#FF5B19" : "#2563EB" }}>
               <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10" />
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ export function SubmisiSayaModal({
               {isRevisi && (
                 <button onClick={onKirimUlang}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold text-white"
-                  style={{ background: "#EA580C" }}>
+                  style={{ background: "#FF5B19" }}>
                   <Send size={13} /> Kirim Ulang Tugas
                 </button>
               )}

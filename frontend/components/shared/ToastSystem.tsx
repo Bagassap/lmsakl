@@ -73,10 +73,10 @@ const THEME = {
     blob2:       "rgba(252,165,165,0.14)",
     ring1:       "rgba(239,68,68,0.18)",
     ring2:       "rgba(239,68,68,0.10)",
-    iconBg:      "linear-gradient(135deg,#991B1B,#EA580C,#F87171)",
+    iconBg:      "linear-gradient(135deg,#991B1B,#FF5B19,#F87171)",
     iconShadow:  "0 16px 40px rgba(239,68,68,0.55)",
-    bar:         "linear-gradient(90deg,#EA580C,#F87171)",
-    btnBg:       "linear-gradient(135deg,#EA580C,#EF4444)",
+    bar:         "linear-gradient(90deg,#FF5B19,#F87171)",
+    btnBg:       "linear-gradient(135deg,#FF5B19,#EF4444)",
     btnShadow:   "0 8px 24px rgba(239,68,68,0.45)",
     dotColor:    "#EF4444",
     icon:        XCircle,
@@ -84,17 +84,17 @@ const THEME = {
   },
   warning: {
     headerFrom:  "#FFEDD5",
-    headerTo:    "#EA580C",
-    blob1:       "rgba(234,88,12,0.22)",
+    headerTo:    "#FF5B19",
+    blob1:       "rgba(255,91,25,0.22)",
     blob2:       "rgba(253,211,77,0.14)",
-    ring1:       "rgba(234,88,12,0.18)",
-    ring2:       "rgba(234,88,12,0.10)",
-    iconBg:      "linear-gradient(135deg,#EA580C,#EA580C,#FCD34D)",
-    iconShadow:  "0 16px 40px rgba(234,88,12,0.55)",
-    bar:         "linear-gradient(90deg,#EA580C,#FCD34D)",
-    btnBg:       "linear-gradient(135deg,#EA580C,#EA580C)",
-    btnShadow:   "0 8px 24px rgba(234,88,12,0.45)",
-    dotColor:    "#EA580C",
+    ring1:       "rgba(255,91,25,0.18)",
+    ring2:       "rgba(255,91,25,0.10)",
+    iconBg:      "linear-gradient(135deg,#FF5B19,#FF5B19,#FCD34D)",
+    iconShadow:  "0 16px 40px rgba(255,91,25,0.55)",
+    bar:         "linear-gradient(90deg,#FF5B19,#FCD34D)",
+    btnBg:       "linear-gradient(135deg,#FF5B19,#FF5B19)",
+    btnShadow:   "0 8px 24px rgba(255,91,25,0.45)",
+    dotColor:    "#FF5B19",
     icon:        AlertTriangle,
     label:       "Perhatian",
   },
@@ -415,7 +415,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               transition={{ type: "spring", damping: 13, stiffness: 260, delay: 0.1 }}
               className="relative z-10 flex h-17 w-17 items-center justify-center rounded-2xl text-white"
               style={{
-                background: "linear-gradient(135deg,#991B1B,#EA580C,#F87171)",
+                background: "linear-gradient(135deg,#991B1B,#FF5B19,#F87171)",
                 boxShadow: "0 16px 40px rgba(239,68,68,0.55)",
               }}
             >
@@ -495,7 +495,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               onClick={() => onClose(true)}
               className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-white"
               style={{
-                background: "linear-gradient(135deg,#EA580C,#EF4444)",
+                background: "linear-gradient(135deg,#FF5B19,#EF4444)",
                 boxShadow: "0 6px 20px rgba(239,68,68,0.40)",
               }}
             >

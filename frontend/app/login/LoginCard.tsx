@@ -31,14 +31,14 @@ export function LoginCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 grid w-full max-w-235 grid-cols-1 overflow-hidden rounded-tl-[20px] rounded-tr-[56px] rounded-bl-[56px] rounded-br-[20px] bg-white shadow-[0_0_0_1px_rgba(180,83,9,0.14),0_4px_16px_rgba(234,88,12,0.08),0_20px_56px_rgba(234,88,12,0.14),0_40px_100px_rgba(180,83,9,0.10)] md:grid-cols-[300px_1fr]"
+      className="relative z-10 grid w-full max-w-235 grid-cols-1 overflow-hidden rounded-tl-[20px] rounded-tr-[56px] rounded-bl-[56px] rounded-br-[20px] bg-white shadow-[0_0_0_1px_rgba(180,83,9,0.14),0_4px_16px_rgba(255,91,25,0.08),0_20px_56px_rgba(255,91,25,0.14),0_40px_100px_rgba(180,83,9,0.10)] md:grid-cols-[300px_1fr]"
     >
       {/* ── Panel kiri: identitas AKL ────────────────────────────────── */}
       <div
         className="relative overflow-hidden px-6 py-8 sm:px-10 sm:py-12"
         style={{
           backgroundImage:
-            "radial-gradient(ellipse at 20% 0%, rgba(234,88,12,0.35), transparent 55%), linear-gradient(165deg, #EA580C 0%, #EA580C 42%, #EA580C 68%, #EA580C 130%)",
+            "radial-gradient(ellipse at 20% 0%, rgba(255,91,25,0.35), transparent 55%), linear-gradient(165deg, #FF5B19 0%, #FF5B19 42%, #FF5B19 68%, #FF5B19 130%)",
         }}
       >
         {/* ikon dekoratif finansial, samar di pojok */}
@@ -54,7 +54,7 @@ export function LoginCard() {
               animate={{ scale: [1, 1.12, 1], opacity: [0.5, 0.9, 0.5] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
-            <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-amber-300/60 bg-white/95 p-2 shadow-[0_0_28px_rgba(234,88,12,0.55)] sm:h-24 sm:w-24 sm:p-3">
+            <div className="relative flex h-16 w-16 items-center justify-center rounded-full border-2 border-amber-300/60 bg-white/95 p-2 shadow-[0_0_28px_rgba(255,91,25,0.55)] sm:h-24 sm:w-24 sm:p-3">
               <Image
                 src="/AKL.png"
                 alt="Logo AKL"
@@ -83,7 +83,7 @@ export function LoginCard() {
               Akuntansi &amp; Keuangan Lembaga
             </h1>
 
-            <div className="mx-auto mt-4 hidden h-px w-16 sm:block bg-[linear-gradient(90deg,transparent,rgba(234,88,12,0.9),rgba(220,38,38,0.6),transparent)]" />
+            <div className="mx-auto mt-4 hidden h-px w-16 sm:block bg-[linear-gradient(90deg,transparent,rgba(255,91,25,0.9),rgba(220,38,38,0.6),transparent)]" />
 
             <p className="mt-3 hidden text-[11.5px] font-light leading-relaxed text-amber-50/60 sm:block">
               Sistem Pembelajaran &amp; Presensi

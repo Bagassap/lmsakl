@@ -69,7 +69,7 @@ export function ResetPasswordModal({
           initial={{ scale: 0.95, opacity: 0, y: 24 }} animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 24 }} transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}>
           <div className="relative overflow-hidden px-6 py-5"
-            style={{ background: "linear-gradient(135deg, #EA580C 0%, #F87171 100%)" }}>
+            style={{ background: "linear-gradient(135deg, #FF5B19 0%, #F87171 100%)" }}>
             <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
             <div className="relative flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -177,9 +177,9 @@ export function ResetPasswordModal({
               Batal
             </button>
             <motion.button type="button" onClick={handleReset} disabled={saving}
-              whileHover={{ scale: 1.03, boxShadow: "0 8px 24px #EA580C55" }} whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.03, boxShadow: "0 8px 24px #FF5B1955" }} whileTap={{ scale: 0.97 }}
               className="flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-bold text-white shadow-md transition-opacity disabled:opacity-60"
-              style={{ backgroundColor: "#EA580C" }}>
+              style={{ backgroundColor: "#FF5B19" }}>
               {saving
                 ? <><span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />Mereset…</>
                 : <><KeyRound size={14} />Reset Password</>}

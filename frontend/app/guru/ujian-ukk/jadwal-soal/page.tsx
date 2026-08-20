@@ -30,8 +30,8 @@ function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", {
 const ROW_PALETTES = [
   { bg:"#EEF4FF", text:"#4F8EF7",  bar:"#4F8EF7",  gradient:"linear-gradient(135deg,#4F8EF7,#6366F1)" },
   { bg:"#ECFDF5", text:"#10B981",  bar:"#10B981",  gradient:"linear-gradient(135deg,#10B981,#0D9488)" },
-  { bg:"#FFF1F2", text:"#EF4444",  bar:"#EF4444",  gradient:"linear-gradient(135deg,#EF4444,#EA580C)" },
-  { bg:"#EA580C", text:"#EA580C",  bar:"#EA580C",  gradient:"linear-gradient(135deg,#EA580C,#EF4444)" },
+  { bg:"#FFF1F2", text:"#EF4444",  bar:"#EF4444",  gradient:"linear-gradient(135deg,#EF4444,#FF5B19)" },
+  { bg:"#FF5B19", text:"#FF5B19",  bar:"#FF5B19",  gradient:"linear-gradient(135deg,#FF5B19,#EF4444)" },
   { bg:"#F0F0FF", text:"#6366F1",  bar:"#6366F1",  gradient:"linear-gradient(135deg,#6366F1,#8B5CF6)" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
@@ -39,7 +39,7 @@ function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 const BUBBLE_COLORS = [
   { bubble:"#EEF2FF", text:"#4338CA", avatar:"linear-gradient(135deg,#6366F1,#818CF8)" },
   { bubble:"#F0FDF4", text:"#15803D", avatar:"linear-gradient(135deg,#10B981,#34D399)" },
-  { bubble:"#EA580C", text:"#EA580C", avatar:"linear-gradient(135deg,#EA580C,#EA580C)" },
+  { bubble:"#FF5B19", text:"#FF5B19", avatar:"linear-gradient(135deg,#FF5B19,#FF5B19)" },
   { bubble:"#FDF4FF", text:"#7E22CE", avatar:"linear-gradient(135deg,#A855F7,#EC4899)" },
   { bubble:"#ECFEFF", text:"#0E7490", avatar:"linear-gradient(135deg,#06B6D4,#3B82F6)" },
 ];
@@ -197,7 +197,7 @@ export default function GuruJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{background:"linear-gradient(160deg,#EA580C 0%,#EA580C 45%,#EA580C 72%,#EA580C 100%)"}}>
+            style={{background:"linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)"}}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -244,7 +244,7 @@ export default function GuruJadwalSoalPage() {
                     className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
                     style={{maxHeight:"92vh"}}>
                     <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                      style={{background:"linear-gradient(135deg,#EA580C,#EA580C)"}}>
+                      style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)"}}>
                       <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                       <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
                         <CalendarDays size={22} className="text-white"/>
@@ -351,7 +351,7 @@ export default function GuruJadwalSoalPage() {
               <div className="flex gap-3">
                 <button onClick={()=>{ setSoalJadwalIdx(0); setOpenJadwalModal(true); }}
                   className="flex-1 relative overflow-hidden rounded-2xl text-white text-left focus:outline-none transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] p-4 sm:p-5"
-                  style={{background:"linear-gradient(135deg,#EA580C,#EA580C)", boxShadow:"0 8px 28px rgba(234,88,12,0.45)"}}>
+                  style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)", boxShadow:"0 8px 28px rgba(255,91,25,0.45)"}}>
                   <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="absolute -right-2 -bottom-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="relative flex items-center justify-between gap-2">
@@ -421,10 +421,10 @@ export default function GuruJadwalSoalPage() {
               </div>
 
               <div className="flex-1 min-w-0 bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden flex flex-col">
-              <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(234,88,12,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
+              <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(255,91,25,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#EA580C,#6366F1)"}}>
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#FF5B19,#6366F1)"}}>
                       <BookOpen size={14} className="text-white"/>
                     </div>
                     <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
@@ -439,9 +439,9 @@ export default function GuruJadwalSoalPage() {
                   </button>
                   <button onClick={()=>setTab("active")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active" ? "border-primary" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                    style={tab==="active"?{color:"#EA580C"}:{}}>
+                    style={tab==="active"?{color:"#FF5B19"}:{}}>
                     Aktif
-                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#EA580C"}}>{active.length}</span>}
+                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5B19"}}>{active.length}</span>}
                   </button>
                   <button onClick={()=>setTab("completed")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
@@ -483,7 +483,7 @@ export default function GuruJadwalSoalPage() {
                             <span className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg" style={{backgroundColor:"#F0FDF4",color:"#16A34A"}}>
                               <Clock size={10}/>{t.jamMulai}–{t.jamSelesai}
                             </span>
-                            <span className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg" style={{backgroundColor:"#EA580C",color:"#EA580C"}}>
+                            <span className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg" style={{backgroundColor:"#FF5B19",color:"#FF5B19"}}>
                               <MapPin size={10}/>{t.lokasi}
                             </span>
                             {t.penguji && (
@@ -530,7 +530,7 @@ export default function GuruJadwalSoalPage() {
                                   {submisiTahapan.map(s => {
                                     const statusCfg: Record<string,{label:string;color:string;bg:string}> = {
                                       DITERIMA:{ label:"Diterima", color:"#10B981", bg:"#ECFDF5" },
-                                      REVISI:  { label:"Revisi",   color:"#EA580C", bg:"#FFEDD5" },
+                                      REVISI:  { label:"Revisi",   color:"#FF5B19", bg:"#FFEDD5" },
                                       TERKIRIM:{ label:"Menunggu", color:"#6366F1", bg:"#EEF2FF" },
                                     };
                                     const cfg = statusCfg[s.status];

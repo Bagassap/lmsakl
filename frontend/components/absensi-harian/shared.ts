@@ -25,12 +25,12 @@ export const STATUS_GRADIENT: Record<StatusAbsensi, string> = {
 };
 export const PULANG_GRADIENT = "linear-gradient(135deg,#0033FF,#738FFF)";
 
-export const BRAND_GRADIENT = "linear-gradient(160deg,#EA580C 0%,#EA580C 45%,#EA580C 72%,#EA580C 100%)";
+export const BRAND_GRADIENT = "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)";
 
 export const CARD_GRADIENTS = [
   "linear-gradient(135deg,#0033FF,#335CFF)",
   "linear-gradient(135deg,#EF4444,#F87171)",
-  "linear-gradient(135deg,#EA580C,#FCD34D)",
+  "linear-gradient(135deg,#FF5B19,#FCD34D)",
   "linear-gradient(135deg,#10B981,#34D399)",
   "linear-gradient(135deg,#6334F4,#A855F7)",
   "linear-gradient(135deg,#0EA5E9,#38BDF8)",
@@ -39,7 +39,7 @@ export const CARD_GRADIENTS = [
 // Solid dominant hue for each CARD_GRADIENTS entry — used to color an icon
 // sitting on a solid white badge over that gradient, without ever needing
 // an alpha/opacity color.
-export const CARD_ACCENT = ["#0033FF", "#EF4444", "#EA580C", "#10B981", "#6334F4", "#0EA5E9"];
+export const CARD_ACCENT = ["#0033FF", "#EF4444", "#FF5B19", "#10B981", "#6334F4", "#0EA5E9"];
 
 // Same 4-color palette as the "Akses Cepat" quick-access cards on the
 // admin/guru/siswa dashboards (green, blue, purple, orange), so the big
@@ -48,16 +48,16 @@ export const DASHBOARD_GRADIENTS = [
   "linear-gradient(135deg,#4ade80,#22c55e)", // green
   "linear-gradient(135deg,#0033FF,#335CFF)", // blue
   "linear-gradient(135deg,#a78bfa,#7c3aed)", // purple
-  "linear-gradient(135deg,#EA580C,#EA580C)", // orange
+  "linear-gradient(135deg,#FF5B19,#FF5B19)", // orange
 ];
-export const DASHBOARD_ACCENT = ["#22c55e", "#0033FF", "#7c3aed", "#EA580C"];
+export const DASHBOARD_ACCENT = ["#22c55e", "#0033FF", "#7c3aed", "#FF5B19"];
 export const DASHBOARD_PASTEL = ["#E7F9EE", "#FFEDD5", "#F0ECFF", "#FFF1E6"];
 
 // Wallet-card style palette for the "Kelas" row on the admin Absensi Harian
 // page — order matches the orange/blue/cyan/green sequence of the reference
 // design exactly, cycling by kelas index.
 export const WALLET_GRADIENTS = [
-  "linear-gradient(135deg,#EA580C,#EA580C)", // orange (brand)
+  "linear-gradient(135deg,#FF5B19,#FF5B19)", // orange (brand)
   "linear-gradient(135deg,#7C3AED,#6334F4)", // purple
   "linear-gradient(135deg,#22D3EE,#06B6D4)", // cyan
   "linear-gradient(135deg,#4ade80,#22c55e)", // green
@@ -82,7 +82,7 @@ export const WALLET_DOT_SIZE = "18px 18px";
 export const RANGE_MODE_CARDS: { key: "harian" | "mingguan" | "bulanan"; label: string; caption: string; icon: React.ElementType; gradient: string }[] = [
   { key: "harian", label: "Harian", caption: "Rekap hari ini", icon: CalendarDays, gradient: "linear-gradient(135deg,#6334F4,#4F46E5)" },
   { key: "mingguan", label: "Mingguan", caption: "Rekap minggu ini", icon: CalendarRange, gradient: "linear-gradient(135deg,#4ade80,#22c55e)" },
-  { key: "bulanan", label: "Bulanan", caption: "Rekap bulan ini", icon: CalendarCheck2, gradient: "linear-gradient(135deg,#EA580C,#EA580C)" },
+  { key: "bulanan", label: "Bulanan", caption: "Rekap bulan ini", icon: CalendarCheck2, gradient: "linear-gradient(135deg,#FF5B19,#FF5B19)" },
 ];
 
 // Date.prototype.toISOString() always renders the UTC calendar date, not the
@@ -139,7 +139,7 @@ export function getInitials(name: string) {
   return name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
 }
 
-const AVATAR_COLORS = ["#6334F4", "#EF4444", "#EA580C", "#FF7867", "#10B981", "#0033FF"];
+const AVATAR_COLORS = ["#6334F4", "#EF4444", "#FF5B19", "#FF7867", "#10B981", "#0033FF"];
 export function avatarColor(name: string) {
   let h = 0;
   for (const c of name) h = (h * 31 + c.charCodeAt(0)) & 0x7fffffff;

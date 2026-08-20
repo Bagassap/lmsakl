@@ -106,7 +106,7 @@ const NOTIF_TYPE_STYLE: Record<ApiNotifType, NotifType> = {
 const NOTIF_STYLE: Record<NotifType, { bg: string; color: string }> = {
   info:    { bg: "#EFF6FF", color: "#3B82F6" },
   success: { bg: "#F0FDF4", color: "#22C55E" },
-  warning: { bg: "#EA580C", color: "#EA580C" },
+  warning: { bg: "#FF5B19", color: "#FF5B19" },
   error:   { bg: "#FEF2F2", color: "#EF4444" },
 };
 
@@ -445,7 +445,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                 src={user.fotoProfil}
                 nama={user.nama}
                 sizePx={28}
-                fallbackBg="linear-gradient(135deg, #EA580C, #EA580C)"
+                fallbackBg="linear-gradient(135deg, #FF5B19, #FF5B19)"
                 textClassName="text-[11px] font-bold"
               />
               <span className="hidden text-sm font-medium text-gray-700 dark:text-slate-200 sm:block">
@@ -554,7 +554,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                         onClick={() => { setSearchOpen(false); router.push(item.href); }}
                         onMouseEnter={() => setSelectedIdx(i)}
                         className="flex w-full items-center gap-3 px-4 py-2.5 text-left transition-colors hover:bg-gray-50 dark:hover:bg-slate-700/50"
-                        style={isSelected ? { backgroundColor: "rgba(234,88,12,0.1)" } : {}}
+                        style={isSelected ? { backgroundColor: "rgba(255,91,25,0.1)" } : {}}
                       >
                         <div
                           className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors ${
@@ -570,7 +570,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                         <div className="min-w-0 flex-1">
                           <p
                             className="text-sm font-medium"
-                            style={{ color: isSelected ? "#EA580C" : undefined }}
+                            style={{ color: isSelected ? "#FF5B19" : undefined }}
                           >
                             {item.label}
                           </p>

@@ -52,7 +52,7 @@ function wibInputToIso(value: string) {
 }
 
 const TIPE_OPTIONS: { value: TugasTipe; label: string; icon: typeof Send; gradient: string; desc: string }[] = [
-  { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "linear-gradient(135deg,#EA580C,#EA580C)", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
+  { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "linear-gradient(135deg,#FF5B19,#FF5B19)", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
   { value: "PRAKTIK", label: "Praktik Kode", icon: Code2, gradient: "linear-gradient(135deg,#00D67F,#00B368)", desc: "Siswa mengetik HTML/CSS/JS langsung di LMS dan hasilnya tampil live." },
   { value: "PILIHAN_GANDA", label: "Pilihan Ganda", icon: ListChecks, gradient: "linear-gradient(135deg,#7C3AED,#6334F4)", desc: "Siswa memilih jawaban A–D untuk tiap soal." },
   { value: "ESSAY", label: "Essay", icon: PenLine, gradient: "linear-gradient(135deg,#2563EB,#1D4ED8)", desc: "Siswa mengetik jawaban esai untuk tiap soal." },

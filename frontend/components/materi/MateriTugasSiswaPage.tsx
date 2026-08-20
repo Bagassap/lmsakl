@@ -113,8 +113,8 @@ export function MateriTugasSiswaPage() {
             <button type="button" onClick={() => setCategory("materi")}
               className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl bg-primary px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
               style={{
-                boxShadow: category === "materi" ? "0 8px 24px rgba(234,88,12,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
-                outline: category === "materi" ? "2px solid #EA580C" : "none",
+                boxShadow: category === "materi" ? "0 8px 24px rgba(255,91,25,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
+                outline: category === "materi" ? "2px solid #FF5B19" : "none",
                 outlineOffset: "3px",
               }}>
               <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />

@@ -89,9 +89,9 @@ export function SubmisiTugasModal({
 
               <div className="grid grid-cols-3 gap-y-3 shrink-0 border-b border-slate-100 py-3 dark:border-slate-700 sm:grid-cols-5 sm:gap-y-0 sm:py-0">
                 {[
-                  { label: "Total", val: rows.length, color: "#EA580C" },
+                  { label: "Total", val: rows.length, color: "#FF5B19" },
                   { label: "Diterima", val: cntDiterima, color: "#00D67F" },
-                  { label: "Revisi", val: cntRevisi, color: "#EA580C" },
+                  { label: "Revisi", val: cntRevisi, color: "#FF5B19" },
                   { label: "Menunggu", val: cntMenunggu, color: "#4F8EF7" },
                   { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#EF4444" },
                 ].map((st, i) => (
@@ -199,7 +199,7 @@ export function SubmisiTugasModal({
                           </button>
                           <button onClick={() => onRevisi(s)}
                             className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                            style={{ background: "#EA580C" }}>
+                            style={{ background: "#FF5B19" }}>
                             <AlertCircle size={12} /> Revisi
                           </button>
                         </div>

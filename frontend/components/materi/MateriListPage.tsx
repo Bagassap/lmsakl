@@ -16,7 +16,7 @@ function formatDate(iso: string): string {
 const ROW_PALETTES = [
   { gradient: "linear-gradient(135deg,#4F8EF7,#2563EB)" },
   { gradient: "linear-gradient(135deg,#00D67F,#0D9488)" },
-  { gradient: "linear-gradient(135deg,#EA580C,#EA580C)" },
+  { gradient: "linear-gradient(135deg,#FF5B19,#FF5B19)" },
   { gradient: "linear-gradient(135deg,#7C3AED,#6334F4)" },
   { gradient: "linear-gradient(135deg,#2563EB,#0EA5E9)" },
 ];

@@ -49,7 +49,7 @@ const STATUS_CFG: Record<StatusAbsensi, {
 const CARD_GRADIENTS = [
   "linear-gradient(135deg,#3B7CE8,#4F8EF7)",
   "linear-gradient(135deg,#EF4444,#F87171)",
-  "linear-gradient(135deg,#EA580C,#FCD34D)",
+  "linear-gradient(135deg,#FF5B19,#FCD34D)",
   "linear-gradient(135deg,#10B981,#34D399)",
 ];
 
@@ -62,7 +62,7 @@ function getInitials(name: string) {
   return name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
 }
 
-const AVATAR_COLORS = ["#6334F4","#EF4444","#EA580C","#FF7867","#10B981","#3B82F6"];
+const AVATAR_COLORS = ["#6334F4","#EF4444","#FF5B19","#FF7867","#10B981","#3B82F6"];
 function avatarColor(name: string) {
   let h = 0;
   for (const c of name) h = ((h * 31 + c.charCodeAt(0)) & 0x7fffffff);
@@ -573,7 +573,7 @@ export default function AdminUkkAbsensiPage() {
       <div className="space-y-5 p-1">
 
         <div className="relative overflow-hidden rounded-2xl p-6"
-          style={{background:"linear-gradient(160deg,#EA580C 0%,#EA580C 45%,#EA580C 72%,#EA580C 100%)"}}>
+          style={{background:"linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)"}}>
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
           <div className="pointer-events-none absolute bottom-4 -left-6 h-24 w-24 rounded-full bg-white/6"/>
@@ -628,7 +628,7 @@ export default function AdminUkkAbsensiPage() {
             })}
             disabled={siswaList.length === 0}
             className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white shadow-sm disabled:opacity-40 transition-all hover:brightness-95"
-            style={{background:"linear-gradient(135deg,#EF4444,#EA580C)"}}>
+            style={{background:"linear-gradient(135deg,#EF4444,#FF5B19)"}}>
             <FileText size={14}/> Laporan PDF
           </button>
         </div>
@@ -833,7 +833,7 @@ export default function AdminUkkAbsensiPage() {
                       {hasDok ? (
                         <button onClick={() => setDokumenSiswa(s)}
                           className="group flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
-                          style={{background:"linear-gradient(135deg,#6334F4,#EA580C)"}}>
+                          style={{background:"linear-gradient(135deg,#6334F4,#FF5B19)"}}>
                           <Eye size={11} className="transition-transform group-hover:scale-110"/> Lihat
                         </button>
                       ) : <span/>}
