@@ -30,7 +30,7 @@ interface DashboardData {
 }
 
 
-const P = "#D90429";
+const P = "#D97706";
 const R = "#EF4444";
 const G = "#10B981";
 
@@ -165,7 +165,7 @@ export default function SiswaDashboardPage() {
       label: "Magang / PKL",
       display: belumMagang ? "Belum Magang" : `${magang.hadir ?? 0}x hadir`,
       small: belumMagang,
-      gradient: "linear-gradient(135deg, #F4485C 0%, #D90429 100%)",
+      gradient: "linear-gradient(135deg, #FBBF24 0%, #D97706 100%)",
       icon: GraduationCap,
     },
   ] as const;

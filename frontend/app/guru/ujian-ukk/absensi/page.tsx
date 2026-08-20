@@ -466,7 +466,7 @@ export default function GuruUkkAbsensiPage() {
       <div className="space-y-5 p-1">
 
         <div className="relative overflow-hidden rounded-2xl p-6"
-          style={{background:"linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)"}}>
+          style={{background:"linear-gradient(160deg,#FBBF24 0%,#F59E0B 45%,#D97706 72%,#78350F 100%)"}}>
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
           <div className="pointer-events-none absolute bottom-4 -left-6 h-24 w-24 rounded-full bg-white/6"/>
@@ -733,7 +733,7 @@ export default function GuruUkkAbsensiPage() {
                       {hasDok ? (
                         <button onClick={() => setDokumenSiswa(s)}
                           className="group flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
-                          style={{background:"linear-gradient(135deg,#6334F4,#D90429)"}}>
+                          style={{background:"linear-gradient(135deg,#6334F4,#D97706)"}}>
                           <Eye size={11}/> Lihat
                         </button>
                       ) : <span/>}

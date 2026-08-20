@@ -139,7 +139,7 @@ export function CodePracticeCanvas({
             return (
               <button key={t.key} type="button" onClick={() => setTab(t.key)}
                 className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${active ? "text-white shadow-sm" : "text-slate-500 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-700"}`}
-                style={active ? { background: "linear-gradient(135deg,#EF233C,#D90429)" } : {}}>
+                style={active ? { background: "linear-gradient(135deg,#F59E0B,#D97706)" } : {}}>
                 <t.icon size={13} /> {t.label}
               </button>
             );
@@ -178,7 +178,7 @@ export function CodePracticeCanvas({
           onDragOver={blockDropEvent}
           onContextMenu={blockContextMenu}
           spellCheck={false}
-          placeholder={tab === "html" ? "<h1>Halo dunia!</h1>" : tab === "css" ? "h1 { color: #EF233C; }" : "console.log('halo');"}
+          placeholder={tab === "html" ? "<h1>Halo dunia!</h1>" : tab === "css" ? "h1 { color: #F59E0B; }" : "console.log('halo');"}
           className="h-full w-full resize-none border-b border-slate-100 bg-slate-50/40 p-3.5 font-mono text-[13px] leading-relaxed text-slate-800 outline-none md:border-b-0 md:border-r dark:border-slate-700 dark:bg-slate-900/40 dark:text-slate-100"
         />
         <iframe

@@ -16,7 +16,7 @@ const TIPE_BADGE: Record<string, { icon: typeof Code2; cls: string }> = {
 const ROW_PALETTES = [
   { bar: "#4F8EF7", gradient: "linear-gradient(135deg,#4F8EF7,#2563EB)" },
   { bar: "#00D67F", gradient: "linear-gradient(135deg,#00D67F,#0D9488)" },
-  { bar: "#EF4444", gradient: "linear-gradient(135deg,#EF4444,#F97316)" },
+  { bar: "#EF4444", gradient: "linear-gradient(135deg,#EF4444,#F59E0B)" },
   { bar: "#F59E0B", gradient: "linear-gradient(135deg,#F59E0B,#EF4444)" },
   { bar: "#2563EB", gradient: "linear-gradient(135deg,#2563EB,#0EA5E9)" },
 ];

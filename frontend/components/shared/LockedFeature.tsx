@@ -8,7 +8,7 @@ import {
 
 type FeatureType = "magang" | "ujian-ukk";
 
-const BRAND_GRADIENT = "linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)";
+const BRAND_GRADIENT = "linear-gradient(160deg,#FBBF24 0%,#F59E0B 45%,#D97706 72%,#78350F 100%)";
 
 const CONFIG: Record<FeatureType, {
   icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;

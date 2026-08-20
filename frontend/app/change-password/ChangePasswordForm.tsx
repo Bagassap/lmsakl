@@ -132,9 +132,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
     >
       <motion.div
         variants={item}
-        className="flex items-start gap-2.5 rounded-xl border border-[#F97316]/15 bg-[#F97316]/5 px-3.5 py-3"
+        className="flex items-start gap-2.5 rounded-xl border border-[#F59E0B]/15 bg-[#F59E0B]/5 px-3.5 py-3"
       >
-        <Sparkles size={16} className="mt-0.5 shrink-0 text-[#F97316]" />
+        <Sparkles size={16} className="mt-0.5 shrink-0 text-[#F59E0B]" />
         <p className="text-xs leading-relaxed text-black/65">
           Selamat datang! Untuk keamanan akun Anda, silakan buat password baru.
           Password default Anda adalah NIS Anda.
@@ -183,7 +183,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
                 value={identityConfirm}
                 onChange={(e) => setIdentityConfirm(e.target.value)}
                 placeholder={profileCompleted ? undefined : "Ketik persis sesuai data akun Anda"}
-                className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F97316] focus:bg-white focus:ring-2 focus:ring-[#F97316]/15"
+                className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F59E0B] focus:bg-white focus:ring-2 focus:ring-[#F59E0B]/15"
               />
             </div>
             <p className="text-[11px] text-black/40">
@@ -230,7 +230,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
               value={values[key]}
               onChange={(e) => set(key, e.target.value)}
               placeholder={placeholder}
-              className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F97316] focus:bg-white focus:ring-2 focus:ring-[#F97316]/15"
+              className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#F59E0B] focus:bg-white focus:ring-2 focus:ring-[#F59E0B]/15"
             />
             <button
               type="button"
@@ -248,7 +248,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#FED7AA] bg-[#9A3412] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#FDE68A] bg-[#78350F] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -260,8 +260,8 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         disabled={loading}
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(249,115,22,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(249,115,22,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "linear-gradient(to right, #FB923C, #F97316)" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(245,158,11,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(245,158,11,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
+        style={{ background: "linear-gradient(to right, #FBBF24, #F59E0B)" }}
       >
         {loading ? (
           <>

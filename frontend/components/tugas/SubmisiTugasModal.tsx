@@ -89,7 +89,7 @@ export function SubmisiTugasModal({
 
               <div className="grid grid-cols-3 gap-y-3 shrink-0 border-b border-slate-100 py-3 dark:border-slate-700 sm:grid-cols-5 sm:gap-y-0 sm:py-0">
                 {[
-                  { label: "Total", val: rows.length, color: "#D90429" },
+                  { label: "Total", val: rows.length, color: "#D97706" },
                   { label: "Diterima", val: cntDiterima, color: "#00D67F" },
                   { label: "Revisi", val: cntRevisi, color: "#F59E0B" },
                   { label: "Menunggu", val: cntMenunggu, color: "#4F8EF7" },

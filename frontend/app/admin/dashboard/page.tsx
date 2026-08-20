@@ -16,7 +16,7 @@ import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal
 import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { KehadiranBarChart } from "@/components/dashboard/KehadiranBarChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
-const P = "#D90429";   
+const P = "#D97706";   
 const R = "#EF4444";   
 const B = "#6366F1";   
 const G = "#10B981";   
@@ -192,7 +192,7 @@ export default function AdminDashboardPage() {
       suffix: " kelas",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #F4485C 0%, #D90429 100%)",
+      gradient: "linear-gradient(135deg, #FBBF24 0%, #D97706 100%)",
       icon: FileText,
     },
   ] as const;

@@ -36,7 +36,7 @@ function statusInfo(s: "TERKIRIM"|"DITERIMA"|"REVISI") {
 const ROW_PALETTES = [
   { bg:"#EEF4FF", text:"#4F8EF7",  bar:"#4F8EF7",  gradient:"linear-gradient(135deg,#4F8EF7,#6366F1)" },
   { bg:"#ECFDF5", text:"#10B981",  bar:"#10B981",  gradient:"linear-gradient(135deg,#10B981,#0D9488)" },
-  { bg:"#FFF1F2", text:"#EF4444",  bar:"#EF4444",  gradient:"linear-gradient(135deg,#EF4444,#EF233C)" },
+  { bg:"#FFF1F2", text:"#EF4444",  bar:"#EF4444",  gradient:"linear-gradient(135deg,#EF4444,#F59E0B)" },
   { bg:"#FFFBEB", text:"#F59E0B",  bar:"#F59E0B",  gradient:"linear-gradient(135deg,#F59E0B,#EF4444)" },
   { bg:"#F0F0FF", text:"#6366F1",  bar:"#6366F1",  gradient:"linear-gradient(135deg,#6366F1,#8B5CF6)" },
 ];
@@ -45,7 +45,7 @@ function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 const BUBBLE_COLORS = [
   { bubble:"#EEF2FF", text:"#4338CA", avatar:"linear-gradient(135deg,#6366F1,#818CF8)" },
   { bubble:"#F0FDF4", text:"#15803D", avatar:"linear-gradient(135deg,#10B981,#34D399)" },
-  { bubble:"#EDF2F4", text:"#A80320", avatar:"linear-gradient(135deg,#EF233C,#FBBF24)" },
+  { bubble:"#FFFBEB", text:"#92400E", avatar:"linear-gradient(135deg,#F59E0B,#FBBF24)" },
   { bubble:"#FDF4FF", text:"#7E22CE", avatar:"linear-gradient(135deg,#A855F7,#EC4899)" },
   { bubble:"#ECFEFF", text:"#0E7490", avatar:"linear-gradient(135deg,#06B6D4,#3B82F6)" },
 ];
@@ -333,7 +333,7 @@ export default function SiswaJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{background:"linear-gradient(160deg,#F4485C 0%,#EF233C 45%,#D90429 72%,#8D031B 100%)"}}>
+            style={{background:"linear-gradient(160deg,#FBBF24 0%,#F59E0B 45%,#D97706 72%,#78350F 100%)"}}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -381,7 +381,7 @@ export default function SiswaJadwalSoalPage() {
                     className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
                     style={{maxHeight:"92vh"}}>
                     <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                      style={{background:"linear-gradient(135deg,#F59E0B,#EF233C)"}}>
+                      style={{background:"linear-gradient(135deg,#F59E0B,#F59E0B)"}}>
                       <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                       <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
                         <CalendarDays size={22} className="text-white"/>
@@ -471,7 +471,7 @@ export default function SiswaJadwalSoalPage() {
               <div className="flex gap-3">
                 <button onClick={()=>{ setSoalJadwalIdx(0); setOpenJadwalModal(true); }}
                   className="flex-1 relative overflow-hidden rounded-2xl text-white text-left focus:outline-none transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] p-4 sm:p-5"
-                  style={{background:"linear-gradient(135deg,#F59E0B,#EF233C)", boxShadow:"0 8px 28px rgba(245,158,11,0.45)"}}>
+                  style={{background:"linear-gradient(135deg,#F59E0B,#F59E0B)", boxShadow:"0 8px 28px rgba(245,158,11,0.45)"}}>
                   <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="absolute -right-2 -bottom-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="relative flex items-center justify-between gap-2">
@@ -543,9 +543,9 @@ export default function SiswaJadwalSoalPage() {
                   </button>
                   <button onClick={()=>setTab("active")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active"?"border-primary":"text-slate-400 border-transparent hover:text-slate-600"}`}
-                    style={tab==="active"?{color:"#D90429"}:{}}>
+                    style={tab==="active"?{color:"#D97706"}:{}}>
                     Active Task
-                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#D90429"}}>{active.length}</span>}
+                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#D97706"}}>{active.length}</span>}
                   </button>
                   <button onClick={()=>setTab("completed")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed"?"border-emerald-500":"text-slate-400 border-transparent hover:text-slate-600"}`}
@@ -598,7 +598,7 @@ export default function SiswaJadwalSoalPage() {
                             <span className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg" style={{backgroundColor:"#F0FDF4",color:"#16A34A"}}>
                               <Clock size={10}/>{t.jamMulai}–{t.jamSelesai}
                             </span>
-                            <span className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg" style={{backgroundColor:"#EDF2F4",color:"#D90429"}}>
+                            <span className="flex items-center gap-1 text-[11px] font-semibold px-2 py-0.5 rounded-lg" style={{backgroundColor:"#FFFBEB",color:"#D97706"}}>
                               <MapPin size={10}/>{t.lokasi}
                             </span>
                             {t.penguji && (
@@ -614,7 +614,7 @@ export default function SiswaJadwalSoalPage() {
                             <span className="text-[10px] font-bold" style={{color: isDiterima?"#10B981":isRevisi?"#F59E0B":rp.bar}}>{pct}%</span>
                           </div>
                           <div className="h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`, background: isDiterima?"linear-gradient(90deg,#10B981,#059669)":isRevisi?"linear-gradient(90deg,#F59E0B,#EF233C)":rp.gradient}}/>
+                            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`, background: isDiterima?"linear-gradient(90deg,#10B981,#059669)":isRevisi?"linear-gradient(90deg,#F59E0B,#F59E0B)":rp.gradient}}/>
                           </div>
                         </div>
                         <button onClick={btn.onClick}
@@ -724,7 +724,7 @@ export default function SiswaJadwalSoalPage() {
               className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
               onClick={e=>e.stopPropagation()}>
               <div className="relative px-6 py-5 overflow-hidden"
-                style={{background:"linear-gradient(135deg,#F59E0B,#EF233C)"}}>
+                style={{background:"linear-gradient(135deg,#F59E0B,#F59E0B)"}}>
                 <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10"/>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
@@ -772,7 +772,7 @@ export default function SiswaJadwalSoalPage() {
                 </button>
                 <button onClick={()=>{ setRevisiModal(null); soalFiles[0] && setSubmitSoal(soalFiles[0]); }}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white flex items-center justify-center gap-2"
-                  style={{background:"linear-gradient(135deg,#F59E0B,#EF233C)"}}>
+                  style={{background:"linear-gradient(135deg,#F59E0B,#F59E0B)"}}>
                   <Send size={13}/> Kirim Ulang Project
                 </button>
               </div>
