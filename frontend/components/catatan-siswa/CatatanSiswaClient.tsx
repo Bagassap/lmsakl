@@ -5,11 +5,15 @@ import { motion } from "framer-motion";
 import {
   NotebookPen, Search, X, Loader2, Pencil, Trash2, Plus,
   User as UserIcon, Calendar, School, ChevronDown, ChevronLeft, ChevronRight, Filter, Users,
-  AlertTriangle,
+  AlertTriangle, FileText, FileSpreadsheet, Download,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { DataSiswaHeader } from "@/components/data-siswa/DataSiswaHeader";
 import { PageSizeToggle, paginate } from "@/components/shared/PageSizeToggle";
+import { avatarColorFor } from "@/components/data-siswa/shared";
+import {
+  downloadCatatanPdfKelas, downloadCatatanPdfSiswa, downloadCatatanExcelKelas, downloadCatatanExcelSiswa,
+} from "./downloadCatatanPdf";
 
 type SummaryItem = {
   siswaId: string;
@@ -55,6 +59,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
   const [detailId, setDetailId] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState("");
   const [currentUserRole, setCurrentUserRole] = useState("");
+  const [downloading, setDownloading] = useState<"pdf" | "excel" | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -95,6 +100,16 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
   const kelasTercatat = inKelas.filter((s) => s.jumlahCatatan > 0).length;
   const kelasTotalPoin = inKelas.reduce((sum, s) => sum + s.totalPoin, 0);
   const selectedKelas = kelasOptions.find((k) => k.id === selectedKelasId);
+
+  async function handleDownload(kind: "pdf" | "excel") {
+    if (!selectedKelasId || !selectedKelas) return;
+    setDownloading(kind);
+    const result = kind === "pdf"
+      ? await downloadCatatanPdfKelas({ kelasId: selectedKelasId, kelasNama: selectedKelas.nama })
+      : await downloadCatatanExcelKelas({ kelasId: selectedKelasId, kelasNama: selectedKelas.nama });
+    if (!result.ok) toast.error(result.message, "");
+    setDownloading(null);
+  }
 
   return (
     <div className="space-y-5">
@@ -191,7 +206,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
                         className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50 dark:border-slate-700/40 dark:hover:bg-slate-700/20">
                         <td className="whitespace-nowrap px-4 py-3">
                           <div className="flex items-center gap-2.5">
-                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-white">
+                            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style={{ background: avatarColorFor(s.nama ?? s.nis) }}>
                               {(s.nama ?? "?")[0]?.toUpperCase()}
                             </div>
                             <div className="min-w-0">
@@ -256,7 +271,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
               <Users size={12} /> Ringkasan {selectedKelas?.nama ?? "Kelas"}
             </p>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2.5 rounded-xl bg-primary px-3 py-2.5 text-white shadow-sm">
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "linear-gradient(135deg,#161616,#3D3D3D)" }}>
                 <UserIcon size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{inKelas.length}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Siswa</span>
@@ -271,6 +286,29 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
                 <span className="text-sm font-extrabold">{kelasTotalPoin}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Poin</span>
               </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+            <p className="mb-1 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
+              <Download size={12} /> Unduh Laporan
+            </p>
+            <p className="mb-3 text-[11px] text-slate-400 dark:text-slate-500">
+              Ekspor catatan {selectedKelas?.nama ?? "kelas ini"} ke PDF/Excel
+            </p>
+            <div className="grid grid-cols-2 gap-2">
+              <button type="button" onClick={() => handleDownload("pdf")} disabled={!selectedKelasId || downloading !== null}
+                className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
+                style={{ background: "#FF5B19" }}>
+                {downloading === "pdf" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
+                PDF Kelas
+              </button>
+              <button type="button" onClick={() => handleDownload("excel")} disabled={!selectedKelasId || downloading !== null}
+                className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
+                style={{ background: "linear-gradient(135deg,#4f7377,#AECACD)" }}>
+                {downloading === "excel" ? <Loader2 size={13} className="animate-spin" /> : <FileSpreadsheet size={13} />}
+                Excel Kelas
+              </button>
             </div>
           </div>
         </div>
@@ -304,6 +342,7 @@ function CatatanDetailModal({
   const [poin, setPoin] = useState("");
   const [tanggal, setTanggal] = useState(todayInput());
   const [saving, setSaving] = useState(false);
+  const [downloading, setDownloading] = useState<"pdf" | "excel" | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -364,6 +403,16 @@ function CatatanDetailModal({
     }
   }
 
+  async function handleDownload(kind: "pdf" | "excel") {
+    if (!data) return;
+    setDownloading(kind);
+    const result = kind === "pdf"
+      ? await downloadCatatanPdfSiswa({ siswaId, siswaNama: data.siswa.nama ?? data.siswa.nis })
+      : await downloadCatatanExcelSiswa({ siswaId, siswaNama: data.siswa.nama ?? data.siswa.nis });
+    if (!result.ok) toast.error(result.message, "");
+    setDownloading(null);
+  }
+
   async function handleDelete(id: string) {
     if (!await toast.confirm("Hapus catatan ini?", "")) return;
     const res = await fetch(`/api/catatan-siswa/${id}`, { method: "DELETE" });
@@ -388,9 +437,23 @@ function CatatanDetailModal({
               <p className="truncate text-lg font-extrabold text-white">{data?.siswa.nama ?? "Memuat..."}</p>
               <p className="text-xs text-white/70">{data?.siswa.nis}{data ? ` · Total ${data.totalPoin} poin` : ""}</p>
             </div>
-            <button onClick={onClose} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white/20 text-white hover:bg-white/30">
-              <X size={15} />
-            </button>
+            <div className="flex shrink-0 items-center gap-1.5">
+              {data && (
+                <>
+                  <button onClick={() => handleDownload("pdf")} disabled={downloading !== null}
+                    title="Unduh PDF" className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/20 text-white transition-colors hover:bg-white/30 disabled:opacity-50">
+                    {downloading === "pdf" ? <Loader2 size={14} className="animate-spin" /> : <FileText size={14} />}
+                  </button>
+                  <button onClick={() => handleDownload("excel")} disabled={downloading !== null}
+                    title="Unduh Excel" className="flex h-8 w-8 items-center justify-center rounded-xl bg-white/20 text-white transition-colors hover:bg-white/30 disabled:opacity-50">
+                    {downloading === "excel" ? <Loader2 size={14} className="animate-spin" /> : <FileSpreadsheet size={14} />}
+                  </button>
+                </>
+              )}
+              <button onClick={onClose} className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-white/20 text-white hover:bg-white/30">
+                <X size={15} />
+              </button>
+            </div>
           </div>
         </div>
 

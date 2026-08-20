@@ -79,6 +79,42 @@ export class CatatanSiswaService {
     };
   }
 
+  async getRekapKelas(kelasId: string, actor: Actor) {
+    if (actor.role === 'GURU') {
+      const waliIds = await this.kelasWaliIds(actor.id);
+      if (!waliIds.includes(kelasId)) throw new ForbiddenException('Kelas ini bukan wali kelas Anda');
+    }
+
+    const kelas = await this.prisma.kelas.findUnique({ where: { id: kelasId }, select: { nama: true } });
+    if (!kelas) throw new NotFoundException('Kelas tidak ditemukan');
+
+    const siswaList = await this.prisma.siswa.findMany({
+      where: { kelasId },
+      orderBy: { nama: 'asc' },
+      select: { id: true, nama: true, nis: true },
+    });
+
+    const catatan = await this.prisma.catatanSiswa.findMany({
+      where: { siswaId: { in: siswaList.map((s) => s.id) } },
+      orderBy: { tanggal: 'desc' },
+      include: { dicatatOleh: INCLUDE_DICATAT_OLEH },
+    });
+
+    return {
+      kelas,
+      siswa: siswaList.map((s) => {
+        const milik = catatan.filter((c) => c.siswaId === s.id);
+        return {
+          id: s.id,
+          nama: s.nama,
+          nis: s.nis,
+          totalPoin: milik.reduce((sum, c) => sum + (c.poin ?? 0), 0),
+          catatan: milik,
+        };
+      }),
+    };
+  }
+
   async findSaya(userId: string) {
     const siswa = await this.prisma.siswa.findUnique({ where: { userId } });
     if (!siswa) throw new NotFoundException('Profil siswa tidak ditemukan');
