@@ -74,6 +74,7 @@ model User {
   diskusiUkk         DiskusiUKK[]
   notifications      Notification[]
   materiDibuat       Materi[]
+  catatanSiswaDicatat CatatanSiswa[]
 
   passwordResetRequests   PasswordResetRequest[] @relation("PasswordResetRequestUser")
   processedPasswordResets PasswordResetRequest[] @relation("PasswordResetRequestProcessor")
@@ -158,6 +159,7 @@ model Siswa {
   pesertaUkk        PesertaUKK[]
   absensiTahapanUkk AbsensiUKK[]        @relation("AbsensiTahapanUkk")
   absensiHarian     AbsensiHarian[]
+  catatanSiswa      CatatanSiswa[]
 
   @@map("siswa")
 }
@@ -210,6 +212,23 @@ model Kelas {
   materi        Materi[]
 
   @@map("kelas")
+}
+
+model CatatanSiswa {
+  id            String   @id @default(cuid())
+  siswaId       String
+  siswa         Siswa    @relation(fields: [siswaId], references: [id], onDelete: Cascade)
+  dicatatOlehId String
+  dicatatOleh   User     @relation(fields: [dicatatOlehId], references: [id])
+  judul         String
+  catatan       String   @db.Text
+  poin          Int?
+  tanggal       DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("catatan_siswa")
 }
 
 model Materi {
