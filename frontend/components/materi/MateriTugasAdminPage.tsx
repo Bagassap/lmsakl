@@ -158,9 +158,9 @@ export function MateriTugasAdminPage() {
             <button type="button" onClick={() => setCategory("tugas")}
               className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
               style={{
-                background: "linear-gradient(135deg,#2563EB,#1D4ED8)",
+                background: "linear-gradient(135deg,#4F7377,#4F7377)",
                 boxShadow: category === "tugas" ? "0 8px 24px rgba(37,99,235,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
-                outline: category === "tugas" ? "2px solid #2563EB" : "none",
+                outline: category === "tugas" ? "2px solid #4F7377" : "none",
                 outlineOffset: "3px",
               }}>
               <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />

@@ -31,17 +31,17 @@ type AbsensiStatus = {
 const STATUS_CFG: Record<StatusAbsensi, {
   label: string; bg: string; clr: string; darkBg: string; icon: React.ElementType;
 }> = {
-  HADIR: { label: "Hadir", bg: "#E8F8F1", clr: "#10B981", darkBg: "#10B98120", icon: CheckCircle2 },
-  IZIN:  { label: "Izin",  bg: "#F0ECFF", clr: "#6334F4", darkBg: "#6334F420", icon: AlertCircle  },
-  SAKIT: { label: "Sakit", bg: "#FFF5DC", clr: "#E6A800", darkBg: "#E6A80020", icon: Thermometer  },
-  ALPA:  { label: "Alpa",  bg: "#FFE9EA", clr: "#FF3644", darkBg: "#FF364420", icon: MinusCircle  },
+  HADIR: { label: "Hadir", bg: "#E1EDEE", clr: "#6E9CA0", darkBg: "#6E9CA020", icon: CheckCircle2 },
+  IZIN:  { label: "Izin",  bg: "#E8E7E4", clr: "#3D3D3D", darkBg: "#3D3D3D20", icon: AlertCircle  },
+  SAKIT: { label: "Sakit", bg: "#FFE8DA", clr: "#CC4913", darkBg: "#CC491320", icon: Thermometer  },
+  ALPA:  { label: "Alpa",  bg: "#E8E7E4", clr: "#161616", darkBg: "#16161620", icon: MinusCircle  },
 };
 
 const CARD_GRADIENTS_BY_STATUS: Record<string, string> = {
-  HADIR: "linear-gradient(135deg,#10B981,#34D399)",
-  IZIN:  "linear-gradient(135deg,#6334F4,#8B5CF6)",
-  SAKIT: "linear-gradient(135deg,#FF5B19,#FCD34D)",
-  ALPA:  "linear-gradient(135deg,#EF4444,#F87171)",
+  HADIR: "linear-gradient(135deg,#6E9CA0,#AECACD)",
+  IZIN:  "linear-gradient(135deg,#3D3D3D,#3D3D3D)",
+  SAKIT: "linear-gradient(135deg,#FF5B19,#FFC49E)",
+  ALPA:  "linear-gradient(135deg,#161616,#3D3D3D)",
   BELUM: "linear-gradient(135deg,#64748B,#94A3B8)",
 };
 
@@ -328,7 +328,7 @@ export default function SiswaUkkAbsensiPage() {
     <div className="space-y-5 p-1">
 
       <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{background:"linear-gradient(135deg,#059669 0%,#10B981 40%,#34D399 80%,#6EE7B7 100%)"}}>
+        style={{background:"linear-gradient(135deg,#4F7377 0%,#6E9CA0 40%,#AECACD 80%,#6EE7B7 100%)"}}>
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
         <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
         <div className="pointer-events-none absolute bottom-4 -left-6 h-24 w-24 rounded-full bg-white/6"/>
@@ -532,14 +532,14 @@ export default function SiswaUkkAbsensiPage() {
                       initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}}
                       className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-8 text-center shadow-sm">
                       <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                        style={{background:"linear-gradient(135deg,#10B981,#059669)"}}>
+                        style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
                         <ClipboardCheck size={32} className="text-white"/>
                       </div>
                       <p className="text-base font-bold text-slate-800 dark:text-slate-100 mb-1">Belum Absen</p>
                       <p className="text-sm text-slate-400 mb-6">Kamu wajib absen sebelum memulai ujian UKK</p>
                       <button onClick={() => setShowForm(true)}
                         className="px-10 py-3 rounded-xl text-sm font-bold text-white w-full max-w-xs transition-all hover:brightness-95 hover:scale-[1.02] active:scale-[0.98]"
-                        style={{background:"linear-gradient(135deg,#10B981,#059669)"}}>
+                        style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
                         Absen Sekarang
                       </button>
                     </motion.div>
@@ -625,7 +625,7 @@ export default function SiswaUkkAbsensiPage() {
 
                         <button onClick={handleAbsen} disabled={submitting || !ttd || compressingFoto}
                           className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-bold text-white transition-all hover:brightness-95 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
-                          style={{background:"linear-gradient(135deg,#10B981,#059669)"}}>
+                          style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
                           <Send size={15}/>{submitting ? "Menyimpan..." : "Konfirmasi Absen"}
                         </button>
                       </div>

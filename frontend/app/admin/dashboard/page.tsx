@@ -17,9 +17,9 @@ import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { KehadiranBarChart } from "@/components/dashboard/KehadiranBarChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
 const P = "#FF5B19";   
-const R = "#EF4444";   
-const B = "#6366F1";   
-const G = "#10B981";   
+const R = "#161616";   
+const B = "#3D3D3D";   
+const G = "#6E9CA0";   
 
 
 interface Pengumuman {
@@ -159,7 +159,7 @@ export default function AdminDashboardPage() {
       suffix: " hadir",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #4ade80 0%, #22c55e 100%)",
+      gradient: "linear-gradient(135deg, #AECACD 0%, #6E9CA0 100%)",
       icon: Calendar,
     },
     {
@@ -170,7 +170,7 @@ export default function AdminDashboardPage() {
       suffix: " item",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
+      gradient: "linear-gradient(135deg, #6E9CA0 0%, #4f7377 100%)",
       icon: Megaphone,
     },
     {
@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
       suffix: " siswa",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)",
+      gradient: "linear-gradient(135deg, #6E6E6E 0%, #161616 100%)",
       icon: Briefcase,
     },
     {

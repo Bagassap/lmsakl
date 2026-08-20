@@ -170,7 +170,7 @@ export function AbsensiHarianTable({
                     {hasDok ? (
                       <button onClick={openDokumen}
                         className="group flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
-                        style={{ background: "linear-gradient(135deg,#6334F4,#FF5B19)" }}>
+                        style={{ background: "linear-gradient(135deg,#3D3D3D,#FF5B19)" }}>
                         <Eye size={11} /> Lihat
                       </button>
                     ) : <span />}

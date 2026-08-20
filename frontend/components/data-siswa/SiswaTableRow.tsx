@@ -14,8 +14,8 @@ const TEXT = "text-sm font-medium text-slate-800 dark:text-white";
 
 // Warna persis dari referensi Nasabah - lihat catatan yang sama di FilterBar.tsx.
 const REF_PRIMARY = "#FF5B19";
-const REF_SUCCESS = "#10b981";
-const REF_DANGER = "#f87171";
+const REF_SUCCESS = "#6e9ca0";
+const REF_DANGER = "#3d3d3d";
 
 export function SiswaTableHead() {
   return (

@@ -35,9 +35,9 @@ type SiswaProfil = {
 };
 
 const HERO_GRADIENT = "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)";
-const ACCENT_VIOLET = "linear-gradient(135deg,#6366F1,#4F46E5)";
+const ACCENT_VIOLET = "linear-gradient(135deg,#3D3D3D,#161616)";
 const ACCENT_ORANGE = "linear-gradient(135deg,#FF5B19,#FF5B19)";
-const PROFILE_CARD_GRADIENT = "linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0ea5e9 100%)";
+const PROFILE_CARD_GRADIENT = "linear-gradient(135deg, #161616 0%, #4f7377 50%, #4f7377 100%)";
 
 function getNama(s: SiswaProfil): string { return s.nama ?? s.user?.nama ?? "—"; }
 function toTitleCase(str: string): string {
@@ -53,7 +53,7 @@ function formatTanggal(iso: string | null): string {
 }
 
 const INPUT =
-  "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-[#2563eb] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#2563eb]/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
+  "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-[#4f7377] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4f7377]/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
 
 function EditProfilModal({
   siswa, kelasGradient, onClose, onSave,
@@ -344,7 +344,7 @@ export default function SiswaProfilPage() {
   const isP = profil.jenisKelamin === "Perempuan";
   const kelasGrad = PROFILE_CARD_GRADIENT;
   const avatarGrad = isP
-    ? "linear-gradient(135deg,#EC4899,#db2777)"
+    ? "linear-gradient(135deg,#3D3D3D,#161616)"
     : kelasGrad;
   const tglLahir = [profil.tempatLahir, formatTanggal(profil.tanggalLahir)].filter(Boolean).join(", ") || "—";
   const jurusanShort = (profil.jurusan ?? "—").replace(
@@ -484,15 +484,15 @@ export default function SiswaProfilPage() {
           >
             <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
               <InfoField icon={Users} label="Jenis Kelamin" value={profil.jenisKelamin}
-                iconBg={isP ? "#fdf2f8" : "#eff6ff"} iconColor={isP ? "#db2777" : "#3b82f6"} />
+                iconBg={isP ? "#E8E7E4" : "#e1edee"} iconColor={isP ? "#161616" : "#4f7377"} />
               <InfoField icon={Calendar} label="Tempat, Tgl Lahir" value={tglLahir}
                 iconBg="#FF5B19" iconColor="#FF5B19" />
               <InfoField icon={GraduationCap} label="Kelas" value={profil.kelas.nama}
-                iconBg="#f5f3ff" iconColor="#7c3aed" />
+                iconBg="#E8E7E4" iconColor="#161616" />
               <InfoField icon={BookOpen} label="Jurusan" value={profil.jurusan}
-                iconBg="#eef2ff" iconColor="#4f46e5" />
+                iconBg="#E8E7E4" iconColor="#4f46e5" />
               <InfoField icon={Users} label="Nama Orang Tua" value={profil.namaOrtu}
-                iconBg="#f0fdf4" iconColor="#16a34a" />
+                iconBg="#e1edee" iconColor="#4f7377" />
               <InfoField icon={Hash} label="NIS" value={profil.nis}
                 iconBg="#ecfeff" iconColor="#0891b2" />
             </div>
@@ -514,7 +514,7 @@ export default function SiswaProfilPage() {
           >
             <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
               <InfoField icon={Phone} label="No. HP" value={profil.noHp}
-                iconBg="#eff6ff" iconColor="#3b82f6" />
+                iconBg="#e1edee" iconColor="#4f7377" />
               <InfoField icon={MapPin} label="Alamat Lengkap" value={formatAlamatLengkap(profil)}
                 iconBg="#FF5B19" iconColor="#FF5B19" />
             </div>

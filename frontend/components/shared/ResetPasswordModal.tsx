@@ -69,7 +69,7 @@ export function ResetPasswordModal({
           initial={{ scale: 0.95, opacity: 0, y: 24 }} animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 24 }} transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}>
           <div className="relative overflow-hidden px-6 py-5"
-            style={{ background: "linear-gradient(135deg, #FF5B19 0%, #F87171 100%)" }}>
+            style={{ background: "linear-gradient(135deg, #FF5B19 0%, #3D3D3D 100%)" }}>
             <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
             <div className="relative flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">

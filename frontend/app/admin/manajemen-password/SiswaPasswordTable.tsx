@@ -79,7 +79,7 @@ export function SiswaPasswordTable({
                     <tr key={s.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50 dark:border-slate-700/40 dark:hover:bg-slate-700/20">
                       <td className="whitespace-nowrap px-4 py-3">
                         <div className="flex items-center gap-2.5">
-                          <Avatar src={s.user?.fotoProfil} nama={displayNama} sizePx={36} fallbackBg="linear-gradient(135deg,#4F8EF7,#3B7CE8)" textClassName="text-[10px] font-extrabold" />
+                          <Avatar src={s.user?.fotoProfil} nama={displayNama} sizePx={36} fallbackBg="linear-gradient(135deg,#6E9CA0,#4F7377)" textClassName="text-[10px] font-extrabold" />
                           <div className="min-w-0">
                             <p className="text-sm font-medium text-slate-800 dark:text-white">{displayNama}</p>
                             <p className="font-mono text-xs text-slate-400 dark:text-slate-500">{s.nis}</p>

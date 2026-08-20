@@ -10,7 +10,7 @@ const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export function KehadiranBarChart({ data }: PropsType) {
   const options: ApexOptions = {
-    colors: ["#4F8EF7", "#F87171"],
+    colors: ["#6E9CA0", "#3D3D3D"],
     chart: {
       type: "bar",
       stacked: true,

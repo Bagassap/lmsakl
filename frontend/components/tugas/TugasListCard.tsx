@@ -14,11 +14,11 @@ const TIPE_BADGE: Record<string, { icon: typeof Code2; cls: string }> = {
 };
 
 const ROW_PALETTES = [
-  { bar: "#4F8EF7", gradient: "linear-gradient(135deg,#4F8EF7,#2563EB)" },
-  { bar: "#00D67F", gradient: "linear-gradient(135deg,#00D67F,#0D9488)" },
-  { bar: "#EF4444", gradient: "linear-gradient(135deg,#EF4444,#FF5B19)" },
-  { bar: "#FF5B19", gradient: "linear-gradient(135deg,#FF5B19,#EF4444)" },
-  { bar: "#2563EB", gradient: "linear-gradient(135deg,#2563EB,#0EA5E9)" },
+  { bar: "#6E9CA0", gradient: "linear-gradient(135deg,#6E9CA0,#4F7377)" },
+  { bar: "#6E9CA0", gradient: "linear-gradient(135deg,#6E9CA0,#6E9CA0)" },
+  { bar: "#161616", gradient: "linear-gradient(135deg,#161616,#FF5B19)" },
+  { bar: "#FF5B19", gradient: "linear-gradient(135deg,#FF5B19,#161616)" },
+  { bar: "#4F7377", gradient: "linear-gradient(135deg,#4F7377,#4F7377)" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -75,15 +75,15 @@ export function TugasListCard({
         <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
           <button onClick={() => setTab("active")}
             className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-blue-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "active" ? { color: "#4F8EF7" } : {}}>
+            style={tab === "active" ? { color: "#6E9CA0" } : {}}>
             Aktif
-            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#4F8EF7" }}>{active.length}</span>}
+            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{active.length}</span>}
           </button>
           <button onClick={() => setTab("completed")}
             className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "completed" ? { color: "#00D67F" } : {}}>
+            style={tab === "completed" ? { color: "#6E9CA0" } : {}}>
             Selesai
-            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#00D67F" }}>{completed.length}</span>}
+            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{completed.length}</span>}
           </button>
         </div>
       </div>

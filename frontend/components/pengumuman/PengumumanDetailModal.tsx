@@ -16,16 +16,16 @@ import { Avatar } from "@/components/shared/Avatar";
 type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 
 const KATEGORI_GRADIENT: Record<string, string> = {
-  Umum:     "linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0ea5e9 100%)",
-  Akademik: "linear-gradient(135deg,#0033FF 0%,#2952FF 100%)",
-  Magang:   "linear-gradient(135deg,#FF7867 0%,#FF5A45 100%)",
-  Ujian:    "linear-gradient(135deg,#FF3644 0%,#CC1A26 100%)",
-  Lainnya:  "linear-gradient(135deg,#FFC25B 0%,#FFa020 100%)",
+  Umum:     "linear-gradient(135deg,#161616 0%,#3D3D3D 100%)",
+  Akademik: "linear-gradient(135deg,#4F7377 0%,#6E9CA0 100%)",
+  Magang:   "linear-gradient(135deg,#FF5B19 0%,#FF5B19 100%)",
+  Ujian:    "linear-gradient(135deg,#9C9776 0%,#C4C0A0 100%)",
+  Lainnya:  "linear-gradient(135deg,#FF8A54 0%,#FFC49E 100%)",
 };
 
 const PRIORITAS_BADGE: Record<string, { cls: string; label: string }> = {
-  PENTING:  { cls: "bg-amber-100 text-amber-700 dark:bg-amber-900/40 dark:text-amber-400",   label: "Penting"  },
-  MENDESAK: { cls: "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-400",           label: "Mendesak" },
+  PENTING:  { cls: "bg-[#FFE8DA] text-[#FF5B19] dark:bg-[#FF5B19]/30 dark:text-[#FFA372]", label: "Penting"  },
+  MENDESAK: { cls: "bg-[#E8E7E4] text-[#161616] dark:bg-[#3D3D3D]/40 dark:text-[#B0B0B0]",  label: "Mendesak" },
 };
 
 function formatDate(iso: string) {
@@ -268,7 +268,7 @@ export default function PengumumanDetailModal({
 
               <div className="border-b border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-2 border-b border-gray-100 px-5 py-3 dark:border-slate-700">
-                  <RotateCcw size={12} className="text-[#2563eb]" />
+                  <RotateCcw size={12} className="text-[#4f7377]" />
                   <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400">Isi Pengumuman</span>
                   <span className="ml-auto text-[10px] font-normal text-gray-400 dark:text-slate-500">{formatDate(pengumuman.createdAt)}</span>
                 </div>

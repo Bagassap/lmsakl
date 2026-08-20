@@ -41,7 +41,7 @@ function DonutRingkasan({ rekap, hadirPct, total, pulangCount, belumAbsen, kelas
   return (
     <div className={`flex h-72 flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800 ${colSpanClass}`}>
       <div className="flex items-center gap-2.5">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#0EA5E9,#0369A1)" }}>
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#4F7377,#0369A1)" }}>
           <PieChart size={18} />
         </span>
         <div className="min-w-0">
@@ -392,7 +392,7 @@ export default function GuruAbsensiHarianPage() {
           <div className="flex h-full flex-col gap-4">
             <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#6334F4,#4F46E5)" }}>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#3D3D3D,#161616)" }}>
                   <FileText size={18} />
                 </span>
                 <div>

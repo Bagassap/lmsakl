@@ -40,17 +40,17 @@ const STATUS_CFG: Record<StatusAbsensi, {
   label: string; bg: string; clr: string; darkBg: string;
   icon: React.ElementType;
 }> = {
-  HADIR: { label: "Hadir",  bg: "#E8F8F1", clr: "#10B981", darkBg: "#10B98120", icon: CheckCircle2  },
-  IZIN:  { label: "Izin",   bg: "#F0ECFF", clr: "#6334F4", darkBg: "#6334F420", icon: AlertCircle   },
-  SAKIT: { label: "Sakit",  bg: "#FFF5DC", clr: "#E6A800", darkBg: "#E6A80020", icon: Thermometer   },
-  ALPA:  { label: "Alpa",   bg: "#FFE9EA", clr: "#FF3644", darkBg: "#FF364420", icon: MinusCircle   },
+  HADIR: { label: "Hadir",  bg: "#E1EDEE", clr: "#6E9CA0", darkBg: "#6E9CA020", icon: CheckCircle2  },
+  IZIN:  { label: "Izin",   bg: "#E8E7E4", clr: "#3D3D3D", darkBg: "#3D3D3D20", icon: AlertCircle   },
+  SAKIT: { label: "Sakit",  bg: "#FFE8DA", clr: "#CC4913", darkBg: "#CC491320", icon: Thermometer   },
+  ALPA:  { label: "Alpa",   bg: "#E8E7E4", clr: "#161616", darkBg: "#16161620", icon: MinusCircle   },
 };
 
 const CARD_GRADIENTS = [
-  "linear-gradient(135deg,#3B7CE8,#4F8EF7)",
-  "linear-gradient(135deg,#EF4444,#F87171)",
-  "linear-gradient(135deg,#FF5B19,#FCD34D)",
-  "linear-gradient(135deg,#10B981,#34D399)",
+  "linear-gradient(135deg,#4F7377,#6E9CA0)",
+  "linear-gradient(135deg,#161616,#3D3D3D)",
+  "linear-gradient(135deg,#FF5B19,#FFC49E)",
+  "linear-gradient(135deg,#6E9CA0,#AECACD)",
 ];
 
 function formatTgl(tgl?: string) {
@@ -62,7 +62,7 @@ function getInitials(name: string) {
   return name.split(" ").slice(0, 2).map(w => w[0]).join("").toUpperCase();
 }
 
-const AVATAR_COLORS = ["#6334F4","#EF4444","#FF5B19","#FF7867","#10B981","#3B82F6"];
+const AVATAR_COLORS = ["#3D3D3D","#161616","#FF5B19","#3D3D3D","#6E9CA0","#4F7377"];
 function avatarColor(name: string) {
   let h = 0;
   for (const c of name) h = ((h * 31 + c.charCodeAt(0)) & 0x7fffffff);
@@ -204,8 +204,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                 {fotoSrc && (
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#EF444418"}}>
-                        <Camera size={13} style={{color:"#EF4444"}}/>
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#16161618"}}>
+                        <Camera size={13} style={{color:"#161616"}}/>
                       </div>
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Foto Selfie</span>
                     </div>
@@ -220,8 +220,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#6334F418"}}>
-                          <PenTool size={13} style={{color:"#6334F4"}}/>
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#3D3D3D18"}}>
+                          <PenTool size={13} style={{color:"#3D3D3D"}}/>
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Tanda Tangan Digital</span>
                       </div>
@@ -243,8 +243,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#3B82F618"}}>
-                          <MapPin size={13} style={{color:"#3B82F6"}}/>
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#4F737718"}}>
+                          <MapPin size={13} style={{color:"#4F7377"}}/>
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                       </div>
@@ -266,8 +266,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                 {siswa.lokasi && !lokasi && (
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-100 dark:border-slate-700/50">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#3B82F618"}}>
-                        <MapPin size={13} style={{color:"#3B82F6"}}/>
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#4F737718"}}>
+                        <MapPin size={13} style={{color:"#4F7377"}}/>
                       </div>
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                     </div>
@@ -372,10 +372,10 @@ function printAbsensiPDF({ siswaList, tahapan, tanggal, rekap, total, API }: {
     : "-";
 
   const statusColor: Record<string, string> = {
-    HADIR: "#10B981", IZIN: "#6334F4", SAKIT: "#E6A800", ALPA: "#FF3644",
+    HADIR: "#6E9CA0", IZIN: "#3D3D3D", SAKIT: "#CC4913", ALPA: "#161616",
   };
   const statusBg: Record<string, string> = {
-    HADIR: "#E8F8F1", IZIN: "#F0ECFF", SAKIT: "#FFF5DC", ALPA: "#FFE9EA",
+    HADIR: "#E1EDEE", IZIN: "#E8E7E4", SAKIT: "#FFE8DA", ALPA: "#E8E7E4",
   };
 
   const fotoSrc = (s: SiswaAbsensi) => {
@@ -397,19 +397,19 @@ function printAbsensiPDF({ siswaList, tahapan, tanggal, rekap, total, API }: {
       <div style="page-break-after:${isLast?"avoid":"always"};padding:32px;font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;box-sizing:border-box;display:flex;flex-direction:column;gap:20px;">
 
         <!-- Header -->
-        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #10B981;padding-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #6E9CA0;padding-bottom:14px;">
           <div>
             <h1 style="margin:0;font-size:20px;font-weight:900;color:#0f172a;">Laporan Absensi UKK</h1>
             <p style="margin:4px 0 0;font-size:12px;color:#64748b;">${tglFormatted}</p>
           </div>
           <div style="text-align:right;font-size:11px;color:#94a3b8;">
-            <div style="font-weight:700;color:#10B981;font-size:16px;">${i+1} / ${siswaList.length}</div>
+            <div style="font-weight:700;color:#6E9CA0;font-size:16px;">${i+1} / ${siswaList.length}</div>
             <div>siswa ke-${i+1}</div>
           </div>
         </div>
 
         <!-- Info Lab -->
-        <div style="background:linear-gradient(135deg,#10B981,#059669);border-radius:14px;padding:16px 20px;color:white;">
+        <div style="background:linear-gradient(135deg,#6E9CA0,#4F7377);border-radius:14px;padding:16px 20px;color:white;">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
             <div>
               <p style="margin:0;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:1px;opacity:.65;">Sesi / Lab</p>
@@ -628,7 +628,7 @@ export default function AdminUkkAbsensiPage() {
             })}
             disabled={siswaList.length === 0}
             className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-bold text-white shadow-sm disabled:opacity-40 transition-all hover:brightness-95"
-            style={{background:"linear-gradient(135deg,#EF4444,#FF5B19)"}}>
+            style={{background:"linear-gradient(135deg,#161616,#FF5B19)"}}>
             <FileText size={14}/> Laporan PDF
           </button>
         </div>
@@ -833,7 +833,7 @@ export default function AdminUkkAbsensiPage() {
                       {hasDok ? (
                         <button onClick={() => setDokumenSiswa(s)}
                           className="group flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
-                          style={{background:"linear-gradient(135deg,#6334F4,#FF5B19)"}}>
+                          style={{background:"linear-gradient(135deg,#3D3D3D,#FF5B19)"}}>
                           <Eye size={11} className="transition-transform group-hover:scale-110"/> Lihat
                         </button>
                       ) : <span/>}

@@ -18,7 +18,7 @@ type MeResponse = {
 };
 
 const ROLE_LABEL: Record<string, string> = { ADMIN: "Administrator", GURU: "Guru", SISWA: "Siswa" };
-const GRADIENT = "linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0ea5e9 100%)";
+const GRADIENT = "linear-gradient(135deg, #161616 0%, #4f7377 50%, #4f7377 100%)";
 
 export function ProfilSayaModal({ onClose }: { onClose: () => void }) {
   const [me, setMe] = useState<MeResponse | null>(null);
@@ -87,7 +87,7 @@ export function ProfilSayaModal({ onClose }: { onClose: () => void }) {
                     type="button"
                     onClick={() => setShowChangeFoto(true)}
                     title="Ganti foto profil"
-                    className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#2563eb] text-white shadow-md transition hover:brightness-90"
+                    className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#4f7377] text-white shadow-md transition hover:brightness-90"
                   >
                     <Camera size={11} />
                   </button>

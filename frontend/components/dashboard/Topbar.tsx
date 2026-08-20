@@ -104,10 +104,10 @@ const NOTIF_TYPE_STYLE: Record<ApiNotifType, NotifType> = {
 };
 
 const NOTIF_STYLE: Record<NotifType, { bg: string; color: string }> = {
-  info:    { bg: "#EFF6FF", color: "#3B82F6" },
-  success: { bg: "#F0FDF4", color: "#22C55E" },
+  info:    { bg: "#E1EDEE", color: "#4F7377" },
+  success: { bg: "#E1EDEE", color: "#22C55E" },
   warning: { bg: "#FF5B19", color: "#FF5B19" },
-  error:   { bg: "#FEF2F2", color: "#EF4444" },
+  error:   { bg: "#FEF2F2", color: "#161616" },
 };
 
 const NOTIF_ICON: Record<NotifType, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {

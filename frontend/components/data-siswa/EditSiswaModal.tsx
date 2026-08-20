@@ -24,7 +24,7 @@ function Field({ label, icon: Icon, required, optional, children }: {
       <label className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-500">
         <Icon size={10} className="text-primary/70" />
         {label}
-        {required && <span className="normal-case text-[#FF3644]">*</span>}
+        {required && <span className="normal-case text-[#161616]">*</span>}
         {optional && <span className="font-normal normal-case text-gray-400">(opsional)</span>}
       </label>
       {children}

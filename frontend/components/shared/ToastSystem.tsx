@@ -49,68 +49,72 @@ function useDarkMode() {
   return dark;
 }
 
+// Setiap tipe toast dipetakan ke satu dari 4 warna resmi palette brand
+// (oren/charcoal/platinum/powder blue) — success=powder blue, error=charcoal,
+// warning=oren, info=platinum — supaya keempatnya kepakai merata dan tetap
+// mudah dibedakan tanpa memperkenalkan hue baru di luar palette.
 const THEME = {
   success: {
-    headerFrom:  "#dcfce7",
-    headerTo:    "#f0fdf4",
-    blob1:       "rgba(16,185,129,0.22)",
-    blob2:       "rgba(52,211,153,0.14)",
-    ring1:       "rgba(16,185,129,0.18)",
-    ring2:       "rgba(16,185,129,0.10)",
-    iconBg:      "linear-gradient(135deg,#059669,#10B981,#34D399)",
-    iconShadow:  "0 16px 40px rgba(16,185,129,0.55)",
-    bar:         "linear-gradient(90deg,#059669,#34D399)",
-    btnBg:       "linear-gradient(135deg,#059669,#10B981)",
-    btnShadow:   "0 8px 24px rgba(16,185,129,0.45)",
-    dotColor:    "#10B981",
+    headerFrom:  "#E1EDEE",
+    headerTo:    "#F2F8F8",
+    blob1:       "rgba(110,156,160,0.22)",
+    blob2:       "rgba(174,202,205,0.14)",
+    ring1:       "rgba(110,156,160,0.18)",
+    ring2:       "rgba(110,156,160,0.10)",
+    iconBg:      "linear-gradient(135deg,#4F7377,#6E9CA0,#AECACD)",
+    iconShadow:  "0 16px 40px rgba(110,156,160,0.55)",
+    bar:         "linear-gradient(90deg,#4F7377,#AECACD)",
+    btnBg:       "linear-gradient(135deg,#4F7377,#6E9CA0)",
+    btnShadow:   "0 8px 24px rgba(110,156,160,0.45)",
+    dotColor:    "#6E9CA0",
     icon:        CheckCircle2,
     label:       "Berhasil",
   },
   error: {
-    headerFrom:  "#fee2e2",
-    headerTo:    "#fff5f5",
-    blob1:       "rgba(239,68,68,0.22)",
-    blob2:       "rgba(252,165,165,0.14)",
-    ring1:       "rgba(239,68,68,0.18)",
-    ring2:       "rgba(239,68,68,0.10)",
-    iconBg:      "linear-gradient(135deg,#991B1B,#FF5B19,#F87171)",
-    iconShadow:  "0 16px 40px rgba(239,68,68,0.55)",
-    bar:         "linear-gradient(90deg,#FF5B19,#F87171)",
-    btnBg:       "linear-gradient(135deg,#FF5B19,#EF4444)",
-    btnShadow:   "0 8px 24px rgba(239,68,68,0.45)",
-    dotColor:    "#EF4444",
+    headerFrom:  "#E8E7E4",
+    headerTo:    "#F2F1EE",
+    blob1:       "rgba(22,22,22,0.22)",
+    blob2:       "rgba(61,61,61,0.14)",
+    ring1:       "rgba(22,22,22,0.18)",
+    ring2:       "rgba(22,22,22,0.10)",
+    iconBg:      "linear-gradient(135deg,#161616,#3D3D3D,#6E6E6E)",
+    iconShadow:  "0 16px 40px rgba(22,22,22,0.55)",
+    bar:         "linear-gradient(90deg,#161616,#6E6E6E)",
+    btnBg:       "linear-gradient(135deg,#161616,#3D3D3D)",
+    btnShadow:   "0 8px 24px rgba(22,22,22,0.45)",
+    dotColor:    "#3D3D3D",
     icon:        XCircle,
     label:       "Gagal",
   },
   warning: {
     headerFrom:  "#FFEDD5",
-    headerTo:    "#FF5B19",
+    headerTo:    "#FFF6EF",
     blob1:       "rgba(255,91,25,0.22)",
-    blob2:       "rgba(253,211,77,0.14)",
+    blob2:       "rgba(255,138,84,0.14)",
     ring1:       "rgba(255,91,25,0.18)",
     ring2:       "rgba(255,91,25,0.10)",
-    iconBg:      "linear-gradient(135deg,#FF5B19,#FF5B19,#FCD34D)",
+    iconBg:      "linear-gradient(135deg,#CC4913,#FF5B19,#FFC49E)",
     iconShadow:  "0 16px 40px rgba(255,91,25,0.55)",
-    bar:         "linear-gradient(90deg,#FF5B19,#FCD34D)",
-    btnBg:       "linear-gradient(135deg,#FF5B19,#FF5B19)",
+    bar:         "linear-gradient(90deg,#CC4913,#FFC49E)",
+    btnBg:       "linear-gradient(135deg,#CC4913,#FF5B19)",
     btnShadow:   "0 8px 24px rgba(255,91,25,0.45)",
     dotColor:    "#FF5B19",
     icon:        AlertTriangle,
     label:       "Perhatian",
   },
   info: {
-    headerFrom:  "#dbeafe",
-    headerTo:    "#eff6ff",
-    blob1:       "rgba(79,142,247,0.22)",
-    blob2:       "rgba(147,197,253,0.14)",
-    ring1:       "rgba(79,142,247,0.18)",
-    ring2:       "rgba(79,142,247,0.10)",
-    iconBg:      "linear-gradient(135deg,#1E40AF,#2563EB,#93C5FD)",
-    iconShadow:  "0 16px 40px rgba(79,142,247,0.55)",
-    bar:         "linear-gradient(90deg,#2563EB,#93C5FD)",
-    btnBg:       "linear-gradient(135deg,#2563EB,#4F8EF7)",
-    btnShadow:   "0 8px 24px rgba(79,142,247,0.45)",
-    dotColor:    "#4F8EF7",
+    headerFrom:  "#E5E3D2",
+    headerTo:    "#F2F1E9",
+    blob1:       "rgba(156,151,118,0.22)",
+    blob2:       "rgba(196,192,160,0.14)",
+    ring1:       "rgba(156,151,118,0.18)",
+    ring2:       "rgba(156,151,118,0.10)",
+    iconBg:      "linear-gradient(135deg,#736E4C,#9C9776,#C4C0A0)",
+    iconShadow:  "0 16px 40px rgba(156,151,118,0.55)",
+    bar:         "linear-gradient(90deg,#736E4C,#C4C0A0)",
+    btnBg:       "linear-gradient(135deg,#736E4C,#9C9776)",
+    btnShadow:   "0 8px 24px rgba(156,151,118,0.45)",
+    dotColor:    "#9C9776",
     icon:        Info,
     label:       "Informasi",
   },
@@ -345,7 +349,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
   const divider    = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
   const cancelBg   = isDark ? "rgba(255,255,255,0.08)" : "#f1f5f9";
   const cancelText = isDark ? "#94a3b8" : "#64748b";
-  const headerBg   = isDark ? "rgba(255,255,255,0.03)" : "linear-gradient(180deg,#fee2e2 0%,#fff5f5 100%)";
+  const headerBg   = isDark ? "rgba(255,255,255,0.03)" : "linear-gradient(180deg,#E8E7E4 0%,#E8E7E4 100%)";
 
   const dots = [
     { x: -50, y: -46, delay: 0.1,  size: 7 },
@@ -393,7 +397,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
 
           <div className="relative flex items-center justify-center">
             {dots.map((d, i) => (
-              <FloatingDot key={i} color="#EF4444" x={d.x} y={d.y} delay={d.delay} size={d.size} />
+              <FloatingDot key={i} color="#161616" x={d.x} y={d.y} delay={d.delay} size={d.size} />
             ))}
 
             <motion.div
@@ -415,7 +419,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               transition={{ type: "spring", damping: 13, stiffness: 260, delay: 0.1 }}
               className="relative z-10 flex h-17 w-17 items-center justify-center rounded-2xl text-white"
               style={{
-                background: "linear-gradient(135deg,#991B1B,#FF5B19,#F87171)",
+                background: "linear-gradient(135deg,#161616,#FF5B19,#3D3D3D)",
                 boxShadow: "0 16px 40px rgba(239,68,68,0.55)",
               }}
             >
@@ -443,7 +447,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
             className="mt-5 rounded-full px-3 py-1 text-[10px] font-black tracking-[0.16em] uppercase"
             style={{
               background: isDark ? "rgba(255,255,255,0.08)" : "rgba(239,68,68,0.10)",
-              color: "#EF4444",
+              color: "#161616",
             }}
           >
             Konfirmasi
@@ -495,7 +499,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               onClick={() => onClose(true)}
               className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-white"
               style={{
-                background: "linear-gradient(135deg,#FF5B19,#EF4444)",
+                background: "linear-gradient(135deg,#FF5B19,#161616)",
                 boxShadow: "0 6px 20px rgba(239,68,68,0.40)",
               }}
             >

@@ -21,11 +21,11 @@ const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loa
 const PRIMARY = "#FF5B19";
 
 const PALETTE = [
-  { bg: "#EEF4FF", text: "#4F8EF7",  bar: "#4F8EF7",  gradient: "linear-gradient(135deg,#4F8EF7,#6366F1)" },
-  { bg: "#ECFDF5", text: "#10B981",  bar: "#10B981",  gradient: "linear-gradient(135deg,#10B981,#0D9488)" },
-  { bg: "#FFF1F2", text: "#EF4444",  bar: "#EF4444",  gradient: "linear-gradient(135deg,#EF4444,#FF5B19)" },
-  { bg: "#FF5B19", text: "#FF5B19",  bar: "#FF5B19",  gradient: "linear-gradient(135deg,#FF5B19,#EF4444)" },
-  { bg: "#F0F0FF", text: "#6366F1",  bar: "#6366F1",  gradient: "linear-gradient(135deg,#6366F1,#8B5CF6)" },
+  { bg: "#E1EDEE", text: "#6E9CA0",  bar: "#6E9CA0",  gradient: "linear-gradient(135deg,#6E9CA0,#3D3D3D)" },
+  { bg: "#E1EDEE", text: "#6E9CA0",  bar: "#6E9CA0",  gradient: "linear-gradient(135deg,#6E9CA0,#6E9CA0)" },
+  { bg: "#E8E7E4", text: "#161616",  bar: "#161616",  gradient: "linear-gradient(135deg,#161616,#FF5B19)" },
+  { bg: "#FF5B19", text: "#FF5B19",  bar: "#FF5B19",  gradient: "linear-gradient(135deg,#FF5B19,#161616)" },
+  { bg: "#E8E7E4", text: "#3D3D3D",  bar: "#3D3D3D",  gradient: "linear-gradient(135deg,#3D3D3D,#3D3D3D)" },
 ];
 function rowPalette(idx: number) { return PALETTE[idx % PALETTE.length]; }
 
@@ -39,11 +39,11 @@ interface DiskusiItem { id: string; konten: string; createdAt: string; user: { i
 function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }); }
 function formatTime(s: string) { return new Date(s).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }); }
 function statusBadge(s: StatusSubmisi) {
-  if (s === "DITERIMA") return { bg: "#ECFDF5", text: "#10B981", icon: <CheckCircle size={10} /> };
+  if (s === "DITERIMA") return { bg: "#E1EDEE", text: "#6E9CA0", icon: <CheckCircle size={10} /> };
   if (s === "REVISI")   return { bg: "#FF5B19", text: "#FF5B19", icon: <AlertCircle size={10} /> };
-  return { bg: "#EEF4FF", text: "#4F8EF7", icon: <Clock size={10} /> };
+  return { bg: "#E1EDEE", text: "#6E9CA0", icon: <Clock size={10} /> };
 }
-function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#6366F1", GURU: "#4F8EF7", SISWA: "#10B981" }; return m[role] ?? "#64748b"; }
+function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#3D3D3D", GURU: "#6E9CA0", SISWA: "#6E9CA0" }; return m[role] ?? "#64748b"; }
 
 function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
   const today = new Date();
@@ -142,16 +142,16 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
 }
 
 const ROLE_CHIP: Record<string, { bg: string; text: string; label: string }> = {
-  ADMIN: { bg: "#EEF2FF", text: "#6366F1", label: "Admin" },
-  GURU:  { bg: "#EFF6FF", text: "#3B82F6", label: "Guru"  },
-  SISWA: { bg: "#F0FDF4", text: "#16A34A", label: "Siswa" },
+  ADMIN: { bg: "#E8E7E4", text: "#3D3D3D", label: "Admin" },
+  GURU:  { bg: "#FFE8DA", text: "#FF5B19", label: "Guru"  },
+  SISWA: { bg: "#E1EDEE", text: "#4F7377", label: "Siswa" },
 };
 const BUBBLE_COLORS = [
-  { bubble: "#EEF2FF", text: "#4338CA", avatar: "linear-gradient(135deg,#6366F1,#818CF8)" },
-  { bubble: "#F0FDF4", text: "#15803D", avatar: "linear-gradient(135deg,#10B981,#34D399)" },
-  { bubble: "#FF5B19", text: "#FF5B19", avatar: "linear-gradient(135deg,#FF5B19,#FF5B19)" },
-  { bubble: "#FDF4FF", text: "#7E22CE", avatar: "linear-gradient(135deg,#A855F7,#EC4899)" },
-  { bubble: "#ECFEFF", text: "#0E7490", avatar: "linear-gradient(135deg,#06B6D4,#3B82F6)" },
+  { bubble: "#E8E7E4", text: "#3D3D3D", avatar: "linear-gradient(135deg,#161616,#3D3D3D)" },
+  { bubble: "#E1EDEE", text: "#4F7377", avatar: "linear-gradient(135deg,#4F7377,#6E9CA0)" },
+  { bubble: "#FFE8DA", text: "#FF5B19", avatar: "linear-gradient(135deg,#FF5B19,#FF8A54)" },
+  { bubble: "#F2F0E4", text: "#9C9776", avatar: "linear-gradient(135deg,#9C9776,#C4C0A0)" },
+  { bubble: "#ECEBE8", text: "#6E6E6E", avatar: "linear-gradient(135deg,#3D3D3D,#6E6E6E)" },
 ];
 function bubbleFor(id: string) { let h=0; for(const c of id) h=(h*31+c.charCodeAt(0))>>>0; return BUBBLE_COLORS[h%BUBBLE_COLORS.length]; }
 
@@ -185,7 +185,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
   return (
     <div className="flex flex-col rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden" style={{ minHeight: 0 }}>
       <div className="relative px-5 py-4 shrink-0 overflow-hidden"
-        style={{ background: "linear-gradient(135deg,#6366F1 0%,#8B5CF6 50%,#EC4899 100%)" }}>
+        style={{ background: "linear-gradient(135deg,#3D3D3D 0%,#3D3D3D 50%,#3D3D3D 100%)" }}>
         <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
         <div className="absolute -bottom-6 right-20 w-28 h-28 rounded-full bg-white/8 pointer-events-none"/>
         <div className="relative flex items-center justify-between">
@@ -209,7 +209,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
         {all.length === 0 && (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <div className="w-14 h-14 rounded-2xl mb-3 flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg,#6366F122,#EC489922)" }}>
+              style={{ background: "linear-gradient(135deg,#3D3D3D22,#3D3D3D22)" }}>
               <Send size={22} className="text-purple-300"/>
             </div>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Belum ada diskusi</p>
@@ -259,7 +259,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
       <div className="shrink-0 px-4 py-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 space-y-2">
         {replyTo && (
           <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-xl font-semibold"
-            style={{ backgroundColor: "#EEF2FF", color: "#6366F1" }}>
+            style={{ backgroundColor: "#EEF2FF", color: "#3D3D3D" }}>
             <ChevronRight size={11}/> Balas ke <strong>{replyTo.nama}</strong>
             <button onClick={() => setReplyTo(null)} className="ml-auto opacity-60 hover:opacity-100"><X size={11}/></button>
           </div>
@@ -271,7 +271,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
             className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 outline-none focus:border-indigo-400 focus:ring-2 focus:ring-indigo-100 dark:focus:ring-indigo-900/30 transition-all placeholder:text-slate-300"/>
           <button onClick={send} disabled={sending || !input.trim()}
             className="w-9 h-9 flex items-center justify-center rounded-xl text-white shrink-0 disabled:opacity-40 transition-all hover:brightness-110"
-            style={{ background: "linear-gradient(135deg,#6366F1,#8B5CF6)" }}>
+            style={{ background: "linear-gradient(135deg,#3D3D3D,#3D3D3D)" }}>
             {sending ? <Loader2 size={13} className="animate-spin"/> : <Send size={13}/>}
           </button>
         </div>
@@ -304,7 +304,7 @@ function TahapanModal({ open, onClose, onSave, initial }: { open: boolean; onClo
             style={{ maxHeight: "92vh" }}>
 
             <div className="relative flex items-center gap-4 px-6 py-5 overflow-hidden"
-              style={{ background: "linear-gradient(135deg,#4F46E5,#6366F1,#818CF8)" }}>
+              style={{ background: "linear-gradient(135deg,#161616,#3D3D3D,#6E6E6E)" }}>
               <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 pointer-events-none"/>
               <div className="absolute -bottom-6 right-20 w-28 h-28 rounded-full bg-white/7 pointer-events-none"/>
               <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
@@ -410,7 +410,7 @@ function TahapanModal({ open, onClose, onSave, initial }: { open: boolean; onClo
                 <motion.button type="submit" disabled={saving}
                   whileHover={{ scale: saving ? 1 : 1.02 }} whileTap={{ scale: saving ? 1 : 0.97 }}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2"
-                  style={{ background: "linear-gradient(135deg,#4F46E5,#6366F1)" }}>
+                  style={{ background: "linear-gradient(135deg,#161616,#3D3D3D)" }}>
                   {saving ? <><Loader2 size={14} className="animate-spin"/> Menyimpan...</> : <><Send size={13}/> {isEdit ? "Perbarui" : "Simpan Task"}</>}
                 </motion.button>
               </div>
@@ -865,7 +865,7 @@ export default function AdminJadwalSoalPage() {
                     return (
                       <>
                         <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                          style={{background:"linear-gradient(135deg,#6366F1,#4F46E5)"}}>
+                          style={{background:"linear-gradient(135deg,#3D3D3D,#161616)"}}>
                           <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                           <div className="absolute -bottom-6 right-24 w-24 h-24 rounded-full bg-white/8 pointer-events-none"/>
                           <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
@@ -915,7 +915,7 @@ export default function AdminJadwalSoalPage() {
                           <SoalPdfViewer soal={curSoal} onClose={()=>setOpenSoalModal(false)}/>
                         ) : (
                           <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#6366F122,#4F46E522)"}}>
+                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#3D3D3D22,#16161622)"}}>
                               <FileText size={30} className="text-indigo-400"/>
                             </div>
                             <div>
@@ -975,7 +975,7 @@ export default function AdminJadwalSoalPage() {
 
                 <button onClick={() => { setSoalSoalIdx(0); setOpenSoalModal(true); }}
                   className="flex-1 relative overflow-hidden rounded-2xl text-white text-left focus:outline-none transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] p-4 sm:p-5"
-                  style={{background:"linear-gradient(135deg,#6366F1,#4F46E5)", boxShadow:"0 8px 28px rgba(99,102,241,0.45)"}}>
+                  style={{background:"linear-gradient(135deg,#3D3D3D,#161616)", boxShadow:"0 8px 28px rgba(99,102,241,0.45)"}}>
                   <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="absolute -right-2 -bottom-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="relative flex items-center justify-between gap-2">
@@ -1013,14 +1013,14 @@ export default function AdminJadwalSoalPage() {
             <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(255,91,25,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#FF5B19,#6366F1)"}}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#FF5B19,#3D3D3D)"}}>
                     <BookOpen size={14} className="text-white"/>
                   </div>
                   <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
                 </div>
                 <button onClick={() => { setEditTarget(null); setOpenTahapan(true); }}
                   className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-xl text-white shadow-sm"
-                  style={{background:"linear-gradient(135deg,#FF5B19,#6366F1)"}}>
+                  style={{background:"linear-gradient(135deg,#FF5B19,#3D3D3D)"}}>
                   <Plus size={13} /> Tambah Task
                 </button>
               </div>
@@ -1033,9 +1033,9 @@ export default function AdminJadwalSoalPage() {
                 </button>
                 <button onClick={() => setTab("completed")}
                   className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-emerald-500" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                  style={tab==="completed"?{color:"#10B981"}:{}}>
+                  style={tab==="completed"?{color:"#6E9CA0"}:{}}>
                   Completed
-                  {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#10B981"}}>{completed.length}</span>}
+                  {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#6E9CA0"}}>{completed.length}</span>}
                 </button>
               </div>
             </div>
@@ -1052,10 +1052,10 @@ export default function AdminJadwalSoalPage() {
                 const rp  = rowPalette(idx);
                 const sudahKumpul = submisiList.length;
                 const pct = Math.min(Math.round((sudahKumpul / Math.max(submisiList.length || 12, 1)) * 100), 100);
-                const chipDate  = {bg:"#EFF6FF", clr:"#3B82F6"};
-                const chipTime  = {bg:"#F0FDF4", clr:"#16A34A"};
+                const chipDate  = {bg:"#E1EDEE", clr:"#4F7377"};
+                const chipTime  = {bg:"#E1EDEE", clr:"#4F7377"};
                 const chipLoc   = {bg:"#FF5B19", clr:"#FF5B19"};
-                const chipUser  = {bg:"#FDF4FF", clr:"#9333EA"};
+                const chipUser  = {bg:"#E8E7E4", clr:"#161616"};
                 return (
                   <motion.div key={t.id} initial={{opacity:0,y:4}} animate={{opacity:1,y:0}} transition={{delay:idx*0.05}}>
                     <div className="px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3 border-l-4 transition-all hover:bg-slate-50/80 dark:hover:bg-slate-700/20"
@@ -1224,10 +1224,10 @@ export default function AdminJadwalSoalPage() {
 
                 <div className="grid grid-cols-4 shrink-0 border-b border-slate-100 dark:border-slate-700">
                   {[
-                    { label: "Total",    val: rows.length,   color: "#6334F4" },
-                    { label: "Diterima", val: cntDiterima,   color: "#10B981" },
+                    { label: "Total",    val: rows.length,   color: "#3D3D3D" },
+                    { label: "Diterima", val: cntDiterima,   color: "#6E9CA0" },
                     { label: "Revisi",   val: cntRevisi,     color: "#FF5B19" },
-                    { label: "Menunggu", val: cntMenunggu,   color: "#4F8EF7" },
+                    { label: "Menunggu", val: cntMenunggu,   color: "#6E9CA0" },
                   ].map((st, i) => (
                     <div key={i} className="p-4 text-center border-r last:border-r-0 border-slate-100 dark:border-slate-700">
                       <p className="text-2xl font-extrabold" style={{color:st.color}}>{st.val}</p>
@@ -1250,7 +1250,7 @@ export default function AdminJadwalSoalPage() {
                     return (
                       <div key={s.id} className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                          style={{backgroundColor: isDone ? "#10B981" : sc.text}}>
+                          style={{backgroundColor: isDone ? "#6E9CA0" : sc.text}}>
                           {nama[0]?.toUpperCase() ?? "?"}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -1264,7 +1264,7 @@ export default function AdminJadwalSoalPage() {
                         <a href={s.fileUrl.startsWith("http") ? s.fileUrl : `http://localhost:3001${s.fileUrl}`}
                           target="_blank" rel="noopener noreferrer"
                           className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl shrink-0"
-                          style={{color:"#4285F4", backgroundColor:"#EFF6FF"}}>
+                          style={{color:"#4285F4", backgroundColor:"#E1EDEE"}}>
                           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current shrink-0">
                             <path d="M6.18 15L3.12 9.72 9.24 0h5.51L8.63 9.72 6.18 15zm5.82 0H7.76l2.45-4.28h7.13L14.89 15h-2.89zM12 7.5l2.89-5h2.89L21 7.5h-5.78L12 7.5zM20.88 15l-2.45-4.28h2.01L24 15h-3.12z"/>
                           </svg>
@@ -1276,7 +1276,7 @@ export default function AdminJadwalSoalPage() {
                           <div className="flex gap-2 shrink-0">
                             <button onClick={() => updateStatus(s.id, "DITERIMA")}
                               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                              style={{background:"linear-gradient(135deg,#10B981,#059669)"}}>
+                              style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
                               <CheckCircle size={12}/> Terima
                             </button>
                             <button onClick={() => { setRevisiTarget(s); setPesanRevisi(""); }}
@@ -1338,7 +1338,7 @@ export default function AdminJadwalSoalPage() {
         }}
         tahapanList={filePool ? [filePool] : []}
         title="Upload Soal"
-        gradient="linear-gradient(135deg,#6366F1,#4F46E5)"
+        gradient="linear-gradient(135deg,#3D3D3D,#161616)"
         showTahapan={false}
       />
 

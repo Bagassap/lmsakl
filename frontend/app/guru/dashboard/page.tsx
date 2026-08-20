@@ -33,15 +33,15 @@ interface DashboardData {
 
 
 const P = "#FF5B19";
-const R = "#EF4444";
-const G = "#10B981";
+const R = "#161616";
+const G = "#6E9CA0";
 
 function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-700/60 ${className}`} />;
 }
 
 const KATEGORI_COLOR: Record<string, string> = {
-  UMUM: P, AKADEMIK: "#6366F1", EKSKUL: G, DARURAT: R,
+  UMUM: P, AKADEMIK: "#3D3D3D", EKSKUL: G, DARURAT: R,
 };
 const kColor = (k: string) => KATEGORI_COLOR[k] ?? P;
 
@@ -149,7 +149,7 @@ export default function GuruDashboardPage() {
       label: "Absensi Harian",
       value: data.kehadiran.hadir,
       suffix: " hadir",
-      gradient: "linear-gradient(135deg, #4ade80 0%, #22c55e 100%)",
+      gradient: "linear-gradient(135deg, #AECACD 0%, #6E9CA0 100%)",
       icon: ClipboardCheck,
     },
     {
@@ -157,7 +157,7 @@ export default function GuruDashboardPage() {
       label: "Siswa Diampu",
       value: data.siswaAmpu,
       suffix: " siswa",
-      gradient: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
+      gradient: "linear-gradient(135deg, #6E9CA0 0%, #4f7377 100%)",
       icon: Users,
     },
     {
@@ -165,7 +165,7 @@ export default function GuruDashboardPage() {
       label: "Kelas Wali",
       value: kelasWali.length,
       suffix: " kelas",
-      gradient: "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)",
+      gradient: "linear-gradient(135deg, #6E6E6E 0%, #161616 100%)",
       icon: GraduationCap,
     },
     {
@@ -291,7 +291,7 @@ export default function GuruDashboardPage() {
                   transition={{ delay: 0.5 + i * 0.06 }}
                   className="flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/30">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-extrabold text-white"
-                    style={{ background: "linear-gradient(135deg,#6334F4,#FF5B19)" }}>
+                    style={{ background: "linear-gradient(135deg,#3D3D3D,#FF5B19)" }}>
                     {k.nama.charAt(0)}
                   </div>
                   <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{k.nama}</p>

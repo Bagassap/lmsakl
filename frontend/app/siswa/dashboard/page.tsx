@@ -31,15 +31,15 @@ interface DashboardData {
 
 
 const P = "#FF5B19";
-const R = "#EF4444";
-const G = "#10B981";
+const R = "#161616";
+const G = "#6E9CA0";
 
 function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-700/60 ${className}`} />;
 }
 
 const KATEGORI_COLOR: Record<string, string> = {
-  UMUM: P, AKADEMIK: "#6366F1", EKSKUL: G, DARURAT: R,
+  UMUM: P, AKADEMIK: "#3D3D3D", EKSKUL: G, DARURAT: R,
 };
 const kColor = (k: string) => KATEGORI_COLOR[k] ?? P;
 
@@ -141,7 +141,7 @@ export default function SiswaDashboardPage() {
       label: "Absensi Harian",
       display: `${absensi.persentase}% hadir`,
       small: false,
-      gradient: "linear-gradient(135deg, #4ade80 0%, #22c55e 100%)",
+      gradient: "linear-gradient(135deg, #AECACD 0%, #6E9CA0 100%)",
       icon: ClipboardCheck,
     },
     {
@@ -149,7 +149,7 @@ export default function SiswaDashboardPage() {
       label: "Total Hadir",
       display: `${absensi.hadir}x`,
       small: false,
-      gradient: "linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%)",
+      gradient: "linear-gradient(135deg, #6E9CA0 0%, #4f7377 100%)",
       icon: CheckCircle,
     },
     {
@@ -157,7 +157,7 @@ export default function SiswaDashboardPage() {
       label: "Pengumuman",
       display: `${data.pengumuman.length} info`,
       small: false,
-      gradient: "linear-gradient(135deg, #a78bfa 0%, #7c3aed 100%)",
+      gradient: "linear-gradient(135deg, #6E6E6E 0%, #161616 100%)",
       icon: Megaphone,
     },
     {

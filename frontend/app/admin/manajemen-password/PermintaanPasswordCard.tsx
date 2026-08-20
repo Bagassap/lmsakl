@@ -110,7 +110,7 @@ export function PermintaanPasswordCard({
                   src={r.user?.fotoProfil}
                   nama={r.namaPengaju}
                   sizePx={30}
-                  fallbackBg={r.user ? (r.user.role === "SISWA" ? "linear-gradient(135deg,#4F8EF7,#3B7CE8)" : "linear-gradient(135deg,#8B5CF6,#6D28D9)") : "linear-gradient(135deg,#94a3b8,#64748b)"}
+                  fallbackBg={r.user ? (r.user.role === "SISWA" ? "linear-gradient(135deg,#6E9CA0,#4F7377)" : "linear-gradient(135deg,#3D3D3D,#161616)") : "linear-gradient(135deg,#94a3b8,#64748b)"}
                   textClassName="text-[10px] font-bold"
                 />
                 <div className="min-w-0 flex-1">

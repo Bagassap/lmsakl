@@ -9,11 +9,11 @@ import { kelasShort, type SiswaCardData, type KelasRef } from "./shared";
 // pakai token --color-primary bawaan (#FF5B19) karena token itu dipakai luas
 // di luar Data Siswa (sidebar, topbar, dll) dan tidak boleh ikut berubah.
 const REF_PRIMARY = "#FF5B19";
-const REF_SUCCESS = "#10b981";
+const REF_SUCCESS = "#6e9ca0";
 
 const JURUSAN_PILLS = [
   { value: "" as const, label: "Semua", color: REF_PRIMARY },
-  { value: "Akuntansi dan Keuangan Lembaga" as const, label: "AKL", color: "#8b5cf6" },
+  { value: "Akuntansi dan Keuangan Lembaga" as const, label: "AKL", color: "#3d3d3d" },
 ];
 
 const GENDER_PILLS = [
@@ -185,7 +185,7 @@ export function FilterBar({
           </p>
           <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600">
             {lPct > 0 && <div style={{ width: `${lPct}%`, backgroundColor: REF_PRIMARY }} />}
-            {pPct > 0 && <div style={{ width: `${pPct}%`, backgroundColor: "#ec4899" }} />}
+            {pPct > 0 && <div style={{ width: `${pPct}%`, backgroundColor: "#3d3d3d" }} />}
           </div>
           <div className="mt-2.5 flex flex-wrap items-center gap-4">
             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
@@ -194,7 +194,7 @@ export function FilterBar({
               <span className="text-slate-400 dark:text-slate-500">({lPct}%)</span>
             </span>
             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
-              <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: "#ec4899" }} />
+              <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: "#3d3d3d" }} />
               Perempuan <span className="font-bold text-slate-800 dark:text-white">{pCount}</span>
               <span className="text-slate-400 dark:text-slate-500">({pPct}%)</span>
             </span>

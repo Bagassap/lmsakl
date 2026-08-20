@@ -104,8 +104,8 @@ export function LoginCard() {
       {/* ── Sobekan tiket pemisah antar panel (hanya desktop) ──────────── */}
       <div className="pointer-events-none absolute inset-y-0 left-[300px] z-20 hidden w-4 -translate-x-1/2 md:block">
         <div className="mx-auto h-full w-px border-l-2 border-dashed border-amber-900/15" />
-        <span className="absolute -top-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#FBF4E6]" />
-        <span className="absolute -bottom-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#FBF4E6]" />
+        <span className="absolute -top-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#F2F0E4]" />
+        <span className="absolute -bottom-3 left-1/2 h-6 w-6 -translate-x-1/2 rounded-full bg-[#F2F0E4]" />
       </div>
 
       {/* ── Panel kanan: form login ─────────────────────────────────── */}

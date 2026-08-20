@@ -14,11 +14,11 @@ function formatDate(iso: string): string {
 }
 
 const ROW_PALETTES = [
-  { gradient: "linear-gradient(135deg,#4F8EF7,#2563EB)" },
-  { gradient: "linear-gradient(135deg,#00D67F,#0D9488)" },
+  { gradient: "linear-gradient(135deg,#6E9CA0,#AECACD)" },
+  { gradient: "linear-gradient(135deg,#9C9776,#C4C0A0)" },
   { gradient: "linear-gradient(135deg,#FF5B19,#FF5B19)" },
-  { gradient: "linear-gradient(135deg,#7C3AED,#6334F4)" },
-  { gradient: "linear-gradient(135deg,#2563EB,#0EA5E9)" },
+  { gradient: "linear-gradient(135deg,#161616,#3D3D3D)" },
+  { gradient: "linear-gradient(135deg,#FF8A54,#FFC49E)" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 

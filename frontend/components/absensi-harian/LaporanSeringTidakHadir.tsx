@@ -13,9 +13,9 @@ const INLINE_LIMIT = 5;
 const GRID_COLS = "36px 40px 2fr 1.4fr 80px 1.2fr";
 
 const RANK_STYLE = [
-  { bg: "#FFF6DF", clr: "#C99A1C" }, // gold
-  { bg: "#F1F3F7", clr: "#8A96AC" }, // silver
-  { bg: "#FCEEE3", clr: "#C97A3D" }, // bronze
+  { bg: "#FFE8DA", clr: "#FF5B19" }, // gold -> oren
+  { bg: "#E8E7E4", clr: "#6E6E6E" }, // silver -> charcoal
+  { bg: "#F2F0E4", clr: "#9C9776" }, // bronze -> platinum gelap
 ];
 
 function RankBadge({ index }: { index: number }) {
@@ -37,9 +37,9 @@ function RankBadge({ index }: { index: number }) {
 // Bar color varies with how bad the attendance actually is — red under 50%,
 // amber under 75%, blue otherwise.
 function severityColor(pct: number) {
-  if (pct < 50) return "#FF3644";
-  if (pct < 75) return "#E6A800";
-  return "#0033FF";
+  if (pct < 50) return "#161616";
+  if (pct < 75) return "#CC4913";
+  return "#4F7377";
 }
 
 function StatPill({
@@ -96,7 +96,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
       <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#EF4444,#DC2626)" }}>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#161616,#3D3D3D)" }}>
               <TrendingDown size={18} />
             </span>
             <div>
@@ -111,7 +111,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
             ] as { key: PeriodeLaporan; label: string }[]).map((opt) => (
               <button key={opt.key} type="button" onClick={() => setPeriode(opt.key)}
                 className={`rounded-md px-2.5 py-1 text-[11px] font-bold transition-colors ${
-                  periode === opt.key ? "bg-red-500 text-white shadow-sm" : "text-slate-500 dark:text-slate-400"
+                  periode === opt.key ? "bg-[#FF5B19] text-white shadow-sm" : "text-slate-500 dark:text-slate-400"
                 }`}>
                 {opt.label}
               </button>
@@ -127,7 +127,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
           </div>
         ) : inlineRows.length === 0 ? (
           <div className="mt-4 flex flex-col items-center gap-2 py-6 text-center">
-            <ShieldCheck size={22} className="text-emerald-400" />
+            <ShieldCheck size={22} className="text-[#6E9CA0]" />
             <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               Tidak ada siswa dengan catatan alpa pada periode ini
             </p>
@@ -153,7 +153,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
 
         {totalBermasalah > INLINE_LIMIT && (
           <button type="button" onClick={() => setShowModal(true)}
-            className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl bg-red-50 px-3 py-2 text-xs font-bold text-red-500 hover:bg-red-100 dark:bg-red-900/20">
+            className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl bg-[#E8E7E4] px-3 py-2 text-xs font-bold text-[#161616] hover:bg-[#DAD9D5] dark:bg-[#3D3D3D]/30">
             Lihat semua {totalBermasalah} siswa <ArrowRight size={12} />
           </button>
         )}
@@ -207,16 +207,16 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
               </div>
 
               <div className="flex shrink-0 flex-wrap gap-2 px-5 py-3">
-                <StatPill icon={AlertTriangle} gradient={CARD_GRADIENTS[1]} iconColor="#EF4444" value={String(totalBermasalah)} label="Bermasalah" />
-                <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#F59E0B" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
-                <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#0033FF" value={`${rataKehadiran}%`} label="Rata Hadir" />
+                <StatPill icon={AlertTriangle} gradient={CARD_GRADIENTS[1]} iconColor="#161616" value={String(totalBermasalah)} label="Bermasalah" />
+                <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#CC4913" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
+                <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#4F7377" value={`${rataKehadiran}%`} label="Rata Hadir" />
               </div>
 
               {loading ? (
                 <div className="flex-1 py-10 text-center text-xs font-semibold text-slate-400">Memuat data...</div>
               ) : rows.length === 0 ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10 text-center">
-                  <ShieldCheck size={22} className="text-emerald-400" />
+                  <ShieldCheck size={22} className="text-[#6E9CA0]" />
                   <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     Tidak ada siswa dengan catatan alpa pada periode ini
                   </p>
@@ -252,7 +252,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
                               <p className="truncate text-sm font-semibold text-slate-700 dark:text-slate-200">{r.nama}</p>
                             </div>
                             <p className="truncate text-[11px] text-slate-400">{r.kelasNama} · {r.nis ?? "—"}</p>
-                            <span className="mx-auto rounded-full bg-red-50 px-2.5 py-1 text-[11px] font-extrabold text-red-500 dark:bg-red-950">
+                            <span className="mx-auto rounded-full bg-[#E8E7E4] px-2.5 py-1 text-[11px] font-extrabold text-[#161616] dark:bg-[#3D3D3D]/40">
                               {r.summary.ALPA}x
                             </span>
                             <div className="flex items-center gap-2">

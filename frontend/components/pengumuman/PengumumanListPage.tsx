@@ -17,11 +17,11 @@ import { Avatar } from "@/components/shared/Avatar";
 type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 
 const KATEGORI_GRADIENT: Record<string, string> = {
-  Umum:     "linear-gradient(135deg, #6334F4 0%, #977DFF 100%)",
-  Akademik: "linear-gradient(135deg, #3B7CE8 0%, #4F8EF7 100%)",
+  Umum:     "linear-gradient(135deg, #161616 0%, #3D3D3D 100%)",
+  Akademik: "linear-gradient(135deg, #4F7377 0%, #6E9CA0 100%)",
   Magang:   "linear-gradient(135deg, #FF5B19 0%, #FF5B19 100%)",
-  Ujian:    "linear-gradient(135deg, #EF4444 0%, #F87171 100%)",
-  Lainnya:  "linear-gradient(135deg, #FF5B19 0%, #FCD34D 100%)",
+  Ujian:    "linear-gradient(135deg, #9C9776 0%, #C4C0A0 100%)",
+  Lainnya:  "linear-gradient(135deg, #FF8A54 0%, #FFC49E 100%)",
 };
 
 const MONTH_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -50,8 +50,8 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
     return announcementDates.has(key);
   }
 
-  const CALENDAR_GRADIENT = "linear-gradient(135deg, #4338ca 0%, #2563eb 50%, #0ea5e9 100%)";
-  const DOT_COLOR = "#2563eb";
+  const CALENDAR_GRADIENT = "linear-gradient(135deg, #161616 0%, #4f7377 50%, #4f7377 100%)";
+  const DOT_COLOR = "#4f7377";
   function dotColor(_d: number) { return DOT_COLOR; }
 
   return (
@@ -82,7 +82,7 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
         <div className="grid grid-cols-7 mb-2">
           {DAY_ID.map((d, i) => (
             <div key={d} className="text-center text-[10px] font-bold"
-              style={{ color: i >= 5 ? "#0ea5e9" : "#94a3b8" }}>{d}</div>
+              style={{ color: i >= 5 ? "#4f7377" : "#94a3b8" }}>{d}</div>
           ))}
         </div>
 
@@ -150,7 +150,7 @@ function AccordionCard({
   onPin: () => void;
 }) {
   const gradient = p.isPinned
-    ? "linear-gradient(135deg, #FF5B19 0%, #FCD34D 100%)"
+    ? "linear-gradient(135deg, #FF5B19 0%, #FFC49E 100%)"
     : (KATEGORI_GRADIENT[p.kategori] ?? KATEGORI_GRADIENT.Lainnya);
 
   function timeAgo(iso: string): string {
@@ -301,23 +301,23 @@ function AccordionCard({
             <div className="relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-[0.07] dark:opacity-[0.12]"
-                style={{ background: "linear-gradient(90deg, #6334F4 0%, #977DFF 60%, transparent 100%)" }}
+                style={{ background: "linear-gradient(90deg, #3D3D3D 0%, #6E6E6E 60%, transparent 100%)" }}
               />
-              <div className="relative flex items-center gap-3 border-y border-[#6334F4]/10 px-6 py-3 dark:border-[#6334F4]/20">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#6334F4]/12 dark:bg-[#6334F4]/20">
-                  <MessageCircle size={13} className="text-[#6334F4] dark:text-purple-400" />
+              <div className="relative flex items-center gap-3 border-y border-[#3D3D3D]/10 px-6 py-3 dark:border-[#3D3D3D]/20">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#3D3D3D]/12 dark:bg-[#3D3D3D]/20">
+                  <MessageCircle size={13} className="text-[#3D3D3D] dark:text-purple-400" />
                 </div>
                 <span className="text-[13px] font-extrabold tracking-tight text-slate-800 dark:text-white">
                   Ruang Diskusi
                 </span>
                 {detail && (
-                  <span className="rounded-full bg-[#6334F4]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#6334F4] dark:bg-purple-900/30 dark:text-purple-400">
+                  <span className="rounded-full bg-[#3D3D3D]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#3D3D3D] dark:bg-purple-900/30 dark:text-purple-400">
                     {detail.komentar.reduce((s, k) => s + 1 + (k.replies?.length ?? 0), 0)} pesan
                   </span>
                 )}
                 <div className="ml-auto flex items-center gap-1 opacity-30">
                   {[0,1,2].map(i => (
-                    <span key={i} className="h-1.5 w-1.5 rounded-full bg-[#6334F4]" style={{ opacity: 1 - i * 0.25 }} />
+                    <span key={i} className="h-1.5 w-1.5 rounded-full bg-[#3D3D3D]" style={{ opacity: 1 - i * 0.25 }} />
                   ))}
                 </div>
               </div>
@@ -327,8 +327,8 @@ function AccordionCard({
               {detailLoading ? (
                 <div className="flex flex-col items-center justify-center gap-3 py-10">
                   <div className="relative">
-                    <div className="h-10 w-10 rounded-full bg-[#6334F4]/10" />
-                    <Loader2 size={18} className="absolute inset-0 m-auto animate-spin text-[#6334F4]" />
+                    <div className="h-10 w-10 rounded-full bg-[#3D3D3D]/10" />
+                    <Loader2 size={18} className="absolute inset-0 m-auto animate-spin text-[#3D3D3D]" />
                   </div>
                   <span className="text-[12px] text-slate-400">Memuat diskusi...</span>
                 </div>
@@ -501,7 +501,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
                 onClick={() => { setEditItem(null); setModalOpen(true); }}
                 whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                 className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-[13px] font-bold shadow-lg shrink-0"
-                style={{ color: "#6334F4" }}>
+                style={{ color: "#3D3D3D" }}>
                 <Plus size={15}/> Buat Pengumuman
               </motion.button>
             )}

@@ -118,7 +118,7 @@ function KelolaKelasModal({ kelasList, guruList, onClose, onSaved }: {
                 </button>
                 <button onClick={save} disabled={saving}
                   className="rounded-xl px-4 py-1.5 text-xs font-bold text-white disabled:opacity-50"
-                  style={{ background: "linear-gradient(135deg,#6334F4,#4F46E5)" }}>
+                  style={{ background: "linear-gradient(135deg,#3D3D3D,#161616)" }}>
                   {saving ? "Menyimpan..." : "Simpan"}
                 </button>
               </div>
@@ -450,7 +450,7 @@ export default function AdminAbsensiHarianPage() {
           <div className="flex h-full flex-col gap-4">
             <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#6334F4,#4F46E5)" }}>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#3D3D3D,#161616)" }}>
                   <FileText size={18} />
                 </span>
                 <div>

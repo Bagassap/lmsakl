@@ -90,10 +90,10 @@ export function SubmisiTugasModal({
               <div className="grid grid-cols-3 gap-y-3 shrink-0 border-b border-slate-100 py-3 dark:border-slate-700 sm:grid-cols-5 sm:gap-y-0 sm:py-0">
                 {[
                   { label: "Total", val: rows.length, color: "#FF5B19" },
-                  { label: "Diterima", val: cntDiterima, color: "#00D67F" },
+                  { label: "Diterima", val: cntDiterima, color: "#6E9CA0" },
                   { label: "Revisi", val: cntRevisi, color: "#FF5B19" },
-                  { label: "Menunggu", val: cntMenunggu, color: "#4F8EF7" },
-                  { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#EF4444" },
+                  { label: "Menunggu", val: cntMenunggu, color: "#6E9CA0" },
+                  { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#161616" },
                 ].map((st, i) => (
                   <div key={i} className="p-2.5 text-center sm:border-r sm:border-slate-100 sm:p-4 sm:last:border-r-0 dark:sm:border-slate-700">
                     <p className="text-xl font-extrabold sm:text-2xl" style={{ color: st.color }}>{st.val}</p>
@@ -157,7 +157,7 @@ export function SubmisiTugasModal({
                   return (
                     <div key={s.id} className="flex flex-wrap items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
                       <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                        style={{ backgroundColor: isDone ? "#00D67F" : sc.color }}>
+                        style={{ backgroundColor: isDone ? "#6E9CA0" : sc.color }}>
                         {nama[0]?.toUpperCase() ?? "?"}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -194,7 +194,7 @@ export function SubmisiTugasModal({
                         <div className="flex gap-2 shrink-0">
                           <button onClick={() => onTerima(s.id)}
                             className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                            style={{ background: "#00D67F" }}>
+                            style={{ background: "#6E9CA0" }}>
                             <CheckCircle size={12} /> Terima
                           </button>
                           <button onClick={() => onRevisi(s)}

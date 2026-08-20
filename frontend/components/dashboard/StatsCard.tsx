@@ -5,10 +5,10 @@ import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 
 const THEMES = [
-  { icon: "#4F8EF7", iconBg: "#EEF4FF" },
-  { icon: "#10B981", iconBg: "#ECFDF5" },
-  { icon: "#EF4444", iconBg: "#FFF1F2" },
-  { icon: "#F59E0B", iconBg: "#FFFBEB" },
+  { icon: "#6E9CA0", iconBg: "#E1EDEE" },
+  { icon: "#3D3D3D", iconBg: "#E8E7E4" },
+  { icon: "#FF5B19", iconBg: "#FFE8DA" },
+  { icon: "#9C9776", iconBg: "#F2F0E4" },
 ] as const;
 
 function useCountUp(target: number, duration = 1200) {

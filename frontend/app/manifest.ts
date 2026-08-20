@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
       "Sistem pembelajaran digital untuk siswa, guru, dan admin jurusan Akuntansi dan Keuangan Lembaga SMK Ma'arif NU 01 Limpung.",
     start_url: "/",
     display: "standalone",
-    background_color: "#FBF4E6",
+    background_color: "#F2F0E4",
     theme_color: "#B45309",
     icons: [
       { src: "/icon-192.png", sizes: "192x192", type: "image/png" },

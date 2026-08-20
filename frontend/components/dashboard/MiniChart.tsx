@@ -166,7 +166,7 @@ interface AreaLineItem {
 
 export function AreaLineChart({
   data,
-  color = "#4F8EF7",
+  color = "#6E9CA0",
   height = 300,
   showValueLabels = false,
 }: {

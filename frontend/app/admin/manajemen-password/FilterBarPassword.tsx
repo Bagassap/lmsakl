@@ -97,7 +97,7 @@ export function FilterBarPassword({
       {wali && (
         <div className="relative mt-4 flex items-center justify-between gap-2 rounded-2xl border border-violet-100 bg-violet-50/50 p-3 dark:border-violet-900/30 dark:bg-violet-900/10">
           <div className="flex min-w-0 items-center gap-2.5">
-            <Avatar src={wali.fotoProfil} nama={wali.nama} sizePx={34} fallbackBg="linear-gradient(135deg,#8B5CF6,#6D28D9)" textClassName="text-xs font-bold" />
+            <Avatar src={wali.fotoProfil} nama={wali.nama} sizePx={34} fallbackBg="linear-gradient(135deg,#3D3D3D,#161616)" textClassName="text-xs font-bold" />
             <div className="min-w-0">
               <p className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-violet-600 dark:text-violet-400">
                 <UserCheck size={11} /> Wali Kelas

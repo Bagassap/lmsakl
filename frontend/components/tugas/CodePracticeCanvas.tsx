@@ -29,7 +29,7 @@ ${html}
   window.addEventListener("error", function (e) {
     var pre = document.createElement("pre");
     pre.textContent = "Error: " + e.message;
-    pre.style.cssText = "position:fixed;left:0;right:0;bottom:0;margin:0;padding:8px 12px;background:#FFE9EA;color:#FF5B19;font:12px monospace;white-space:pre-wrap;border-top:1px solid #FF5B19;";
+    pre.style.cssText = "position:fixed;left:0;right:0;bottom:0;margin:0;padding:8px 12px;background:#E8E7E4;color:#FF5B19;font:12px monospace;white-space:pre-wrap;border-top:1px solid #FF5B19;";
     document.body.appendChild(pre);
   });
 <\/script>
@@ -157,7 +157,7 @@ export function CodePracticeCanvas({
           </button>
           <button type="button" onClick={runNow}
             className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white shadow-sm hover:brightness-105"
-            style={{ background: "linear-gradient(135deg,#00D67F,#00B368)" }}>
+            style={{ background: "linear-gradient(135deg,#6E9CA0,#4F7377)" }}>
             <Play size={12} /> Run
           </button>
           <button type="button" onClick={() => setFullscreen((f) => !f)}
