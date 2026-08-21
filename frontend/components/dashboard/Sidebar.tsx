@@ -109,7 +109,7 @@ const ROLE_LABEL: Record<string, string> = {
 };
 
 const TOGGLE_BTN_CLASS =
-  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition-colors duration-200 hover:border-primary/30 hover:bg-primary/10 hover:text-primary";
+  "flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition-colors duration-200 hover:border-primary/30 hover:bg-primary/10 hover:text-primary dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-400";
 
 export function Sidebar({
   user, open, collapsed, onClose, onToggleCollapse,
@@ -177,7 +177,7 @@ export function Sidebar({
       >
         <div
           className={[
-            "relative flex h-full w-full flex-col overflow-hidden rounded-r-2xl border-r border-slate-100 bg-white shadow-xl shadow-black/5",
+            "relative flex h-full w-full flex-col overflow-hidden rounded-r-2xl border-r border-slate-100 bg-white shadow-xl shadow-black/5 dark:border-slate-700 dark:bg-slate-800 dark:shadow-black/30",
             collapsed ? "px-2 py-4" : "p-4",
           ].join(" ")}
         >
@@ -185,7 +185,7 @@ export function Sidebar({
             type="button"
             onClick={onClose}
             aria-label="Tutup menu"
-            className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition-colors duration-200 hover:bg-primary hover:text-white lg:hidden"
+            className="absolute right-3 top-3 z-20 flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-500 transition-colors duration-200 hover:bg-primary hover:text-white dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-400 lg:hidden"
           >
             <X className="h-4 w-4" strokeWidth={2.25} />
           </button>
@@ -235,25 +235,25 @@ export function Sidebar({
                       <span
                         className={[
                           "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
-                          active ? "text-white" : "text-slate-400 group-hover:bg-primary/10 group-hover:text-primary",
+                          active ? "text-white" : "text-slate-400 group-hover:bg-primary/10 group-hover:text-primary dark:text-slate-500",
                         ].join(" ")}
                       >
                         <item.icon size={17} />
                       </span>
                       {!collapsed && (
                         <>
-                          <span className={["relative z-10 flex-1 text-left font-semibold", active ? "text-white" : "text-slate-600 group-hover:text-primary"].join(" ")}>
+                          <span className={["relative z-10 flex-1 text-left font-semibold", active ? "text-white" : "text-slate-600 group-hover:text-primary dark:text-slate-300"].join(" ")}>
                             {item.label}
                           </span>
                           {item.locked ? (
-                            <Lock size={12} className={["relative z-10 shrink-0", active ? "text-white/60" : "text-slate-300"].join(" ")} />
+                            <Lock size={12} className={["relative z-10 shrink-0", active ? "text-white/60" : "text-slate-300 dark:text-slate-600"].join(" ")} />
                           ) : (
                             <ChevronDown
                               size={14}
                               className={[
                                 "relative z-10 shrink-0 transition-transform duration-200",
                                 isExp ? "rotate-180" : "",
-                                active ? "text-white" : "text-slate-300",
+                                active ? "text-white" : "text-slate-300 dark:text-slate-600",
                               ].join(" ")}
                             />
                           )}
@@ -284,7 +284,7 @@ export function Sidebar({
                               transition={{ duration: 0.22, ease: "easeInOut" }}
                               className="overflow-hidden"
                             >
-                              <div className="ml-[27px] mb-1 mt-0.5 space-y-0.5 border-l border-slate-100 pl-4">
+                              <div className="ml-[27px] mb-1 mt-0.5 space-y-0.5 border-l border-slate-100 pl-4 dark:border-slate-700">
                                 {item.submenu.map((sub) => {
                                   const subActive = pathname === sub.href || pathname.startsWith(sub.href + "/");
                                   return (
@@ -294,10 +294,10 @@ export function Sidebar({
                                       onClick={onClose}
                                       className={[
                                         "flex items-center gap-2 rounded-lg px-2 py-1.5 text-[12.5px] transition-colors duration-150",
-                                        subActive ? "font-semibold text-primary" : "font-normal text-slate-500 hover:text-primary",
+                                        subActive ? "font-semibold text-primary" : "font-normal text-slate-500 hover:text-primary dark:text-slate-400",
                                       ].join(" ")}
                                     >
-                                      <sub.icon size={12} className={subActive ? "text-primary" : "text-slate-400"} />
+                                      <sub.icon size={12} className={subActive ? "text-primary" : "text-slate-400 dark:text-slate-500"} />
                                       <span>{sub.label}</span>
                                     </Link>
                                   );
@@ -332,13 +332,13 @@ export function Sidebar({
                     <span
                       className={[
                         "relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg transition-colors duration-200",
-                        active ? "text-white" : "text-slate-400 group-hover:bg-primary/10 group-hover:text-primary",
+                        active ? "text-white" : "text-slate-400 group-hover:bg-primary/10 group-hover:text-primary dark:text-slate-500",
                       ].join(" ")}
                     >
                       <item.icon size={17} />
                     </span>
                     {!collapsed && (
-                      <span className={["relative z-10 flex-1 font-semibold", active ? "text-white" : "text-slate-600 group-hover:text-primary"].join(" ")}>
+                      <span className={["relative z-10 flex-1 font-semibold", active ? "text-white" : "text-slate-600 group-hover:text-primary dark:text-slate-300"].join(" ")}>
                         {item.label}
                       </span>
                     )}
@@ -358,27 +358,27 @@ export function Sidebar({
               })}
             </nav>
 
-            <div className="border-t border-slate-100 pt-3">
-              <div className={["relative overflow-hidden rounded-2xl border border-slate-100 bg-slate-50", collapsed ? "flex justify-center p-2" : "p-2.5"].join(" ")}>
+            <div className="border-t border-slate-100 pt-3 dark:border-slate-700">
+              <div className={["relative overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 dark:border-slate-700 dark:bg-slate-700/40", collapsed ? "flex justify-center p-2" : "p-2.5"].join(" ")}>
                 <div className={`relative flex items-center ${collapsed ? "" : "gap-3"}`}>
-                  <span className="relative shrink-0 rounded-full ring-2 ring-white">
+                  <span className="relative shrink-0 rounded-full ring-2 ring-white dark:ring-slate-800">
                     <Avatar src={user.fotoProfil} nama={user.nama} sizePx={40} fallbackBg="var(--color-primary)" textClassName="text-xs" />
                     <motion.span
                       animate={{ opacity: [1, 0.4, 1] }}
                       transition={{ duration: 1.6, repeat: Infinity }}
-                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#8FB4B7] ring-2 ring-white"
+                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#8FB4B7] ring-2 ring-white dark:ring-slate-800"
                     />
                   </span>
                   {!collapsed && (
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-sm font-semibold text-slate-800">{user.nama}</p>
+                      <p className="truncate text-sm font-semibold text-slate-800 dark:text-white">{user.nama}</p>
                       <div className="mt-1 flex flex-wrap items-center gap-1">
                         <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
                           <ShieldCheck size={10} />
                           {ROLE_LABEL[user.role]}
                         </span>
                         {isSuperAdmin && (
-                          <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-600">
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-slate-600 dark:text-slate-300">
                             Superadmin
                           </span>
                         )}
@@ -389,7 +389,7 @@ export function Sidebar({
               </div>
 
               {!collapsed && (
-                <p className="mt-3 px-1 text-[10px] leading-relaxed text-slate-400">
+                <p className="mt-3 px-1 text-[10px] leading-relaxed text-slate-400 dark:text-slate-500">
                   LMS AKL — SMK Ma&apos;arif NU 01 Limpung
                 </p>
               )}
