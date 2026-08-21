@@ -276,10 +276,10 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
                 <span className="text-sm font-extrabold">{inKelas.length}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Siswa</span>
               </div>
-              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "linear-gradient(135deg,#4D7C0F,#84CC16)" }}>
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-black shadow-sm" style={{ background: "linear-gradient(135deg,#8BC220,#C3F84A)" }}>
                 <NotebookPen size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{kelasTercatat}</span>
-                <span className="text-[10px] font-semibold text-white/80">Siswa Tercatat</span>
+                <span className="text-[10px] font-semibold text-black/70">Siswa Tercatat</span>
               </div>
               <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "linear-gradient(135deg,#DC2626,#EF4444)" }}>
                 <AlertTriangle size={16} className="shrink-0" />

@@ -574,7 +574,7 @@ export default function SiswaJadwalSoalPage() {
                   const pct        = myS ? 100 : 0;
 
                   const btn = isDiterima
-                    ? { label:"Diterima", icon:<CheckCircle size={11}/>, bg:"#ECFCCB", clr:"#4D7C0F", border:"#84CC16", onClick:()=>setDetailTarget(myS!) }
+                    ? { label:"Diterima", icon:<CheckCircle size={11}/>, bg:"#ECFCCB", clr:"#4D7C0F", border:"#C3F84A", onClick:()=>setDetailTarget(myS!) }
                     : isRevisi
                     ? { label:"Revisi", icon:<AlertCircle size={11}/>, bg:"#FF5B19", clr:"#FF5B19", border:"#FF5B19", onClick:()=>setRevisiModal(myS!) }
                     : isTerkirim
@@ -584,7 +584,7 @@ export default function SiswaJadwalSoalPage() {
                   return (
                     <motion.div key={t.id} initial={{opacity:0,y:4}} animate={{opacity:1,y:0}} transition={{delay:idx*0.05}}>
                       <div className="px-5 py-4 flex items-center gap-4 border-l-4 transition-all hover:bg-slate-50/80 dark:hover:bg-slate-700/20"
-                        style={{borderLeftColor: isRevisi ? "#FF5B19" : isDiterima ? "#84CC16" : rp.bar}}>
+                        style={{borderLeftColor: isRevisi ? "#FF5B19" : isDiterima ? "#C3F84A" : rp.bar}}>
                         <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm"
                           style={{background: rp.gradient}}>
                           <span className="text-sm font-bold text-white">{idx+1}</span>
@@ -611,10 +611,10 @@ export default function SiswaJadwalSoalPage() {
                         <div className="w-28 shrink-0 hidden sm:block">
                           <div className="flex items-center justify-between mb-1">
                             <span className="text-[10px] text-slate-400">Progress</span>
-                            <span className="text-[10px] font-bold" style={{color: isDiterima?"#84CC16":isRevisi?"#FF5B19":rp.bar}}>{pct}%</span>
+                            <span className="text-[10px] font-bold" style={{color: isDiterima?"#4D7C0F":isRevisi?"#FF5B19":rp.bar}}>{pct}%</span>
                           </div>
                           <div className="h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`, background: isDiterima?"linear-gradient(90deg,#4D7C0F,#84CC16)":isRevisi?"linear-gradient(90deg,#FF5B19,#FF5B19)":rp.gradient}}/>
+                            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`, background: isDiterima?"linear-gradient(90deg,#4D7C0F,#C3F84A)":isRevisi?"linear-gradient(90deg,#FF5B19,#FF5B19)":rp.gradient}}/>
                           </div>
                         </div>
                         <button onClick={btn.onClick}

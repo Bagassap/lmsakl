@@ -37,21 +37,21 @@ export function SubmisiSayaModal({
             className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}>
             <div className="relative px-6 py-5 overflow-hidden"
-              style={{ background: isDiterima ? "#84CC16" : isRevisi ? "#FF5B19" : "#4F7377" }}>
-              <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10" />
+              style={{ background: isDiterima ? "#C3F84A" : isRevisi ? "#FF5B19" : "#4F7377" }}>
+              <div className={`pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full ${isDiterima ? "bg-black/5" : "bg-white/10"}`} />
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
-                    {isRevisi ? <AlertCircle size={18} className="text-white" /> : <CheckCircle size={18} className="text-white" />}
+                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${isDiterima ? "bg-black/10" : "bg-white/20"}`}>
+                    {isRevisi ? <AlertCircle size={18} className="text-white" /> : <CheckCircle size={18} className={isDiterima ? "text-black" : "text-white"} />}
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest">
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${isDiterima ? "text-black/60" : "text-white/60"}`}>
                       {isDiterima ? "Tugas Diterima ✓" : isRevisi ? "Perlu Revisi" : "Tugas Terkirim"}
                     </p>
-                    <p className="text-base font-extrabold text-white leading-tight">{judul ?? "Tugas"}</p>
+                    <p className={`text-base font-extrabold leading-tight ${isDiterima ? "text-black" : "text-white"}`}>{judul ?? "Tugas"}</p>
                   </div>
                 </div>
-                <button onClick={onClose} className="w-8 h-8 rounded-xl bg-white/20 flex items-center justify-center text-white hover:bg-white/30">
+                <button onClick={onClose} className={`w-8 h-8 rounded-xl flex items-center justify-center ${isDiterima ? "bg-black/10 text-black hover:bg-black/20" : "bg-white/20 text-white hover:bg-white/30"}`}>
                   <X size={15} />
                 </button>
               </div>
@@ -64,8 +64,8 @@ export function SubmisiSayaModal({
                 </div>
               )}
               {isDiterima && (
-                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F7FEE7] dark:bg-[#84CC16]/10 border border-[#ECFCCB] dark:border-[#84CC16]/20">
-                  <CheckCircle size={18} className="text-[#84CC16] shrink-0" />
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F7FEE7] dark:bg-[#C3F84A]/10 border border-[#ECFCCB] dark:border-[#C3F84A]/20">
+                  <CheckCircle size={18} className="text-[#4D7C0F] shrink-0" />
                   <p className="text-sm font-bold text-[#4D7C0F] dark:text-[#BEF264]">Tugas kamu telah diterima!</p>
                 </div>
               )}

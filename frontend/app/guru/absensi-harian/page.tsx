@@ -405,11 +405,11 @@ export default function GuruAbsensiHarianPage() {
                   const active = exportRange.rangeMode === opt.key;
                   return (
                     <button key={opt.key} type="button" onClick={() => exportRange.setRangeMode(opt.key)}
-                      className="flex flex-col items-center gap-1 rounded-xl px-2 py-3 text-center text-white shadow-sm transition-all"
+                      className={`flex flex-col items-center gap-1 rounded-xl px-2 py-3 text-center shadow-sm transition-all ${opt.onLime ? "text-black" : "text-white"}`}
                       style={{ background: opt.gradient, opacity: active ? 1 : 0.55, outline: active ? "2px solid white" : "2px solid transparent", outlineOffset: active ? "2px" : "0" }}>
                       <opt.icon size={16} />
                       <span className="text-[11px] font-bold">{opt.label}</span>
-                      <span className="text-[9px] leading-tight text-white/75">{opt.caption}</span>
+                      <span className={`text-[9px] leading-tight ${opt.onLime ? "text-black/70" : "text-white/75"}`}>{opt.caption}</span>
                     </button>
                   );
                 })}

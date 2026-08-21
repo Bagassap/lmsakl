@@ -7,9 +7,9 @@ import { DataSiswaExportButtons } from "./DataSiswaExportButtons";
 
 type Scope = "semua" | "kelas" | "jurusan";
 
-const SCOPE_CARDS: { key: Scope; label: string; caption: string; icon: React.ElementType; gradient: string }[] = [
+const SCOPE_CARDS: { key: Scope; label: string; caption: string; icon: React.ElementType; gradient: string; onLime?: boolean }[] = [
   { key: "semua", label: "Semua Siswa", caption: "Seluruh data", icon: Users, gradient: "linear-gradient(135deg,#1D4ED8,#2563EB)" },
-  { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "linear-gradient(135deg,#4D7C0F,#84CC16)" },
+  { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "linear-gradient(135deg,#8BC220,#C3F84A)", onLime: true },
   { key: "jurusan", label: "Jurusan Ini", caption: "Satu jurusan", icon: BookOpen, gradient: "linear-gradient(135deg,#DC2626,#EF4444)" },
 ];
 
@@ -58,7 +58,7 @@ export function UnduhDataSiswaCard({
               disabled={disabled}
               onClick={() => setScope(opt.key)}
               title={disabled ? "Pilih kelas/jurusan di filter dahulu" : undefined}
-              className="flex flex-col items-center justify-center gap-1.5 rounded-2xl px-2 py-5 text-center text-white shadow-sm transition-all disabled:cursor-not-allowed"
+              className={`flex flex-col items-center justify-center gap-1.5 rounded-2xl px-2 py-5 text-center shadow-sm transition-all disabled:cursor-not-allowed ${opt.onLime ? "text-black" : "text-white"}`}
               style={{
                 background: opt.gradient,
                 opacity: disabled ? 0.25 : active ? 1 : 0.55,
@@ -68,7 +68,7 @@ export function UnduhDataSiswaCard({
             >
               <opt.icon size={20} />
               <span className="text-xs font-bold">{opt.label}</span>
-              <span className="text-[10px] leading-tight text-white/75">{opt.caption}</span>
+              <span className={`text-[10px] leading-tight ${opt.onLime ? "text-black/70" : "text-white/75"}`}>{opt.caption}</span>
             </button>
           );
         })}

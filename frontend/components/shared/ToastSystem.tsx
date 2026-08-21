@@ -49,24 +49,27 @@ function useDarkMode() {
   return dark;
 }
 
-// success=lime dan error=red dipakai konsisten di seluruh aplikasi untuk
-// menandai berhasil/gagal — dua warna ini di luar 4 warna resmi palette
-// brand, sengaja ditambahkan supaya status sukses/gagal tetap intuitif
-// (hijau=oke, merah=masalah). warning tetap oren (brand), info pakai blue.
+// success=lime (#C3F84A) dan error=red dipakai konsisten di seluruh aplikasi
+// untuk menandai berhasil/gagal — dua warna ini di luar 4 warna resmi
+// palette brand, sengaja ditambahkan supaya status sukses/gagal tetap
+// intuitif (hijau=oke, merah=masalah). warning tetap oren (brand), info
+// pakai blue. `fg` = warna teks/ikon yang duduk di atas iconBg/btnBg —
+// lime terlalu terang untuk teks putih, jadi fg-nya hitam.
 const THEME = {
   success: {
     headerFrom:  "#ECFCCB",
     headerTo:    "#F7FEE7",
-    blob1:       "rgba(132,204,22,0.22)",
-    blob2:       "rgba(190,242,100,0.14)",
-    ring1:       "rgba(132,204,22,0.18)",
-    ring2:       "rgba(132,204,22,0.10)",
-    iconBg:      "linear-gradient(135deg,#4D7C0F,#84CC16,#BEF264)",
-    iconShadow:  "0 16px 40px rgba(132,204,22,0.55)",
-    bar:         "linear-gradient(90deg,#4D7C0F,#BEF264)",
-    btnBg:       "linear-gradient(135deg,#4D7C0F,#84CC16)",
-    btnShadow:   "0 8px 24px rgba(132,204,22,0.45)",
-    dotColor:    "#84CC16",
+    blob1:       "rgba(195,248,74,0.28)",
+    blob2:       "rgba(217,251,143,0.16)",
+    ring1:       "rgba(195,248,74,0.22)",
+    ring2:       "rgba(195,248,74,0.12)",
+    iconBg:      "linear-gradient(135deg,#8BC220,#C3F84A,#E3FCA8)",
+    iconShadow:  "0 16px 40px rgba(195,248,74,0.55)",
+    bar:         "linear-gradient(90deg,#8BC220,#C3F84A)",
+    btnBg:       "linear-gradient(135deg,#8BC220,#C3F84A)",
+    btnShadow:   "0 8px 24px rgba(195,248,74,0.45)",
+    dotColor:    "#C3F84A",
+    fg:          "#000000",
     icon:        CheckCircle2,
     label:       "Berhasil",
   },
@@ -83,6 +86,7 @@ const THEME = {
     btnBg:       "linear-gradient(135deg,#991B1B,#EF4444)",
     btnShadow:   "0 8px 24px rgba(239,68,68,0.45)",
     dotColor:    "#EF4444",
+    fg:          "#ffffff",
     icon:        XCircle,
     label:       "Gagal",
   },
@@ -99,6 +103,7 @@ const THEME = {
     btnBg:       "linear-gradient(135deg,#CC4913,#FF5B19)",
     btnShadow:   "0 8px 24px rgba(255,91,25,0.45)",
     dotColor:    "#FF5B19",
+    fg:          "#ffffff",
     icon:        AlertTriangle,
     label:       "Perhatian",
   },
@@ -115,6 +120,7 @@ const THEME = {
     btnBg:       "linear-gradient(135deg,#1D4ED8,#2563EB)",
     btnShadow:   "0 8px 24px rgba(37,99,235,0.45)",
     dotColor:    "#2563EB",
+    fg:          "#ffffff",
     icon:        Info,
     label:       "Informasi",
   },
@@ -248,8 +254,8 @@ function NotificationCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (
               initial={{ scale: 0, rotate: -25 }}
               animate={{ scale: 1, rotate: 0 }}
               transition={{ type: "spring", damping: 13, stiffness: 260, delay: 0.1 }}
-              className="relative z-10 flex h-17 w-17 items-center justify-center rounded-2xl text-white"
-              style={{ background: theme.iconBg, boxShadow: theme.iconShadow }}
+              className="relative z-10 flex h-17 w-17 items-center justify-center rounded-2xl"
+              style={{ background: theme.iconBg, boxShadow: theme.iconShadow, color: theme.fg }}
             >
               <motion.div
                 initial={{ x: "-100%", opacity: 0 }}
@@ -314,8 +320,8 @@ function NotificationCard({ toast, onDismiss }: { toast: ToastItem; onDismiss: (
             whileHover={{ scale: 1.03, boxShadow: theme.btnShadow }}
             whileTap={{ scale: 0.97 }}
             onClick={() => onDismiss(toast.id)}
-            className="mt-5 w-full rounded-2xl py-3 text-sm font-bold text-white"
-            style={{ background: theme.btnBg, boxShadow: `0 6px 20px ${theme.blob1}` }}
+            className="mt-5 w-full rounded-2xl py-3 text-sm font-bold"
+            style={{ background: theme.btnBg, boxShadow: `0 6px 20px ${theme.blob1}`, color: theme.fg }}
           >
             Tutup
           </motion.button>

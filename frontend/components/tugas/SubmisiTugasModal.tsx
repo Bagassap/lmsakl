@@ -90,7 +90,7 @@ export function SubmisiTugasModal({
               <div className="grid grid-cols-3 gap-y-3 shrink-0 border-b border-slate-100 py-3 dark:border-slate-700 sm:grid-cols-5 sm:gap-y-0 sm:py-0">
                 {[
                   { label: "Total", val: rows.length, color: "#FF5B19" },
-                  { label: "Diterima", val: cntDiterima, color: "#84CC16" },
+                  { label: "Diterima", val: cntDiterima, color: "#4D7C0F" },
                   { label: "Revisi", val: cntRevisi, color: "#FF5B19" },
                   { label: "Menunggu", val: cntMenunggu, color: "#2563EB" },
                   { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#161616" },
@@ -156,8 +156,8 @@ export function SubmisiTugasModal({
                   const isDone = s.status === "DITERIMA";
                   return (
                     <div key={s.id} className="flex flex-wrap items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                        style={{ backgroundColor: isDone ? "#84CC16" : sc.color }}>
+                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shrink-0 ${isDone ? "text-black" : "text-white"}`}
+                        style={{ backgroundColor: isDone ? "#C3F84A" : sc.color }}>
                         {nama[0]?.toUpperCase() ?? "?"}
                       </div>
                       <div className="flex-1 min-w-0">
@@ -189,12 +189,12 @@ export function SubmisiTugasModal({
                         </a>
                       )}
                       {isDone ? (
-                        <span className="text-xs font-bold text-[#84CC16] shrink-0">Selesai ✓</span>
+                        <span className="text-xs font-bold text-[#4D7C0F] dark:text-[#C3F84A] shrink-0">Selesai ✓</span>
                       ) : (
                         <div className="flex gap-2 shrink-0">
                           <button onClick={() => onTerima(s.id)}
-                            className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                            style={{ background: "#84CC16" }}>
+                            className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-black shadow-sm transition-transform hover:scale-105"
+                            style={{ background: "#C3F84A" }}>
                             <CheckCircle size={12} /> Terima
                           </button>
                           <button onClick={() => onRevisi(s)}
@@ -212,7 +212,7 @@ export function SubmisiTugasModal({
               <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                 <p className="text-[11px] text-slate-400 leading-relaxed">
                   <span className="font-semibold text-[#FF5B19]">Revisi</span> → siswa kirim ulang ·{" "}
-                  <span className="font-semibold text-[#84CC16]">Terima</span> → tugas selesai
+                  <span className="font-semibold text-[#4D7C0F] dark:text-[#C3F84A]">Terima</span> → tugas selesai
                 </p>
                 <button onClick={onClose}
                   className="px-5 py-2 text-sm font-semibold rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 shrink-0 transition-colors">
