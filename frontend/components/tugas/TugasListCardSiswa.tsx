@@ -97,7 +97,7 @@ export function TugasListCardSiswa({
                 const overdue = !isTugasActive(t) && !mySubmisi;
 
                 const btn = isDiterima
-                  ? { label: "Diterima", icon: <CheckCircle size={11} />, bg: "#E1EDEE", clr: "#6E9CA0", border: "#6E9CA0", onClick: () => onLihatDetail(mySubmisi!, t) }
+                  ? { label: "Diterima", icon: <CheckCircle size={11} />, bg: "#ECFCCB", clr: "#4D7C0F", border: "#84CC16", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isRevisi
                   ? { label: "Revisi", icon: <AlertCircle size={11} />, bg: "#FF5B19", clr: "#FF5B19", border: "#FF5B19", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isTerkirim

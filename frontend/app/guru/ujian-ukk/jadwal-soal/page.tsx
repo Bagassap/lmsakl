@@ -529,7 +529,7 @@ export default function GuruJadwalSoalPage() {
                                 <div className="divide-y divide-slate-100 dark:divide-slate-700/30">
                                   {submisiTahapan.map(s => {
                                     const statusCfg: Record<string,{label:string;color:string;bg:string}> = {
-                                      DITERIMA:{ label:"Diterima", color:"#6E9CA0", bg:"#E1EDEE" },
+                                      DITERIMA:{ label:"Diterima", color:"#4D7C0F", bg:"#ECFCCB" },
                                       REVISI:  { label:"Revisi",   color:"#FF5B19", bg:"#FFEDD5" },
                                       TERKIRIM:{ label:"Menunggu", color:"#3D3D3D", bg:"#E8E7E4" },
                                     };

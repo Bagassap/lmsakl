@@ -37,7 +37,7 @@ export function SubmisiSayaModal({
             className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}>
             <div className="relative px-6 py-5 overflow-hidden"
-              style={{ background: isDiterima ? "#6E9CA0" : isRevisi ? "#FF5B19" : "#4F7377" }}>
+              style={{ background: isDiterima ? "#84CC16" : isRevisi ? "#FF5B19" : "#4F7377" }}>
               <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10" />
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -64,9 +64,9 @@ export function SubmisiSayaModal({
                 </div>
               )}
               {isDiterima && (
-                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F2F8F8] dark:bg-[#6E9CA0]/10 border border-[#E1EDEE] dark:border-[#6E9CA0]/20">
-                  <CheckCircle size={18} className="text-[#6E9CA0] shrink-0" />
-                  <p className="text-sm font-bold text-[#4F7377] dark:text-[#8FB4B7]">Tugas kamu telah diterima!</p>
+                <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[#F7FEE7] dark:bg-[#84CC16]/10 border border-[#ECFCCB] dark:border-[#84CC16]/20">
+                  <CheckCircle size={18} className="text-[#84CC16] shrink-0" />
+                  <p className="text-sm font-bold text-[#4D7C0F] dark:text-[#BEF264]">Tugas kamu telah diterima!</p>
                 </div>
               )}
               {isRevisi && (

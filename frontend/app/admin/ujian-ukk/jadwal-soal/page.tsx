@@ -39,7 +39,7 @@ interface DiskusiItem { id: string; konten: string; createdAt: string; user: { i
 function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }); }
 function formatTime(s: string) { return new Date(s).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }); }
 function statusBadge(s: StatusSubmisi) {
-  if (s === "DITERIMA") return { bg: "#E1EDEE", text: "#6E9CA0", icon: <CheckCircle size={10} /> };
+  if (s === "DITERIMA") return { bg: "#ECFCCB", text: "#4D7C0F", icon: <CheckCircle size={10} /> };
   if (s === "REVISI")   return { bg: "#FF5B19", text: "#FF5B19", icon: <AlertCircle size={10} /> };
   return { bg: "#E1EDEE", text: "#6E9CA0", icon: <Clock size={10} /> };
 }
@@ -1225,9 +1225,9 @@ export default function AdminJadwalSoalPage() {
                 <div className="grid grid-cols-4 shrink-0 border-b border-slate-100 dark:border-slate-700">
                   {[
                     { label: "Total",    val: rows.length,   color: "#3D3D3D" },
-                    { label: "Diterima", val: cntDiterima,   color: "#6E9CA0" },
+                    { label: "Diterima", val: cntDiterima,   color: "#84CC16" },
                     { label: "Revisi",   val: cntRevisi,     color: "#FF5B19" },
-                    { label: "Menunggu", val: cntMenunggu,   color: "#6E9CA0" },
+                    { label: "Menunggu", val: cntMenunggu,   color: "#2563EB" },
                   ].map((st, i) => (
                     <div key={i} className="p-4 text-center border-r last:border-r-0 border-slate-100 dark:border-slate-700">
                       <p className="text-2xl font-extrabold" style={{color:st.color}}>{st.val}</p>
@@ -1250,7 +1250,7 @@ export default function AdminJadwalSoalPage() {
                     return (
                       <div key={s.id} className="flex items-center gap-4 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
                         <div className="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold shrink-0"
-                          style={{backgroundColor: isDone ? "#6E9CA0" : sc.text}}>
+                          style={{backgroundColor: isDone ? "#84CC16" : sc.text}}>
                           {nama[0]?.toUpperCase() ?? "?"}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -1271,12 +1271,12 @@ export default function AdminJadwalSoalPage() {
                           GDrive
                         </a>
                         {isDone ? (
-                          <span className="text-xs font-bold text-[#6E9CA0] shrink-0">Selesai ✓</span>
+                          <span className="text-xs font-bold text-[#84CC16] shrink-0">Selesai ✓</span>
                         ) : (
                           <div className="flex gap-2 shrink-0">
                             <button onClick={() => updateStatus(s.id, "DITERIMA")}
                               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                              style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
+                              style={{background:"linear-gradient(135deg,#4D7C0F,#84CC16)"}}>
                               <CheckCircle size={12}/> Terima
                             </button>
                             <button onClick={() => { setRevisiTarget(s); setPesanRevisi(""); }}
@@ -1294,7 +1294,7 @@ export default function AdminJadwalSoalPage() {
                 <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                   <p className="text-[11px] text-slate-400 leading-relaxed">
                     <span className="font-semibold text-[#FF5B19]">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
-                    <span className="font-semibold text-[#6E9CA0]">Terima</span> → UKK selesai
+                    <span className="font-semibold text-[#84CC16]">Terima</span> → UKK selesai
                   </p>
                   <button onClick={() => setSubmisiModalTahapan(null)}
                     className="px-5 py-2 text-sm font-semibold rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-600 shrink-0 transition-colors">

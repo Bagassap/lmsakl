@@ -8,9 +8,9 @@ import { DataSiswaExportButtons } from "./DataSiswaExportButtons";
 type Scope = "semua" | "kelas" | "jurusan";
 
 const SCOPE_CARDS: { key: Scope; label: string; caption: string; icon: React.ElementType; gradient: string }[] = [
-  { key: "semua", label: "Semua Siswa", caption: "Seluruh data", icon: Users, gradient: "linear-gradient(135deg,#3D3D3D,#161616)" },
-  { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "linear-gradient(135deg,#AECACD,#6E9CA0)" },
-  { key: "jurusan", label: "Jurusan Ini", caption: "Satu jurusan", icon: BookOpen, gradient: "linear-gradient(135deg,#ff8a54,#ff5b19)" },
+  { key: "semua", label: "Semua Siswa", caption: "Seluruh data", icon: Users, gradient: "linear-gradient(135deg,#1D4ED8,#2563EB)" },
+  { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "linear-gradient(135deg,#4D7C0F,#84CC16)" },
+  { key: "jurusan", label: "Jurusan Ini", caption: "Satu jurusan", icon: BookOpen, gradient: "linear-gradient(135deg,#DC2626,#EF4444)" },
 ];
 
 export function UnduhDataSiswaCard({
