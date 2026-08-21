@@ -16,7 +16,7 @@ import { AbsensiHarianTable } from "@/components/absensi-harian/AbsensiHarianTab
 import { BelumAbsenPanel } from "@/components/absensi-harian/BelumAbsenPanel";
 import { LaporanSeringTidakHadir } from "@/components/absensi-harian/LaporanSeringTidakHadir";
 import { paginate } from "@/components/shared/PageSizeToggle";
-import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, MONTH_NAMES, RANGE_MODE_CARDS, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, WALLET_ON_LIME, MONTH_NAMES, RANGE_MODE_CARDS, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
 import type { Kelas, RekapKelas, SiswaAbsensi, FilterAbsensi } from "@/components/absensi-harian/types";
 
 // Guru is usually wali kelas of fewer than 4 classes, so the fixed 4-column
@@ -238,10 +238,12 @@ export default function GuruAbsensiHarianPage() {
                 {kelasList.map((k) => {
                   const idx = kelasList.findIndex((x) => x.id === k.id);
                   const isSelected = k.id === selectedId;
-                  const gradient = WALLET_GRADIENTS[(idx < 0 ? 0 : idx) % WALLET_GRADIENTS.length];
+                  const wIdx = (idx < 0 ? 0 : idx) % WALLET_GRADIENTS.length;
+                  const gradient = WALLET_GRADIENTS[wIdx];
+                  const onLime = WALLET_ON_LIME[wIdx];
                   return (
                     <button type="button" key={k.id} onClick={() => setSelectedId(k.id)}
-                      className={`relative flex h-72 flex-col overflow-hidden rounded-3xl p-4 text-left text-white transition-all ${isSelected ? "justify-between" : "justify-start gap-3"}`}
+                      className={`relative flex h-72 flex-col overflow-hidden rounded-3xl p-4 text-left transition-all ${onLime ? "text-black" : "text-white"} ${isSelected ? "justify-between" : "justify-start gap-3"}`}
                       style={{
                         background: gradient,
                         boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
@@ -249,39 +251,39 @@ export default function GuruAbsensiHarianPage() {
                         outlineOffset: isSelected ? "2px" : "0",
                       }}>
                       <div className="relative flex items-start justify-between">
-                        <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/25">
+                        <span className={`flex h-9 w-9 items-center justify-center rounded-full ${onLime ? "bg-black/15" : "bg-white/25"}`}>
                           <BookOpen size={16} />
                         </span>
-                        <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                        <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${onLime ? "bg-black/10" : "bg-white/20"}`}>
                           Kelas Wali
                         </span>
                       </div>
 
                       <div className="relative">
                         <p className="truncate text-base font-bold">{k.nama}</p>
-                        <p className="mt-0.5 truncate text-[10px] font-medium text-white/70">{k._count?.siswa ?? 0} siswa terdaftar</p>
+                        <p className={`mt-0.5 truncate text-[10px] font-medium ${onLime ? "text-black/70" : "text-white/70"}`}>{k._count?.siswa ?? 0} siswa terdaftar</p>
                       </div>
 
                       {isSelected ? (
                         <>
                           <div className="relative">
                             <p className="text-2xl font-extrabold tabular-nums">{sudahAbsen}/{total}</p>
-                            <p className="text-[11px] font-semibold text-white/80">Siswa Hadir Hari Ini</p>
-                            <div className="mt-2 h-1.5 w-full rounded-full bg-white/25">
-                              <div className="h-1.5 rounded-full bg-white transition-all" style={{ width: `${hadirPct}%` }} />
+                            <p className={`text-[11px] font-semibold ${onLime ? "text-black/80" : "text-white/80"}`}>Siswa Hadir Hari Ini</p>
+                            <div className={`mt-2 h-1.5 w-full rounded-full ${onLime ? "bg-black/15" : "bg-white/25"}`}>
+                              <div className={`h-1.5 rounded-full transition-all ${onLime ? "bg-black" : "bg-white"}`} style={{ width: `${hadirPct}%` }} />
                             </div>
-                            <p className="mt-1 text-[10px] font-semibold text-white/70">{hadirPct}% kehadiran</p>
+                            <p className={`mt-1 text-[10px] font-semibold ${onLime ? "text-black/70" : "text-white/70"}`}>{hadirPct}% kehadiran</p>
                           </div>
 
                           <div className="relative flex flex-wrap items-center gap-1.5">
-                            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">Izin {rekap.IZIN}</span>
-                            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">Sakit {rekap.SAKIT}</span>
-                            <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">Alpa {rekap.ALPA}</span>
+                            <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Izin {rekap.IZIN}</span>
+                            <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Sakit {rekap.SAKIT}</span>
+                            <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Alpa {rekap.ALPA}</span>
                           </div>
                         </>
                       ) : (
                         <div className="relative">
-                          <p className="text-[11px] font-semibold text-white/80">Klik untuk lihat detail kehadiran hari ini</p>
+                          <p className={`text-[11px] font-semibold ${onLime ? "text-black/80" : "text-white/80"}`}>Klik untuk lihat detail kehadiran hari ini</p>
                         </div>
                       )}
                     </button>

@@ -46,11 +46,12 @@ const STATUS_CFG: Record<StatusAbsensi, {
 };
 
 const CARD_GRADIENTS = [
-  "#BFA300",
-  "#300000",
   "#FF5722",
-  "#FFEB3B",
+  "#C3F84A",
+  "#D32F2F",
+  "#2962FF",
 ];
+const CARD_ON_LIME = [false, true, false, false];
 
 function formatTgl(tgl?: string) {
   if (!tgl) return "-";
@@ -269,8 +270,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
   );
 }
 
-function LabCard({ tahapan, gradient, delay, hadir, total, selected, onClick }: {
-  tahapan: Tahapan; gradient: string; delay: number;
+function LabCard({ tahapan, gradient, onLime, delay, hadir, total, selected, onClick }: {
+  tahapan: Tahapan; gradient: string; onLime?: boolean; delay: number;
   hadir: number; total: number; selected: boolean; onClick: () => void;
 }) {
   return (
@@ -278,7 +279,7 @@ function LabCard({ tahapan, gradient, delay, hadir, total, selected, onClick }: 
       initial={{opacity:0,y:16}} animate={{opacity:1,y:0}}
       whileHover={{y:-4,scale:1.02}} whileTap={{scale:0.97}}
       transition={{duration:0.35,delay,ease:[0.16,1,0.3,1]}}
-      className="relative flex h-44 cursor-pointer flex-col justify-between overflow-hidden rounded-2xl p-5 transition-all"
+      className={`relative flex h-44 cursor-pointer flex-col justify-between overflow-hidden rounded-2xl p-5 transition-all ${onLime ? "text-black" : "text-white"}`}
       style={{
         background: gradient,
         outline: selected ? "3px solid white" : "3px solid transparent",
@@ -286,35 +287,35 @@ function LabCard({ tahapan, gradient, delay, hadir, total, selected, onClick }: 
           ? "0 0 0 5px rgba(255,255,255,0.30),0 8px 32px rgba(0,0,0,0.18)"
           : "0 4px 16px rgba(0,0,0,0.10)",
       }}>
-      <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10"/>
-      <div className="pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full bg-white/8"/>
+      <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${onLime ? "bg-black/5" : "bg-white/10"}`}/>
+      <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${onLime ? "bg-black/5" : "bg-white/8"}`}/>
       <div className="relative flex items-start justify-between">
         <div>
-          <p className="text-[10px] font-medium uppercase tracking-widest text-white/60">Lab UKK</p>
-          <p className="mt-0.5 text-sm font-bold text-white">{tahapan.lokasi}</p>
+          <p className={`text-[10px] font-medium uppercase tracking-widest ${onLime ? "text-black/60" : "text-white/60"}`}>Lab UKK</p>
+          <p className="mt-0.5 text-sm font-bold">{tahapan.lokasi}</p>
         </div>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm">
-          <Monitor size={16} className="text-white"/>
+        <div className={`flex h-9 w-9 items-center justify-center rounded-full backdrop-blur-sm ${onLime ? "bg-black/10" : "bg-white/20"}`}>
+          <Monitor size={16}/>
         </div>
       </div>
       <div className="relative">
-        <p className="text-3xl font-bold text-white">
-          {hadir}<span className="ml-1 text-base font-semibold text-white/60">/ {total}</span>
+        <p className="text-3xl font-bold">
+          {hadir}<span className={`ml-1 text-base font-semibold ${onLime ? "text-black/60" : "text-white/60"}`}>/ {total}</span>
         </p>
-        <p className="text-[11px] text-white/70 mt-0.5">siswa hadir</p>
+        <p className={`text-[11px] mt-0.5 ${onLime ? "text-black/70" : "text-white/70"}`}>siswa hadir</p>
       </div>
       <div className="relative flex items-end justify-between">
         <div>
-          <p className="text-[9px] font-medium uppercase tracking-wider text-white/50">Penguji</p>
-          <p className="text-[11px] font-semibold text-white/90">{tahapan.penguji ?? "-"}</p>
+          <p className={`text-[9px] font-medium uppercase tracking-wider ${onLime ? "text-black/50" : "text-white/50"}`}>Penguji</p>
+          <p className={`text-[11px] font-semibold ${onLime ? "text-black/90" : "text-white/90"}`}>{tahapan.penguji ?? "-"}</p>
         </div>
         <div className="text-right">
-          <p className="text-[9px] font-medium uppercase tracking-wider text-white/50">Jam</p>
-          <p className="text-[11px] font-semibold text-white/80">{tahapan.jamMulai}–{tahapan.jamSelesai}</p>
+          <p className={`text-[9px] font-medium uppercase tracking-wider ${onLime ? "text-black/50" : "text-white/50"}`}>Jam</p>
+          <p className={`text-[11px] font-semibold ${onLime ? "text-black/80" : "text-white/80"}`}>{tahapan.jamMulai}–{tahapan.jamSelesai}</p>
         </div>
       </div>
       {selected && (
-        <div className="absolute top-3 right-3 rounded-full bg-white/30 px-2 py-0.5 text-[9px] font-bold text-white uppercase tracking-wider backdrop-blur-sm">
+        <div className={`absolute top-3 right-3 rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider backdrop-blur-sm ${onLime ? "bg-black/15" : "bg-white/30"}`}>
           Dipilih
         </div>
       )}
@@ -494,7 +495,7 @@ export default function GuruUkkAbsensiPage() {
                 <div key={i} className="h-44 animate-pulse rounded-2xl" style={{background:CARD_GRADIENTS[i],opacity:0.4}}/>
               ))
             : tahapanList.map((t, i) => (
-                <LabCard key={t.id} tahapan={t} gradient={CARD_GRADIENTS[i % 4]}
+                <LabCard key={t.id} tahapan={t} gradient={CARD_GRADIENTS[i % 4]} onLime={CARD_ON_LIME[i % 4]}
                   delay={0.05+i*0.05} hadir={t.id===selectedId ? rekap.HADIR : 0}
                   total={t.id===selectedId ? total : 0}
                   selected={t.id===selectedId} onClick={() => setSelectedId(t.id)}/>
@@ -531,30 +532,40 @@ export default function GuruUkkAbsensiPage() {
           </button>
         </div>
 
-        {selectedTahapan && (
-          <div className="relative rounded-2xl overflow-hidden shadow-lg" style={{background: CARD_GRADIENTS[selectedIdx % 4]}}>
-            <div className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-white/10"/>
+        {selectedTahapan && (() => {
+          const onLime = CARD_ON_LIME[selectedIdx % 4];
+          const fg = onLime ? "text-black" : "text-white";
+          const fg55 = onLime ? "text-black/55" : "text-white/55";
+          const fg60 = onLime ? "text-black/60" : "text-white/60";
+          const bg10 = onLime ? "bg-black/5" : "bg-white/10";
+          const bg15 = onLime ? "bg-black/10" : "bg-white/15";
+          const bg20 = onLime ? "bg-black/10" : "bg-white/20";
+          const bg25 = onLime ? "bg-black/15" : "bg-white/25";
+          const barFg = onLime ? "bg-black" : "bg-white";
+          return (
+          <div className={`relative rounded-2xl overflow-hidden shadow-lg ${fg}`} style={{background: CARD_GRADIENTS[selectedIdx % 4]}}>
+            <div className={`pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full ${bg10}`}/>
             <div className="relative px-5 pt-5 pb-4">
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/25 shadow-sm">
-                    <Monitor size={22} className="text-white"/>
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-2xl shadow-sm ${bg25}`}>
+                    <Monitor size={22}/>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-widest text-white/55">Lab Aktif</p>
-                    <p className="text-lg font-extrabold leading-tight text-white">{selectedTahapan.judul}</p>
+                    <p className={`text-[10px] font-bold uppercase tracking-widest ${fg55}`}>Lab Aktif</p>
+                    <p className="text-lg font-extrabold leading-tight">{selectedTahapan.judul}</p>
                   </div>
                 </div>
                 <div className="flex flex-col items-end gap-1">
-                  <span className="rounded-xl bg-white/20 px-3 py-1 text-lg font-extrabold text-white backdrop-blur-sm">{hadirPct}%</span>
-                  <span className="text-[10px] text-white/60">{sudahAbsen}/{total} hadir</span>
+                  <span className={`rounded-xl px-3 py-1 text-lg font-extrabold backdrop-blur-sm ${bg20}`}>{hadirPct}%</span>
+                  <span className={`text-[10px] ${fg60}`}>{sudahAbsen}/{total} hadir</span>
                 </div>
               </div>
               <div className="mb-4">
-                <div className="h-2 w-full overflow-hidden rounded-full bg-white/20">
+                <div className={`h-2 w-full overflow-hidden rounded-full ${bg20}`}>
                   <motion.div initial={{width:0}} animate={{width:`${hadirPct}%`}}
                     transition={{duration:0.7,ease:[0.16,1,0.3,1]}}
-                    className="h-2 rounded-full bg-white shadow-sm"/>
+                    className={`h-2 rounded-full shadow-sm ${barFg}`}/>
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
@@ -564,20 +575,21 @@ export default function GuruUkkAbsensiPage() {
                   { Icon: MapPin,       label:"Lokasi",  val: selectedTahapan.lokasi },
                   { Icon: User,         label:"Penguji", val: selectedTahapan.penguji ?? "—" },
                 ].map(({ Icon, label, val }) => (
-                  <div key={label} className="flex items-start gap-2.5 rounded-xl bg-white/15 px-3 py-2.5 backdrop-blur-sm">
-                    <div className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/20">
-                      <Icon size={13} className="text-white"/>
+                  <div key={label} className={`flex items-start gap-2.5 rounded-xl px-3 py-2.5 backdrop-blur-sm ${bg15}`}>
+                    <div className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg ${bg20}`}>
+                      <Icon size={13}/>
                     </div>
                     <div className="min-w-0">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-white/55">{label}</p>
-                      <p className="mt-0.5 truncate text-sm font-bold text-white">{val}</p>
+                      <p className={`text-[9px] font-bold uppercase tracking-widest ${fg55}`}>{label}</p>
+                      <p className="mt-0.5 truncate text-sm font-bold">{val}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
-        )}
+          );
+        })()}
 
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           {(["HADIR","IZIN","SAKIT","ALPA"] as StatusAbsensi[]).map(key => {

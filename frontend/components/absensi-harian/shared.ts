@@ -50,22 +50,23 @@ export const CARD_ACCENT = ["#FF5722", "#300000", "#FFEB3B", "#B8B84A", "#FF7440
 // dashboard admin/guru/siswa (oren/charcoal/powder/platinum), supaya card
 // besar di halaman ini terasa satu keluarga visual yang sama.
 export const DASHBOARD_GRADIENTS = [
-  "#FFEB3B", // powder blue
-  "#5E0000", // charcoal
-  "#B8B84A", // platinum gelap
   "#FF5722", // oren
+  "#C3F84A", // lime
+  "#D32F2F", // merah
+  "#2962FF", // biru (senada dengan oren)
 ];
-export const DASHBOARD_ACCENT = ["#FFEB3B", "#5E0000", "#B8B84A", "#FF5722"];
-export const DASHBOARD_PASTEL = ["#FFFBD1", "#EBC4C4", "#FAFAED", "#FFDACB"];
+export const DASHBOARD_ACCENT = ["#FF5722", "#C3F84A", "#D32F2F", "#2962FF"];
+export const DASHBOARD_PASTEL = ["#FFDACB", "#ECFCCB", "#FDEBEA", "#E3ECFF"];
 
 // Wallet-card style palette for the "Kelas" row on the admin Absensi Harian
-// page — cycling melalui 4 warna resmi palette per index kelas.
+// page — cycling melalui oren/lime/merah/biru per index kelas.
 export const WALLET_GRADIENTS = [
   "#FF5722", // oren (brand)
-  "#300000", // charcoal
-  "#FFEB3B", // powder blue
-  "#B8B84A", // platinum gelap
+  "#C3F84A", // lime
+  "#D32F2F", // merah
+  "#2962FF", // biru (senada dengan oren)
 ];
+export const WALLET_ON_LIME = [false, true, false, false];
 
 // Subtle repeating wave-line texture drawn straight into each wallet card's
 // gradient background, matching the reference's faint background pattern.

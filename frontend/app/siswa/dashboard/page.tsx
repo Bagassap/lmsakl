@@ -141,7 +141,8 @@ export default function SiswaDashboardPage() {
       label: "Absensi Harian",
       display: `${absensi.persentase}% hadir`,
       small: false,
-      gradient: "#FFEF6B",
+      gradient: "#FF5722",
+      onLime: false,
       icon: ClipboardCheck,
     },
     {
@@ -149,7 +150,8 @@ export default function SiswaDashboardPage() {
       label: "Total Hadir",
       display: `${absensi.hadir}x`,
       small: false,
-      gradient: "#FFEB3B",
+      gradient: "#C3F84A",
+      onLime: true,
       icon: CheckCircle,
     },
     {
@@ -157,7 +159,8 @@ export default function SiswaDashboardPage() {
       label: "Pengumuman",
       display: `${data.pengumuman.length} info`,
       small: false,
-      gradient: "#8B0000",
+      gradient: "#D32F2F",
+      onLime: false,
       icon: Megaphone,
     },
     {
@@ -165,7 +168,8 @@ export default function SiswaDashboardPage() {
       label: "Magang / PKL",
       display: belumMagang ? "Belum Magang" : `${magang.hadir ?? 0}x hadir`,
       small: belumMagang,
-      gradient: "#FF5722",
+      gradient: "#2962FF",
+      onLime: false,
       icon: GraduationCap,
     },
   ] as const;
@@ -263,17 +267,17 @@ export default function SiswaDashboardPage() {
               transition={{ duration: 0.35, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
             >
               <Link href={card.href}
-                className="relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 text-white"
+                className={`relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 ${card.onLime ? "text-black" : "text-white"}`}
                 style={{ background: card.gradient, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
               >
-                <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
-                <div className="pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full bg-white/8" />
+                <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/10"}`} />
+                <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/8"}`} />
                 <div className="relative flex items-start justify-between">
                   <div>
-                    <p className="text-[10px] font-medium uppercase tracking-widest text-white/70">Akses Cepat</p>
+                    <p className={`text-[10px] font-medium uppercase tracking-widest ${card.onLime ? "text-black/70" : "text-white/70"}`}>Akses Cepat</p>
                     <p className="mt-0.5 text-sm font-bold">{card.label}</p>
                   </div>
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
+                  <div className={`flex h-9 w-9 items-center justify-center rounded-full ${card.onLime ? "bg-black/10" : "bg-white/20"}`}>
                     <card.icon size={17} />
                   </div>
                 </div>
@@ -282,11 +286,11 @@ export default function SiswaDashboardPage() {
                 </div>
                 <div className="relative flex items-end justify-between">
                   <div>
-                    <p className="text-[9px] font-medium uppercase tracking-wider text-white/60">Kelas</p>
+                    <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Kelas</p>
                     <p className="text-[11px] font-semibold">{data.kelas}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-[9px] font-medium uppercase tracking-wider text-white/60">Siswa</p>
+                    <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Siswa</p>
                     <p className="max-w-25 truncate text-[11px] font-semibold">{user.nama}</p>
                   </div>
                 </div>

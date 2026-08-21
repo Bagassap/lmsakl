@@ -17,7 +17,7 @@ import { BelumAbsenPanel } from "@/components/absensi-harian/BelumAbsenPanel";
 import { LaporanSeringTidakHadir } from "@/components/absensi-harian/LaporanSeringTidakHadir";
 import { JadwalAbsenCard } from "@/components/absensi-harian/JadwalAbsenCard";
 import { paginate } from "@/components/shared/PageSizeToggle";
-import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, MONTH_NAMES, RANGE_MODE_CARDS, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, WALLET_ON_LIME, MONTH_NAMES, RANGE_MODE_CARDS, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
 import type { Kelas, RekapKelas, SiswaAbsensi, FilterAbsensi } from "@/components/absensi-harian/types";
 
 type Guru = { id: string; user: { id: string; nama: string } };
@@ -317,11 +317,13 @@ export default function AdminAbsensiHarianPage() {
                   {kelasPageSlice.map((k) => {
                     const s = kelasStat(k);
                     const isSelected = k.id === selectedId;
-                    const gradient = WALLET_GRADIENTS[s.idx % WALLET_GRADIENTS.length];
+                    const idx = s.idx % WALLET_GRADIENTS.length;
+                    const gradient = WALLET_GRADIENTS[idx];
+                    const onLime = WALLET_ON_LIME[idx];
                     const wali = k.waliKelasGuru?.user.nama ?? "Belum ada wali kelas";
                     return (
                       <button type="button" key={k.id} onClick={() => setSelectedId(k.id)}
-                        className="relative flex h-72 flex-col justify-between overflow-hidden rounded-3xl p-4 text-left text-white transition-all"
+                        className={`relative flex h-72 flex-col justify-between overflow-hidden rounded-3xl p-4 text-left transition-all ${onLime ? "text-black" : "text-white"}`}
                         style={{
                           background: gradient,
                           boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
@@ -329,32 +331,32 @@ export default function AdminAbsensiHarianPage() {
                           outlineOffset: isSelected ? "2px" : "0",
                         }}>
                         <div className="relative flex items-start justify-between">
-                          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/25">
+                          <span className={`flex h-9 w-9 items-center justify-center rounded-full ${onLime ? "bg-black/15" : "bg-white/25"}`}>
                             <BookOpen size={16} />
                           </span>
-                          <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider">
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${onLime ? "bg-black/10" : "bg-white/20"}`}>
                             Kelas
                           </span>
                         </div>
 
                         <div className="relative">
                           <p className="truncate text-base font-bold">{k.nama}</p>
-                          <p className="mt-0.5 truncate text-[10px] font-medium text-white/70">{wali}</p>
+                          <p className={`mt-0.5 truncate text-[10px] font-medium ${onLime ? "text-black/70" : "text-white/70"}`}>{wali}</p>
                         </div>
 
                         <div className="relative">
                           <p className="text-2xl font-extrabold tabular-nums">{s.hd}/{s.tt}</p>
-                          <p className="text-[11px] font-semibold text-white/80">Siswa Hadir Hari Ini</p>
-                          <div className="mt-2 h-1.5 w-full rounded-full bg-white/25">
-                            <div className="h-1.5 rounded-full bg-white transition-all" style={{ width: `${s.pct}%` }} />
+                          <p className={`text-[11px] font-semibold ${onLime ? "text-black/80" : "text-white/80"}`}>Siswa Hadir Hari Ini</p>
+                          <div className={`mt-2 h-1.5 w-full rounded-full ${onLime ? "bg-black/15" : "bg-white/25"}`}>
+                            <div className={`h-1.5 rounded-full transition-all ${onLime ? "bg-black" : "bg-white"}`} style={{ width: `${s.pct}%` }} />
                           </div>
-                          <p className="mt-1 text-[10px] font-semibold text-white/70">{s.pct}% kehadiran</p>
+                          <p className={`mt-1 text-[10px] font-semibold ${onLime ? "text-black/70" : "text-white/70"}`}>{s.pct}% kehadiran</p>
                         </div>
 
                         <div className="relative flex flex-wrap items-center gap-1.5">
-                          <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">Izin {s.iz}</span>
-                          <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">Sakit {s.sk}</span>
-                          <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold">Alpa {s.al}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Izin {s.iz}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Sakit {s.sk}</span>
+                          <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Alpa {s.al}</span>
                         </div>
                       </button>
                     );

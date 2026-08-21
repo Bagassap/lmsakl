@@ -159,7 +159,8 @@ export default function AdminDashboardPage() {
       suffix: " hadir",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "#FFEF6B",
+      gradient: "#FF5722",
+      onLime: false,
       icon: Calendar,
     },
     {
@@ -170,7 +171,8 @@ export default function AdminDashboardPage() {
       suffix: " item",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "#FFEB3B",
+      gradient: "#C3F84A",
+      onLime: true,
       icon: Megaphone,
     },
     {
@@ -181,7 +183,8 @@ export default function AdminDashboardPage() {
       suffix: " siswa",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "#8B0000",
+      gradient: "#D32F2F",
+      onLime: false,
       icon: Briefcase,
     },
     {
@@ -192,7 +195,8 @@ export default function AdminDashboardPage() {
       suffix: " kelas",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "#FF5722",
+      gradient: "#2962FF",
+      onLime: false,
       icon: FileText,
     },
   ] as const;
@@ -266,18 +270,18 @@ export default function AdminDashboardPage() {
             transition={{ duration: 0.35, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
           >
             <Link href={card.href}
-              className="relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 text-white"
+              className={`relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 ${card.onLime ? "text-black" : "text-white"}`}
               style={{ background: card.gradient, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
             >
-              <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
-              <div className="pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full bg-white/8" />
+              <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/10"}`} />
+              <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/8"}`} />
 
               <div className="relative flex items-start justify-between">
                 <div>
-                  <p className="text-[10px] font-medium uppercase tracking-widest text-white/70">Akses Cepat</p>
+                  <p className={`text-[10px] font-medium uppercase tracking-widest ${card.onLime ? "text-black/70" : "text-white/70"}`}>Akses Cepat</p>
                   <p className="mt-0.5 text-sm font-bold">{card.label}</p>
                 </div>
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
+                <div className={`flex h-9 w-9 items-center justify-center rounded-full ${card.onLime ? "bg-black/10" : "bg-white/20"}`}>
                   <card.icon size={17} />
                 </div>
               </div>
@@ -290,11 +294,11 @@ export default function AdminDashboardPage() {
 
               <div className="relative flex items-end justify-between">
                 <div>
-                  <p className="text-[9px] font-medium uppercase tracking-wider text-white/60">TA</p>
+                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>TA</p>
                   <p className="text-[11px] font-semibold">{card.validThru}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-[9px] font-medium uppercase tracking-wider text-white/60">Pengelola</p>
+                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Pengelola</p>
                   <p className="text-[11px] font-semibold">{card.holder}</p>
                 </div>
               </div>
