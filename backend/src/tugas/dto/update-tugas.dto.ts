@@ -28,15 +28,7 @@ export class UpdateTugasDto {
 
   @IsString()
   @IsOptional()
-  starterHtml?: string;
-
-  @IsString()
-  @IsOptional()
-  starterCss?: string;
-
-  @IsString()
-  @IsOptional()
-  starterJs?: string;
+  starterPraktik?: string;
 
   @IsString()
   @IsOptional()

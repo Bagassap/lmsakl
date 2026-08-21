@@ -67,15 +67,15 @@ model User {
   createdAt                  DateTime @default(now())
   updatedAt                  DateTime @updatedAt
 
-  siswa              Siswa?
-  guru               Guru?
-  pengumuman         Pengumuman[]
-  komentarPengumuman KomentarPengumuman[]
-  diskusiUkk         DiskusiUKK[]
-  notifications      Notification[]
-  materiDibuat       Materi[]
+  siswa               Siswa?
+  guru                Guru?
+  pengumuman          Pengumuman[]
+  komentarPengumuman  KomentarPengumuman[]
+  diskusiUkk          DiskusiUKK[]
+  notifications       Notification[]
+  materiDibuat        Materi[]
   catatanSiswaDicatat CatatanSiswa[]
-  tugasDibuat        Tugas[]
+  tugasDibuat         Tugas[]
 
   passwordResetRequests   PasswordResetRequest[] @relation("PasswordResetRequestUser")
   processedPasswordResets PasswordResetRequest[] @relation("PasswordResetRequestProcessor")
@@ -109,17 +109,17 @@ model PasswordResetRequest {
 // batas yang benar-benar berubah yang perlu diisi (mis. cuma
 // pulangStartMinutes untuk kasus "pulang lebih awal").
 model JadwalAbsenOverride {
-  id                 String    @id @default(cuid())
-  tanggal            String    @unique
+  id                 String   @id @default(cuid())
+  tanggal            String   @unique
   hadirStartMinutes  Int?
   hadirEndMinutes    Int?
   pulangStartMinutes Int?
   pulangEndMinutes   Int?
   keterangan         String?
   createdById        String?
-  createdBy          User?     @relation("JadwalAbsenOverrideCreator", fields: [createdById], references: [id], onDelete: SetNull)
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdBy          User?    @relation("JadwalAbsenOverrideCreator", fields: [createdById], references: [id], onDelete: SetNull)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
 
   @@index([tanggal])
   @@map("jadwal_absen_overrides")
@@ -211,7 +211,7 @@ model Kelas {
 
   siswa         Siswa[]
   absensiHarian AbsensiHarian[]
-  materi        Materi[]
+  materiList    Materi[]
   tugas         Tugas[]
 
   @@map("kelas")
@@ -239,8 +239,10 @@ model Materi {
   judul       String
   deskripsi   String? @db.Text
   mapel       String
-  kelasId     String?
-  kelas       Kelas?  @relation(fields: [kelasId], references: [id])
+  // Kelas target materi ini — kosong (tidak ada relasi) berarti "Semua Kelas".
+  // Dulu relasi 1 kelas per materi (kelasId), sekarang bisa banyak kelas
+  // sekaligus.
+  kelasList   Kelas[]
   fileUrl     String?
   fileName    String?
   createdById String
@@ -261,26 +263,25 @@ enum StatusTugas {
 // Tugas independen dari Materi — di-scope langsung lewat mapel (teks bebas,
 // sama seperti Materi.mapel) dan kelasId (null berarti berlaku untuk semua
 // kelas). tipe: "SUBMIT" (guru kirim file, siswa unggah balik file jawaban),
-// "PRAKTIK" (siswa mengetik HTML/CSS/JS langsung di canvas LMS —
-// starterHtml/Css/Js adalah kode awal), "PILIHAN_GANDA" (soal pilihan ganda
-// A-D, dinilai otomatis via TugasSoal), atau "ESSAY" (soal esai, siswa
-// mengetik jawaban teks per soal, dinilai manual).
+// "PRAKTIK" (siswa mengisi grid jurnal umum akuntansi langsung di LMS —
+// starterPraktik adalah JSON array baris awal {tanggal,akun,debit,kredit}),
+// "PILIHAN_GANDA" (soal pilihan ganda A-D, dinilai otomatis via TugasSoal),
+// atau "ESSAY" (soal esai, siswa mengetik jawaban teks per soal, dinilai
+// manual).
 model Tugas {
-  id          String   @id @default(cuid())
-  mapel       String
-  kelasId     String?
-  kelas       Kelas?   @relation(fields: [kelasId], references: [id])
-  judul       String
-  deskripsi   String?  @db.Text
-  deadline    DateTime
-  tipe        String   @default("SUBMIT")
-  fileUrl     String?
-  fileName    String?
-  starterHtml String?  @db.Text
-  starterCss  String?  @db.Text
-  starterJs   String?  @db.Text
-  createdById String
-  createdBy   User     @relation(fields: [createdById], references: [id])
+  id             String   @id @default(cuid())
+  mapel          String
+  kelasId        String?
+  kelas          Kelas?   @relation(fields: [kelasId], references: [id])
+  judul          String
+  deskripsi      String?  @db.Text
+  deadline       DateTime
+  tipe           String   @default("SUBMIT")
+  fileUrl        String?
+  fileName       String?
+  starterPraktik String?  @db.Text
+  createdById    String
+  createdBy      User     @relation(fields: [createdById], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -312,28 +313,27 @@ model TugasSoal {
 }
 
 // Submisi tugas tipe SUBMIT mengisi fileUrl/fileName; tipe PRAKTIK mengisi
-// submittedHtml/Css/Js; tipe PILIHAN_GANDA/ESSAY mengisi relasi jawaban
-// (satu TugasJawaban per TugasSoal).
+// submittedPraktik (JSON array baris jurnal yang diisi siswa); tipe
+// PILIHAN_GANDA/ESSAY mengisi relasi jawaban (satu TugasJawaban per
+// TugasSoal).
 model TugasSubmisi {
-  id            String      @id @default(cuid())
-  tugasId       String
-  tugas         Tugas       @relation(fields: [tugasId], references: [id], onDelete: Cascade)
-  siswaId       String
-  siswa         Siswa       @relation(fields: [siswaId], references: [id])
-  fileUrl       String?
-  fileName      String?
-  submittedHtml String?     @db.Text
-  submittedCss  String?     @db.Text
-  submittedJs   String?     @db.Text
-  catatan       String?
-  pesanRevisi   String?
-  status        StatusTugas @default(TERKIRIM)
+  id               String      @id @default(cuid())
+  tugasId          String
+  tugas            Tugas       @relation(fields: [tugasId], references: [id], onDelete: Cascade)
+  siswaId          String
+  siswa            Siswa       @relation(fields: [siswaId], references: [id])
+  fileUrl          String?
+  fileName         String?
+  submittedPraktik String?     @db.Text
+  catatan          String?
+  pesanRevisi      String?
+  status           StatusTugas @default(TERKIRIM)
   // Nilai otomatis 0-100, dibulatkan — hanya diisi untuk tugas PILIHAN_GANDA
   // (dihitung server-side saat submit) atau ESSAY (diisi manual guru). Tipe
   // lain tetap null.
-  nilai         Int?
-  submittedAt   DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  nilai            Int?
+  submittedAt      DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
 
   jawaban TugasJawaban[]
 

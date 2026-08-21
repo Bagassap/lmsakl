@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ClipboardList, CalendarClock, AlertCircle, CheckCircle, Download, Code2, ListChecks, PenLine, UserX } from "lucide-react";
+import { X, ClipboardList, CalendarClock, AlertCircle, CheckCircle, Download, Calculator, ListChecks, PenLine, UserX } from "lucide-react";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 import { formatTgl, formatTglJam, statusInfo } from "./types";
 import { TugasPraktikViewerModal } from "./TugasPraktikViewerModal";
@@ -25,7 +25,7 @@ export function SubmisiTugasModal({
   onRevisi: (s: TugasSubmisiItem) => void;
   onSimpanNilai: (submisiId: string, nilai: number) => Promise<void>;
 }) {
-  const [viewCodeTarget, setViewCodeTarget] = useState<TugasSubmisiItem | null>(null);
+  const [viewPraktikTarget, setViewPraktikTarget] = useState<TugasSubmisiItem | null>(null);
   const [viewJawabanTarget, setViewJawabanTarget] = useState<TugasSubmisiItem | null>(null);
   const [tab, setTab] = useState<"sudah" | "belum">("sudah");
   const [belumList, setBelumList] = useState<BelumSiswa[]>([]);
@@ -173,9 +173,9 @@ export function SubmisiTugasModal({
                         {isDone ? "✓ Diterima" : s.status === "REVISI" ? "⚠ Perlu Revisi" : "⏳ Menunggu Review"}
                       </span>
                       {isPraktik ? (
-                        <button onClick={() => setViewCodeTarget(s)}
+                        <button onClick={() => setViewPraktikTarget(s)}
                           className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl shrink-0 text-primary bg-primary/10">
-                          <Code2 size={12} /> Lihat Kode
+                          <Calculator size={12} /> Lihat Jurnal
                         </button>
                       ) : isSoalBased ? (
                         <button onClick={() => setViewJawabanTarget(s)}
@@ -225,13 +225,11 @@ export function SubmisiTugasModal({
       })()}
     </AnimatePresence>
     <TugasPraktikViewerModal
-      open={!!viewCodeTarget}
-      onClose={() => setViewCodeTarget(null)}
-      title={(viewCodeTarget?.siswa?.user?.nama || viewCodeTarget?.siswa?.nama) ?? "Siswa"}
+      open={!!viewPraktikTarget}
+      onClose={() => setViewPraktikTarget(null)}
+      title={(viewPraktikTarget?.siswa?.user?.nama || viewPraktikTarget?.siswa?.nama) ?? "Siswa"}
       subtitle={tugas?.judul}
-      html={viewCodeTarget?.submittedHtml ?? ""}
-      css={viewCodeTarget?.submittedCss ?? ""}
-      js={viewCodeTarget?.submittedJs ?? ""}
+      praktik={viewPraktikTarget?.submittedPraktik ?? null}
     />
     <TugasJawabanViewerModal
       open={!!viewJawabanTarget}

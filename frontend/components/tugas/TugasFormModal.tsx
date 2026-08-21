@@ -3,13 +3,13 @@
 import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  X, ClipboardList, Loader2, Upload, File as FileIcon, CalendarClock, Send, Code2,
+  X, ClipboardList, Loader2, Upload, File as FileIcon, CalendarClock, Send, Calculator,
   ListChecks, PenLine, Plus, Trash2, CheckCircle2,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
-import { CodePracticeCanvas } from "./CodePracticeCanvas";
-import { formatTglJam } from "./types";
-import type { TugasItem, TugasTipe } from "./types";
+import { PraktikAkuntansiGrid } from "./PraktikAkuntansiGrid";
+import { formatTglJam, parsePraktikRows } from "./types";
+import type { TugasItem, TugasTipe, PraktikRow } from "./types";
 
 type KelasOption = { id: string; nama: string };
 
@@ -51,9 +51,9 @@ function wibInputToIso(value: string) {
   return new Date(`${value}:00+07:00`).toISOString();
 }
 
-const TIPE_OPTIONS: { value: TugasTipe; label: string; icon: typeof Send; gradient: string; desc: string }[] = [
+const TIPE_OPTIONS: { value: TugasTipe; label: string; icon: typeof Send; gradient: string; onLight?: boolean; desc: string }[] = [
   { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "#FF5722", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
-  { value: "PRAKTIK", label: "Praktik Kode", icon: Code2, gradient: "#FFEB3B", desc: "Siswa mengetik HTML/CSS/JS langsung di LMS dan hasilnya tampil live." },
+  { value: "PRAKTIK", label: "Praktik Akuntansi", icon: Calculator, gradient: "#FFEB3B", onLight: true, desc: "Siswa mengisi grid jurnal umum (tanggal/akun/debit/kredit) langsung di LMS." },
   { value: "PILIHAN_GANDA", label: "Pilihan Ganda", icon: ListChecks, gradient: "#300000", desc: "Siswa memilih jawaban A–D untuk tiap soal." },
   { value: "ESSAY", label: "Essay", icon: PenLine, gradient: "#B8B84A", desc: "Siswa mengetik jawaban esai untuk tiap soal." },
 ];
@@ -92,7 +92,7 @@ export function TugasFormModal({
   const [deadline, setDeadline] = useState(toLocalInputValue());
   const [tipe, setTipe] = useState<TugasTipe>("SUBMIT");
   const [file, setFile] = useState<File | null>(null);
-  const [code, setCode] = useState({ html: "", css: "", js: "" });
+  const [praktikRows, setPraktikRows] = useState<PraktikRow[]>([]);
   const [soalList, setSoalList] = useState<SoalDraft[]>([emptySoal()]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -108,7 +108,7 @@ export function TugasFormModal({
       setDeadline(toLocalInputValue(tugas?.deadline));
       setTipe((tugas?.tipe as TugasTipe) ?? "SUBMIT");
       setFile(null);
-      setCode({ html: tugas?.starterHtml ?? "", css: tugas?.starterCss ?? "", js: tugas?.starterJs ?? "" });
+      setPraktikRows(parsePraktikRows(tugas?.starterPraktik));
       setSoalList(
         tugas?.soal?.length
           ? tugas.soal.map((s) => ({
@@ -166,9 +166,7 @@ export function TugasFormModal({
       fd.append("deadline", wibInputToIso(deadline));
       fd.append("tipe", tipe);
       if (tipe === "PRAKTIK") {
-        fd.append("starterHtml", code.html);
-        fd.append("starterCss", code.css);
-        fd.append("starterJs", code.js);
+        fd.append("starterPraktik", JSON.stringify(praktikRows));
       }
       if (isSoalBased) {
         const payload = soalList
@@ -296,7 +294,7 @@ export function TugasFormModal({
                   {TIPE_OPTIONS.map((opt) => (
                     <button key={opt.value} type="button" onClick={() => setTipe(opt.value)}
                       className={`flex flex-col items-center justify-center gap-1 rounded-lg px-2 py-2.5 text-xs font-bold transition-all ${
-                        tipe === opt.value ? "text-white shadow-sm" : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-400"
+                        tipe === opt.value ? `shadow-sm ${opt.onLight ? "text-black" : "text-white"}` : "bg-gray-100 text-gray-500 hover:bg-gray-200 dark:bg-slate-700 dark:text-slate-400"
                       }`}
                       style={tipe === opt.value ? { background: opt.gradient } : {}}>
                       <opt.icon size={14} /> {opt.label}
@@ -339,15 +337,9 @@ export function TugasFormModal({
               {tipe === "PRAKTIK" && (
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                    Kode Awal Praktik <span className="font-normal text-gray-400">(tampil sebagai starter code siswa)</span>
+                    Baris Awal Jurnal <span className="font-normal text-gray-400">(opsional, tampil sebagai starter untuk siswa)</span>
                   </label>
-                  <CodePracticeCanvas
-                    initialHtml={tugas?.starterHtml ?? ""}
-                    initialCss={tugas?.starterCss ?? ""}
-                    initialJs={tugas?.starterJs ?? ""}
-                    onChange={setCode}
-                    minHeight={320}
-                  />
+                  <PraktikAkuntansiGrid rows={praktikRows} onChange={setPraktikRows} />
                 </div>
               )}
 

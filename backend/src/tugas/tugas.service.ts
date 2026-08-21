@@ -163,9 +163,7 @@ export class TugasService {
         tipe,
         fileUrl,
         fileName,
-        starterHtml: dto.starterHtml,
-        starterCss: dto.starterCss,
-        starterJs: dto.starterJs,
+        starterPraktik: dto.starterPraktik,
         createdById: actor.id,
       },
     });
@@ -192,9 +190,7 @@ export class TugasService {
         ...(dto.deskripsi !== undefined ? { deskripsi: dto.deskripsi } : {}),
         ...(dto.deadline !== undefined ? { deadline: new Date(dto.deadline) } : {}),
         ...(dto.tipe !== undefined ? { tipe: dto.tipe } : {}),
-        ...(dto.starterHtml !== undefined ? { starterHtml: dto.starterHtml } : {}),
-        ...(dto.starterCss !== undefined ? { starterCss: dto.starterCss } : {}),
-        ...(dto.starterJs !== undefined ? { starterJs: dto.starterJs } : {}),
+        ...(dto.starterPraktik !== undefined ? { starterPraktik: dto.starterPraktik } : {}),
         ...(fileUrl ? { fileUrl, fileName } : {}),
       },
     });
@@ -271,15 +267,13 @@ export class TugasService {
 
     const data = isPraktik
       ? {
-          submittedHtml: dto.submittedHtml ?? '',
-          submittedCss: dto.submittedCss ?? '',
-          submittedJs: dto.submittedJs ?? '',
+          submittedPraktik: dto.submittedPraktik ?? '',
           fileUrl: null,
           fileName: null,
         }
       : isSoalBased
-      ? { fileUrl: null, fileName: null, submittedHtml: null, submittedCss: null, submittedJs: null }
-      : { fileUrl, fileName, submittedHtml: null, submittedCss: null, submittedJs: null };
+      ? { fileUrl: null, fileName: null, submittedPraktik: null }
+      : { fileUrl, fileName, submittedPraktik: null };
 
     const submisi = await this.prisma.tugasSubmisi.upsert({
       where: { tugasId_siswaId: { tugasId: dto.tugasId, siswaId: siswa.id } },

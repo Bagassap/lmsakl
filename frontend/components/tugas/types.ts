@@ -3,6 +3,20 @@ export type TugasTipe = "SUBMIT" | "PRAKTIK" | "PILIHAN_GANDA" | "ESSAY";
 
 export type TugasKelasRef = { id: string; nama: string };
 
+// Satu baris jurnal umum pada mode Praktik Akuntansi — debit/kredit disimpan
+// sebagai string supaya input kosong tidak dipaksa jadi "0" saat diketik.
+export type PraktikRow = { tanggal: string; akun: string; debit: string; kredit: string };
+
+export function parsePraktikRows(raw: string | null | undefined): PraktikRow[] {
+  if (!raw) return [];
+  try {
+    const parsed = JSON.parse(raw);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
 export type TugasSoalItem = {
   id: string;
   urutan: number;
@@ -30,9 +44,7 @@ export type TugasSubmisiItem = {
   siswaId: string;
   fileUrl: string | null;
   fileName: string | null;
-  submittedHtml: string | null;
-  submittedCss: string | null;
-  submittedJs: string | null;
+  submittedPraktik: string | null;
   catatan: string | null;
   pesanRevisi: string | null;
   status: StatusTugas;
@@ -58,9 +70,7 @@ export type TugasItem = {
   tipe: string;
   fileUrl: string | null;
   fileName: string | null;
-  starterHtml: string | null;
-  starterCss: string | null;
-  starterJs: string | null;
+  starterPraktik: string | null;
   createdBy: { id: string; nama: string; role: string };
   createdAt: string;
   updatedAt: string;
@@ -89,7 +99,7 @@ export function statusInfo(s: StatusTugas) {
 }
 
 export function tipeLabel(tipe: string) {
-  if (tipe === "PRAKTIK") return "Praktik Kode";
+  if (tipe === "PRAKTIK") return "Praktik Akuntansi";
   if (tipe === "PILIHAN_GANDA") return "Pilihan Ganda";
   if (tipe === "ESSAY") return "Essay";
   return "Kirim File";

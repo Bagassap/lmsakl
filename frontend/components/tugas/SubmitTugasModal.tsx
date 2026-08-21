@@ -2,10 +2,10 @@
 
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Loader2, Upload, File as FileIcon, CalendarClock, Code2, ListChecks, PenLine, Download } from "lucide-react";
-import { CodePracticeCanvas } from "./CodePracticeCanvas";
-import type { TugasItem } from "./types";
-import { formatTgl } from "./types";
+import { X, Send, Loader2, Upload, File as FileIcon, CalendarClock, Calculator, ListChecks, PenLine, Download } from "lucide-react";
+import { PraktikAkuntansiGrid } from "./PraktikAkuntansiGrid";
+import type { TugasItem, PraktikRow } from "./types";
+import { formatTgl, parsePraktikRows } from "./types";
 
 // Lampiran (soal/materi pendukung) yang diunggah guru/admin saat membuat
 // tugas — tampil di setiap mode pengerjaan (Kirim File/Praktik/Pilihan
@@ -25,24 +25,17 @@ function LampiranGuru({ tugas }: { tugas: TugasItem }) {
   );
 }
 
-// Akun demo/showcase yang dikecualikan dari pembatasan anti-copas mode
-// Praktik Kode — nama harus cocok persis dengan data user di database.
-const PASTE_RESTRICTION_EXEMPT_NAMA = "Bagas Demo";
-
 function SubmitPraktikModal({
-  tugas, onClose, onSubmit, restrictPaste,
+  tugas, onClose, onSubmit,
 }: {
   tugas: TugasItem;
   onClose: () => void;
   onSubmit: (fd: FormData) => Promise<void>;
-  restrictPaste: boolean;
 }) {
   const mySubmisi = tugas.submisi?.[0];
-  const [code, setCode] = useState({
-    html: mySubmisi?.submittedHtml ?? tugas.starterHtml ?? "",
-    css: mySubmisi?.submittedCss ?? tugas.starterCss ?? "",
-    js: mySubmisi?.submittedJs ?? tugas.starterJs ?? "",
-  });
+  const [rows, setRows] = useState<PraktikRow[]>(
+    parsePraktikRows(mySubmisi?.submittedPraktik ?? tugas.starterPraktik)
+  );
   const [catatan, setCatatan] = useState("");
   const [saving, setSaving] = useState(false);
 
@@ -50,9 +43,7 @@ function SubmitPraktikModal({
     setSaving(true);
     const fd = new FormData();
     fd.append("tugasId", tugas.id);
-    fd.append("submittedHtml", code.html);
-    fd.append("submittedCss", code.css);
-    fd.append("submittedJs", code.js);
+    fd.append("submittedPraktik", JSON.stringify(rows));
     if (catatan.trim()) fd.append("catatan", catatan.trim());
     await onSubmit(fd);
     setSaving(false);
@@ -64,21 +55,21 @@ function SubmitPraktikModal({
         onClick={onClose} className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       <motion.div initial={{ opacity: 0, scale: 0.95, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 16 }}
         transition={{ type: "spring", damping: 24, stiffness: 320 }}
-        className="relative flex h-[95dvh] w-full max-w-[1400px] flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800">
+        className="relative flex h-[95dvh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800">
         <div className="relative flex shrink-0 items-center gap-3 overflow-hidden px-6 py-4"
           style={{ background: "#FFEB3B" }}>
-          <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15">
-            <Code2 size={18} className="text-white" />
+          <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-black/5" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-black/10">
+            <Calculator size={18} className="text-black" />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="truncate text-base font-extrabold text-white">{tugas.judul}</h2>
-            <p className="flex items-center gap-1.5 text-xs text-white/70">
+            <h2 className="truncate text-base font-extrabold text-black">{tugas.judul}</h2>
+            <p className="flex items-center gap-1.5 text-xs text-black/70">
               <CalendarClock size={11} /> Deadline {formatTgl(tugas.deadline)}
             </p>
           </div>
           <button onClick={onClose}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25">
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black/10 text-black transition-colors hover:bg-black/20">
             <X size={16} />
           </button>
         </div>
@@ -91,15 +82,7 @@ function SubmitPraktikModal({
             </p>
           )}
           <div className="min-h-0 flex-1">
-            <CodePracticeCanvas
-              key={tugas.id}
-              initialHtml={code.html}
-              initialCss={code.css}
-              initialJs={code.js}
-              onChange={setCode}
-              minHeight={560}
-              restrictPaste={restrictPaste}
-            />
+            <PraktikAkuntansiGrid key={tugas.id} rows={rows} onChange={setRows} initialRows={parsePraktikRows(tugas.starterPraktik)} />
           </div>
           <div className="mt-4 flex shrink-0 flex-col gap-3 sm:flex-row sm:items-end">
             <div className="flex-1">
@@ -109,7 +92,7 @@ function SubmitPraktikModal({
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#FFE94B] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
             </div>
             <button onClick={submit} disabled={saving}
-              className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm disabled:opacity-60"
+              className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-black shadow-sm disabled:opacity-60"
               style={{ background: "#FFEB3B" }}>
               {saving ? <><Loader2 size={14} className="animate-spin" /> Mengirim...</> : <><Send size={14} /> Kirim Tugas</>}
             </button>
@@ -338,20 +321,16 @@ function SubmitSoalModal({
 }
 
 export function SubmitTugasModal({
-  tugas, onClose, onSubmit, currentUserNama,
+  tugas, onClose, onSubmit,
 }: {
   tugas: TugasItem | null;
   onClose: () => void;
   onSubmit: (fd: FormData) => Promise<void>;
-  // Nama siswa yang sedang login (dari /api/auth/me) — dipakai untuk
-  // mengecualikan akun demo dari pembatasan anti-copas mode Praktik Kode.
-  currentUserNama?: string;
 }) {
-  const restrictPaste = currentUserNama !== PASTE_RESTRICTION_EXEMPT_NAMA;
   return (
     <AnimatePresence>
       {tugas && (
-        tugas.tipe === "PRAKTIK" ? <SubmitPraktikModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} restrictPaste={restrictPaste} />
+        tugas.tipe === "PRAKTIK" ? <SubmitPraktikModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
         : tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY" ? <SubmitSoalModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
         : <SubmitFileModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
       )}

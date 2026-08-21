@@ -1,13 +1,26 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen, Plus, Search, FileText, Download, Pencil, Trash2,
-  AlertCircle, GraduationCap, Layers, CalendarDays,
+  BookOpen, Plus, Search, FileText, Download, Pencil, Trash2, Eye,
+  AlertCircle, GraduationCap, Layers, CalendarDays, Loader2,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { MateriFormModal, type MateriItem } from "./MateriFormModal";
+
+// react-pdf touches browser-only Canvas APIs (DOMMatrix) at module-eval time,
+// yang crash saat SSR — muat khusus client, sama seperti di SoalPdfViewer
+// (app/*/ujian-ukk/jadwal-soal/SoalPdfViewer.tsx).
+const MateriPdfViewerModal = dynamic(
+  () => import("./MateriPdfViewerModal").then((m) => m.MateriPdfViewerModal),
+  { ssr: false, loading: () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <Loader2 size={28} className="animate-spin text-white" />
+    </div>
+  ) },
+);
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Jakarta" });
@@ -45,6 +58,7 @@ export function MateriListPage({
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<MateriItem | null>(null);
+  const [viewerMateri, setViewerMateri] = useState<MateriItem | null>(null);
 
   const fetchList = useCallback(async () => {
     setLoading(true);
@@ -79,7 +93,7 @@ export function MateriListPage({
     return list.filter((m) =>
       m.judul.toLowerCase().includes(q) ||
       m.mapel.toLowerCase().includes(q) ||
-      (m.kelas?.nama ?? "").toLowerCase().includes(q)
+      m.kelasList.some((k) => k.nama.toLowerCase().includes(q))
     );
   }, [list, search]);
 
@@ -218,13 +232,29 @@ export function MateriListPage({
                           <GraduationCap size={10} /> {m.mapel}
                         </span>
                       </td>
-                      <td className="whitespace-nowrap px-4 py-3.5 text-xs text-slate-500 dark:text-slate-400">{m.kelas?.nama ?? "Semua Kelas"}</td>
+                      <td className="whitespace-nowrap px-4 py-3.5 text-xs text-slate-500 dark:text-slate-400">
+                        {m.kelasList.length ? (
+                          <div className="flex flex-wrap gap-1">
+                            {m.kelasList.map((k) => (
+                              <span key={k.id} className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                                {k.nama}
+                              </span>
+                            ))}
+                          </div>
+                        ) : (
+                          "Semua Kelas"
+                        )}
+                      </td>
                       <td className="whitespace-nowrap px-4 py-3.5 text-xs text-slate-500 dark:text-slate-400">{m.createdBy.nama}</td>
                       <td className="whitespace-nowrap px-4 py-3.5 text-xs text-slate-500 dark:text-slate-400">
                         <span className="flex items-center gap-1"><CalendarDays size={11} />{formatDate(m.createdAt)}</span>
                       </td>
                       <td className="whitespace-nowrap px-5 py-3.5">
                         <div className="flex items-center justify-end gap-1">
+                          <button onClick={() => setViewerMateri(m)} title="Lihat materi"
+                            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-primary/10 hover:text-primary">
+                            <Eye size={14} />
+                          </button>
                           {m.fileUrl && (
                             <a href={m.fileUrl} target="_blank" rel="noopener noreferrer" title="Unduh file"
                               className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-primary/10 hover:text-primary">
@@ -266,6 +296,8 @@ export function MateriListPage({
           });
         }}
       />
+
+      {viewerMateri && <MateriPdfViewerModal materi={viewerMateri} onClose={() => setViewerMateri(null)} />}
     </div>
   );
 }

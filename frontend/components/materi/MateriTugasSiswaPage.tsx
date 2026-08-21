@@ -23,11 +23,6 @@ export function MateriTugasSiswaPage() {
 
   const [submitTarget, setSubmitTarget] = useState<TugasItem | null>(null);
   const [detailTarget, setDetailTarget] = useState<{ s: TugasSubmisiItem; t: TugasItem } | null>(null);
-  const [currentUserNama, setCurrentUserNama] = useState<string>("");
-
-  useEffect(() => {
-    fetch("/api/auth/me").then((r) => r.json()).then((d) => setCurrentUserNama(d?.nama ?? "")).catch(() => {});
-  }, []);
 
   const loadAll = useCallback(async () => {
     setLoading(true);
@@ -87,7 +82,7 @@ export function MateriTugasSiswaPage() {
                 <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white/90">Siswa</span>
               </div>
               <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Materi & Tugas</h1>
-              <p className="text-xs sm:text-sm text-white/70 mt-0.5 hidden sm:block">Unduh materi, praktikkan kode, dan kumpulkan tugas</p>
+              <p className="text-xs sm:text-sm text-white/70 mt-0.5 hidden sm:block">Unduh materi, kerjakan tugas, dan kumpulkan tepat waktu</p>
             </div>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
@@ -161,7 +156,7 @@ export function MateriTugasSiswaPage() {
         )}
       </div>
 
-      <SubmitTugasModal tugas={submitTarget} onClose={() => setSubmitTarget(null)} onSubmit={doSubmit} currentUserNama={currentUserNama} />
+      <SubmitTugasModal tugas={submitTarget} onClose={() => setSubmitTarget(null)} onSubmit={doSubmit} />
 
       <SubmisiSayaModal
         target={detailTarget?.s ?? null}

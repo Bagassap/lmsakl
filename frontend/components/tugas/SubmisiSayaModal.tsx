@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle, AlertCircle, Download, Send, Code2, ListChecks, PenLine } from "lucide-react";
+import { X, CheckCircle, AlertCircle, Download, Send, Calculator, ListChecks, PenLine } from "lucide-react";
 import type { TugasSubmisiItem } from "./types";
 import { formatTglJam } from "./types";
 import { TugasPraktikViewerModal } from "./TugasPraktikViewerModal";
@@ -17,12 +17,12 @@ export function SubmisiSayaModal({
   onClose: () => void;
   onKirimUlang: () => void;
 }) {
-  const [viewCode, setViewCode] = useState(false);
+  const [viewPraktik, setViewPraktik] = useState(false);
   const [viewJawaban, setViewJawaban] = useState(false);
   if (!target) return null;
   const isDiterima = target.status === "DITERIMA";
   const isRevisi = target.status === "REVISI";
-  const isPraktik = tipe ? tipe === "PRAKTIK" : (target.submittedHtml !== null || target.submittedCss !== null || target.submittedJs !== null);
+  const isPraktik = tipe ? tipe === "PRAKTIK" : target.submittedPraktik !== null;
   const isSoalBased = tipe ? (tipe === "PILIHAN_GANDA" || tipe === "ESSAY") : !!(target.jawaban && target.jawaban.length > 0);
 
   return (
@@ -95,9 +95,9 @@ export function SubmisiSayaModal({
                 )}
               </div>
               {isPraktik ? (
-                <button onClick={() => setViewCode(true)}
+                <button onClick={() => setViewPraktik(true)}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold text-white bg-primary">
-                  <Code2 size={14} /> Lihat Kode Terkirim
+                  <Calculator size={14} /> Lihat Jurnal Terkirim
                 </button>
               ) : isSoalBased ? (
                 <button onClick={() => setViewJawaban(true)}
@@ -122,13 +122,11 @@ export function SubmisiSayaModal({
         </motion.div>
       )}
       <TugasPraktikViewerModal
-        open={viewCode}
-        onClose={() => setViewCode(false)}
+        open={viewPraktik}
+        onClose={() => setViewPraktik(false)}
         title={judul ?? "Tugas"}
-        subtitle="Kode yang kamu kirimkan"
-        html={target.submittedHtml ?? ""}
-        css={target.submittedCss ?? ""}
-        js={target.submittedJs ?? ""}
+        subtitle="Jurnal yang kamu kirimkan"
+        praktik={target.submittedPraktik}
       />
       <TugasJawabanViewerModal
         open={viewJawaban}

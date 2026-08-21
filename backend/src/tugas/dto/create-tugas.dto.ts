@@ -26,17 +26,11 @@ export class CreateTugasDto {
   @IsIn(['SUBMIT', 'PRAKTIK', 'PILIHAN_GANDA', 'ESSAY'])
   tipe?: string;
 
+  // JSON string dari array baris jurnal awal [{tanggal,akun,debit,kredit}] —
+  // dipakai untuk tipe PRAKTIK.
   @IsString()
   @IsOptional()
-  starterHtml?: string;
-
-  @IsString()
-  @IsOptional()
-  starterCss?: string;
-
-  @IsString()
-  @IsOptional()
-  starterJs?: string;
+  starterPraktik?: string;
 
   // JSON string dari array soal — dipakai untuk tipe PILIHAN_GANDA/ESSAY.
   // Diparse & divalidasi manual di service (bentuknya dinamis per tipe soal,

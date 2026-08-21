@@ -1,11 +1,24 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen, Search, FileText, AlertCircle, GraduationCap, Layers, CalendarDays,
+  BookOpen, Search, FileText, AlertCircle, GraduationCap, Layers, CalendarDays, Loader2,
 } from "lucide-react";
 import type { MateriItem } from "./MateriFormModal";
+
+// react-pdf touches browser-only Canvas APIs (DOMMatrix) at module-eval time,
+// yang crash saat SSR — muat khusus client, sama seperti di SoalPdfViewer
+// (app/*/ujian-ukk/jadwal-soal/SoalPdfViewer.tsx).
+const MateriPdfViewerModal = dynamic(
+  () => import("./MateriPdfViewerModal").then((m) => m.MateriPdfViewerModal),
+  { ssr: false, loading: () => (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+      <Loader2 size={28} className="animate-spin text-white" />
+    </div>
+  ) },
+);
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Jakarta" });
@@ -25,6 +38,7 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [viewerMateri, setViewerMateri] = useState<MateriItem | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -155,10 +169,10 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
                       <td className="whitespace-nowrap px-5 py-3.5">
                         <div className="flex items-center justify-end">
                           {m.fileUrl ? (
-                            <a href={m.fileUrl} target="_blank" rel="noopener noreferrer"
+                            <button onClick={() => setViewerMateri(m)}
                               className="flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-primary px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-all hover:brightness-105">
                               <BookOpen size={12} /> Buka Modul
-                            </a>
+                            </button>
                           ) : (
                             <span className="text-xs text-slate-300 dark:text-slate-600">—</span>
                           )}
@@ -172,6 +186,8 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
           )}
         </div>
       </div>
+
+      {viewerMateri && <MateriPdfViewerModal materi={viewerMateri} onClose={() => setViewerMateri(null)} />}
     </div>
   );
 }
