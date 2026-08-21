@@ -271,17 +271,17 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
               <Users size={12} /> Ringkasan {selectedKelas?.nama ?? "Kelas"}
             </p>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "linear-gradient(135deg,#1D4ED8,#2563EB)" }}>
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "#2563EB" }}>
                 <UserIcon size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{inKelas.length}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Siswa</span>
               </div>
-              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-black shadow-sm" style={{ background: "linear-gradient(135deg,#8BC220,#C3F84A)" }}>
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-black shadow-sm" style={{ background: "#C3F84A" }}>
                 <NotebookPen size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{kelasTercatat}</span>
                 <span className="text-[10px] font-semibold text-black/70">Siswa Tercatat</span>
               </div>
-              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "linear-gradient(135deg,#DC2626,#EF4444)" }}>
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "#EF4444" }}>
                 <AlertTriangle size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{kelasTotalPoin}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Poin</span>

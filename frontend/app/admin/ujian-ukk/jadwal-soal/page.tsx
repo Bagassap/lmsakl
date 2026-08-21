@@ -1276,7 +1276,7 @@ export default function AdminJadwalSoalPage() {
                           <div className="flex gap-2 shrink-0">
                             <button onClick={() => updateStatus(s.id, "DITERIMA")}
                               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-black shadow-sm transition-transform hover:scale-105"
-                              style={{background:"linear-gradient(135deg,#8BC220,#C3F84A)"}}>
+                              style={{background:"#C3F84A"}}>
                               <CheckCircle size={12}/> Terima
                             </button>
                             <button onClick={() => { setRevisiTarget(s); setPesanRevisi(""); }}

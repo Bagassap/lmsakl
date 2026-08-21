@@ -84,9 +84,9 @@ export const WALLET_DOT_SIZE = "18px 18px";
 // download, since our export needs a separate format pick below (4 kinds).
 // Shared by both admin and guru's Absensi Harian pages.
 export const RANGE_MODE_CARDS: { key: "harian" | "mingguan" | "bulanan"; label: string; caption: string; icon: React.ElementType; gradient: string; onLime?: boolean }[] = [
-  { key: "harian", label: "Harian", caption: "Rekap hari ini", icon: CalendarDays, gradient: "linear-gradient(135deg,#1D4ED8,#2563EB)" },
-  { key: "mingguan", label: "Mingguan", caption: "Rekap minggu ini", icon: CalendarRange, gradient: "linear-gradient(135deg,#8BC220,#C3F84A)", onLime: true },
-  { key: "bulanan", label: "Bulanan", caption: "Rekap bulan ini", icon: CalendarCheck2, gradient: "linear-gradient(135deg,#DC2626,#EF4444)" },
+  { key: "harian", label: "Harian", caption: "Rekap hari ini", icon: CalendarDays, gradient: "#2563EB" },
+  { key: "mingguan", label: "Mingguan", caption: "Rekap minggu ini", icon: CalendarRange, gradient: "#C3F84A", onLime: true },
+  { key: "bulanan", label: "Bulanan", caption: "Rekap bulan ini", icon: CalendarCheck2, gradient: "#EF4444" },
 ];
 
 // Date.prototype.toISOString() always renders the UTC calendar date, not the

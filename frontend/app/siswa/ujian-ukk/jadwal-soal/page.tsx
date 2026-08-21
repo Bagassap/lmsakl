@@ -614,7 +614,7 @@ export default function SiswaJadwalSoalPage() {
                             <span className="text-[10px] font-bold" style={{color: isDiterima?"#4D7C0F":isRevisi?"#FF5B19":rp.bar}}>{pct}%</span>
                           </div>
                           <div className="h-1.5 rounded-full bg-slate-100 dark:bg-slate-700 overflow-hidden">
-                            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`, background: isDiterima?"linear-gradient(90deg,#4D7C0F,#C3F84A)":isRevisi?"linear-gradient(90deg,#FF5B19,#FF5B19)":rp.gradient}}/>
+                            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`, background: isDiterima?"#C3F84A":isRevisi?"#FF5B19":rp.gradient}}/>
                           </div>
                         </div>
                         <button onClick={btn.onClick}
