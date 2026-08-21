@@ -6,11 +6,12 @@ import {
   CalendarDays, FileText, Download, Trash2, Plus, Clock,
   MapPin, User, ChevronDown, ChevronUp, Send, CheckCircle,
   AlertCircle, X, Pencil, Upload, BookOpen, ChevronLeft,
-  ChevronRight, CloudUpload, Loader2,
+  ChevronRight, CloudUpload, Loader2, FileSpreadsheet,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useToast } from "@/components/shared/ToastSystem";
 import { todayJakarta } from "@/components/absensi-harian/shared";
+import { downloadUjianUkkSubmisiExcel } from "@/lib/downloadUjianUkkExcel";
 
 const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loading: () => (
   <div className="flex-1 flex items-center justify-center py-20">
@@ -621,7 +622,15 @@ export default function AdminJadwalSoalPage() {
   const [soalSoalIdx,   setSoalSoalIdx]             = useState(0);
   const [revisiTarget,  setRevisiTarget]            = useState<Submisi | null>(null);
   const [pesanRevisi,   setPesanRevisi]             = useState("");
+  const [downloadingExcel, setDownloadingExcel]     = useState(false);
   const toast = useToast();
+
+  async function handleDownloadExcel() {
+    setDownloadingExcel(true);
+    const result = await downloadUjianUkkSubmisiExcel();
+    if (!result.ok) toast.error(result.message, "");
+    setDownloadingExcel(false);
+  }
 
   const loadAll = useCallback(async () => {
     setLoading(true);
@@ -767,6 +776,11 @@ export default function AdminJadwalSoalPage() {
                     <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
                   </div>
                 ))}
+                <button type="button" onClick={handleDownloadExcel} disabled={downloadingExcel}
+                  className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm text-xs font-bold text-white shrink-0 hover:bg-white/25 transition-colors disabled:opacity-60">
+                  {downloadingExcel ? <Loader2 size={14} className="animate-spin"/> : <FileSpreadsheet size={14}/>}
+                  <span className="hidden sm:inline">Unduh Excel</span>
+                </button>
               </div>
             </div>
           </div>

@@ -1,22 +1,22 @@
 import {
-  Controller, Get, Post, Put, Delete, Param, Body, Query,
-  UseGuards, Request, UseInterceptors, UploadedFile,
+  Controller, Get, Post, Put, Delete, Param, Body,
+  UseGuards, Request, Res, UseInterceptors, UploadedFile,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import * as fs from 'fs';
+import type { Response } from 'express';
 import { UjianUkkService } from './ujian-ukk.service';
+import { UjianUkkExcelService } from './ujian-ukk-excel.service';
 import { CreateTahapanDto } from './dto/create-tahapan.dto';
 import { CreateSoalDto } from './dto/create-soal.dto';
 import { SubmitProjectDto } from './dto/submit-project.dto';
 import { CreateDiskusiDto } from './dto/create-diskusi.dto';
-import { AbsenSendiriUkkDto, UpsertAbsensiUkkDto } from './dto/absensi-ukk.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
-import { imageUploadOptions, documentUploadOptions } from '../common/upload/file-filters';
-import { compressUploadedImageInPlace } from '../common/upload/compress-image.util';
+import { documentUploadOptions } from '../common/upload/file-filters';
 import { Role } from '../../generated/prisma/client';
 
 const soalStorage = diskStorage({
@@ -46,7 +46,10 @@ const submitStorage = diskStorage({
 @UseGuards(JwtAuthGuard)
 @Controller('ujian-ukk')
 export class UjianUkkController {
-  constructor(private readonly service: UjianUkkService) {}
+  constructor(
+    private readonly service: UjianUkkService,
+    private readonly excelService: UjianUkkExcelService,
+  ) {}
 
   @Get('tahapan')
   findAllTahapan() { return this.service.findAllTahapan(); }
@@ -122,39 +125,16 @@ export class UjianUkkController {
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.GURU)
-  @Get('absensi')
-  getAbsensi(@Query('tahapanId') tahapanId: string, @Query('tanggal') tanggal: string) {
-    if (tahapanId) return this.service.getAbsensiByTahapan(tahapanId, tanggal);
-    return this.service.getAllAbsensi(tanggal);
-  }
-
-  @UseGuards(RolesGuard)
-  @Roles(Role.SISWA)
-  @Get('absensi/saya/:tahapanId')
-  getAbsensiSaya(@Param('tahapanId') tahapanId: string, @Request() req: any) {
-    return this.service.getStatusAbsensiSaya(req.user.sub, tahapanId);
-  }
-
-  @UseGuards(RolesGuard)
-  @Roles(Role.SISWA)
-  @Post('absensi/saya')
-  @UseInterceptors(FileInterceptor('foto', { storage: diskStorage({
-    destination: (_req: any, _file: any, cb: any) => { const dir = require('path').join(process.cwd(), 'uploads', 'absensi-ukk'); require('fs').mkdirSync(dir, { recursive: true }); cb(null, dir); },
-    filename: (_req: any, file: any, cb: any) => { cb(null, Date.now() + '-' + Math.round(Math.random()*1e9) + require('path').extname(file.originalname)); },
-  }), ...imageUploadOptions }))
-  async absenSendiriUkk(@Body() dto: AbsenSendiriUkkDto, @Request() req: any, @UploadedFile() foto?: Express.Multer.File) {
-    if (foto) await compressUploadedImageInPlace(foto.path);
-    const fotoUrl = foto ? `/uploads/absensi-ukk/${foto.filename}` : undefined;
-    return this.service.absenSendiriUkk(req.user.sub, dto.tahapanId, {
-      lokasi: dto.lokasi, waktuAbsen: dto.waktuAbsen, ttd: dto.ttd, catatan: dto.catatan, fotoUrl,
+  @Get('submisi/export-excel')
+  async exportSubmisiExcel(@Res() res: Response) {
+    const groups = await this.service.getSubmisiForExport();
+    const buffer = await this.excelService.build(groups);
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': 'attachment; filename="Rekap_Submisi_UKK.xlsx"',
+      'Content-Length': buffer.length,
     });
-  }
-
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN, Role.GURU)
-  @Post('absensi')
-  upsertAbsensi(@Body() dto: UpsertAbsensiUkkDto) {
-    return this.service.upsertAbsensiUkk(dto.tahapanId, dto.tanggal, dto.absensi);
+    res.send(buffer);
   }
 
   @Get('diskusi')

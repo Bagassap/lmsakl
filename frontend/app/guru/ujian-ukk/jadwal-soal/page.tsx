@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import {
   CalendarDays, FileText, Send, BookOpen, Loader2,
-  ChevronLeft, ChevronRight, X, Download,
+  ChevronLeft, ChevronRight, X, Download, FileSpreadsheet,
   MapPin, Clock, User,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
+import { downloadUjianUkkSubmisiExcel } from "@/lib/downloadUjianUkkExcel";
 import { todayJakarta } from "@/components/absensi-harian/shared";
 
 const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), {
@@ -149,6 +150,15 @@ export default function GuruJadwalSoalPage() {
   const [openSoalModal,   setOpenSoalModal]   = useState(false);
   const [soalJadwalIdx,   setSoalJadwalIdx]   = useState(0);
   const [soalSoalIdx,     setSoalSoalIdx]     = useState(0);
+  const [downloadingExcel, setDownloadingExcel] = useState(false);
+  const toast = useToast();
+
+  async function handleDownloadExcel() {
+    setDownloadingExcel(true);
+    const result = await downloadUjianUkkSubmisiExcel();
+    if (!result.ok) toast.error(result.message, "");
+    setDownloadingExcel(false);
+  }
 
   const loadAll = useCallback(async () => {
     setLoading(true);
@@ -227,6 +237,11 @@ export default function GuruJadwalSoalPage() {
                     <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
                   </div>
                 ))}
+                <button type="button" onClick={handleDownloadExcel} disabled={downloadingExcel}
+                  className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm text-xs font-bold text-white shrink-0 hover:bg-white/25 transition-colors disabled:opacity-60">
+                  {downloadingExcel ? <Loader2 size={14} className="animate-spin"/> : <FileSpreadsheet size={14}/>}
+                  <span className="hidden sm:inline">Unduh Excel</span>
+                </button>
               </div>
             </div>
           </div>
