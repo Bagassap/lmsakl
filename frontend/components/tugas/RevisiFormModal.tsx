@@ -35,7 +35,7 @@ export function RevisiFormModal({
             className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
             onClick={(e) => e.stopPropagation()}>
 
-            <div className="relative px-6 py-5 overflow-hidden" style={{ background: "#FF5B19" }}>
+            <div className="relative px-6 py-5 overflow-hidden" style={{ background: "#FF5722" }}>
               <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none" />
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
@@ -49,22 +49,22 @@ export function RevisiFormModal({
             </div>
 
             <div className="px-6 py-5 space-y-4">
-              <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF3EC] dark:bg-[#FF5B19]/10 border border-[#FFE3D2] dark:border-[#FF5B19]/20">
-                <AlertCircle size={15} className="text-[#FF5B19] mt-0.5 shrink-0" />
-                <p className="text-xs text-[#CC4913] dark:text-[#FF7D47] leading-relaxed">
+              <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF2EE] dark:bg-[#FF5722]/10 border border-[#FFDACB] dark:border-[#FF5722]/20">
+                <AlertCircle size={15} className="text-[#FF5722] mt-0.5 shrink-0" />
+                <p className="text-xs text-[#C93B12] dark:text-[#FF7440] leading-relaxed">
                   Siswa akan menerima notifikasi revisi dan <strong>wajib mengirim ulang</strong> tugas mereka.
                 </p>
               </div>
               <div>
                 <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">
-                  Pesan Revisi <span className="text-[#6E6E6E]">*</span>
+                  Pesan Revisi <span className="text-[#8B0000]">*</span>
                 </label>
                 <textarea
                   value={pesan}
                   onChange={(e) => setPesan(e.target.value)}
                   rows={4}
                   placeholder="Tuliskan catatan revisi untuk siswa…"
-                  className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7D47] placeholder:text-slate-400"
+                  className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7440] placeholder:text-slate-400"
                   autoFocus
                 />
               </div>
@@ -77,7 +77,7 @@ export function RevisiFormModal({
               </button>
               <button onClick={submit} disabled={!pesan.trim() || sending}
                 className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-50 transition-all hover:brightness-110"
-                style={{ background: "#FF5B19" }}>
+                style={{ background: "#FF5722" }}>
                 <span className="flex items-center justify-center gap-2">
                   <AlertCircle size={14} /> {sending ? "Mengirim…" : "Kirim Revisi"}
                 </span>

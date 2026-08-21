@@ -132,9 +132,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
     >
       <motion.div
         variants={item}
-        className="flex items-start gap-2.5 rounded-xl border border-[#FF5B19]/15 bg-[#FF5B19]/5 px-3.5 py-3"
+        className="flex items-start gap-2.5 rounded-xl border border-[#FF5722]/15 bg-[#FF5722]/5 px-3.5 py-3"
       >
-        <Sparkles size={16} className="mt-0.5 shrink-0 text-[#FF5B19]" />
+        <Sparkles size={16} className="mt-0.5 shrink-0 text-[#FF5722]" />
         <p className="text-xs leading-relaxed text-black/65">
           Selamat datang! Untuk keamanan akun Anda, silakan buat password baru.
           Password default Anda adalah NIS Anda.
@@ -144,9 +144,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
       {bypassIdentityVerification ? (
         <motion.div
           variants={item}
-          className="flex items-start gap-2.5 rounded-xl border border-[#6E9CA0]/20 bg-[#6E9CA0]/5 px-3.5 py-3"
+          className="flex items-start gap-2.5 rounded-xl border border-[#FFEB3B]/20 bg-[#FFEB3B]/5 px-3.5 py-3"
         >
-          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#5C868A]" />
+          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#E6C700]" />
           <p className="text-xs leading-relaxed text-black/65">
             Identitas Anda sudah diverifikasi oleh admin — langsung buat password baru di bawah ini.
           </p>
@@ -155,9 +155,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         <>
           <motion.div
             variants={item}
-            className="flex items-start gap-2.5 rounded-xl border border-[#FF5B19]/20 bg-[#FF5B19]/5 px-3.5 py-3"
+            className="flex items-start gap-2.5 rounded-xl border border-[#FF5722]/20 bg-[#FF5722]/5 px-3.5 py-3"
           >
-            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#E64F13]" />
+            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#E44715]" />
             <p className="text-xs leading-relaxed text-black/65">
               Untuk keamanan, konfirmasi identitas Anda sebelum membuat password baru —
               ini mencegah orang lain mengganti password akun Anda dengan NIS yang bukan miliknya.
@@ -183,7 +183,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
                 value={identityConfirm}
                 onChange={(e) => setIdentityConfirm(e.target.value)}
                 placeholder={profileCompleted ? undefined : "Ketik persis sesuai data akun Anda"}
-                className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5B19] focus:bg-white focus:ring-2 focus:ring-[#FF5B19]/15"
+                className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
               />
             </div>
             <p className="text-[11px] text-black/40">
@@ -197,9 +197,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
             <motion.div
               initial={{ opacity: 0, y: -4 }}
               animate={{ opacity: 1, y: 0 }}
-              className="flex items-start gap-2.5 rounded-xl border border-[#6E6E6E]/20 bg-[#6E6E6E]/5 px-3.5 py-3"
+              className="flex items-start gap-2.5 rounded-xl border border-[#8B0000]/20 bg-[#8B0000]/5 px-3.5 py-3"
             >
-              <AlertTriangle size={16} className="mt-0.5 shrink-0 text-[#545454]" />
+              <AlertTriangle size={16} className="mt-0.5 shrink-0 text-[#750000]" />
               <p className="text-xs leading-relaxed text-black/70">
                 Sudah gagal beberapa kali? Kemungkinan {profileCompleted ? "tanggal lahir" : "nama"} yang tersimpan
                 di sistem sekolah berbeda dari yang Anda ingat — bukan berarti Anda salah ketik.
@@ -230,7 +230,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
               value={values[key]}
               onChange={(e) => set(key, e.target.value)}
               placeholder={placeholder}
-              className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5B19] focus:bg-white focus:ring-2 focus:ring-[#FF5B19]/15"
+              className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
             />
             <button
               type="button"
@@ -248,7 +248,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#FF5B19] bg-[#FF5B19] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#FF5722] bg-[#FF5722] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -261,7 +261,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
         className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(255,91,25,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(255,91,25,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "linear-gradient(to right, #FF5B19, #FF5B19)" }}
+        style={{ background: "#FF5722" }}
       >
         {loading ? (
           <>

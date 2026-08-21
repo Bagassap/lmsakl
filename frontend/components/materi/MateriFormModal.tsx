@@ -141,14 +141,14 @@ export function MateriFormModal({
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                    Judul <span className="text-[#6E6E6E]">*</span>
+                    Judul <span className="text-[#8B0000]">*</span>
                   </label>
                   <input type="text" value={judul} onChange={(e) => setJudul(e.target.value)}
                     placeholder="Contoh: Modul Dasar Akuntansi Perusahaan Jasa" className={INPUT_CLS} />
                 </div>
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                    Mata Pelajaran <span className="text-[#6E6E6E]">*</span>
+                    Mata Pelajaran <span className="text-[#8B0000]">*</span>
                   </label>
                   {mapelOptions ? (
                     <select value={mapel} onChange={(e) => setMapel(e.target.value)} className={INPUT_CLS}>
@@ -180,7 +180,7 @@ export function MateriFormModal({
 
               <div>
                 <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                  File Modul <span className="text-[#6E6E6E]">*</span>
+                  File Modul <span className="text-[#8B0000]">*</span>
                 </label>
                 <label className="flex cursor-pointer items-center gap-3 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50 px-4 py-3 transition-colors hover:border-primary/40 hover:bg-primary/5 dark:border-slate-600 dark:bg-slate-700/40">
                   <Upload size={16} className="shrink-0 text-primary" />
@@ -201,7 +201,7 @@ export function MateriFormModal({
               </div>
 
               {error && (
-                <p className="rounded-xl bg-[#F5F5F4] px-4 py-2.5 text-sm text-[#545454] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">
+                <p className="rounded-xl bg-[#F7E8E8] px-4 py-2.5 text-sm text-[#750000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">
                   {error}
                 </p>
               )}

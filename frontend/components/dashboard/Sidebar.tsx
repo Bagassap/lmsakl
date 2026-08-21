@@ -366,7 +366,7 @@ export function Sidebar({
                     <motion.span
                       animate={{ opacity: [1, 0.4, 1] }}
                       transition={{ duration: 1.6, repeat: Infinity }}
-                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#8FB4B7] ring-2 ring-white dark:ring-slate-800"
+                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#FFE94B] ring-2 ring-white dark:ring-slate-800"
                     />
                   </span>
                   {!collapsed && (

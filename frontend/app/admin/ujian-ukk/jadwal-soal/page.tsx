@@ -14,18 +14,18 @@ import { todayJakarta } from "@/components/absensi-harian/shared";
 
 const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loading: () => (
   <div className="flex-1 flex items-center justify-center py-20">
-    <Loader2 size={28} className="animate-spin text-[#FF5B19]"/>
+    <Loader2 size={28} className="animate-spin text-[#FF5722]"/>
   </div>
 )});
 
-const PRIMARY = "#FF5B19";
+const PRIMARY = "#FF5722";
 
 const PALETTE = [
-  { bg: "#E1EDEE", text: "#6E9CA0",  bar: "#6E9CA0",  gradient: "linear-gradient(135deg,#6E9CA0,#3D3D3D)" },
-  { bg: "#E1EDEE", text: "#6E9CA0",  bar: "#6E9CA0",  gradient: "linear-gradient(135deg,#6E9CA0,#6E9CA0)" },
-  { bg: "#E8E7E4", text: "#161616",  bar: "#161616",  gradient: "linear-gradient(135deg,#161616,#FF5B19)" },
-  { bg: "#FF5B19", text: "#FF5B19",  bar: "#FF5B19",  gradient: "linear-gradient(135deg,#FF5B19,#161616)" },
-  { bg: "#E8E7E4", text: "#3D3D3D",  bar: "#3D3D3D",  gradient: "linear-gradient(135deg,#3D3D3D,#3D3D3D)" },
+  { bg: "#FFFBD1", text: "#FFEB3B",  bar: "#FFEB3B",  gradient: "#FFEB3B" },
+  { bg: "#FFFBD1", text: "#FFEB3B",  bar: "#FFEB3B",  gradient: "#FFEB3B" },
+  { bg: "#EBC4C4", text: "#300000",  bar: "#300000",  gradient: "#300000" },
+  { bg: "#FF5722", text: "#FF5722",  bar: "#FF5722",  gradient: "#FF5722" },
+  { bg: "#EBC4C4", text: "#5E0000",  bar: "#5E0000",  gradient: "#5E0000" },
 ];
 function rowPalette(idx: number) { return PALETTE[idx % PALETTE.length]; }
 
@@ -40,10 +40,10 @@ function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", {
 function formatTime(s: string) { return new Date(s).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }); }
 function statusBadge(s: StatusSubmisi) {
   if (s === "DITERIMA") return { bg: "#ECFCCB", text: "#4D7C0F", icon: <CheckCircle size={10} /> };
-  if (s === "REVISI")   return { bg: "#FF5B19", text: "#FF5B19", icon: <AlertCircle size={10} /> };
-  return { bg: "#E1EDEE", text: "#6E9CA0", icon: <Clock size={10} /> };
+  if (s === "REVISI")   return { bg: "#FF5722", text: "#FF5722", icon: <AlertCircle size={10} /> };
+  return { bg: "#FFFBD1", text: "#FFEB3B", icon: <Clock size={10} /> };
 }
-function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#3D3D3D", GURU: "#6E9CA0", SISWA: "#6E9CA0" }; return m[role] ?? "#64748b"; }
+function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#5E0000", GURU: "#FFEB3B", SISWA: "#FFEB3B" }; return m[role] ?? "#64748b"; }
 
 function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
   const today = new Date();
@@ -116,8 +116,8 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
               <div
                 className="w-9 h-9 flex items-center justify-center rounded-full text-sm transition-all cursor-default select-none"
                 style={{
-                  background: isUkk ? "#FF5B19" : "transparent",
-                  color:      isUkk ? "#fff" : isToday ? "#FF5B19" : "inherit",
+                  background: isUkk ? "#FF5722" : "transparent",
+                  color:      isUkk ? "#fff" : isToday ? "#FF5722" : "inherit",
                   fontWeight: isUkk || isToday ? 700 : 400,
                 }}>
                 {d.getDate()}
@@ -127,7 +127,7 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
                   {tasks.map((tk) => (
                     <div key={tk.id}
                       className="whitespace-nowrap text-[10px] font-semibold px-2.5 py-1 rounded-lg shadow-lg text-white"
-                      style={{ background: "#FF5B19" }}>
+                      style={{ background: "#FF5722" }}>
                       {tk.judul}
                     </div>
                   ))}
@@ -142,16 +142,16 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
 }
 
 const ROLE_CHIP: Record<string, { bg: string; text: string; label: string }> = {
-  ADMIN: { bg: "#E8E7E4", text: "#3D3D3D", label: "Admin" },
-  GURU:  { bg: "#FFE8DA", text: "#FF5B19", label: "Guru"  },
-  SISWA: { bg: "#E1EDEE", text: "#4F7377", label: "Siswa" },
+  ADMIN: { bg: "#EBC4C4", text: "#5E0000", label: "Admin" },
+  GURU:  { bg: "#FFDACB", text: "#FF5722", label: "Guru"  },
+  SISWA: { bg: "#FFFBD1", text: "#BFA300", label: "Siswa" },
 };
 const BUBBLE_COLORS = [
-  { bubble: "#E8E7E4", text: "#3D3D3D", avatar: "linear-gradient(135deg,#161616,#3D3D3D)" },
-  { bubble: "#E1EDEE", text: "#4F7377", avatar: "linear-gradient(135deg,#4F7377,#6E9CA0)" },
-  { bubble: "#FFE8DA", text: "#FF5B19", avatar: "linear-gradient(135deg,#FF5B19,#FF8A54)" },
-  { bubble: "#F2F0E4", text: "#9C9776", avatar: "linear-gradient(135deg,#9C9776,#C4C0A0)" },
-  { bubble: "#ECEBE8", text: "#6E6E6E", avatar: "linear-gradient(135deg,#3D3D3D,#6E6E6E)" },
+  { bubble: "#EBC4C4", text: "#5E0000", avatar: "#300000" },
+  { bubble: "#FFFBD1", text: "#BFA300", avatar: "#BFA300" },
+  { bubble: "#FFDACB", text: "#FF5722", avatar: "#FF5722" },
+  { bubble: "#FAFAED", text: "#B8B84A", avatar: "#B8B84A" },
+  { bubble: "#ECEBE8", text: "#8B0000", avatar: "#5E0000" },
 ];
 function bubbleFor(id: string) { let h=0; for(const c of id) h=(h*31+c.charCodeAt(0))>>>0; return BUBBLE_COLORS[h%BUBBLE_COLORS.length]; }
 
@@ -185,7 +185,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
   return (
     <div className="flex flex-col rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden" style={{ minHeight: 0 }}>
       <div className="relative px-5 py-4 shrink-0 overflow-hidden"
-        style={{ background: "linear-gradient(135deg,#3D3D3D 0%,#3D3D3D 50%,#3D3D3D 100%)" }}>
+        style={{ background: "#5E0000" }}>
         <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
         <div className="absolute -bottom-6 right-20 w-28 h-28 rounded-full bg-white/8 pointer-events-none"/>
         <div className="relative flex items-center justify-between">
@@ -209,8 +209,8 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
         {all.length === 0 && (
           <div className="flex flex-col items-center justify-center py-10 text-center">
             <div className="w-14 h-14 rounded-2xl mb-3 flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg,#3D3D3D22,#3D3D3D22)" }}>
-              <Send size={22} className="text-[#B0B0B0]"/>
+              style={{ background: "#5E000022" }}>
+              <Send size={22} className="text-[#C25858]"/>
             </div>
             <p className="text-sm font-semibold text-slate-500 dark:text-slate-400">Belum ada diskusi</p>
             <p className="text-xs text-slate-400 mt-1">Mulai percakapan di bawah</p>
@@ -240,12 +240,12 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
                 </div>
                 <div className="flex gap-3 mt-1">
                   <button onClick={() => setReplyTo({ id: d.id, nama: d.user.nama })}
-                    className="text-[10px] font-semibold text-slate-400 hover:text-[#6E6E6E] transition-colors">
+                    className="text-[10px] font-semibold text-slate-400 hover:text-[#8B0000] transition-colors">
                     Balas
                   </button>
                   {d.user.id === currentUserId && (
                     <button onClick={() => hapus(d.id)}
-                      className="text-[10px] font-semibold text-slate-400 hover:text-[#6E6E6E] transition-colors">
+                      className="text-[10px] font-semibold text-slate-400 hover:text-[#8B0000] transition-colors">
                       Hapus
                     </button>
                   )}
@@ -259,7 +259,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
       <div className="shrink-0 px-4 py-3 border-t border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 space-y-2">
         {replyTo && (
           <div className="flex items-center gap-2 text-xs px-3 py-1.5 rounded-xl font-semibold"
-            style={{ backgroundColor: "#E8E7E4", color: "#3D3D3D" }}>
+            style={{ backgroundColor: "#EBC4C4", color: "#5E0000" }}>
             <ChevronRight size={11}/> Balas ke <strong>{replyTo.nama}</strong>
             <button onClick={() => setReplyTo(null)} className="ml-auto opacity-60 hover:opacity-100"><X size={11}/></button>
           </div>
@@ -268,10 +268,10 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
           <input value={input} onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && send()}
             placeholder="Tulis pesan..."
-            className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 outline-none focus:border-[#8C8C8C] focus:ring-2 focus:ring-[#E8E7E4] dark:focus:ring-[#161616]/30 transition-all placeholder:text-slate-300"/>
+            className="flex-1 text-xs px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 outline-none focus:border-[#A62E2E] focus:ring-2 focus:ring-[#EBC4C4] dark:focus:ring-[#300000]/30 transition-all placeholder:text-slate-300"/>
           <button onClick={send} disabled={sending || !input.trim()}
             className="w-9 h-9 flex items-center justify-center rounded-xl text-white shrink-0 disabled:opacity-40 transition-all hover:brightness-110"
-            style={{ background: "linear-gradient(135deg,#3D3D3D,#3D3D3D)" }}>
+            style={{ background: "#5E0000" }}>
             {sending ? <Loader2 size={13} className="animate-spin"/> : <Send size={13}/>}
           </button>
         </div>
@@ -282,7 +282,7 @@ function DiskusiActivity({ currentUserId }: { currentUserId: string }) {
 
 interface TahapanForm { hariKe: number; judul: string; tanggal: string; jamMulai: string; jamSelesai: string; lokasi: string; penguji: string; keterangan: string; }
 
-const INPUT_CLS = "w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none focus:border-[#8C8C8C] focus:ring-2 focus:ring-[#E8E7E4] dark:focus:ring-[#161616]/30 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-500";
+const INPUT_CLS = "w-full text-sm px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-200 outline-none focus:border-[#A62E2E] focus:ring-2 focus:ring-[#EBC4C4] dark:focus:ring-[#300000]/30 transition-all placeholder:text-slate-300 dark:placeholder:text-slate-500";
 
 function TahapanModal({ open, onClose, onSave, initial }: { open: boolean; onClose: () => void; onSave: (d: TahapanForm) => Promise<void>; initial?: Partial<TahapanForm>; }) {
   const [form, setForm] = useState<TahapanForm>({ hariKe: 1, judul: "", tanggal: "", jamMulai: "08:00", jamSelesai: "12:00", lokasi: "", penguji: "", keterangan: "", ...initial });
@@ -304,7 +304,7 @@ function TahapanModal({ open, onClose, onSave, initial }: { open: boolean; onClo
             style={{ maxHeight: "92vh" }}>
 
             <div className="relative flex items-center gap-4 px-6 py-5 overflow-hidden"
-              style={{ background: "linear-gradient(135deg,#161616,#3D3D3D,#6E6E6E)" }}>
+              style={{ background: "#300000" }}>
               <div className="absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10 pointer-events-none"/>
               <div className="absolute -bottom-6 right-20 w-28 h-28 rounded-full bg-white/7 pointer-events-none"/>
               <div className="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
@@ -410,7 +410,7 @@ function TahapanModal({ open, onClose, onSave, initial }: { open: boolean; onClo
                 <motion.button type="submit" disabled={saving}
                   whileHover={{ scale: saving ? 1 : 1.02 }} whileTap={{ scale: saving ? 1 : 0.97 }}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2"
-                  style={{ background: "linear-gradient(135deg,#161616,#3D3D3D)" }}>
+                  style={{ background: "#300000" }}>
                   {saving ? <><Loader2 size={14} className="animate-spin"/> Menyimpan...</> : <><Send size={13}/> {isEdit ? "Perbarui" : "Simpan Task"}</>}
                 </motion.button>
               </div>
@@ -734,7 +734,7 @@ export default function AdminJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{ background: "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)" }}>
+            style={{ background: "#FF5722" }}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -785,7 +785,7 @@ export default function AdminJadwalSoalPage() {
                   style={{maxHeight:"92vh"}}>
 
                   <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                    style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)"}}>
+                    style={{background:"#FF5722"}}>
                     <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                     <div className="absolute -bottom-6 right-24 w-24 h-24 rounded-full bg-white/8 pointer-events-none"/>
                     <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
@@ -816,7 +816,7 @@ export default function AdminJadwalSoalPage() {
                       )}
                       {curSoal && (
                         <button onClick={async()=>{ await deleteSoal(curSoal.id); setSoalJadwalIdx(i=>Math.max(0,i-1)); }}
-                          className="w-8 h-8 rounded-xl bg-[#6E6E6E]/70 flex items-center justify-center text-white hover:bg-[#6E6E6E] transition-colors" title="Hapus jadwal ini">
+                          className="w-8 h-8 rounded-xl bg-[#8B0000]/70 flex items-center justify-center text-white hover:bg-[#8B0000] transition-colors" title="Hapus jadwal ini">
                           <Trash2 size={14}/>
                         </button>
                       )}
@@ -835,8 +835,8 @@ export default function AdminJadwalSoalPage() {
                     <SoalPdfViewer soal={curSoal} onClose={()=>setOpenJadwalModal(false)}/>
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#FF5B1922,#FF5B1922)"}}>
-                        <FileText size={30} className="text-[#FF7D47]"/>
+                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"#FF572222"}}>
+                        <FileText size={30} className="text-[#FF7440]"/>
                       </div>
                       <div>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada file jadwal</p>
@@ -865,7 +865,7 @@ export default function AdminJadwalSoalPage() {
                     return (
                       <>
                         <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                          style={{background:"linear-gradient(135deg,#3D3D3D,#161616)"}}>
+                          style={{background:"#5E0000"}}>
                           <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                           <div className="absolute -bottom-6 right-24 w-24 h-24 rounded-full bg-white/8 pointer-events-none"/>
                           <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
@@ -896,7 +896,7 @@ export default function AdminJadwalSoalPage() {
                             )}
                             {curSoal && (
                               <button onClick={async()=>{ await deleteSoal(curSoal.id); setSoalSoalIdx(i=>Math.max(0,i-1)); }}
-                                className="w-8 h-8 rounded-xl bg-[#6E6E6E]/70 flex items-center justify-center text-white hover:bg-[#6E6E6E] transition-colors" title="Hapus soal ini">
+                                className="w-8 h-8 rounded-xl bg-[#8B0000]/70 flex items-center justify-center text-white hover:bg-[#8B0000] transition-colors" title="Hapus soal ini">
                                 <Trash2 size={14}/>
                               </button>
                             )}
@@ -915,8 +915,8 @@ export default function AdminJadwalSoalPage() {
                           <SoalPdfViewer soal={curSoal} onClose={()=>setOpenSoalModal(false)}/>
                         ) : (
                           <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#3D3D3D22,#16161622)"}}>
-                              <FileText size={30} className="text-[#8C8C8C]"/>
+                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"#5E000022"}}>
+                              <FileText size={30} className="text-[#A62E2E]"/>
                             </div>
                             <div>
                               <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada soal</p>
@@ -940,7 +940,7 @@ export default function AdminJadwalSoalPage() {
 
                 <button onClick={() => { setSoalJadwalIdx(0); setOpenJadwalModal(true); }}
                   className="flex-1 relative overflow-hidden rounded-2xl text-white text-left focus:outline-none transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] p-4 sm:p-5"
-                  style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)", boxShadow:"0 8px 28px rgba(255,91,25,0.45)"}}>
+                  style={{background:"#FF5722", boxShadow:"0 8px 28px rgba(255,91,25,0.45)"}}>
                   <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="absolute -right-2 -bottom-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="relative flex items-center justify-between gap-2">
@@ -975,7 +975,7 @@ export default function AdminJadwalSoalPage() {
 
                 <button onClick={() => { setSoalSoalIdx(0); setOpenSoalModal(true); }}
                   className="flex-1 relative overflow-hidden rounded-2xl text-white text-left focus:outline-none transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] p-4 sm:p-5"
-                  style={{background:"linear-gradient(135deg,#3D3D3D,#161616)", boxShadow:"0 8px 28px rgba(99,102,241,0.45)"}}>
+                  style={{background:"#5E0000", boxShadow:"0 8px 28px rgba(99,102,241,0.45)"}}>
                   <div className="absolute -right-6 -top-6 w-32 h-32 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="absolute -right-2 -bottom-4 w-20 h-20 rounded-full bg-white/10 pointer-events-none"/>
                   <div className="relative flex items-center justify-between gap-2">
@@ -1013,29 +1013,29 @@ export default function AdminJadwalSoalPage() {
             <div className="px-5 pt-5 pb-0" style={{background:"linear-gradient(135deg,rgba(255,91,25,0.06) 0%,rgba(99,102,241,0.06) 50%,rgba(16,185,129,0.06) 100%)"}}>
               <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"linear-gradient(135deg,#FF5B19,#3D3D3D)"}}>
+                  <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"#FF5722"}}>
                     <BookOpen size={14} className="text-white"/>
                   </div>
                   <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
                 </div>
                 <button onClick={() => { setEditTarget(null); setOpenTahapan(true); }}
                   className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-xl text-white shadow-sm"
-                  style={{background:"linear-gradient(135deg,#FF5B19,#3D3D3D)"}}>
+                  style={{background:"#FF5722"}}>
                   <Plus size={13} /> Tambah Task
                 </button>
               </div>
               <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
                 <button onClick={() => setTab("active")}
                   className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active" ? "border-primary" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                  style={tab==="active"?{color:"#FF5B19"}:{}}>
+                  style={tab==="active"?{color:"#FF5722"}:{}}>
                   Active Task
-                  {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5B19"}}>{active.length}</span>}
+                  {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5722"}}>{active.length}</span>}
                 </button>
                 <button onClick={() => setTab("completed")}
-                  className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                  style={tab==="completed"?{color:"#6E9CA0"}:{}}>
+                  className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+                  style={tab==="completed"?{color:"#FFEB3B"}:{}}>
                   Completed
-                  {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#6E9CA0"}}>{completed.length}</span>}
+                  {tab==="completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FFEB3B"}}>{completed.length}</span>}
                 </button>
               </div>
             </div>
@@ -1052,10 +1052,10 @@ export default function AdminJadwalSoalPage() {
                 const rp  = rowPalette(idx);
                 const sudahKumpul = submisiList.length;
                 const pct = Math.min(Math.round((sudahKumpul / Math.max(submisiList.length || 12, 1)) * 100), 100);
-                const chipDate  = {bg:"#E1EDEE", clr:"#4F7377"};
-                const chipTime  = {bg:"#E1EDEE", clr:"#4F7377"};
-                const chipLoc   = {bg:"#FF5B19", clr:"#FF5B19"};
-                const chipUser  = {bg:"#E8E7E4", clr:"#161616"};
+                const chipDate  = {bg:"#FFFBD1", clr:"#BFA300"};
+                const chipTime  = {bg:"#FFFBD1", clr:"#BFA300"};
+                const chipLoc   = {bg:"#FF5722", clr:"#FF5722"};
+                const chipUser  = {bg:"#EBC4C4", clr:"#300000"};
                 return (
                   <motion.div key={t.id} initial={{opacity:0,y:4}} animate={{opacity:1,y:0}} transition={{delay:idx*0.05}}>
                     <div className="px-4 py-3 sm:px-5 sm:py-4 flex items-start gap-3 border-l-4 transition-all hover:bg-slate-50/80 dark:hover:bg-slate-700/20"
@@ -1115,7 +1115,7 @@ export default function AdminJadwalSoalPage() {
                             <Pencil size={13}/>
                           </button>
                           <button onClick={() => deleteTahapan(t.id)}
-                            className="p-1.5 rounded-lg hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20 text-slate-300 hover:text-[#6E6E6E]">
+                            className="p-1.5 rounded-lg hover:bg-[#F7E8E8] dark:hover:bg-[#300000]/20 text-slate-300 hover:text-[#8B0000]">
                             <Trash2 size={13}/>
                           </button>
                         </div>
@@ -1149,7 +1149,7 @@ export default function AdminJadwalSoalPage() {
                           <Pencil size={12}/>
                         </button>
                         <button onClick={() => deleteTahapan(t.id)}
-                          className="p-1.5 rounded-lg hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20 text-slate-300 hover:text-[#6E6E6E]">
+                          className="p-1.5 rounded-lg hover:bg-[#F7E8E8] dark:hover:bg-[#300000]/20 text-slate-300 hover:text-[#8B0000]">
                           <Trash2 size={12}/>
                         </button>
                       </div>
@@ -1189,7 +1189,7 @@ export default function AdminJadwalSoalPage() {
                 className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
 
                 <div className="relative p-6 shrink-0"
-                  style={{background:"linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)"}}>
+                  style={{background:"#FF5722"}}>
                   <div className="pointer-events-none absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10"/>
                   <button onClick={() => setSubmisiModalTahapan(null)}
                     className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition-colors">
@@ -1224,10 +1224,10 @@ export default function AdminJadwalSoalPage() {
 
                 <div className="grid grid-cols-4 shrink-0 border-b border-slate-100 dark:border-slate-700">
                   {[
-                    { label: "Total",    val: rows.length,   color: "#3D3D3D" },
+                    { label: "Total",    val: rows.length,   color: "#5E0000" },
                     { label: "Diterima", val: cntDiterima,   color: "#4D7C0F" },
-                    { label: "Revisi",   val: cntRevisi,     color: "#FF5B19" },
-                    { label: "Menunggu", val: cntMenunggu,   color: "#2563EB" },
+                    { label: "Revisi",   val: cntRevisi,     color: "#FF5722" },
+                    { label: "Menunggu", val: cntMenunggu,   color: "#8B0000" },
                   ].map((st, i) => (
                     <div key={i} className="p-4 text-center border-r last:border-r-0 border-slate-100 dark:border-slate-700">
                       <p className="text-2xl font-extrabold" style={{color:st.color}}>{st.val}</p>
@@ -1264,7 +1264,7 @@ export default function AdminJadwalSoalPage() {
                         <a href={s.fileUrl.startsWith("http") ? s.fileUrl : `http://localhost:3001${s.fileUrl}`}
                           target="_blank" rel="noopener noreferrer"
                           className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl shrink-0"
-                          style={{color:"#4285F4", backgroundColor:"#E1EDEE"}}>
+                          style={{color:"#4285F4", backgroundColor:"#FFFBD1"}}>
                           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current shrink-0">
                             <path d="M6.18 15L3.12 9.72 9.24 0h5.51L8.63 9.72 6.18 15zm5.82 0H7.76l2.45-4.28h7.13L14.89 15h-2.89zM12 7.5l2.89-5h2.89L21 7.5h-5.78L12 7.5zM20.88 15l-2.45-4.28h2.01L24 15h-3.12z"/>
                           </svg>
@@ -1281,7 +1281,7 @@ export default function AdminJadwalSoalPage() {
                             </button>
                             <button onClick={() => { setRevisiTarget(s); setPesanRevisi(""); }}
                               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                              style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)"}}>
+                              style={{background:"#FF5722"}}>
                               <AlertCircle size={12}/> Revisi
                             </button>
                           </div>
@@ -1293,7 +1293,7 @@ export default function AdminJadwalSoalPage() {
 
                 <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    <span className="font-semibold text-[#FF5B19]">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
+                    <span className="font-semibold text-[#FF5722]">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
                     <span className="font-semibold text-[#4D7C0F] dark:text-[#C3F84A]">Terima</span> → UKK selesai
                   </p>
                   <button onClick={() => setSubmisiModalTahapan(null)}
@@ -1324,7 +1324,7 @@ export default function AdminJadwalSoalPage() {
         }}
         tahapanList={filePool ? [filePool] : []}
         title="Tambah Jadwal"
-        gradient="linear-gradient(135deg,#FF5B19,#FF5B19)"
+        gradient="#FF5722"
         showTahapan={false}
       />
 
@@ -1338,7 +1338,7 @@ export default function AdminJadwalSoalPage() {
         }}
         tahapanList={filePool ? [filePool] : []}
         title="Upload Soal"
-        gradient="linear-gradient(135deg,#3D3D3D,#161616)"
+        gradient="#5E0000"
         showTahapan={false}
       />
 
@@ -1353,7 +1353,7 @@ export default function AdminJadwalSoalPage() {
               onClick={(e)=>e.stopPropagation()}>
 
               <div className="relative px-6 py-5 overflow-hidden"
-                style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)"}}>
+                style={{background:"#FF5722"}}>
                 <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"/>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
@@ -1367,22 +1367,22 @@ export default function AdminJadwalSoalPage() {
               </div>
 
               <div className="px-6 py-5 space-y-4">
-                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF3EC] dark:bg-[#FF5B19]/10 border border-[#FFE3D2] dark:border-[#FF5B19]/20">
-                  <AlertCircle size={15} className="text-[#FF5B19] mt-0.5 shrink-0"/>
-                  <p className="text-xs text-[#CC4913] dark:text-[#FF7D47] leading-relaxed">
+                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF2EE] dark:bg-[#FF5722]/10 border border-[#FFDACB] dark:border-[#FF5722]/20">
+                  <AlertCircle size={15} className="text-[#FF5722] mt-0.5 shrink-0"/>
+                  <p className="text-xs text-[#C93B12] dark:text-[#FF7440] leading-relaxed">
                     Siswa akan menerima notifikasi revisi dan <strong>wajib mengirim ulang</strong> project mereka.
                   </p>
                 </div>
                 <div>
                   <label className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2 block">
-                    Pesan Revisi <span className="text-[#6E6E6E]">*</span>
+                    Pesan Revisi <span className="text-[#8B0000]">*</span>
                   </label>
                   <textarea
                     value={pesanRevisi}
                     onChange={(e)=>setPesanRevisi(e.target.value)}
                     rows={4}
                     placeholder="Tuliskan catatan revisi untuk siswa, misalnya: &quot;Tampilan UI belum responsif, perbaiki layout mobile dan tambahkan validasi form login.&quot;"
-                    className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7D47] placeholder:text-slate-400"
+                    className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7440] placeholder:text-slate-400"
                     autoFocus
                   />
                   <p className="text-[11px] text-slate-400 mt-1">{pesanRevisi.length} karakter</p>
@@ -1396,7 +1396,7 @@ export default function AdminJadwalSoalPage() {
                 </button>
                 <button onClick={kirimRevisi} disabled={!pesanRevisi.trim()}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-50 transition-all hover:brightness-110"
-                  style={{background:"linear-gradient(135deg,#FF5B19,#FF5B19)"}}>
+                  style={{background:"#FF5722"}}>
                   <span className="flex items-center justify-center gap-2">
                     <AlertCircle size={14}/> Kirim Revisi
                   </span>

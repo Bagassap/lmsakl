@@ -79,7 +79,7 @@ export function SiswaPasswordTable({
                     <tr key={s.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50 dark:border-slate-700/40 dark:hover:bg-slate-700/20">
                       <td className="whitespace-nowrap px-4 py-3">
                         <div className="flex items-center gap-2.5">
-                          <Avatar src={s.user?.fotoProfil} nama={displayNama} sizePx={36} fallbackBg="linear-gradient(135deg,#6E9CA0,#4F7377)" textClassName="text-[10px] font-extrabold" />
+                          <Avatar src={s.user?.fotoProfil} nama={displayNama} sizePx={36} fallbackBg="#FFEB3B" textClassName="text-[10px] font-extrabold" />
                           <div className="min-w-0">
                             <p className="text-sm font-medium text-slate-800 dark:text-white">{displayNama}</p>
                             <p className="font-mono text-xs text-slate-400 dark:text-slate-500">{s.nis}</p>
@@ -91,13 +91,13 @@ export function SiswaPasswordTable({
                           <span className="text-xs text-slate-300 dark:text-slate-600">Belum ada akun</span>
                         ) : mustChange ? (
                           <div className="flex flex-col gap-0.5">
-                            <span className="inline-flex w-fit items-center gap-1 rounded-full bg-[#6E6E6E] px-2.5 py-1 text-[11px] font-semibold text-white">
+                            <span className="inline-flex w-fit items-center gap-1 rounded-full bg-[#8B0000] px-2.5 py-1 text-[11px] font-semibold text-white">
                               <XCircle size={11} /> Belum Ganti
                             </span>
                             <span className="text-[10px] text-slate-400 dark:text-slate-500">{belumGantiLabel(s.user!.updatedAt)}</span>
                           </div>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#E1EDEE] px-2.5 py-1 text-xs font-medium text-[#4F7377] dark:bg-[#283C3D]/30 dark:text-[#8FB4B7]">
+                          <span className="inline-flex items-center gap-1 rounded-full bg-[#FFFBD1] px-2.5 py-1 text-xs font-medium text-[#BFA300] dark:bg-[#735F00]/30 dark:text-[#FFE94B]">
                             <CheckCircle2 size={12} /> Sudah Ganti
                           </span>
                         )}

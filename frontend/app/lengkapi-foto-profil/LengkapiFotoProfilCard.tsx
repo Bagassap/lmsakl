@@ -37,8 +37,7 @@ export function LengkapiFotoProfilCard() {
       <div
         className="relative overflow-hidden px-6 py-5 sm:px-8 sm:py-6"
         style={{
-          backgroundImage:
-            "linear-gradient(115deg, #FF5B19 0%, #FF5B19 55%, #FF5B19 115%)",
+          backgroundColor: "#FF5722",
         }}
       >
         <div
@@ -65,7 +64,7 @@ export function LengkapiFotoProfilCard() {
           </motion.div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-[#FFE3D2]/70">
+            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-[#FFDACB]/70">
               Satu Langkah Terakhir
             </p>
             <h1 className="mt-0.5 truncate text-lg font-bold text-white sm:text-xl">

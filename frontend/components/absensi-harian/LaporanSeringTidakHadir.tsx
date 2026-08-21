@@ -13,9 +13,9 @@ const INLINE_LIMIT = 5;
 const GRID_COLS = "36px 40px 2fr 1.4fr 80px 1.2fr";
 
 const RANK_STYLE = [
-  { bg: "#FFE8DA", clr: "#FF5B19" }, // gold -> oren
-  { bg: "#E8E7E4", clr: "#6E6E6E" }, // silver -> charcoal
-  { bg: "#F2F0E4", clr: "#9C9776" }, // bronze -> platinum gelap
+  { bg: "#FFDACB", clr: "#FF5722" }, // gold -> oren
+  { bg: "#EBC4C4", clr: "#8B0000" }, // silver -> charcoal
+  { bg: "#FAFAED", clr: "#B8B84A" }, // bronze -> platinum gelap
 ];
 
 function RankBadge({ index }: { index: number }) {
@@ -37,9 +37,9 @@ function RankBadge({ index }: { index: number }) {
 // Bar color varies with how bad the attendance actually is — red under 50%,
 // amber under 75%, blue otherwise.
 function severityColor(pct: number) {
-  if (pct < 50) return "#161616";
-  if (pct < 75) return "#CC4913";
-  return "#4F7377";
+  if (pct < 50) return "#300000";
+  if (pct < 75) return "#C93B12";
+  return "#BFA300";
 }
 
 function StatPill({
@@ -96,7 +96,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
       <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#161616,#3D3D3D)" }}>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "#300000" }}>
               <TrendingDown size={18} />
             </span>
             <div>
@@ -111,7 +111,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
             ] as { key: PeriodeLaporan; label: string }[]).map((opt) => (
               <button key={opt.key} type="button" onClick={() => setPeriode(opt.key)}
                 className={`rounded-md px-2.5 py-1 text-[11px] font-bold transition-colors ${
-                  periode === opt.key ? "bg-[#FF5B19] text-white shadow-sm" : "text-slate-500 dark:text-slate-400"
+                  periode === opt.key ? "bg-[#FF5722] text-white shadow-sm" : "text-slate-500 dark:text-slate-400"
                 }`}>
                 {opt.label}
               </button>
@@ -127,7 +127,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
           </div>
         ) : inlineRows.length === 0 ? (
           <div className="mt-4 flex flex-col items-center gap-2 py-6 text-center">
-            <ShieldCheck size={22} className="text-[#6E9CA0]" />
+            <ShieldCheck size={22} className="text-[#FFEB3B]" />
             <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               Tidak ada siswa dengan catatan alpa pada periode ini
             </p>
@@ -153,7 +153,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
 
         {totalBermasalah > INLINE_LIMIT && (
           <button type="button" onClick={() => setShowModal(true)}
-            className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl bg-[#E8E7E4] px-3 py-2 text-xs font-bold text-[#161616] hover:bg-[#DAD9D5] dark:bg-[#3D3D3D]/30">
+            className="mt-3 flex w-full items-center justify-center gap-1 rounded-xl bg-[#EBC4C4] px-3 py-2 text-xs font-bold text-[#300000] hover:bg-[#FAFAED] dark:bg-[#5E0000]/30">
             Lihat semua {totalBermasalah} siswa <ArrowRight size={12} />
           </button>
         )}
@@ -192,7 +192,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
                       <button key={opt.key} type="button" onClick={() => setPeriode(opt.key)}
                         className={`rounded-lg px-3 py-1 text-xs font-bold transition-colors ${
                           periode === opt.key
-                            ? "bg-[#6E6E6E] text-white shadow-sm"
+                            ? "bg-[#8B0000] text-white shadow-sm"
                             : "text-slate-500 dark:text-slate-400"
                         }`}>
                         {opt.label}
@@ -207,16 +207,16 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
               </div>
 
               <div className="flex shrink-0 flex-wrap gap-2 px-5 py-3">
-                <StatPill icon={AlertTriangle} gradient={CARD_GRADIENTS[1]} iconColor="#161616" value={String(totalBermasalah)} label="Bermasalah" />
-                <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#CC4913" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
-                <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#4F7377" value={`${rataKehadiran}%`} label="Rata Hadir" />
+                <StatPill icon={AlertTriangle} gradient={CARD_GRADIENTS[1]} iconColor="#300000" value={String(totalBermasalah)} label="Bermasalah" />
+                <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#C93B12" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
+                <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#BFA300" value={`${rataKehadiran}%`} label="Rata Hadir" />
               </div>
 
               {loading ? (
                 <div className="flex-1 py-10 text-center text-xs font-semibold text-slate-400">Memuat data...</div>
               ) : rows.length === 0 ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10 text-center">
-                  <ShieldCheck size={22} className="text-[#6E9CA0]" />
+                  <ShieldCheck size={22} className="text-[#FFEB3B]" />
                   <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     Tidak ada siswa dengan catatan alpa pada periode ini
                   </p>
@@ -252,7 +252,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
                               <p className="truncate text-sm font-semibold text-slate-700 dark:text-slate-200">{r.nama}</p>
                             </div>
                             <p className="truncate text-[11px] text-slate-400">{r.kelasNama} · {r.nis ?? "—"}</p>
-                            <span className="mx-auto rounded-full bg-[#E8E7E4] px-2.5 py-1 text-[11px] font-extrabold text-[#161616] dark:bg-[#3D3D3D]/40">
+                            <span className="mx-auto rounded-full bg-[#EBC4C4] px-2.5 py-1 text-[11px] font-extrabold text-[#300000] dark:bg-[#5E0000]/40">
                               {r.summary.ALPA}x
                             </span>
                             <div className="flex items-center gap-2">

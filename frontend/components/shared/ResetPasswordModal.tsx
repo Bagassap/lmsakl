@@ -69,7 +69,7 @@ export function ResetPasswordModal({
           initial={{ scale: 0.95, opacity: 0, y: 24 }} animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 24 }} transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}>
           <div className="relative overflow-hidden px-6 py-5"
-            style={{ background: "linear-gradient(135deg, #FF5B19 0%, #3D3D3D 100%)" }}>
+            style={{ background: "#FF5722" }}>
             <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
             <div className="relative flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -90,25 +90,25 @@ export function ResetPasswordModal({
           <div className="space-y-4 px-5 py-5">
             {resetToNis && (
               alreadyChanged ? (
-                <div className="flex items-start gap-2.5 rounded-xl border border-[#E1EDEE] bg-[#F2F8F8] px-3.5 py-3 dark:border-[#283C3D]/30 dark:bg-[#283C3D]/10">
-                  <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-[#6E9CA0]" />
-                  <p className="text-xs leading-relaxed text-[#4F7377] dark:text-[#8FB4B7]">
+                <div className="flex items-start gap-2.5 rounded-xl border border-[#FFFBD1] bg-[#FFFEF0] px-3.5 py-3 dark:border-[#735F00]/30 dark:bg-[#735F00]/10">
+                  <CheckCircle2 size={16} className="mt-0.5 shrink-0 text-[#FFEB3B]" />
+                  <p className="text-xs leading-relaxed text-[#BFA300] dark:text-[#FFE94B]">
                     <strong>Siswa ini sudah mengganti password sendiri.</strong>
                   </p>
                 </div>
               ) : (
-                <div className="flex items-start gap-2.5 rounded-xl border border-[#FFE3D2] bg-[#FFF3EC] px-3.5 py-3 dark:border-[#7A2C0C]/30 dark:bg-[#7A2C0C]/10">
-                  <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#FF5B19]" />
-                  <p className="text-xs leading-relaxed text-[#CC4913] dark:text-[#FF7D47]">
+                <div className="flex items-start gap-2.5 rounded-xl border border-[#FFDACB] bg-[#FFF2EE] px-3.5 py-3 dark:border-[#74220A]/30 dark:bg-[#74220A]/10">
+                  <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#FF5722]" />
+                  <p className="text-xs leading-relaxed text-[#C93B12] dark:text-[#FF7440]">
                     <strong>Siswa ini belum mengganti password</strong> (masih menggunakan NIS).
                   </p>
                 </div>
               )
             )}
 
-            <div className="flex items-start gap-2.5 rounded-xl border border-[#FFE3D2] bg-[#FFF3EC] px-3.5 py-3 dark:border-[#7A2C0C]/30 dark:bg-[#7A2C0C]/10">
-              <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#FF5B19]" />
-              <p className="text-xs leading-relaxed text-[#CC4913] dark:text-[#FF7D47]">
+            <div className="flex items-start gap-2.5 rounded-xl border border-[#FFDACB] bg-[#FFF2EE] px-3.5 py-3 dark:border-[#74220A]/30 dark:bg-[#74220A]/10">
+              <ShieldAlert size={16} className="mt-0.5 shrink-0 text-[#FF5722]" />
+              <p className="text-xs leading-relaxed text-[#C93B12] dark:text-[#FF7440]">
                 {resetToNis
                   ? (alreadyChanged
                       ? <>Siswa sudah memiliki password sendiri. Reset akan mengembalikan password ke <strong>NIS siswa ({nis})</strong> dan siswa akan diminta membuat password baru lagi saat login berikutnya.</>
@@ -169,7 +169,7 @@ export function ResetPasswordModal({
                 di sistem belum akurat sehingga siswa tidak bisa lolos verifikasi sendiri.
               </span>
             </label>
-            {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
+            {error && <p className="text-xs text-[#8B0000]">{error}</p>}
           </div>
           <div className="flex items-center justify-end gap-2 border-t border-gray-100 px-5 py-4 dark:border-slate-800">
             <button type="button" onClick={onClose}
@@ -177,9 +177,9 @@ export function ResetPasswordModal({
               Batal
             </button>
             <motion.button type="button" onClick={handleReset} disabled={saving}
-              whileHover={{ scale: 1.03, boxShadow: "0 8px 24px #FF5B1955" }} whileTap={{ scale: 0.97 }}
+              whileHover={{ scale: 1.03, boxShadow: "0 8px 24px #FF572255" }} whileTap={{ scale: 0.97 }}
               className="flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-bold text-white shadow-md transition-opacity disabled:opacity-60"
-              style={{ backgroundColor: "#FF5B19" }}>
+              style={{ backgroundColor: "#FF5722" }}>
               {saving
                 ? <><span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />Mereset…</>
                 : <><KeyRound size={14} />Reset Password</>}

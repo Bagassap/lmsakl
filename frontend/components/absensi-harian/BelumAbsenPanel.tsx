@@ -163,7 +163,7 @@ function DetailModal({
                           <Clock size={10} className="shrink-0" /> Hadir pukul {formatJam(s.waktuAbsen)}
                         </p>
                       ) : s.status === "ALPA" ? (
-                        <p className="mt-0.5 flex items-center gap-1 truncate text-[10px] font-medium text-[#8C8C8C]">
+                        <p className="mt-0.5 flex items-center gap-1 truncate text-[10px] font-medium text-[#A62E2E]">
                           <MinusCircle size={10} className="shrink-0" /> Ditandai alpa
                         </p>
                       ) : (

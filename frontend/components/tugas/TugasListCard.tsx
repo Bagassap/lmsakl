@@ -8,17 +8,17 @@ import { formatTgl, isTugasActive, tipeLabel } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Code2; cls: string }> = {
-  PRAKTIK: { icon: Code2, cls: "bg-[#E1EDEE] text-[#4F7377] dark:bg-[#283C3D]/40 dark:text-[#8FB4B7]" },
-  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#FFE3D2] text-[#CC4913] dark:bg-[#7A2C0C]/40 dark:text-[#FF7D47]" },
-  ESSAY: { icon: PenLine, cls: "bg-[#E1EDEE] text-[#4F7377] dark:bg-[#283C3D]/40 dark:text-[#8FB4B7]" },
+  PRAKTIK: { icon: Code2, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
+  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#FFDACB] text-[#C93B12] dark:bg-[#74220A]/40 dark:text-[#FF7440]" },
+  ESSAY: { icon: PenLine, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
 };
 
 const ROW_PALETTES = [
-  { bar: "#6E9CA0", gradient: "linear-gradient(135deg,#6E9CA0,#4F7377)" },
-  { bar: "#6E9CA0", gradient: "linear-gradient(135deg,#6E9CA0,#6E9CA0)" },
-  { bar: "#161616", gradient: "linear-gradient(135deg,#161616,#FF5B19)" },
-  { bar: "#FF5B19", gradient: "linear-gradient(135deg,#FF5B19,#161616)" },
-  { bar: "#4F7377", gradient: "linear-gradient(135deg,#4F7377,#4F7377)" },
+  { bar: "#FFEB3B", gradient: "#FFEB3B" },
+  { bar: "#FFEB3B", gradient: "#FFEB3B" },
+  { bar: "#300000", gradient: "#300000" },
+  { bar: "#FF5722", gradient: "#FF5722" },
+  { bar: "#BFA300", gradient: "#BFA300" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -74,16 +74,16 @@ export function TugasListCard({
         </div>
         <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
           <button onClick={() => setTab("active")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "active" ? { color: "#6E9CA0" } : {}}>
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            style={tab === "active" ? { color: "#FFEB3B" } : {}}>
             Aktif
-            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{active.length}</span>}
+            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#FFEB3B" }}>{active.length}</span>}
           </button>
           <button onClick={() => setTab("completed")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#6E9CA0]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "completed" ? { color: "#6E9CA0" } : {}}>
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            style={tab === "completed" ? { color: "#FFEB3B" } : {}}>
             Selesai
-            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#6E9CA0" }}>{completed.length}</span>}
+            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{ backgroundColor: "#FFEB3B" }}>{completed.length}</span>}
           </button>
         </div>
       </div>
@@ -156,7 +156,7 @@ export function TugasListCard({
                               <Pencil size={12} />
                             </button>
                             <button onClick={() => onDeleteTugas(t.id)}
-                              className="rounded-lg p-1.5 text-slate-300 hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
+                              className="rounded-lg p-1.5 text-slate-300 hover:bg-[#F7E8E8] hover:text-[#8B0000] dark:hover:bg-[#300000]/20">
                               <Trash2 size={12} />
                             </button>
                           </>

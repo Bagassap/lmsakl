@@ -14,11 +14,11 @@ function formatDate(iso: string): string {
 }
 
 const ROW_PALETTES = [
-  { gradient: "linear-gradient(135deg,#6E9CA0,#AECACD)" },
-  { gradient: "linear-gradient(135deg,#9C9776,#C4C0A0)" },
-  { gradient: "linear-gradient(135deg,#FF5B19,#FF5B19)" },
-  { gradient: "linear-gradient(135deg,#161616,#3D3D3D)" },
-  { gradient: "linear-gradient(135deg,#FF8A54,#FFC49E)" },
+  { gradient: "#FFEB3B" },
+  { gradient: "#B8B84A" },
+  { gradient: "#FF5722" },
+  { gradient: "#300000" },
+  { gradient: "#FF7440" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -158,14 +158,14 @@ export function MateriListPage({
         <AnimatePresence>
           {!canCreate && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#FFE3D2] bg-[#FFF3EC] px-4 py-3 text-sm text-[#CC4913] dark:border-[#7A2C0C]/40 dark:bg-[#7A2C0C]/20 dark:text-[#FF7D47]">
+              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#FFDACB] bg-[#FFF2EE] px-4 py-3 text-sm text-[#C93B12] dark:border-[#74220A]/40 dark:bg-[#74220A]/20 dark:text-[#FF7440]">
               <AlertCircle size={14} className="shrink-0" />
               Anda belum terdaftar sebagai pengampu mata pelajaran apa pun, jadi belum bisa menambahkan materi. Hubungi admin bila ini keliru.
             </motion.div>
           )}
           {error && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#E8E7E4] bg-[#F5F5F4] px-4 py-3 text-sm text-[#545454] dark:border-[#161616]/40 dark:bg-[#161616]/20 dark:text-[#8C8C8C]">
+              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#EBC4C4] bg-[#F7E8E8] px-4 py-3 text-sm text-[#750000] dark:border-[#300000]/40 dark:bg-[#300000]/20 dark:text-[#A62E2E]">
               <AlertCircle size={14} className="shrink-0" />{error}
             </motion.div>
           )}
@@ -234,11 +234,11 @@ export function MateriListPage({
                           {canEdit(m) && (
                             <>
                               <button onClick={() => { setEditItem(m); setModalOpen(true); }} title="Edit"
-                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFF3EC] hover:text-[#FF5B19] dark:hover:bg-[#7A2C0C]/20">
+                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFF2EE] hover:text-[#FF5722] dark:hover:bg-[#74220A]/20">
                                 <Pencil size={14} />
                               </button>
                               <button onClick={() => handleDelete(m)} title="Hapus"
-                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
+                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F7E8E8] hover:text-[#8B0000] dark:hover:bg-[#300000]/20">
                                 <Trash2 size={14} />
                               </button>
                             </>

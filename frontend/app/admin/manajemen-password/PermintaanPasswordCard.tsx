@@ -80,13 +80,13 @@ export function PermintaanPasswordCard({
       <div className="grid grid-cols-2 gap-2.5">
         <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
           <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-            <Clock size={11} className="text-[#FF5B19]" /> Pending
+            <Clock size={11} className="text-[#FF5722]" /> Pending
           </p>
           <p className="mt-1 text-lg font-bold text-slate-800 dark:text-white">{loading ? "—" : pending.length}</p>
         </div>
         <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
           <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-            <CheckCircle2 size={11} className="text-[#6E9CA0]" /> Selesai Hari Ini
+            <CheckCircle2 size={11} className="text-[#FFEB3B]" /> Selesai Hari Ini
           </p>
           <p className="mt-1 text-lg font-bold text-slate-800 dark:text-white">{loading ? "—" : selesaiHariIni}</p>
         </div>
@@ -99,18 +99,18 @@ export function PermintaanPasswordCard({
           </div>
         ) : pending.length === 0 ? (
           <div className="flex flex-col items-center gap-1.5 py-6 text-center">
-            <CheckCircle2 size={20} className="text-[#8FB4B7]" />
+            <CheckCircle2 size={20} className="text-[#FFE94B]" />
             <p className="text-xs font-medium text-slate-400 dark:text-slate-500">Tidak ada permintaan pending</p>
           </div>
         ) : (
           pending.map((r) => (
-            <div key={r.id} className="rounded-xl border-l-4 border-[#FF7D47] bg-[#FFF3EC]/50 p-2.5 dark:bg-[#7A2C0C]/10">
+            <div key={r.id} className="rounded-xl border-l-4 border-[#FF7440] bg-[#FFF2EE]/50 p-2.5 dark:bg-[#74220A]/10">
               <div className="flex items-start gap-2">
                 <Avatar
                   src={r.user?.fotoProfil}
                   nama={r.namaPengaju}
                   sizePx={30}
-                  fallbackBg={r.user ? (r.user.role === "SISWA" ? "linear-gradient(135deg,#6E9CA0,#4F7377)" : "linear-gradient(135deg,#3D3D3D,#161616)") : "linear-gradient(135deg,#94a3b8,#64748b)"}
+                  fallbackBg={r.user ? (r.user.role === "SISWA" ? "#FFEB3B" : "#5E0000") : "linear-gradient(135deg,#94a3b8,#64748b)"}
                   textClassName="text-[10px] font-bold"
                 />
                 <div className="min-w-0 flex-1">
@@ -174,7 +174,7 @@ export function PermintaanPasswordCard({
                 <>
                   <div className="flex-1 space-y-2 overflow-y-auto">
                     {pagedRiwayat.map((r) => (
-                      <div key={r.id} className="flex flex-col gap-2 rounded-xl border-l-4 border-[#8FB4B7] bg-slate-50 p-3 dark:bg-slate-700/30 sm:flex-row sm:items-center sm:justify-between">
+                      <div key={r.id} className="flex flex-col gap-2 rounded-xl border-l-4 border-[#FFE94B] bg-slate-50 p-3 dark:bg-slate-700/30 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex min-w-0 items-center gap-3">
                           <Avatar src={r.user?.fotoProfil} nama={r.namaPengaju} sizePx={32} fallbackBg="linear-gradient(135deg,#94a3b8,#64748b)" textClassName="text-xs font-bold" />
                           <div className="min-w-0">

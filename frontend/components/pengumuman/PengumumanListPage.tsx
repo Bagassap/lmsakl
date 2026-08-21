@@ -17,11 +17,11 @@ import { Avatar } from "@/components/shared/Avatar";
 type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 
 const KATEGORI_GRADIENT: Record<string, string> = {
-  Umum:     "linear-gradient(135deg, #161616 0%, #3D3D3D 100%)",
-  Akademik: "linear-gradient(135deg, #4F7377 0%, #6E9CA0 100%)",
-  Magang:   "linear-gradient(135deg, #FF5B19 0%, #FF5B19 100%)",
-  Ujian:    "linear-gradient(135deg, #9C9776 0%, #C4C0A0 100%)",
-  Lainnya:  "linear-gradient(135deg, #FF8A54 0%, #FFC49E 100%)",
+  Umum:     "#300000",
+  Akademik: "#BFA300",
+  Magang:   "#FF5722",
+  Ujian:    "#B8B84A",
+  Lainnya:  "#FF7440",
 };
 
 const MONTH_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -50,8 +50,8 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
     return announcementDates.has(key);
   }
 
-  const CALENDAR_GRADIENT = "linear-gradient(135deg, #161616 0%, #4f7377 50%, #4f7377 100%)";
-  const DOT_COLOR = "#4f7377";
+  const CALENDAR_GRADIENT = "#300000";
+  const DOT_COLOR = "#bfa300";
   function dotColor(_d: number) { return DOT_COLOR; }
 
   return (
@@ -82,7 +82,7 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
         <div className="grid grid-cols-7 mb-2">
           {DAY_ID.map((d, i) => (
             <div key={d} className="text-center text-[10px] font-bold"
-              style={{ color: i >= 5 ? "#4f7377" : "#94a3b8" }}>{d}</div>
+              style={{ color: i >= 5 ? "#bfa300" : "#94a3b8" }}>{d}</div>
           ))}
         </div>
 
@@ -95,7 +95,7 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
             return (
               <div key={i} className="flex flex-col items-center py-0.5">
                 <div className={`relative w-7 h-7 flex items-center justify-center rounded-full text-[12px] font-medium transition-all
-                  ${todayFlag ? "text-white font-bold shadow-md" : weekend ? "text-[#6E9CA0] dark:text-[#8FB4B7]" : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10"}`}
+                  ${todayFlag ? "text-white font-bold shadow-md" : weekend ? "text-[#FFEB3B] dark:text-[#FFE94B]" : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10"}`}
                   style={todayFlag ? { background: CALENDAR_GRADIENT } : {}}>
                   {d}
                   {hasAnn && !todayFlag && (
@@ -150,7 +150,7 @@ function AccordionCard({
   onPin: () => void;
 }) {
   const gradient = p.isPinned
-    ? "linear-gradient(135deg, #FF5B19 0%, #FFC49E 100%)"
+    ? "#FF5722"
     : (KATEGORI_GRADIENT[p.kategori] ?? KATEGORI_GRADIENT.Lainnya);
 
   function timeAgo(iso: string): string {
@@ -203,7 +203,7 @@ function AccordionCard({
               <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">Penting</span>
             )}
             {p.prioritas === "MENDESAK" && (
-              <span className="animate-pulse rounded-full bg-[#6E6E6E]/30 px-2 py-0.5 text-[10px] font-bold text-white">Mendesak</span>
+              <span className="animate-pulse rounded-full bg-[#8B0000]/30 px-2 py-0.5 text-[10px] font-bold text-white">Mendesak</span>
             )}
           </div>
         </div>
@@ -262,7 +262,7 @@ function AccordionCard({
                       textClassName="text-[11px] font-extrabold"
                       className="shadow-lg ring-2 ring-white dark:ring-slate-700"
                     />
-                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#8FB4B7] ring-1 ring-white dark:ring-[#1c2434]">
+                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#FFE94B] ring-1 ring-white dark:ring-[#1c2434]">
                       <span className="h-1.5 w-1.5 rounded-full bg-white" />
                     </span>
                   </div>
@@ -279,14 +279,14 @@ function AccordionCard({
                       <button onClick={onPin} title={p.isPinned ? "Lepas sematkan" : "Sematkan"}
                         className={`flex h-7 w-7 items-center justify-center rounded-lg transition-all ${
                           p.isPinned
-                            ? "bg-[#FFF3EC] text-[#FF5B19] dark:bg-[#7A2C0C]/20"
-                            : "text-slate-400 hover:bg-[#FFF3EC] hover:text-[#FF5B19] dark:hover:bg-[#7A2C0C]/20"
+                            ? "bg-[#FFF2EE] text-[#FF5722] dark:bg-[#74220A]/20"
+                            : "text-slate-400 hover:bg-[#FFF2EE] hover:text-[#FF5722] dark:hover:bg-[#74220A]/20"
                         }`}><Pin size={13} /></button>
                       <button onClick={onEdit} title="Edit"
-                        className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F2F8F8] hover:text-[#6E9CA0] dark:hover:bg-[#283C3D]/20">
+                        className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFFEF0] hover:text-[#FFEB3B] dark:hover:bg-[#735F00]/20">
                         <BookOpen size={13} /></button>
                       <button onClick={onDelete} title="Hapus"
-                        className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
+                        className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F7E8E8] hover:text-[#8B0000] dark:hover:bg-[#300000]/20">
                         <AlertCircle size={13} /></button>
                     </div>
                   )}
@@ -301,23 +301,23 @@ function AccordionCard({
             <div className="relative overflow-hidden">
               <div
                 className="absolute inset-0 opacity-[0.07] dark:opacity-[0.12]"
-                style={{ background: "linear-gradient(90deg, #3D3D3D 0%, #6E6E6E 60%, transparent 100%)" }}
+                style={{ background: "#5E0000" }}
               />
-              <div className="relative flex items-center gap-3 border-y border-[#3D3D3D]/10 px-6 py-3 dark:border-[#3D3D3D]/20">
-                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#3D3D3D]/12 dark:bg-[#3D3D3D]/20">
-                  <MessageCircle size={13} className="text-[#3D3D3D] dark:text-[#8C8C8C]" />
+              <div className="relative flex items-center gap-3 border-y border-[#5E0000]/10 px-6 py-3 dark:border-[#5E0000]/20">
+                <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#5E0000]/12 dark:bg-[#5E0000]/20">
+                  <MessageCircle size={13} className="text-[#5E0000] dark:text-[#A62E2E]" />
                 </div>
                 <span className="text-[13px] font-extrabold tracking-tight text-slate-800 dark:text-white">
                   Ruang Diskusi
                 </span>
                 {detail && (
-                  <span className="rounded-full bg-[#3D3D3D]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#3D3D3D] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">
+                  <span className="rounded-full bg-[#5E0000]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#5E0000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">
                     {detail.komentar.reduce((s, k) => s + 1 + (k.replies?.length ?? 0), 0)} pesan
                   </span>
                 )}
                 <div className="ml-auto flex items-center gap-1 opacity-30">
                   {[0,1,2].map(i => (
-                    <span key={i} className="h-1.5 w-1.5 rounded-full bg-[#3D3D3D]" style={{ opacity: 1 - i * 0.25 }} />
+                    <span key={i} className="h-1.5 w-1.5 rounded-full bg-[#5E0000]" style={{ opacity: 1 - i * 0.25 }} />
                   ))}
                 </div>
               </div>
@@ -327,8 +327,8 @@ function AccordionCard({
               {detailLoading ? (
                 <div className="flex flex-col items-center justify-center gap-3 py-10">
                   <div className="relative">
-                    <div className="h-10 w-10 rounded-full bg-[#3D3D3D]/10" />
-                    <Loader2 size={18} className="absolute inset-0 m-auto animate-spin text-[#3D3D3D]" />
+                    <div className="h-10 w-10 rounded-full bg-[#5E0000]/10" />
+                    <Loader2 size={18} className="absolute inset-0 m-auto animate-spin text-[#5E0000]" />
                   </div>
                   <span className="text-[12px] text-slate-400">Memuat diskusi...</span>
                 </div>
@@ -465,7 +465,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
     <div className="space-y-5">
 
       <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)" }}>
+        style={{ background: "#FF5722" }}>
         <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
         <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
         <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -501,7 +501,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
                 onClick={() => { setEditItem(null); setModalOpen(true); }}
                 whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                 className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-[13px] font-bold shadow-lg shrink-0"
-                style={{ color: "#3D3D3D" }}>
+                style={{ color: "#5E0000" }}>
                 <Plus size={15}/> Buat Pengumuman
               </motion.button>
             )}
@@ -519,7 +519,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
         <AnimatePresence>
           {error && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mb-3 flex items-center gap-2 rounded-xl border border-[#E8E7E4] bg-[#F5F5F4] px-4 py-3 text-sm text-[#545454] dark:border-[#161616]/40 dark:bg-[#161616]/20 dark:text-[#8C8C8C]"
+              className="mb-3 flex items-center gap-2 rounded-xl border border-[#EBC4C4] bg-[#F7E8E8] px-4 py-3 text-sm text-[#750000] dark:border-[#300000]/40 dark:bg-[#300000]/20 dark:text-[#A62E2E]"
             >
               <AlertCircle size={14} className="shrink-0" />{error}
             </motion.div>

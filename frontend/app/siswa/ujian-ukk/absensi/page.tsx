@@ -31,17 +31,17 @@ type AbsensiStatus = {
 const STATUS_CFG: Record<StatusAbsensi, {
   label: string; bg: string; clr: string; darkBg: string; icon: React.ElementType;
 }> = {
-  HADIR: { label: "Hadir", bg: "#E1EDEE", clr: "#6E9CA0", darkBg: "#6E9CA020", icon: CheckCircle2 },
-  IZIN:  { label: "Izin",  bg: "#E8E7E4", clr: "#3D3D3D", darkBg: "#3D3D3D20", icon: AlertCircle  },
-  SAKIT: { label: "Sakit", bg: "#FFE8DA", clr: "#CC4913", darkBg: "#CC491320", icon: Thermometer  },
-  ALPA:  { label: "Alpa",  bg: "#E8E7E4", clr: "#161616", darkBg: "#16161620", icon: MinusCircle  },
+  HADIR: { label: "Hadir", bg: "#FFFBD1", clr: "#FFEB3B", darkBg: "#FFEB3B20", icon: CheckCircle2 },
+  IZIN:  { label: "Izin",  bg: "#EBC4C4", clr: "#5E0000", darkBg: "#5E000020", icon: AlertCircle  },
+  SAKIT: { label: "Sakit", bg: "#FFDACB", clr: "#C93B12", darkBg: "#C93B1220", icon: Thermometer  },
+  ALPA:  { label: "Alpa",  bg: "#EBC4C4", clr: "#300000", darkBg: "#30000020", icon: MinusCircle  },
 };
 
 const CARD_GRADIENTS_BY_STATUS: Record<string, string> = {
-  HADIR: "linear-gradient(135deg,#6E9CA0,#AECACD)",
-  IZIN:  "linear-gradient(135deg,#3D3D3D,#3D3D3D)",
-  SAKIT: "linear-gradient(135deg,#FF5B19,#FFC49E)",
-  ALPA:  "linear-gradient(135deg,#161616,#3D3D3D)",
+  HADIR: "#FFEB3B",
+  IZIN:  "#5E0000",
+  SAKIT: "#FF5722",
+  ALPA:  "#300000",
   BELUM: "linear-gradient(135deg,#64748B,#94A3B8)",
 };
 
@@ -312,14 +312,14 @@ export default function SiswaUkkAbsensiPage() {
 
   const headerStats = [
     { label: "Sesi",   val: tahapanList.length,    clr: "rgba(255,255,255,0.9)"  },
-    { label: "Hadir",  val: rekapTotal.HADIR,       clr: "#C3DBDD" },
-    { label: "Belum",  val: rekapTotal.BELUM,       clr: "#FF5B19" },
+    { label: "Hadir",  val: rekapTotal.HADIR,       clr: "#FFF69D" },
+    { label: "Belum",  val: rekapTotal.BELUM,       clr: "#FF5722" },
   ];
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-60">
-        <div className="animate-spin w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#6E9CA0]"/>
+        <div className="animate-spin w-8 h-8 rounded-full border-4 border-slate-200 border-t-[#FFEB3B]"/>
       </div>
     );
   }
@@ -328,7 +328,7 @@ export default function SiswaUkkAbsensiPage() {
     <div className="space-y-5 p-1">
 
       <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{background:"linear-gradient(135deg,#4F7377 0%,#6E9CA0 40%,#AECACD 80%,#DCEEF0 100%)"}}>
+        style={{background:"#BFA300"}}>
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
         <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
         <div className="pointer-events-none absolute bottom-4 -left-6 h-24 w-24 rounded-full bg-white/6"/>
@@ -456,8 +456,8 @@ export default function SiswaUkkAbsensiPage() {
                   <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700"
                     style={{background:"linear-gradient(135deg,rgba(16,185,129,0.06),rgba(52,211,153,0.06))"}}>
                     <div className="flex items-center gap-2.5">
-                      <div className="w-9 h-9 rounded-xl bg-[#F2F8F8] dark:bg-[#6E9CA0]/10 flex items-center justify-center">
-                        <CheckCircle2 size={18} className="text-[#6E9CA0]"/>
+                      <div className="w-9 h-9 rounded-xl bg-[#FFFEF0] dark:bg-[#FFEB3B]/10 flex items-center justify-center">
+                        <CheckCircle2 size={18} className="text-[#FFEB3B]"/>
                       </div>
                       <div>
                         <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Kehadiran Tercatat</p>
@@ -469,7 +469,7 @@ export default function SiswaUkkAbsensiPage() {
                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                       <div className="rounded-xl bg-slate-50 dark:bg-slate-700/30 p-3">
                         <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Status</p>
-                        <p className="text-sm font-extrabold text-[#5C868A]">{selectedStatus.record.status ?? "HADIR"}</p>
+                        <p className="text-sm font-extrabold text-[#E6C700]">{selectedStatus.record.status ?? "HADIR"}</p>
                       </div>
                       {selectedStatus.record.waktuAbsen && (
                         <div className="rounded-xl bg-slate-50 dark:bg-slate-700/30 p-3">
@@ -485,8 +485,8 @@ export default function SiswaUkkAbsensiPage() {
                       )}
                     </div>
                     {selectedStatus.record.catatan && (
-                      <div className="rounded-xl bg-[#FFF3EC] dark:bg-[#FF5B19]/10 border border-[#FFE3D2] dark:border-[#FF5B19]/20 p-3">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-[#FF5B19] mb-1">Keterangan</p>
+                      <div className="rounded-xl bg-[#FFF2EE] dark:bg-[#FF5722]/10 border border-[#FFDACB] dark:border-[#FF5722]/20 p-3">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-[#FF5722] mb-1">Keterangan</p>
                         <p className="text-sm text-slate-600 dark:text-slate-300">{selectedStatus.record.catatan}</p>
                       </div>
                     )}
@@ -532,14 +532,14 @@ export default function SiswaUkkAbsensiPage() {
                       initial={{opacity:0,y:8}} animate={{opacity:1,y:0}} exit={{opacity:0,y:-8}}
                       className="bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 p-8 text-center shadow-sm">
                       <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4"
-                        style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
+                        style={{background:"#FFEB3B"}}>
                         <ClipboardCheck size={32} className="text-white"/>
                       </div>
                       <p className="text-base font-bold text-slate-800 dark:text-slate-100 mb-1">Belum Absen</p>
                       <p className="text-sm text-slate-400 mb-6">Kamu wajib absen sebelum memulai ujian UKK</p>
                       <button onClick={() => setShowForm(true)}
                         className="px-10 py-3 rounded-xl text-sm font-bold text-white w-full max-w-xs transition-all hover:brightness-95 hover:scale-[1.02] active:scale-[0.98]"
-                        style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
+                        style={{background:"#FFEB3B"}}>
                         Absen Sekarang
                       </button>
                     </motion.div>
@@ -551,8 +551,8 @@ export default function SiswaUkkAbsensiPage() {
                       <div className="px-5 py-4 border-b border-slate-100 dark:border-slate-700 flex items-center justify-between"
                         style={{background:"linear-gradient(135deg,rgba(16,185,129,0.06),rgba(52,211,153,0.06))"}}>
                         <div className="flex items-center gap-2.5">
-                          <div className="w-8 h-8 rounded-lg bg-[#F2F8F8] dark:bg-[#6E9CA0]/10 flex items-center justify-center">
-                            <ClipboardCheck size={15} className="text-[#6E9CA0]"/>
+                          <div className="w-8 h-8 rounded-lg bg-[#FFFEF0] dark:bg-[#FFEB3B]/10 flex items-center justify-center">
+                            <ClipboardCheck size={15} className="text-[#FFEB3B]"/>
                           </div>
                           <p className="text-sm font-bold text-slate-800 dark:text-slate-100">Form Absensi</p>
                         </div>
@@ -579,7 +579,7 @@ export default function SiswaUkkAbsensiPage() {
                             </div>
                           ) : (
                             <button type="button" onClick={() => fotoInputRef.current?.click()} disabled={compressingFoto}
-                              className="w-full rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/30 py-8 flex flex-col items-center gap-2 text-slate-400 hover:border-[#8FB4B7] hover:text-[#6E9CA0] transition-colors disabled:cursor-wait disabled:opacity-70">
+                              className="w-full rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/30 py-8 flex flex-col items-center gap-2 text-slate-400 hover:border-[#FFE94B] hover:text-[#FFEB3B] transition-colors disabled:cursor-wait disabled:opacity-70">
                               {compressingFoto ? (
                                 <>
                                   <Loader2 size={28} className="animate-spin" />
@@ -603,7 +603,7 @@ export default function SiswaUkkAbsensiPage() {
                             <MapPin size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"/>
                             <input value={lokasi} onChange={e => setLokasi(e.target.value)}
                               placeholder="Mendeteksi lokasi..."
-                              className="w-full pl-9 pr-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#8FB4B7]"/>
+                              className="w-full pl-9 pr-3 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#FFE94B]"/>
                           </div>
                         </div>
 
@@ -613,19 +613,19 @@ export default function SiswaUkkAbsensiPage() {
                           </label>
                           <textarea value={catatan} onChange={e => setCatatan(e.target.value)} rows={2}
                             placeholder="Tambahkan keterangan jika perlu..."
-                            className="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#8FB4B7] resize-none"/>
+                            className="w-full rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-2.5 text-sm text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#FFE94B] resize-none"/>
                         </div>
 
                         <div>
                           <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                            Tanda Tangan <span className="text-[#8C8C8C] font-bold">*</span>
+                            Tanda Tangan <span className="text-[#A62E2E] font-bold">*</span>
                           </label>
                           <SignaturePad value={ttd} onChange={setTtd}/>
                         </div>
 
                         <button onClick={handleAbsen} disabled={submitting || !ttd || compressingFoto}
                           className="flex items-center justify-center gap-2 w-full py-3.5 rounded-xl text-sm font-bold text-white transition-all hover:brightness-95 disabled:opacity-50 disabled:cursor-not-allowed hover:scale-[1.01] active:scale-[0.99]"
-                          style={{background:"linear-gradient(135deg,#6E9CA0,#4F7377)"}}>
+                          style={{background:"#FFEB3B"}}>
                           <Send size={15}/>{submitting ? "Menyimpan..." : "Konfirmasi Absen"}
                         </button>
                       </div>

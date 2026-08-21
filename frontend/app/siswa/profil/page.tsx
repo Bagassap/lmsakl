@@ -34,10 +34,10 @@ type SiswaProfil = {
   user: { id: string; nama: string; email: string | null; fotoProfil?: string | null } | null;
 };
 
-const HERO_GRADIENT = "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)";
-const ACCENT_VIOLET = "linear-gradient(135deg,#3D3D3D,#161616)";
-const ACCENT_ORANGE = "linear-gradient(135deg,#FF5B19,#FF5B19)";
-const PROFILE_CARD_GRADIENT = "linear-gradient(135deg, #161616 0%, #4f7377 50%, #4f7377 100%)";
+const HERO_GRADIENT = "#FF5722";
+const ACCENT_VIOLET = "#5E0000";
+const ACCENT_ORANGE = "#FF5722";
+const PROFILE_CARD_GRADIENT = "#300000";
 
 function getNama(s: SiswaProfil): string { return s.nama ?? s.user?.nama ?? "—"; }
 function toTitleCase(str: string): string {
@@ -53,7 +53,7 @@ function formatTanggal(iso: string | null): string {
 }
 
 const INPUT =
-  "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-[#4f7377] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#4f7377]/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
+  "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-[#bfa300] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#bfa300]/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
 
 function EditProfilModal({
   siswa, kelasGradient, onClose, onSave,
@@ -144,7 +144,7 @@ function EditProfilModal({
             </button>
           </div>
           <div className="max-h-[60vh] space-y-4 overflow-y-auto px-6 py-5">
-            <p className="rounded-xl bg-[#F2F8F8] px-3.5 py-2.5 text-xs text-[#5C868A] dark:bg-[#283C3D]/20 dark:text-[#AECACD]">
+            <p className="rounded-xl bg-[#FFFEF0] px-3.5 py-2.5 text-xs text-[#E6C700] dark:bg-[#735F00]/20 dark:text-[#FFEF6B]">
               Lengkapi data diri kamu di bawah ini.
             </p>
             <div className="flex flex-col gap-1.5">
@@ -213,7 +213,7 @@ function EditProfilModal({
                 </div>
               </div>
             </div>
-            {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
+            {error && <p className="text-xs text-[#8B0000]">{error}</p>}
           </div>
           <div className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4 dark:border-slate-700/50">
             <button onClick={onClose}
@@ -324,7 +324,7 @@ export default function SiswaProfilPage() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#D4D3D0] border-t-[#545454]" />
+        <div className="h-9 w-9 animate-spin rounded-full border-[3px] border-[#DA8F8F] border-t-[#750000]" />
       </div>
     );
   }
@@ -344,7 +344,7 @@ export default function SiswaProfilPage() {
   const isP = profil.jenisKelamin === "Perempuan";
   const kelasGrad = PROFILE_CARD_GRADIENT;
   const avatarGrad = isP
-    ? "linear-gradient(135deg,#3D3D3D,#161616)"
+    ? "#5E0000"
     : kelasGrad;
   const tglLahir = [profil.tempatLahir, formatTanggal(profil.tanggalLahir)].filter(Boolean).join(", ") || "—";
   const jurusanShort = (profil.jurusan ?? "—").replace(
@@ -384,7 +384,7 @@ export default function SiswaProfilPage() {
             { label: kelasShort(profil.kelas.nama), bg: "bg-white/15" },
             { label: profil.jurusan ?? "—", bg: "bg-white/10" },
             { label: `Angkatan ${profil.angkatan}`, bg: "bg-white/10" },
-            { label: profil.jenisKelamin ?? "—", bg: isP ? "bg-[#8C8C8C]/30" : "bg-[#8FB4B7]/20" },
+            { label: profil.jenisKelamin ?? "—", bg: isP ? "bg-[#A62E2E]/30" : "bg-[#FFE94B]/20" },
           ].map(({ label, bg }, i) => (
             <span key={i} className={`rounded-full px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm ${bg}`}>
               {label}
@@ -431,9 +431,9 @@ export default function SiswaProfilPage() {
             </div>
 
             <h2 className="text-center text-lg font-extrabold text-slate-800 dark:text-white">{nama}</h2>
-            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#5C868A]/10 px-3.5 py-1.5 dark:bg-[#8FB4B7]/15">
-              <IdCard size={14} className="text-[#5C868A] dark:text-[#AECACD]" />
-              <span className="font-mono text-sm font-extrabold tracking-wide text-[#5C868A] dark:text-[#AECACD]">
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#E6C700]/10 px-3.5 py-1.5 dark:bg-[#FFE94B]/15">
+              <IdCard size={14} className="text-[#E6C700] dark:text-[#FFEF6B]" />
+              <span className="font-mono text-sm font-extrabold tracking-wide text-[#E6C700] dark:text-[#FFEF6B]">
                 NIS {profil.nis}
               </span>
             </div>
@@ -447,8 +447,8 @@ export default function SiswaProfilPage() {
             {profil.jenisKelamin && (
               <span className={`mt-3 rounded-full px-3.5 py-1.5 text-[11px] font-bold ${
                 isP
-                  ? "bg-[#F5F5F4] text-[#545454] dark:bg-[#161616]/20 dark:text-[#8C8C8C]"
-                  : "bg-[#F2F8F8] text-[#5C868A] dark:bg-[#283C3D]/20 dark:text-[#8FB4B7]"
+                  ? "bg-[#F7E8E8] text-[#750000] dark:bg-[#300000]/20 dark:text-[#A62E2E]"
+                  : "bg-[#FFFEF0] text-[#E6C700] dark:bg-[#735F00]/20 dark:text-[#FFE94B]"
               }`}>
                 {profil.jenisKelamin}
               </span>
@@ -484,17 +484,17 @@ export default function SiswaProfilPage() {
           >
             <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
               <InfoField icon={Users} label="Jenis Kelamin" value={profil.jenisKelamin}
-                iconBg={isP ? "#E8E7E4" : "#e1edee"} iconColor={isP ? "#161616" : "#4f7377"} />
+                iconBg={isP ? "#EBC4C4" : "#fffbd1"} iconColor={isP ? "#300000" : "#bfa300"} />
               <InfoField icon={Calendar} label="Tempat, Tgl Lahir" value={tglLahir}
-                iconBg="#FF5B19" iconColor="#FF5B19" />
+                iconBg="#FF5722" iconColor="#FF5722" />
               <InfoField icon={GraduationCap} label="Kelas" value={profil.kelas.nama}
-                iconBg="#E8E7E4" iconColor="#161616" />
+                iconBg="#EBC4C4" iconColor="#300000" />
               <InfoField icon={BookOpen} label="Jurusan" value={profil.jurusan}
-                iconBg="#E8E7E4" iconColor="#3D3D3D" />
+                iconBg="#EBC4C4" iconColor="#5E0000" />
               <InfoField icon={Users} label="Nama Orang Tua" value={profil.namaOrtu}
-                iconBg="#e1edee" iconColor="#4f7377" />
+                iconBg="#fffbd1" iconColor="#bfa300" />
               <InfoField icon={Hash} label="NIS" value={profil.nis}
-                iconBg="#E1EDEE" iconColor="#4F7377" />
+                iconBg="#FFFBD1" iconColor="#BFA300" />
             </div>
           </SectionCard>
 
@@ -514,9 +514,9 @@ export default function SiswaProfilPage() {
           >
             <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
               <InfoField icon={Phone} label="No. HP" value={profil.noHp}
-                iconBg="#e1edee" iconColor="#4f7377" />
+                iconBg="#fffbd1" iconColor="#bfa300" />
               <InfoField icon={MapPin} label="Alamat Lengkap" value={formatAlamatLengkap(profil)}
-                iconBg="#FF5B19" iconColor="#FF5B19" />
+                iconBg="#FF5722" iconColor="#FF5722" />
             </div>
           </SectionCard>
         </div>

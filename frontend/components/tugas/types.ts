@@ -84,8 +84,8 @@ export function isTugasActive(t: { deadline: string }) {
 
 export function statusInfo(s: StatusTugas) {
   if (s === "DITERIMA") return { bg: "#ECFCCB", color: "#4D7C0F", label: "Diterima" };
-  if (s === "REVISI") return { bg: "#FFE8DA", color: "#CC4913", label: "Perlu Revisi" };
-  return { bg: "#E1EDEE", color: "#4F7377", label: "Menunggu Review" };
+  if (s === "REVISI") return { bg: "#FFDACB", color: "#C93B12", label: "Perlu Revisi" };
+  return { bg: "#FFFBD1", color: "#BFA300", label: "Menunggu Review" };
 }
 
 export function tipeLabel(tipe: string) {

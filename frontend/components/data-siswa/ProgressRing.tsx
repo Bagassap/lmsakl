@@ -6,7 +6,7 @@ export function ProgressRing({ percent, size = 32 }: { percent: number; size?: n
   const radius = (size - 4) / 2;
   const circumference = 2 * Math.PI * radius;
   const offset = circumference - (percent / 100) * circumference;
-  const color = percent >= 70 ? "#6e9ca0" : percent >= 40 ? "#cc4913" : "#3d3d3d";
+  const color = percent >= 70 ? "#ffeb3b" : percent >= 40 ? "#c93b12" : "#5e0000";
 
   return (
     <div className="relative shrink-0" style={{ width: size, height: size }}>

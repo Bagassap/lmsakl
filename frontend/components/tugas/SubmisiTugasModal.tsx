@@ -89,11 +89,11 @@ export function SubmisiTugasModal({
 
               <div className="grid grid-cols-3 gap-y-3 shrink-0 border-b border-slate-100 py-3 dark:border-slate-700 sm:grid-cols-5 sm:gap-y-0 sm:py-0">
                 {[
-                  { label: "Total", val: rows.length, color: "#FF5B19" },
+                  { label: "Total", val: rows.length, color: "#FF5722" },
                   { label: "Diterima", val: cntDiterima, color: "#4D7C0F" },
-                  { label: "Revisi", val: cntRevisi, color: "#FF5B19" },
-                  { label: "Menunggu", val: cntMenunggu, color: "#2563EB" },
-                  { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#161616" },
+                  { label: "Revisi", val: cntRevisi, color: "#FF5722" },
+                  { label: "Menunggu", val: cntMenunggu, color: "#8B0000" },
+                  { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#300000" },
                 ].map((st, i) => (
                   <div key={i} className="p-2.5 text-center sm:border-r sm:border-slate-100 sm:p-4 sm:last:border-r-0 dark:sm:border-slate-700">
                     <p className="text-xl font-extrabold sm:text-2xl" style={{ color: st.color }}>{st.val}</p>
@@ -111,7 +111,7 @@ export function SubmisiTugasModal({
                 </button>
                 <button onClick={() => setTab("belum")}
                   className={`flex items-center gap-1.5 rounded-t-xl px-4 py-2 text-xs font-bold transition-colors ${
-                    tab === "belum" ? "bg-[#F5F5F4] text-[#6E6E6E] dark:bg-[#161616]/20" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
+                    tab === "belum" ? "bg-[#F7E8E8] text-[#8B0000] dark:bg-[#300000]/20" : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
                   }`}>
                   <UserX size={13} /> Belum Mengumpulkan ({belumLoading ? "…" : belumList.length})
                 </button>
@@ -125,21 +125,21 @@ export function SubmisiTugasModal({
                     </div>
                   ) : belumList.length === 0 ? (
                     <div className="py-16 text-center">
-                      <CheckCircle size={36} className="mx-auto mb-3 text-[#C3DBDD]" />
+                      <CheckCircle size={36} className="mx-auto mb-3 text-[#FFF69D]" />
                       <p className="text-sm font-semibold text-slate-400">Semua siswa sudah mengumpulkan tugas ini</p>
                     </div>
                   ) : belumList.map((s) => {
                     const nama = s.user?.nama || s.nama || "Siswa";
                     return (
                       <div key={s.id} className="flex flex-wrap items-center gap-3 px-6 py-4 hover:bg-slate-50 dark:hover:bg-slate-700/20 transition-colors">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#E8E7E4] text-sm font-bold text-[#6E6E6E] dark:bg-[#161616]/30">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#EBC4C4] text-sm font-bold text-[#8B0000] dark:bg-[#300000]/30">
                           {nama[0]?.toUpperCase() ?? "?"}
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{nama}</p>
                           {s.kelas && <p className="text-xs text-slate-400">{s.kelas.nama}</p>}
                         </div>
-                        <span className="shrink-0 rounded-full bg-[#F5F5F4] px-2.5 py-1 text-[11px] font-bold text-[#6E6E6E] dark:bg-[#161616]/20">
+                        <span className="shrink-0 rounded-full bg-[#F7E8E8] px-2.5 py-1 text-[11px] font-bold text-[#8B0000] dark:bg-[#300000]/20">
                           Belum Kumpul
                         </span>
                       </div>
@@ -165,7 +165,7 @@ export function SubmisiTugasModal({
                         <p className="text-xs text-slate-400 truncate">{formatTglJam(s.submittedAt)}{s.catatan ? ` · ${s.catatan}` : ""}</p>
                       </div>
                       {(tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY") && s.nilai !== null && (
-                        <span className="shrink-0 rounded-full bg-[#FFF3EC] px-2.5 py-1 text-[11px] font-bold text-[#E64F13] dark:bg-[#7A2C0C]/20 dark:text-[#FF7D47]">
+                        <span className="shrink-0 rounded-full bg-[#FFF2EE] px-2.5 py-1 text-[11px] font-bold text-[#E44715] dark:bg-[#74220A]/20 dark:text-[#FF7440]">
                           Nilai {s.nilai}
                         </span>
                       )}
@@ -199,7 +199,7 @@ export function SubmisiTugasModal({
                           </button>
                           <button onClick={() => onRevisi(s)}
                             className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                            style={{ background: "#FF5B19" }}>
+                            style={{ background: "#FF5722" }}>
                             <AlertCircle size={12} /> Revisi
                           </button>
                         </div>
@@ -211,7 +211,7 @@ export function SubmisiTugasModal({
 
               <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  <span className="font-semibold text-[#FF5B19]">Revisi</span> → siswa kirim ulang ·{" "}
+                  <span className="font-semibold text-[#FF5722]">Revisi</span> → siswa kirim ulang ·{" "}
                   <span className="font-semibold text-[#4D7C0F] dark:text-[#C3F84A]">Terima</span> → tugas selesai
                 </p>
                 <button onClick={onClose}

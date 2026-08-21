@@ -32,16 +32,16 @@ interface DashboardData {
 }
 
 
-const P = "#FF5B19";
-const R = "#161616";
-const G = "#6E9CA0";
+const P = "#FF5722";
+const R = "#300000";
+const G = "#FFEB3B";
 
 function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-700/60 ${className}`} />;
 }
 
 const KATEGORI_COLOR: Record<string, string> = {
-  UMUM: P, AKADEMIK: "#3D3D3D", EKSKUL: G, DARURAT: R,
+  UMUM: P, AKADEMIK: "#5E0000", EKSKUL: G, DARURAT: R,
 };
 const kColor = (k: string) => KATEGORI_COLOR[k] ?? P;
 
@@ -126,7 +126,7 @@ export default function GuruDashboardPage() {
 
   if (error) return (
     <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
-      <AlertCircle size={40} className="text-[#8C8C8C]" />
+      <AlertCircle size={40} className="text-[#A62E2E]" />
       <p className="text-sm text-slate-500 dark:text-slate-400">{error}</p>
       <button onClick={load} className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
         style={{ backgroundColor: P }}>
@@ -149,7 +149,7 @@ export default function GuruDashboardPage() {
       label: "Absensi Harian",
       value: data.kehadiran.hadir,
       suffix: " hadir",
-      gradient: "linear-gradient(135deg, #AECACD 0%, #6E9CA0 100%)",
+      gradient: "#FFEF6B",
       icon: ClipboardCheck,
     },
     {
@@ -157,7 +157,7 @@ export default function GuruDashboardPage() {
       label: "Siswa Diampu",
       value: data.siswaAmpu,
       suffix: " siswa",
-      gradient: "linear-gradient(135deg, #6E9CA0 0%, #4f7377 100%)",
+      gradient: "#FFEB3B",
       icon: Users,
     },
     {
@@ -165,7 +165,7 @@ export default function GuruDashboardPage() {
       label: "Kelas Wali",
       value: kelasWali.length,
       suffix: " kelas",
-      gradient: "linear-gradient(135deg, #6E6E6E 0%, #161616 100%)",
+      gradient: "#8B0000",
       icon: GraduationCap,
     },
     {
@@ -173,7 +173,7 @@ export default function GuruDashboardPage() {
       label: "Pengumuman",
       value: data.pengumuman.length,
       suffix: " info",
-      gradient: "linear-gradient(135deg, #FF5B19 0%, #FF5B19 100%)",
+      gradient: "#FF5722",
       icon: Megaphone,
     },
   ] as const;
@@ -222,7 +222,7 @@ export default function GuruDashboardPage() {
                 <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: P }} />Hadir
               </span>
               <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#FF5B19" }} />Total
+                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#FF5722" }} />Total
               </span>
             </div>
           </div>
@@ -291,7 +291,7 @@ export default function GuruDashboardPage() {
                   transition={{ delay: 0.5 + i * 0.06 }}
                   className="flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/30">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-extrabold text-white"
-                    style={{ background: "linear-gradient(135deg,#3D3D3D,#FF5B19)" }}>
+                    style={{ background: "#5E0000" }}>
                     {k.nama.charAt(0)}
                   </div>
                   <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{k.nama}</p>

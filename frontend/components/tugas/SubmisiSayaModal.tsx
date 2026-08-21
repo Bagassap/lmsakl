@@ -37,7 +37,7 @@ export function SubmisiSayaModal({
             className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}>
             <div className="relative px-6 py-5 overflow-hidden"
-              style={{ background: isDiterima ? "#C3F84A" : isRevisi ? "#FF5B19" : "#4F7377" }}>
+              style={{ background: isDiterima ? "#C3F84A" : isRevisi ? "#FF5722" : "#BFA300" }}>
               <div className={`pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full ${isDiterima ? "bg-black/5" : "bg-white/10"}`} />
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -58,9 +58,9 @@ export function SubmisiSayaModal({
             </div>
             <div className="p-6 space-y-4">
               {(tipe === "PILIHAN_GANDA" || tipe === "ESSAY") && target.nilai !== null && (
-                <div className="flex items-center justify-between rounded-xl border border-[#FFC7A5] bg-[#FFF3EC] px-4 py-3 dark:border-[#FF5B19]/30 dark:bg-[#FF5B19]/10">
-                  <p className="text-sm font-bold text-[#CC4913] dark:text-[#FF7D47]">Nilai Kamu</p>
-                  <p className="text-2xl font-black leading-none text-[#E64F13] dark:text-[#FF7D47]">{target.nilai}</p>
+                <div className="flex items-center justify-between rounded-xl border border-[#FFB599] bg-[#FFF2EE] px-4 py-3 dark:border-[#FF5722]/30 dark:bg-[#FF5722]/10">
+                  <p className="text-sm font-bold text-[#C93B12] dark:text-[#FF7440]">Nilai Kamu</p>
+                  <p className="text-2xl font-black leading-none text-[#E44715] dark:text-[#FF7440]">{target.nilai}</p>
                 </div>
               )}
               {isDiterima && (
@@ -70,12 +70,12 @@ export function SubmisiSayaModal({
                 </div>
               )}
               {isRevisi && (
-                <div className="rounded-xl border border-[#FFC7A5] dark:border-[#FF5B19]/30 bg-[#FFF3EC] dark:bg-[#FF5B19]/10 px-4 py-4">
+                <div className="rounded-xl border border-[#FFB599] dark:border-[#FF5722]/30 bg-[#FFF2EE] dark:bg-[#FF5722]/10 px-4 py-4">
                   <div className="flex items-start gap-2.5">
-                    <AlertCircle size={15} className="text-[#FF5B19] mt-0.5 shrink-0" />
+                    <AlertCircle size={15} className="text-[#FF5722] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-xs font-bold text-[#CC4913] dark:text-[#FF7D47] mb-1.5">Catatan dari Guru/Admin</p>
-                      <p className="text-sm text-[#A63B10] dark:text-[#FFA372] leading-relaxed whitespace-pre-line">
+                      <p className="text-xs font-bold text-[#C93B12] dark:text-[#FF7440] mb-1.5">Catatan dari Guru/Admin</p>
+                      <p className="text-sm text-[#9E2F0E] dark:text-[#FF8F63] leading-relaxed whitespace-pre-line">
                         {target.pesanRevisi || "Silakan perbaiki tugas kamu dan kirim ulang."}
                       </p>
                     </div>
@@ -113,7 +113,7 @@ export function SubmisiSayaModal({
               {isRevisi && (
                 <button onClick={onKirimUlang}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold text-white"
-                  style={{ background: "#FF5B19" }}>
+                  style={{ background: "#FF5722" }}>
                   <Send size={13} /> Kirim Ulang Tugas
                 </button>
               )}

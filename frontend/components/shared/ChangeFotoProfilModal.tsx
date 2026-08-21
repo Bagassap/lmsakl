@@ -145,7 +145,7 @@ export function ChangeFotoProfilModal({ onClose, gradient }: { onClose: () => vo
                   <input
                     type="range" min={1} max={3} step={0.01} value={zoom}
                     onChange={(e) => setZoom(Number(e.target.value))}
-                    className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#FF5B19]"
+                    className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-black/10 accent-[#FF5722]"
                   />
                 </div>
                 <button
@@ -159,7 +159,7 @@ export function ChangeFotoProfilModal({ onClose, gradient }: { onClose: () => vo
               </div>
             )}
 
-            {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
+            {error && <p className="text-xs text-[#8B0000]">{error}</p>}
           </div>
 
           <div className="flex justify-end gap-3 border-t border-slate-100 px-6 py-4 dark:border-slate-700/50">

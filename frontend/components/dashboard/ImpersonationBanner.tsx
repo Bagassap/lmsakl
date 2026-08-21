@@ -30,8 +30,8 @@ export function ImpersonationBanner({
     <button
       onClick={handleStop}
       disabled={loading}
-      className="flex w-full items-center justify-center gap-2 px-4 py-2.5 text-center text-sm font-semibold text-[#161616] transition-opacity hover:opacity-90 disabled:opacity-70"
-      style={{ background: "linear-gradient(90deg, #FF5B19, #FF5B19, #FF5B19)" }}
+      className="flex w-full items-center justify-center gap-2 px-4 py-2.5 text-center text-sm font-semibold text-[#300000] transition-opacity hover:opacity-90 disabled:opacity-70"
+      style={{ background: "#FF5722" }}
     >
       {loading ? (
         <Loader2 size={14} className="animate-spin" />

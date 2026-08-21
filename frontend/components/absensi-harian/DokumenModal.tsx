@@ -151,8 +151,8 @@ export function DokumenModal({ siswa, tanggal, kelas, onClose, source = "hadir" 
                 {fotoSrc && (
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 px-4 py-2.5 sm:py-3">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#16161618" }}>
-                        <Camera size={13} style={{ color: "#161616" }} />
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#30000018" }}>
+                        <Camera size={13} style={{ color: "#300000" }} />
                       </div>
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">{fotoLabel}</span>
                     </div>
@@ -165,8 +165,8 @@ export function DokumenModal({ siswa, tanggal, kelas, onClose, source = "hadir" 
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#3D3D3D18" }}>
-                          <PenTool size={13} style={{ color: "#3D3D3D" }} />
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#5E000018" }}>
+                          <PenTool size={13} style={{ color: "#5E0000" }} />
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Tanda Tangan Digital</span>
                       </div>
@@ -187,20 +187,20 @@ export function DokumenModal({ siswa, tanggal, kelas, onClose, source = "hadir" 
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#FF5B1918" }}>
-                          <MapPin size={13} style={{ color: "#FF5B19" }} />
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{ background: "#FF572218" }}>
+                          <MapPin size={13} style={{ color: "#FF5722" }} />
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                       </div>
                       <a href={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}`} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-bold hover:opacity-80" style={{ background: "#E1EDEE", color: "#FF5B19" }}>
+                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-bold hover:opacity-80" style={{ background: "#FFFBD1", color: "#FF5722" }}>
                         <ExternalLink size={10} /> Maps
                       </a>
                     </div>
                     <iframe src={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}&output=embed`}
                       className="h-24 w-full border-0 sm:h-40" loading="lazy" title="Lokasi" />
                     <div className="flex items-center gap-2 px-4 py-2 sm:py-2.5">
-                      <MapPin size={11} className="shrink-0" style={{ color: "#6E9CA0" }} />
+                      <MapPin size={11} className="shrink-0" style={{ color: "#FFEB3B" }} />
                       <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">{lokasi.lat}, {lokasi.lng}</span>
                     </div>
                   </div>

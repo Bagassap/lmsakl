@@ -19,7 +19,7 @@ export function TugasJawabanViewerModal({
   onSaveNilai?: (nilai: number) => Promise<void>;
 }) {
   const isPg = tipe === "PILIHAN_GANDA";
-  const warna = isPg ? "#FF5B19" : "#4F7377";
+  const warna = isPg ? "#FF5722" : "#BFA300";
   const sorted = [...jawaban].sort((a, b) => (a.soal?.urutan ?? 0) - (b.soal?.urutan ?? 0));
   const benar = sorted.filter((j) => j.soal?.jawabanBenar && j.jawabanPilihan === j.soal.jawabanBenar).length;
   const nilaiAkhir = isPg ? nilaiPilihanGanda({ nilai, jawaban: sorted }) : null;
@@ -90,11 +90,11 @@ export function TugasJawabanViewerModal({
                     const isCorrect = isPg && !!soal?.jawabanBenar && j.jawabanPilihan === soal.jawabanBenar;
                     const isWrong = isPg && !!soal?.jawabanBenar && !!j.jawabanPilihan && j.jawabanPilihan !== soal.jawabanBenar;
                     return (
-                      <div key={j.id} className={`rounded-xl border p-4 ${isCorrect ? "border-[#C3DBDD] bg-[#F2F8F8]/50 dark:bg-[#283C3D]/10" : isWrong ? "border-[#D4D3D0] bg-[#F5F5F4]/50 dark:bg-[#161616]/10" : "border-slate-100 dark:border-slate-700"}`}>
+                      <div key={j.id} className={`rounded-xl border p-4 ${isCorrect ? "border-[#FFF69D] bg-[#FFFEF0]/50 dark:bg-[#735F00]/10" : isWrong ? "border-[#DA8F8F] bg-[#F7E8E8]/50 dark:bg-[#300000]/10" : "border-slate-100 dark:border-slate-700"}`}>
                         <div className="mb-3 flex items-start justify-between gap-2">
                           <p className="text-sm font-bold text-slate-800 dark:text-white">{idx + 1}. {soal?.pertanyaan}</p>
                           {isPg && soal?.jawabanBenar && (
-                            isCorrect ? <CheckCircle size={16} className="shrink-0 text-[#6E9CA0]" /> : <XCircle size={16} className="shrink-0 text-[#6E6E6E]" />
+                            isCorrect ? <CheckCircle size={16} className="shrink-0 text-[#FFEB3B]" /> : <XCircle size={16} className="shrink-0 text-[#8B0000]" />
                           )}
                         </div>
                         {isPg ? (
@@ -107,12 +107,12 @@ export function TugasJawabanViewerModal({
                               return (
                                 <div key={huruf}
                                   className={`flex items-center gap-2.5 rounded-lg border px-3 py-2 text-sm ${
-                                    isKey ? "border-[#AECACD] bg-[#F2F8F8] dark:bg-[#283C3D]/20"
-                                    : isSelected ? "border-[#B0B0B0] bg-[#F5F5F4] dark:bg-[#161616]/20"
+                                    isKey ? "border-[#FFEF6B] bg-[#FFFEF0] dark:bg-[#735F00]/20"
+                                    : isSelected ? "border-[#C25858] bg-[#F7E8E8] dark:bg-[#300000]/20"
                                     : "border-slate-100 dark:border-slate-700"
                                   }`}>
                                   <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${
-                                    isKey ? "bg-[#6E9CA0] text-white" : isSelected ? "bg-[#6E6E6E] text-white" : "bg-slate-100 text-slate-500 dark:bg-slate-700"
+                                    isKey ? "bg-[#FFEB3B] text-white" : isSelected ? "bg-[#8B0000] text-white" : "bg-slate-100 text-slate-500 dark:bg-slate-700"
                                   }`}>{huruf}</span>
                                   <span className="text-slate-700 dark:text-slate-200">{teks}</span>
                                   {isSelected && <span className="ml-auto text-[10px] font-bold text-slate-400">Dipilih siswa</span>}
@@ -130,8 +130,8 @@ export function TugasJawabanViewerModal({
                             </div>
                             {soal?.jawabanBenar && (
                               <div>
-                                <p className="mb-1 text-[11px] font-bold text-[#6E9CA0]">Kunci Jawaban</p>
-                                <p className="whitespace-pre-wrap rounded-lg border border-[#C3DBDD] bg-[#F2F8F8]/50 px-3.5 py-2.5 text-sm text-slate-700 dark:border-[#3B5658] dark:bg-[#283C3D]/10 dark:text-slate-200">
+                                <p className="mb-1 text-[11px] font-bold text-[#FFEB3B]">Kunci Jawaban</p>
+                                <p className="whitespace-pre-wrap rounded-lg border border-[#FFF69D] bg-[#FFFEF0]/50 px-3.5 py-2.5 text-sm text-slate-700 dark:border-[#998200] dark:bg-[#735F00]/10 dark:text-slate-200">
                                   {soal.jawabanBenar}
                                 </p>
                               </div>
@@ -151,7 +151,7 @@ export function TugasJawabanViewerModal({
                 <input type="number" min={0} max={100} step={1} value={nilaiInput}
                   onChange={(e) => setNilaiInput(e.target.value)}
                   placeholder="0-100"
-                  className="w-24 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#8FB4B7] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
+                  className="w-24 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none focus:border-[#FFE94B] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
                 <button onClick={handleSaveNilai} disabled={saving || nilaiInput === ""}
                   className="flex items-center gap-1.5 rounded-lg bg-primary px-4 py-2 text-xs font-bold text-white shadow-sm disabled:opacity-60">
                   <Save size={13} /> {saving ? "Menyimpan…" : "Simpan Nilai"}

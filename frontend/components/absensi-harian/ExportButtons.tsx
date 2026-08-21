@@ -19,7 +19,7 @@ const RANGE_MODES: { key: ExportRangeMode; label: string }[] = [
   { key: "bulanan", label: "Per Bulan" },
 ];
 
-const selectCls = "rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#8C8C8C]";
+const selectCls = "rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#A62E2E]";
 
 /** Per Hari / Per Minggu / Per Bulan tabs + the matching inline picker — same row height in every mode (harian has no extra picker at all; mingguan/bulanan pickers share selectCls with the tabs' py-1.5). Rendered right after the main Tanggal picker, before the download buttons. */
 export function RangeModeToggle({ rangeMode, setRangeMode, weekAnchor, setWeekAnchor, bulan, setBulan, tahun, setTahun, weekRange }: UseExportRangeResult) {
@@ -33,7 +33,7 @@ export function RangeModeToggle({ rangeMode, setRangeMode, weekAnchor, setWeekAn
           <button key={m.key} type="button" onClick={() => setRangeMode(m.key)}
             className={`rounded-lg px-3 py-1.5 text-[11px] font-bold transition-colors ${
               rangeMode === m.key
-                ? "bg-[#6E6E6E] text-white shadow-sm"
+                ? "bg-[#8B0000] text-white shadow-sm"
                 : "text-slate-500 hover:bg-white dark:text-slate-300 dark:hover:bg-slate-800"
             }`}>
             {m.label}
@@ -162,8 +162,8 @@ export function ExportButtons({ kelasId, kelasNama, range, siswaList }: {
     }
   }
 
-  const PDF_STYLE = { backgroundColor: "#E8E7E4", color: "#FF5B19", borderColor: "#FF5B1930" };
-  const EXCEL_STYLE = { backgroundColor: "#E1EDEE", color: "#0F9D58", borderColor: "#0F9D5830" };
+  const PDF_STYLE = { backgroundColor: "#EBC4C4", color: "#FF5722", borderColor: "#FF572230" };
+  const EXCEL_STYLE = { backgroundColor: "#FFFBD1", color: "#0F9D58", borderColor: "#0F9D5830" };
 
   return (
     <>
@@ -199,7 +199,7 @@ export function ExportButtons({ kelasId, kelasNama, range, siswaList }: {
           <SiswaPickerModal
             siswaList={siswaList}
             title={picker === "pdf" ? "Pilih Siswa — Export PDF" : "Pilih Siswa — Export Excel"}
-            accent={picker === "pdf" ? "#FF5B19" : "#0F9D58"}
+            accent={picker === "pdf" ? "#FF5722" : "#0F9D58"}
             onPick={(s) => runSiswaExport(picker === "pdf" ? "pdf-siswa" : "excel-siswa", s)}
             onClose={() => setPicker(null)}
           />

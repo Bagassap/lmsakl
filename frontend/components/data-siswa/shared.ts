@@ -86,14 +86,14 @@ export function formatAlamatLengkap(s: AlamatFields): string {
 
 // Palet vivid/solid — dipilih berdasarkan hash nama/id (sum charCode % 8) agar konsisten per siswa.
 export const AVATAR_PALETTE = [
-  "#161616", // charcoal gelap
-  "#3d3d3d", // charcoal
-  "#ff5b19", // oren
-  "#6e9ca0", // powder blue
-  "#4f7377", // powder blue gelap
+  "#300000", // charcoal gelap
+  "#5e0000", // charcoal
+  "#ff5722", // oren
+  "#ffeb3b", // powder blue
+  "#bfa300", // powder blue gelap
   "#9c9776", // platinum gelap
-  "#6e6e6e", // charcoal muted
-  "#aecacd", // powder blue terang
+  "#8b0000", // charcoal muted
+  "#ffef6b", // powder blue terang
 ] as const;
 
 export function avatarColorFor(seed: string): string {

@@ -41,7 +41,7 @@ function DonutRingkasan({ rekap, hadirPct, total, pulangCount, belumAbsen, kelas
   return (
     <div className={`flex h-72 flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800 ${colSpanClass}`}>
       <div className="flex items-center gap-2.5">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#4F7377,#6E9CA0)" }}>
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "#BFA300" }}>
           <PieChart size={18} />
         </span>
         <div className="min-w-0">
@@ -84,15 +84,15 @@ function DonutRingkasan({ rekap, hadirPct, total, pulangCount, belumAbsen, kelas
 
       <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-100 pt-3 text-[11px] dark:border-slate-700">
         <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
-          <Users size={12} className="text-[#6E9CA0]" />
+          <Users size={12} className="text-[#FFEB3B]" />
           Total {total} siswa
         </span>
         <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
-          <LogOut size={12} className="text-[#6E9CA0]" />
+          <LogOut size={12} className="text-[#FFEB3B]" />
           Sudah pulang {pulangCount} siswa
         </span>
         <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
-          <UserX size={12} className="text-[#6E9CA0]" />
+          <UserX size={12} className="text-[#FFEB3B]" />
           Belum absen {belumAbsen} siswa
         </span>
       </div>
@@ -180,7 +180,7 @@ export default function GuruAbsensiHarianPage() {
     return (
       <div className="space-y-5 p-1">
         <div className="relative overflow-hidden rounded-2xl p-6"
-          style={{ background: "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)" }}>
+          style={{ background: "#FF5722" }}>
           <div className="relative flex items-center gap-4">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg">
               <ClipboardCheck size={26} className="text-white" />
@@ -206,7 +206,7 @@ export default function GuruAbsensiHarianPage() {
     <>
       <div className="space-y-5 p-1">
         <div className="relative overflow-hidden rounded-2xl p-6"
-          style={{ background: "linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)" }}>
+          style={{ background: "#FF5722" }}>
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
@@ -357,15 +357,15 @@ export default function GuruAbsensiHarianPage() {
 
             <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4 text-[11px] dark:border-slate-700">
               <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
-                <Users size={12} className="text-[#6E6E6E]" />
+                <Users size={12} className="text-[#8B0000]" />
                 Total {total} siswa
               </span>
               <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
-                <TrendingUp size={12} className="text-[#6E6E6E]" />
+                <TrendingUp size={12} className="text-[#8B0000]" />
                 Kehadiran {hadirPct}%
               </span>
               <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
-                <LogOut size={12} className="text-[#6E6E6E]" />
+                <LogOut size={12} className="text-[#8B0000]" />
                 Sudah pulang {pulangCount} siswa
               </span>
             </div>
@@ -392,7 +392,7 @@ export default function GuruAbsensiHarianPage() {
           <div className="flex h-full flex-col gap-4">
             <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
               <div className="mb-3 flex items-center gap-2.5">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "linear-gradient(135deg,#3D3D3D,#161616)" }}>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "#5E0000" }}>
                   <FileText size={18} />
                 </span>
                 <div>
@@ -418,17 +418,17 @@ export default function GuruAbsensiHarianPage() {
               {exportRange.rangeMode === "mingguan" && (
                 <input type="date" value={exportRange.weekAnchor} onChange={(e) => exportRange.setWeekAnchor(e.target.value)}
                   title={`Minggu: ${formatTgl(exportRange.weekRange.start)} – ${formatTgl(exportRange.weekRange.end)}`}
-                  className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8C8C8C] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200" />
+                  className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#A62E2E] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200" />
               )}
 
               {exportRange.rangeMode === "bulanan" && (
                 <div className="mt-2 flex items-center gap-1.5">
                   <select value={exportRange.bulan} onChange={(e) => exportRange.setBulan(Number(e.target.value))}
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8C8C8C] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200">
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#A62E2E] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200">
                     {MONTH_NAMES.map((m, i) => <option key={m} value={i + 1}>{m}</option>)}
                   </select>
                   <select value={exportRange.tahun} onChange={(e) => exportRange.setTahun(Number(e.target.value))}
-                    className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#8C8C8C] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200">
+                    className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-[11px] font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#A62E2E] dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200">
                     {[new Date().getFullYear() - 1, new Date().getFullYear(), new Date().getFullYear() + 1].map((y) => <option key={y} value={y}>{y}</option>)}
                   </select>
                 </div>
@@ -438,7 +438,7 @@ export default function GuruAbsensiHarianPage() {
                 <ExportButtons kelasId={selectedId} kelasNama={selectedKelas?.nama ?? "Kelas"} range={exportRange.range} siswaList={siswaList} />
               </div>
               <p className="mt-3 flex items-center gap-1.5 text-[10px] text-slate-400 dark:text-slate-500">
-                <Download size={11} className="shrink-0 text-[#6E6E6E]" />
+                <Download size={11} className="shrink-0 text-[#8B0000]" />
                 Pilih rentang waktu, lalu klik salah satu tombol ekspor
               </p>
             </div>

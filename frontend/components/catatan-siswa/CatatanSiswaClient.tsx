@@ -228,7 +228,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 text-center">
                           {s.totalPoin > 0 ? (
-                            <span className="inline-flex items-center justify-center rounded-full bg-[#F5F5F4] px-2.5 py-1 text-xs font-bold text-[#545454] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">{s.totalPoin} poin</span>
+                            <span className="inline-flex items-center justify-center rounded-full bg-[#F7E8E8] px-2.5 py-1 text-xs font-bold text-[#750000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">{s.totalPoin} poin</span>
                           ) : <span className="text-xs text-slate-300 dark:text-slate-600">—</span>}
                         </td>
                         <td className="whitespace-nowrap px-4 py-3 text-right">
@@ -271,7 +271,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
               <Users size={12} /> Ringkasan {selectedKelas?.nama ?? "Kelas"}
             </p>
             <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "#2563EB" }}>
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "#8B0000" }}>
                 <UserIcon size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{inKelas.length}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Siswa</span>
@@ -281,7 +281,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
                 <span className="text-sm font-extrabold">{kelasTercatat}</span>
                 <span className="text-[10px] font-semibold text-black/70">Siswa Tercatat</span>
               </div>
-              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "#EF4444" }}>
+              <div className="flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-white shadow-sm" style={{ background: "#D32F2F" }}>
                 <AlertTriangle size={16} className="shrink-0" />
                 <span className="text-sm font-extrabold">{kelasTotalPoin}</span>
                 <span className="text-[10px] font-semibold text-white/80">Total Poin</span>
@@ -299,13 +299,13 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
             <div className="grid grid-cols-2 gap-2">
               <button type="button" onClick={() => handleDownload("pdf")} disabled={!selectedKelasId || downloading !== null}
                 className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
-                style={{ background: "#FF5B19" }}>
+                style={{ background: "#FF5722" }}>
                 {downloading === "pdf" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
                 PDF Kelas
               </button>
               <button type="button" onClick={() => handleDownload("excel")} disabled={!selectedKelasId || downloading !== null}
                 className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
-                style={{ background: "linear-gradient(135deg,#4f7377,#AECACD)" }}>
+                style={{ background: "#bfa300" }}>
                 {downloading === "excel" ? <Loader2 size={13} className="animate-spin" /> : <FileSpreadsheet size={13} />}
                 Excel Kelas
               </button>
@@ -507,7 +507,7 @@ function CatatanDetailModal({
                   <div className="mb-1.5 flex items-start justify-between gap-2">
                     <p className="text-sm font-bold text-slate-800 dark:text-white">{c.judul}</p>
                     {c.poin != null && (
-                      <span className="shrink-0 rounded-full bg-[#F5F5F4] px-2 py-0.5 text-[10px] font-bold text-[#545454] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">{c.poin} poin</span>
+                      <span className="shrink-0 rounded-full bg-[#F7E8E8] px-2 py-0.5 text-[10px] font-bold text-[#750000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">{c.poin} poin</span>
                     )}
                   </div>
                   <p className="whitespace-pre-wrap text-xs leading-relaxed text-slate-600 dark:text-slate-300">{c.catatan}</p>
@@ -522,7 +522,7 @@ function CatatanDetailModal({
                         <button onClick={() => openEdit(c)} className="rounded-lg p-1.5 text-slate-300 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-700">
                           <Pencil size={12} />
                         </button>
-                        <button onClick={() => handleDelete(c.id)} className="rounded-lg p-1.5 text-slate-300 hover:bg-[#F5F5F4] hover:text-[#6E6E6E] dark:hover:bg-[#161616]/20">
+                        <button onClick={() => handleDelete(c.id)} className="rounded-lg p-1.5 text-slate-300 hover:bg-[#F7E8E8] hover:text-[#8B0000] dark:hover:bg-[#300000]/20">
                           <Trash2 size={12} />
                         </button>
                       </div>

@@ -181,14 +181,14 @@ export default function ManajemenPasswordClient() {
               </div>
             </div>
             <div className="flex items-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 backdrop-blur-sm">
-              <CheckCircle2 size={14} className="text-[#AECACD]" />
+              <CheckCircle2 size={14} className="text-[#FFEF6B]" />
               <div className="leading-tight">
                 <p className="text-sm font-extrabold text-white">{loadingHeader ? "—" : sudahGantiCount}</p>
                 <p className="text-[9px] font-semibold uppercase tracking-wide text-white/60">Sudah Ganti</p>
               </div>
             </div>
             <div className="flex items-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 backdrop-blur-sm">
-              <AlertTriangle size={14} className="text-[#FFA372]" />
+              <AlertTriangle size={14} className="text-[#FF8F63]" />
               <div className="leading-tight">
                 <p className="text-sm font-extrabold text-white">{loadingHeader ? "—" : belumGantiCount}</p>
                 <p className="text-[9px] font-semibold uppercase tracking-wide text-white/60">Belum Ganti</p>

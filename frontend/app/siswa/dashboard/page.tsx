@@ -30,16 +30,16 @@ interface DashboardData {
 }
 
 
-const P = "#FF5B19";
-const R = "#161616";
-const G = "#6E9CA0";
+const P = "#FF5722";
+const R = "#300000";
+const G = "#FFEB3B";
 
 function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-700/60 ${className}`} />;
 }
 
 const KATEGORI_COLOR: Record<string, string> = {
-  UMUM: P, AKADEMIK: "#3D3D3D", EKSKUL: G, DARURAT: R,
+  UMUM: P, AKADEMIK: "#5E0000", EKSKUL: G, DARURAT: R,
 };
 const kColor = (k: string) => KATEGORI_COLOR[k] ?? P;
 
@@ -121,7 +121,7 @@ export default function SiswaDashboardPage() {
 
   if (error) return (
     <div className="flex flex-col items-center justify-center gap-4 py-24 text-center">
-      <AlertCircle size={40} className="text-[#8C8C8C]" />
+      <AlertCircle size={40} className="text-[#A62E2E]" />
       <p className="text-sm text-slate-500 dark:text-slate-400">{error}</p>
       <button onClick={load} className="flex items-center gap-2 rounded-xl px-4 py-2 text-sm font-semibold text-white"
         style={{ backgroundColor: P }}>
@@ -141,7 +141,7 @@ export default function SiswaDashboardPage() {
       label: "Absensi Harian",
       display: `${absensi.persentase}% hadir`,
       small: false,
-      gradient: "linear-gradient(135deg, #AECACD 0%, #6E9CA0 100%)",
+      gradient: "#FFEF6B",
       icon: ClipboardCheck,
     },
     {
@@ -149,7 +149,7 @@ export default function SiswaDashboardPage() {
       label: "Total Hadir",
       display: `${absensi.hadir}x`,
       small: false,
-      gradient: "linear-gradient(135deg, #6E9CA0 0%, #4f7377 100%)",
+      gradient: "#FFEB3B",
       icon: CheckCircle,
     },
     {
@@ -157,7 +157,7 @@ export default function SiswaDashboardPage() {
       label: "Pengumuman",
       display: `${data.pengumuman.length} info`,
       small: false,
-      gradient: "linear-gradient(135deg, #6E6E6E 0%, #161616 100%)",
+      gradient: "#8B0000",
       icon: Megaphone,
     },
     {
@@ -165,7 +165,7 @@ export default function SiswaDashboardPage() {
       label: "Magang / PKL",
       display: belumMagang ? "Belum Magang" : `${magang.hadir ?? 0}x hadir`,
       small: belumMagang,
-      gradient: "linear-gradient(135deg, #FF5B19 0%, #FF5B19 100%)",
+      gradient: "#FF5722",
       icon: GraduationCap,
     },
   ] as const;

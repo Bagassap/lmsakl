@@ -39,24 +39,24 @@ type AbsensiData = {
 const STATUS_CFG: Record<StatusAbsensi, {
   label: string; bg: string; clr: string; darkBg: string; icon: React.ElementType;
 }> = {
-  HADIR: { label: "Hadir", bg: "#E1EDEE", clr: "#6E9CA0", darkBg: "#6E9CA020", icon: CheckCircle2 },
-  IZIN:  { label: "Izin",  bg: "#E8E7E4", clr: "#3D3D3D", darkBg: "#3D3D3D20", icon: AlertCircle  },
-  SAKIT: { label: "Sakit", bg: "#FFE8DA", clr: "#CC4913", darkBg: "#CC491320", icon: Thermometer  },
-  ALPA:  { label: "Alpa",  bg: "#E8E7E4", clr: "#161616", darkBg: "#16161620", icon: MinusCircle  },
+  HADIR: { label: "Hadir", bg: "#FFFBD1", clr: "#FFEB3B", darkBg: "#FFEB3B20", icon: CheckCircle2 },
+  IZIN:  { label: "Izin",  bg: "#EBC4C4", clr: "#5E0000", darkBg: "#5E000020", icon: AlertCircle  },
+  SAKIT: { label: "Sakit", bg: "#FFDACB", clr: "#C93B12", darkBg: "#C93B1220", icon: Thermometer  },
+  ALPA:  { label: "Alpa",  bg: "#EBC4C4", clr: "#300000", darkBg: "#30000020", icon: MinusCircle  },
 };
 
 const CARD_GRADIENTS = [
-  "linear-gradient(135deg,#4F7377,#6E9CA0)",
-  "linear-gradient(135deg,#161616,#3D3D3D)",
-  "linear-gradient(135deg,#FF5B19,#FFC49E)",
-  "linear-gradient(135deg,#6E9CA0,#AECACD)",
+  "#BFA300",
+  "#300000",
+  "#FF5722",
+  "#FFEB3B",
 ];
 
 function formatTgl(tgl?: string) {
   if (!tgl) return "-";
   return new Date(tgl).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
 }
-const AVATAR_COLORS = ["#3D3D3D","#161616","#FF5B19","#3D3D3D","#6E9CA0","#4F7377"];
+const AVATAR_COLORS = ["#5E0000","#300000","#FF5722","#5E0000","#FFEB3B","#BFA300"];
 function avatarColor(name: string) {
   let h = 0;
   for (const c of name) h = ((h * 31 + c.charCodeAt(0)) & 0x7fffffff);
@@ -186,8 +186,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                 {fotoSrc && (
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
-                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#16161618"}}>
-                        <Camera size={13} style={{color:"#161616"}}/>
+                      <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#30000018"}}>
+                        <Camera size={13} style={{color:"#300000"}}/>
                       </div>
                       <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Foto Selfie</span>
                     </div>
@@ -200,8 +200,8 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#3D3D3D18"}}>
-                          <PenTool size={13} style={{color:"#3D3D3D"}}/>
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#5E000018"}}>
+                          <PenTool size={13} style={{color:"#5E0000"}}/>
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Tanda Tangan Digital</span>
                       </div>
@@ -222,20 +222,20 @@ function DokumenModal({ siswa, tanggal, lab, onClose }: {
                   <div className="overflow-hidden rounded-2xl border border-slate-100 dark:border-slate-700/50 bg-white dark:bg-slate-800/60 shadow-sm">
                     <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/50 px-4 py-3">
                       <div className="flex items-center gap-2">
-                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#4F737718"}}>
-                          <MapPin size={13} style={{color:"#4F7377"}}/>
+                        <div className="flex h-7 w-7 items-center justify-center rounded-lg" style={{background:"#BFA30018"}}>
+                          <MapPin size={13} style={{color:"#BFA300"}}/>
                         </div>
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                       </div>
                       <a href={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}`} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 rounded-lg bg-[#F5F5F4] dark:bg-[#161616]/20 px-2.5 py-1 text-[10px] font-bold text-[#6E6E6E] hover:bg-[#E8E7E4]">
+                        className="flex items-center gap-1.5 rounded-lg bg-[#F7E8E8] dark:bg-[#300000]/20 px-2.5 py-1 text-[10px] font-bold text-[#8B0000] hover:bg-[#EBC4C4]">
                         <ExternalLink size={10}/> Maps
                       </a>
                     </div>
                     <iframe src={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}&output=embed`}
                       className="h-40 w-full border-0" loading="lazy" title="Lokasi"/>
                     <div className="flex items-center gap-2 px-4 py-2.5">
-                      <MapPin size={11} className="shrink-0 text-[#8C8C8C]"/>
+                      <MapPin size={11} className="shrink-0 text-[#A62E2E]"/>
                       <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">{lokasi.lat}, {lokasi.lng}</span>
                     </div>
                   </div>
@@ -329,8 +329,8 @@ function printAbsensiPDF({ siswaList, tahapan, tanggal, rekap, total, API }: {
   const tglFmt = tanggal
     ? new Date(tanggal).toLocaleDateString("id-ID", { weekday:"long", day:"numeric", month:"long", year:"numeric" })
     : "-";
-  const statusColor: Record<string,string> = { HADIR:"#6E9CA0", IZIN:"#3D3D3D", SAKIT:"#CC4913", ALPA:"#161616" };
-  const statusBg: Record<string,string>    = { HADIR:"#E1EDEE", IZIN:"#E8E7E4", SAKIT:"#FFE8DA", ALPA:"#E8E7E4" };
+  const statusColor: Record<string,string> = { HADIR:"#FFEB3B", IZIN:"#5E0000", SAKIT:"#C93B12", ALPA:"#300000" };
+  const statusBg: Record<string,string>    = { HADIR:"#FFFBD1", IZIN:"#EBC4C4", SAKIT:"#FFDACB", ALPA:"#EBC4C4" };
 
   const pages = siswaList.map((s, i) => {
     const st    = s.status ?? "—";
@@ -340,13 +340,13 @@ function printAbsensiPDF({ siswaList, tahapan, tanggal, rekap, total, API }: {
     const isLast  = i === siswaList.length - 1;
     return `
       <div style="page-break-after:${isLast?"avoid":"always"};padding:32px;font-family:'Segoe UI',Arial,sans-serif;min-height:100vh;box-sizing:border-box;">
-        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #6E9CA0;padding-bottom:14px;margin-bottom:16px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:3px solid #FFEB3B;padding-bottom:14px;margin-bottom:16px;">
           <div>
             <h1 style="margin:0;font-size:20px;font-weight:900;color:#0f172a;">Laporan Absensi UKK</h1>
             <p style="margin:4px 0 0;font-size:12px;color:#64748b;">${tglFmt}</p>
           </div>
           <div style="text-align:right;font-size:11px;color:#94a3b8;">
-            <div style="font-weight:700;color:#6E9CA0;font-size:16px;">${i+1}/${siswaList.length}</div>
+            <div style="font-weight:700;color:#FFEB3B;font-size:16px;">${i+1}/${siswaList.length}</div>
           </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
@@ -466,7 +466,7 @@ export default function GuruUkkAbsensiPage() {
       <div className="space-y-5 p-1">
 
         <div className="relative overflow-hidden rounded-2xl p-6"
-          style={{background:"linear-gradient(160deg,#FF5B19 0%,#FF5B19 45%,#FF5B19 72%,#FF5B19 100%)"}}>
+          style={{background:"#FF5722"}}>
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
           <div className="pointer-events-none absolute bottom-4 -left-6 h-24 w-24 rounded-full bg-white/6"/>
@@ -508,12 +508,12 @@ export default function GuruUkkAbsensiPage() {
             <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Tanggal</span>
           </div>
           <input type="date" value={tanggal} onChange={e => setTanggal(e.target.value)}
-            className="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#8C8C8C]"/>
+            className="rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700/50 px-3 py-1.5 text-sm font-semibold text-slate-700 dark:text-slate-200 focus:outline-none focus:ring-2 focus:ring-[#A62E2E]"/>
           <div className="flex-1"/>
           <span className="text-xs text-slate-400">{sudahAbsen}/{total} sudah absen</span>
           <button onClick={setAllHadir}
             className="text-xs font-bold px-3 py-1.5 rounded-xl border transition-all hover:brightness-95 shrink-0"
-            style={{backgroundColor:"#E1EDEE", color:"#6E9CA0", borderColor:"#6E9CA040"}}>
+            style={{backgroundColor:"#FFFBD1", color:"#FFEB3B", borderColor:"#FFEB3B40"}}>
             Hadir Semua
           </button>
           <button onClick={() => printAbsensiPDF({
@@ -521,12 +521,12 @@ export default function GuruUkkAbsensiPage() {
             API: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001",
           })} disabled={siswaList.length === 0}
             className="flex items-center gap-2 rounded-xl px-3 py-1.5 text-sm font-bold text-white disabled:opacity-40 transition-all hover:brightness-95 shrink-0"
-            style={{background:"linear-gradient(135deg,#161616,#FF5B19)"}}>
+            style={{background:"#300000"}}>
             <FileText size={13}/> PDF
           </button>
           <button onClick={handleSave} disabled={saving || terisi === 0}
             className="flex items-center gap-2 rounded-xl px-4 py-1.5 text-sm font-bold text-white disabled:opacity-50 transition-all hover:brightness-95 shrink-0"
-            style={{background:"linear-gradient(135deg,#3D3D3D,#161616)"}}>
+            style={{background:"#5E0000"}}>
             <Save size={13}/>{saving ? "Menyimpan..." : "Simpan"}
           </button>
         </div>
@@ -692,7 +692,7 @@ export default function GuruUkkAbsensiPage() {
                       {lokasiParsed ? (
                         <a href={`https://maps.google.com/maps?q=${lokasiParsed.lat},${lokasiParsed.lng}`}
                           target="_blank" rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-[11px] text-[#6E6E6E] hover:underline truncate">
+                          className="flex items-center gap-1 text-[11px] text-[#8B0000] hover:underline truncate">
                           <MapPin size={10} className="shrink-0"/>
                           <span className="font-mono truncate">{lokasiParsed.lat.slice(0,8)}…</span>
                         </a>
@@ -733,7 +733,7 @@ export default function GuruUkkAbsensiPage() {
                       {hasDok ? (
                         <button onClick={() => setDokumenSiswa(s)}
                           className="group flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
-                          style={{background:"linear-gradient(135deg,#3D3D3D,#FF5B19)"}}>
+                          style={{background:"#5E0000"}}>
                           <Eye size={11}/> Lihat
                         </button>
                       ) : <span/>}
@@ -747,7 +747,7 @@ export default function GuruUkkAbsensiPage() {
           <div className="flex items-center justify-between border-t border-slate-100 dark:border-slate-700/40 px-5 py-3">
             <div className="text-xs text-slate-400 dark:text-slate-500">
               <span className="font-bold text-slate-600 dark:text-slate-300">{rekap.HADIR}</span>/{total} siswa hadir
-              {terisi > 0 && <span className="ml-3 text-[#6E6E6E] font-semibold">{terisi} status belum disimpan</span>}
+              {terisi > 0 && <span className="ml-3 text-[#8B0000] font-semibold">{terisi} status belum disimpan</span>}
             </div>
             <div className="flex gap-2">
               {(Object.entries(STATUS_CFG) as [StatusAbsensi, typeof STATUS_CFG[StatusAbsensi]][]).map(([st, cfg]) => (

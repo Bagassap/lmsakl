@@ -24,7 +24,7 @@ export default async function ChangePasswordPage() {
   const { profileCompleted, bypassIdentityVerification } = await getVerificationState();
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#FF5B19] px-4 py-12 sm:px-6">
+    <main className="relative flex min-h-screen items-center justify-center overflow-hidden bg-[#FF5722] px-4 py-12 sm:px-6">
       <div
         className="pointer-events-none absolute inset-0"
         style={{

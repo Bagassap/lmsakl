@@ -16,16 +16,16 @@ import { Avatar } from "@/components/shared/Avatar";
 type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 
 const KATEGORI_GRADIENT: Record<string, string> = {
-  Umum:     "linear-gradient(135deg,#161616 0%,#3D3D3D 100%)",
-  Akademik: "linear-gradient(135deg,#4F7377 0%,#6E9CA0 100%)",
-  Magang:   "linear-gradient(135deg,#FF5B19 0%,#FF5B19 100%)",
-  Ujian:    "linear-gradient(135deg,#9C9776 0%,#C4C0A0 100%)",
-  Lainnya:  "linear-gradient(135deg,#FF8A54 0%,#FFC49E 100%)",
+  Umum:     "#300000",
+  Akademik: "#BFA300",
+  Magang:   "#FF5722",
+  Ujian:    "#B8B84A",
+  Lainnya:  "#FF7440",
 };
 
 const PRIORITAS_BADGE: Record<string, { cls: string; label: string }> = {
-  PENTING:  { cls: "bg-[#FFE8DA] text-[#FF5B19] dark:bg-[#FF5B19]/30 dark:text-[#FFA372]", label: "Penting"  },
-  MENDESAK: { cls: "bg-[#E8E7E4] text-[#161616] dark:bg-[#3D3D3D]/40 dark:text-[#B0B0B0]",  label: "Mendesak" },
+  PENTING:  { cls: "bg-[#FFDACB] text-[#FF5722] dark:bg-[#FF5722]/30 dark:text-[#FF8F63]", label: "Penting"  },
+  MENDESAK: { cls: "bg-[#EBC4C4] text-[#300000] dark:bg-[#5E0000]/40 dark:text-[#C25858]",  label: "Mendesak" },
 };
 
 function formatDate(iso: string) {
@@ -246,7 +246,7 @@ export default function PengumumanDetailModal({
                         disabled={pinning}
                         whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                         className={`flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors ${
-                          pengumuman.isPinned ? "bg-[#FF7D47]/30 hover:bg-[#FF7D47]/40" : "bg-white/15 hover:bg-white/25"
+                          pengumuman.isPinned ? "bg-[#FF7440]/30 hover:bg-[#FF7440]/40" : "bg-white/15 hover:bg-white/25"
                         }`}
                       >
                         {pinning ? <Loader2 size={12} className="animate-spin" /> : <Pin size={12} />}
@@ -256,7 +256,7 @@ export default function PengumumanDetailModal({
                         onClick={handleDelete}
                         disabled={deleting}
                         whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                        className="flex items-center gap-2 rounded-xl bg-[#6E6E6E]/25 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors hover:bg-[#6E6E6E]/40"
+                        className="flex items-center gap-2 rounded-xl bg-[#8B0000]/25 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors hover:bg-[#8B0000]/40"
                       >
                         {deleting ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
                         Hapus
@@ -268,7 +268,7 @@ export default function PengumumanDetailModal({
 
               <div className="border-b border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-2 border-b border-gray-100 px-5 py-3 dark:border-slate-700">
-                  <RotateCcw size={12} className="text-[#4f7377]" />
+                  <RotateCcw size={12} className="text-[#bfa300]" />
                   <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400">Isi Pengumuman</span>
                   <span className="ml-auto text-[10px] font-normal text-gray-400 dark:text-slate-500">{formatDate(pengumuman.createdAt)}</span>
                 </div>

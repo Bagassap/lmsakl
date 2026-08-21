@@ -4,16 +4,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Search, X, Users, BookOpen, Mars, Venus, Filter, Sparkles, School, ChevronDown } from "lucide-react";
 import { kelasShort, type SiswaCardData, type KelasRef } from "./shared";
 
-// #FF5B19 = referensi Nasabah's "primary" (dipakai literal di dot-grid pattern
+// #FF5722 = referensi Nasabah's "primary" (dipakai literal di dot-grid pattern
 // & JENIS_COLOR.siswa di file referensi), sengaja di-hardcode di sini alih-alih
-// pakai token --color-primary bawaan (#FF5B19) karena token itu dipakai luas
+// pakai token --color-primary bawaan (#FF5722) karena token itu dipakai luas
 // di luar Data Siswa (sidebar, topbar, dll) dan tidak boleh ikut berubah.
-const REF_PRIMARY = "#FF5B19";
-const REF_SUCCESS = "#6e9ca0";
+const REF_PRIMARY = "#FF5722";
+const REF_SUCCESS = "#ffeb3b";
 
 const JURUSAN_PILLS = [
   { value: "" as const, label: "Semua", color: REF_PRIMARY },
-  { value: "Akuntansi dan Keuangan Lembaga" as const, label: "AKL", color: "#3d3d3d" },
+  { value: "Akuntansi dan Keuangan Lembaga" as const, label: "AKL", color: "#5e0000" },
 ];
 
 const GENDER_PILLS = [
@@ -77,7 +77,7 @@ export function FilterBar({
             <select
               value={selectedKelasId}
               onChange={(e) => onSelectKelas(e.target.value)}
-              className="h-10.5 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm font-semibold text-slate-700 transition-all focus:border-[#FF5B19] focus:outline-none focus:ring-2 focus:ring-[#FF5B19]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              className="h-10.5 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm font-semibold text-slate-700 transition-all focus:border-[#FF5722] focus:outline-none focus:ring-2 focus:ring-[#FF5722]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               {kelasList.map((k) => <option key={k.id} value={k.id}>{kelasShort(k.nama)}</option>)}
             </select>
@@ -95,7 +95,7 @@ export function FilterBar({
               value={search}
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Cari nama atau NIS…"
-              className="h-10.5 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-9 text-sm text-slate-700 placeholder:text-slate-400 transition-all focus:border-[#FF5B19] focus:outline-none focus:ring-2 focus:ring-[#FF5B19]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500"
+              className="h-10.5 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-9 text-sm text-slate-700 placeholder:text-slate-400 transition-all focus:border-[#FF5722] focus:outline-none focus:ring-2 focus:ring-[#FF5722]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500"
             />
             <AnimatePresence>
               {search && (
@@ -185,7 +185,7 @@ export function FilterBar({
           </p>
           <div className="flex h-2.5 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-600">
             {lPct > 0 && <div style={{ width: `${lPct}%`, backgroundColor: REF_PRIMARY }} />}
-            {pPct > 0 && <div style={{ width: `${pPct}%`, backgroundColor: "#3d3d3d" }} />}
+            {pPct > 0 && <div style={{ width: `${pPct}%`, backgroundColor: "#5e0000" }} />}
           </div>
           <div className="mt-2.5 flex flex-wrap items-center gap-4">
             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
@@ -194,7 +194,7 @@ export function FilterBar({
               <span className="text-slate-400 dark:text-slate-500">({lPct}%)</span>
             </span>
             <span className="flex items-center gap-1.5 text-xs font-medium text-slate-600 dark:text-slate-300">
-              <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: "#3d3d3d" }} />
+              <span className="h-2 w-2 shrink-0 rounded-full" style={{ backgroundColor: "#5e0000" }} />
               Perempuan <span className="font-bold text-slate-800 dark:text-white">{pCount}</span>
               <span className="text-slate-400 dark:text-slate-500">({pPct}%)</span>
             </span>
@@ -229,7 +229,7 @@ export function FilterBar({
           <button
             type="button"
             onClick={onReset}
-            className="text-xs font-semibold text-slate-400 transition-colors hover:text-[#6E6E6E] dark:text-slate-500"
+            className="text-xs font-semibold text-slate-400 transition-colors hover:text-[#8B0000] dark:text-slate-500"
           >
             Clear all
           </button>

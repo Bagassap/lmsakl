@@ -16,10 +16,10 @@ import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal
 import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { KehadiranBarChart } from "@/components/dashboard/KehadiranBarChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
-const P = "#FF5B19";   
-const R = "#161616";   
-const B = "#3D3D3D";   
-const G = "#6E9CA0";   
+const P = "#FF5722";   
+const R = "#300000";   
+const B = "#5E0000";   
+const G = "#FFEB3B";   
 
 
 interface Pengumuman {
@@ -159,7 +159,7 @@ export default function AdminDashboardPage() {
       suffix: " hadir",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #AECACD 0%, #6E9CA0 100%)",
+      gradient: "#FFEF6B",
       icon: Calendar,
     },
     {
@@ -170,7 +170,7 @@ export default function AdminDashboardPage() {
       suffix: " item",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #6E9CA0 0%, #4f7377 100%)",
+      gradient: "#FFEB3B",
       icon: Megaphone,
     },
     {
@@ -181,7 +181,7 @@ export default function AdminDashboardPage() {
       suffix: " siswa",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #6E6E6E 0%, #161616 100%)",
+      gradient: "#8B0000",
       icon: Briefcase,
     },
     {
@@ -192,7 +192,7 @@ export default function AdminDashboardPage() {
       suffix: " kelas",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "linear-gradient(135deg, #FF5B19 0%, #FF5B19 100%)",
+      gradient: "#FF5722",
       icon: FileText,
     },
   ] as const;
@@ -244,7 +244,7 @@ export default function AdminDashboardPage() {
                 <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: P }} />Hadir
               </span>
               <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#FF5B19" }} />Total
+                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#FF5722" }} />Total
               </span>
             </div>
           </div>

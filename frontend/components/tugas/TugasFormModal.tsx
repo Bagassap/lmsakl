@@ -52,10 +52,10 @@ function wibInputToIso(value: string) {
 }
 
 const TIPE_OPTIONS: { value: TugasTipe; label: string; icon: typeof Send; gradient: string; desc: string }[] = [
-  { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "linear-gradient(135deg,#FF5B19,#FF5B19)", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
-  { value: "PRAKTIK", label: "Praktik Kode", icon: Code2, gradient: "linear-gradient(135deg,#6E9CA0,#AECACD)", desc: "Siswa mengetik HTML/CSS/JS langsung di LMS dan hasilnya tampil live." },
-  { value: "PILIHAN_GANDA", label: "Pilihan Ganda", icon: ListChecks, gradient: "linear-gradient(135deg,#161616,#3D3D3D)", desc: "Siswa memilih jawaban A–D untuk tiap soal." },
-  { value: "ESSAY", label: "Essay", icon: PenLine, gradient: "linear-gradient(135deg,#9C9776,#C4C0A0)", desc: "Siswa mengetik jawaban esai untuk tiap soal." },
+  { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "#FF5722", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
+  { value: "PRAKTIK", label: "Praktik Kode", icon: Code2, gradient: "#FFEB3B", desc: "Siswa mengetik HTML/CSS/JS langsung di LMS dan hasilnya tampil live." },
+  { value: "PILIHAN_GANDA", label: "Pilihan Ganda", icon: ListChecks, gradient: "#300000", desc: "Siswa memilih jawaban A–D untuk tiap soal." },
+  { value: "ESSAY", label: "Essay", icon: PenLine, gradient: "#B8B84A", desc: "Siswa mengetik jawaban esai untuk tiap soal." },
 ];
 
 export function TugasFormModal({
@@ -238,7 +238,7 @@ export function TugasFormModal({
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                    Mata Pelajaran <span className="text-[#6E6E6E]">*</span>
+                    Mata Pelajaran <span className="text-[#8B0000]">*</span>
                   </label>
                   {mapelOptions ? (
                     <select value={mapel} onChange={(e) => setMapel(e.target.value)} className={INPUT_CLS}>
@@ -264,14 +264,14 @@ export function TugasFormModal({
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 <div>
                   <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                    Judul Tugas <span className="text-[#6E6E6E]">*</span>
+                    Judul Tugas <span className="text-[#8B0000]">*</span>
                   </label>
                   <input type="text" value={judul} onChange={(e) => setJudul(e.target.value)}
                     placeholder="Contoh: Membuat Landing Page" className={INPUT_CLS} />
                 </div>
                 <div>
                   <label className="mb-1.5 flex items-center gap-1.5 text-xs font-bold text-gray-700 dark:text-slate-300">
-                    <CalendarClock size={12} /> Deadline <span className="text-[#6E6E6E]">*</span>
+                    <CalendarClock size={12} /> Deadline <span className="text-[#8B0000]">*</span>
                   </label>
                   {/* Widget datetime-local bawaan browser menampilkan angka mentah ala
                       ISO/UTC (bukan format Indonesia) dan tidak bisa di-restyle — jadi
@@ -355,7 +355,7 @@ export function TugasFormModal({
                 <div>
                   <div className="mb-2 flex items-center justify-between">
                     <label className="block text-xs font-bold text-gray-700 dark:text-slate-300">
-                      Daftar Soal <span className="text-[#6E6E6E]">*</span>
+                      Daftar Soal <span className="text-[#8B0000]">*</span>
                     </label>
                     <button type="button" onClick={addSoal}
                       className="flex items-center gap-1 rounded-lg bg-primary px-2.5 py-1.5 text-[11px] font-bold text-white shadow-sm">
@@ -369,7 +369,7 @@ export function TugasFormModal({
                           <span className="text-[11px] font-bold text-gray-500 dark:text-slate-400">Soal {idx + 1}</span>
                           {soalList.length > 1 && (
                             <button type="button" onClick={() => removeSoal(idx)}
-                              className="flex h-6 w-6 items-center justify-center rounded-lg text-[#8C8C8C] hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20">
+                              className="flex h-6 w-6 items-center justify-center rounded-lg text-[#A62E2E] hover:bg-[#F7E8E8] dark:hover:bg-[#300000]/20">
                               <Trash2 size={13} />
                             </button>
                           )}
@@ -379,7 +379,7 @@ export function TugasFormModal({
                         {tipe === "PILIHAN_GANDA" && (
                           <div>
                             <label className="mb-1.5 block text-[11px] font-bold text-gray-500 dark:text-slate-400">
-                              Pilihan Jawaban <span className="text-[#6E6E6E]">*</span>{" "}
+                              Pilihan Jawaban <span className="text-[#8B0000]">*</span>{" "}
                               <span className="font-normal text-gray-400">(klik lingkaran di samping pilihan untuk menandai jawaban yang benar)</span>
                             </label>
                             <div className="space-y-1.5">
@@ -390,7 +390,7 @@ export function TugasFormModal({
                                     <button type="button" onClick={() => updateSoal(idx, { jawabanBenar: huruf })}
                                       title="Tandai sebagai jawaban benar"
                                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold transition-all ${
-                                        isKey ? "border-[#6E9CA0] bg-[#6E9CA0] text-white" : "border-gray-300 bg-white text-gray-400 hover:border-[#8FB4B7] dark:bg-slate-700 dark:border-slate-600"
+                                        isKey ? "border-[#FFEB3B] bg-[#FFEB3B] text-white" : "border-gray-300 bg-white text-gray-400 hover:border-[#FFE94B] dark:bg-slate-700 dark:border-slate-600"
                                       }`}>
                                       {isKey ? <CheckCircle2 size={15} /> : huruf}
                                     </button>
@@ -398,15 +398,15 @@ export function TugasFormModal({
                                       onChange={(e) => updateSoal(idx, { [`pilihan${huruf}`]: e.target.value } as Partial<SoalDraft>)}
                                       placeholder={`Pilihan ${huruf}`}
                                       className={`w-full rounded-lg border bg-white px-3 py-1.5 text-xs text-gray-800 outline-none focus:border-primary dark:bg-slate-800 dark:text-slate-100 ${
-                                        isKey ? "border-[#AECACD] dark:border-[#4F7377]" : "border-gray-200 dark:border-slate-600"
+                                        isKey ? "border-[#FFEF6B] dark:border-[#BFA300]" : "border-gray-200 dark:border-slate-600"
                                       }`} />
-                                    {isKey && <span className="shrink-0 text-[10px] font-bold text-[#6E9CA0]">Jawaban Benar</span>}
+                                    {isKey && <span className="shrink-0 text-[10px] font-bold text-[#FFEB3B]">Jawaban Benar</span>}
                                   </div>
                                 );
                               })}
                             </div>
                             {s.pertanyaan.trim() && !s.jawabanBenar ? (
-                              <p className="mt-1.5 pl-9 text-[10px] font-bold text-[#6E6E6E]">⚠ Belum ada jawaban benar yang ditandai untuk soal ini</p>
+                              <p className="mt-1.5 pl-9 text-[10px] font-bold text-[#8B0000]">⚠ Belum ada jawaban benar yang ditandai untuk soal ini</p>
                             ) : (
                               <p className="mt-1.5 pl-9 text-[10px] text-gray-400">Klik lingkaran huruf untuk menandai jawaban benar</p>
                             )}
@@ -415,16 +415,16 @@ export function TugasFormModal({
                         {tipe === "ESSAY" && (
                           <div>
                             <label className="mb-1 block text-[11px] font-bold text-gray-500 dark:text-slate-400">
-                              Kunci Jawaban <span className="text-[#6E6E6E]">*</span>{" "}
+                              Kunci Jawaban <span className="text-[#8B0000]">*</span>{" "}
                               <span className="font-normal text-gray-400">(acuan untuk kamu cocokkan saat menilai, tidak dikirim ke siswa)</span>
                             </label>
                             <textarea rows={2} value={s.jawabanBenar} onChange={(e) => updateSoal(idx, { jawabanBenar: e.target.value })}
                               placeholder="Tulis jawaban ideal / poin kunci yang harus ada..."
-                              className={`w-full resize-none rounded-lg border bg-[#F2F8F8]/50 px-3 py-1.5 text-xs text-gray-800 outline-none focus:border-[#8FB4B7] dark:bg-[#283C3D]/10 dark:text-slate-100 ${
-                                s.pertanyaan.trim() && !s.jawabanBenar.trim() ? "border-[#B0B0B0] dark:border-[#262626]" : "border-[#C3DBDD] dark:border-[#3B5658]"
+                              className={`w-full resize-none rounded-lg border bg-[#FFFEF0]/50 px-3 py-1.5 text-xs text-gray-800 outline-none focus:border-[#FFE94B] dark:bg-[#735F00]/10 dark:text-slate-100 ${
+                                s.pertanyaan.trim() && !s.jawabanBenar.trim() ? "border-[#C25858] dark:border-[#470000]" : "border-[#FFF69D] dark:border-[#998200]"
                               }`} />
                             {s.pertanyaan.trim() && !s.jawabanBenar.trim() && (
-                              <p className="mt-1.5 text-[10px] font-bold text-[#6E6E6E]">⚠ Belum ada kunci jawaban untuk soal ini</p>
+                              <p className="mt-1.5 text-[10px] font-bold text-[#8B0000]">⚠ Belum ada kunci jawaban untuk soal ini</p>
                             )}
                           </div>
                         )}
@@ -435,7 +435,7 @@ export function TugasFormModal({
               )}
 
               {error && (
-                <p className="rounded-xl bg-[#F5F5F4] px-4 py-2.5 text-sm text-[#545454] dark:bg-[#161616]/30 dark:text-[#8C8C8C]">{error}</p>
+                <p className="rounded-xl bg-[#F7E8E8] px-4 py-2.5 text-sm text-[#750000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">{error}</p>
               )}
             </form>
 

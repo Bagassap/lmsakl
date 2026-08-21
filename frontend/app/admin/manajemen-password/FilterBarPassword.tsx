@@ -42,7 +42,7 @@ export function FilterBarPassword({
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-        style={{ backgroundImage: "radial-gradient(circle, #FF5B19 1px, transparent 1px)", backgroundSize: "18px 18px" }}
+        style={{ backgroundImage: "radial-gradient(circle, #FF5722 1px, transparent 1px)", backgroundSize: "18px 18px" }}
       />
 
       <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -95,18 +95,18 @@ export function FilterBarPassword({
       </div>
 
       {wali && (
-        <div className="relative mt-4 flex items-center justify-between gap-2 rounded-2xl border border-[#E8E7E4] bg-[#F5F5F4]/50 p-3 dark:border-[#161616]/30 dark:bg-[#161616]/10">
+        <div className="relative mt-4 flex items-center justify-between gap-2 rounded-2xl border border-[#EBC4C4] bg-[#F7E8E8]/50 p-3 dark:border-[#300000]/30 dark:bg-[#300000]/10">
           <div className="flex min-w-0 items-center gap-2.5">
-            <Avatar src={wali.fotoProfil} nama={wali.nama} sizePx={34} fallbackBg="linear-gradient(135deg,#3D3D3D,#161616)" textClassName="text-xs font-bold" />
+            <Avatar src={wali.fotoProfil} nama={wali.nama} sizePx={34} fallbackBg="#5E0000" textClassName="text-xs font-bold" />
             <div className="min-w-0">
-              <p className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-[#545454] dark:text-[#8C8C8C]">
+              <p className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wide text-[#750000] dark:text-[#A62E2E]">
                 <UserCheck size={11} /> Wali Kelas
               </p>
               <p className="truncate text-sm font-semibold text-slate-800 dark:text-white">{wali.nama}</p>
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold ${wali.mustChangePassword ? "bg-[#6E6E6E] text-white" : "bg-[#6E9CA0] text-white"}`}>
+            <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold ${wali.mustChangePassword ? "bg-[#8B0000] text-white" : "bg-[#FFEB3B] text-white"}`}>
               {wali.mustChangePassword ? "Belum Ganti" : "Sudah Ganti"}
             </span>
             <button onClick={onResetWali}
@@ -133,7 +133,7 @@ export function FilterBarPassword({
                 <motion.span
                   layoutId="password-status-pill-active"
                   transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                  className="absolute inset-0 rounded-full bg-[#6E9CA0] shadow-sm"
+                  className="absolute inset-0 rounded-full bg-[#FFEB3B] shadow-sm"
                 />
               )}
               <span className={`relative flex items-center gap-1.5 transition-colors ${active ? "text-white" : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"}`}>

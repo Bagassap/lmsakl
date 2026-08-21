@@ -24,7 +24,7 @@ function Field({ label, icon: Icon, required, optional, children }: {
       <label className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-gray-400 dark:text-slate-500">
         <Icon size={10} className="text-primary/70" />
         {label}
-        {required && <span className="normal-case text-[#161616]">*</span>}
+        {required && <span className="normal-case text-[#300000]">*</span>}
         {optional && <span className="font-normal normal-case text-gray-400">(opsional)</span>}
       </label>
       {children}
@@ -79,7 +79,7 @@ export function EditSiswaModal({ siswa, kelasList, onClose, onSave }: {
           initial={{ scale: 0.95, opacity: 0, y: 24 }} animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.95, opacity: 0, y: 24 }} transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}>
           <div className="relative overflow-hidden px-6 py-5"
-            style={{ background: "linear-gradient(135deg, #FF5B19 0%, #FF5B19 100%)" }}>
+            style={{ background: "#FF5722" }}>
             <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
             <div className="relative flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
@@ -187,7 +187,7 @@ export function EditSiswaModal({ siswa, kelasList, onClose, onSave }: {
                   </Field>
                 </div>
               </div>
-              {error && <p className="text-xs text-[#6E6E6E]">{error}</p>}
+              {error && <p className="text-xs text-[#8B0000]">{error}</p>}
             </div>
           </div>
           <div className="flex items-center justify-between border-t border-gray-100 px-5 py-4 dark:border-slate-800">
@@ -198,9 +198,9 @@ export function EditSiswaModal({ siswa, kelasList, onClose, onSave }: {
                 Batal
               </button>
               <motion.button type="button" onClick={handleSave} disabled={saving}
-                whileHover={{ scale: 1.03, boxShadow: "0 8px 24px #FF5B1955" }} whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.03, boxShadow: "0 8px 24px #FF572255" }} whileTap={{ scale: 0.97 }}
                 className="flex items-center gap-2 rounded-xl px-5 py-2 text-sm font-bold text-white shadow-md transition-opacity disabled:opacity-60"
-                style={{ backgroundColor: "#FF5B19" }}>
+                style={{ backgroundColor: "#FF5722" }}>
                 {saving
                   ? <><span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />Menyimpan…</>
                   : <><Sparkles size={14} />Simpan</>}

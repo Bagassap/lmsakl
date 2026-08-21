@@ -11,9 +11,9 @@ import {
 import { Avatar } from "@/components/shared/Avatar";
 import { ProgressRing } from "./ProgressRing";
 
-const HEADER_GRADIENT = "linear-gradient(135deg, #161616 0%, #4f7377 50%, #4f7377 100%)";
+const HEADER_GRADIENT = "#300000";
 // Warna persis dari referensi Nasabah - lihat catatan yang sama di FilterBar.tsx.
-const REF_PRIMARY = "#FF5B19";
+const REF_PRIMARY = "#FF5722";
 
 function FieldItem({ icon: Icon, label, value, full }: {
   icon: React.ElementType; label: string; value: string | null | undefined; full?: boolean;
@@ -115,7 +115,7 @@ export function SiswaDetailModal({ siswa, onEdit, onClose }: {
                   <div className="min-w-0 flex-1">
                     <p className="text-xs font-bold text-slate-700 dark:text-white">Kelengkapan Data {pct}%</p>
                     {missing.length === 0 ? (
-                      <p className="mt-0.5 flex items-center gap-1 text-[11px] text-[#5C868A] dark:text-[#8FB4B7]">
+                      <p className="mt-0.5 flex items-center gap-1 text-[11px] text-[#E6C700] dark:text-[#FFE94B]">
                         <CheckCircle2 size={11} /> Semua data sudah lengkap
                       </p>
                     ) : (

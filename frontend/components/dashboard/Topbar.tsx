@@ -104,10 +104,10 @@ const NOTIF_TYPE_STYLE: Record<ApiNotifType, NotifType> = {
 };
 
 const NOTIF_STYLE: Record<NotifType, { bg: string; color: string }> = {
-  info:    { bg: "#E1EDEE", color: "#4F7377" },
-  success: { bg: "#F2F0E4", color: "#9C9776" },
-  warning: { bg: "#FFE8DA", color: "#FF5B19" },
-  error:   { bg: "#E8E7E4", color: "#161616" },
+  info:    { bg: "#FFFBD1", color: "#BFA300" },
+  success: { bg: "#FAFAED", color: "#B8B84A" },
+  warning: { bg: "#FFDACB", color: "#FF5722" },
+  error:   { bg: "#EBC4C4", color: "#300000" },
 };
 
 const NOTIF_ICON: Record<NotifType, React.ComponentType<{ size?: number; style?: React.CSSProperties }>> = {
@@ -351,7 +351,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
             >
               <Bell size={16} />
               {unreadCount > 0 && (
-                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#6E6E6E] text-[8px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#8B0000] text-[8px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
                   {unreadCount > 9 ? "9+" : unreadCount}
                 </span>
               )}
@@ -402,7 +402,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                           key={n.id}
                           onClick={() => handleNotifClick(n)}
                           className={`flex w-full items-start gap-3 px-4 py-3 text-left transition-colors hover:bg-gray-50 dark:hover:bg-slate-700/50 ${
-                            !n.isRead ? "bg-[#F5F5F4]/40 dark:bg-[#161616]/10" : ""
+                            !n.isRead ? "bg-[#F7E8E8]/40 dark:bg-[#300000]/10" : ""
                           }`}
                         >
                           <div
@@ -445,7 +445,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                 src={user.fotoProfil}
                 nama={user.nama}
                 sizePx={28}
-                fallbackBg="linear-gradient(135deg, #FF5B19, #FF5B19)"
+                fallbackBg="#FF5722"
                 textClassName="text-[11px] font-bold"
               />
               <span className="hidden text-sm font-medium text-gray-700 dark:text-slate-200 sm:block">
@@ -483,7 +483,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                   </button>
                   <button
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-[#6E6E6E] transition-colors hover:bg-[#F5F5F4] dark:hover:bg-[#161616]/20"
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-[#8B0000] transition-colors hover:bg-[#F7E8E8] dark:hover:bg-[#300000]/20"
                   >
                     <LogOut size={14} />
                     Keluar
@@ -570,7 +570,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                         <div className="min-w-0 flex-1">
                           <p
                             className="text-sm font-medium"
-                            style={{ color: isSelected ? "#FF5B19" : undefined }}
+                            style={{ color: isSelected ? "#FF5722" : undefined }}
                           >
                             {item.label}
                           </p>

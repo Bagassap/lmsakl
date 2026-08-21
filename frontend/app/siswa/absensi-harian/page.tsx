@@ -313,7 +313,7 @@ export default function SiswaAbsensiHarianPage() {
 
       {loading ? (
         <div className="flex items-center justify-center rounded-2xl border border-slate-100 bg-white py-20 dark:border-slate-700 dark:bg-slate-800">
-          <Loader2 size={24} className="animate-spin text-[#8C8C8C]" />
+          <Loader2 size={24} className="animate-spin text-[#A62E2E]" />
         </div>
       ) : (
         <>
@@ -416,9 +416,9 @@ export default function SiswaAbsensiHarianPage() {
                   ) : (
                     <motion.div key="pulang-closed" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
                       className="flex flex-col items-center rounded-2xl border border-slate-100 bg-white px-6 py-12 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
-                      <div className={`flex h-16 w-16 items-center justify-center rounded-full ${window_ === "HADIR" ? "" : "bg-[#F5F5F4] dark:bg-[#161616]/20"}`}
-                        style={window_ === "HADIR" ? { background: "#E1EDEE" } : undefined}>
-                        {window_ === "HADIR" ? <Clock size={26} style={{ color: "#FF5B19" }} /> : <AlertCircle size={26} className="text-[#6E6E6E]" />}
+                      <div className={`flex h-16 w-16 items-center justify-center rounded-full ${window_ === "HADIR" ? "" : "bg-[#F7E8E8] dark:bg-[#300000]/20"}`}
+                        style={window_ === "HADIR" ? { background: "#FFFBD1" } : undefined}>
+                        {window_ === "HADIR" ? <Clock size={26} style={{ color: "#FF5722" }} /> : <AlertCircle size={26} className="text-[#8B0000]" />}
                       </div>
                       <h2 className="mt-4 text-lg font-extrabold text-slate-800 dark:text-white">
                         {window_ === "HADIR" ? "Belum Waktunya" : "Waktu Sudah Berakhir"}
@@ -565,20 +565,20 @@ function FormAbsen({
   const fotoField = (
     <div>
       <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-        <Camera size={12} /> {fotoLabel} <span className="text-[#8C8C8C] normal-case">*wajib</span>
+        <Camera size={12} /> {fotoLabel} <span className="text-[#A62E2E] normal-case">*wajib</span>
       </p>
       {fotoPreview ? (
         <div className="relative flex h-18 items-center">
           <img src={fotoPreview} alt="Preview" className="h-18 w-18 rounded-xl object-cover shadow-sm" />
           <button onClick={onFotoClear}
-            className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#6E6E6E] text-white shadow-md">
+            className="absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-[#8B0000] text-white shadow-md">
             ×
           </button>
         </div>
       ) : (
         <button onClick={() => fileInputRef.current?.click()} disabled={compressingFoto}
-          className={`flex h-18 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed text-slate-400 transition-colors hover:border-[#8C8C8C] hover:text-[#8C8C8C] disabled:cursor-wait disabled:opacity-70 ${
-            fotoMissing ? "border-[#B0B0B0] dark:border-[#262626]" : "border-slate-200 dark:border-slate-600"
+          className={`flex h-18 w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed text-slate-400 transition-colors hover:border-[#A62E2E] hover:text-[#A62E2E] disabled:cursor-wait disabled:opacity-70 ${
+            fotoMissing ? "border-[#C25858] dark:border-[#470000]" : "border-slate-200 dark:border-slate-600"
           }`}>
           {compressingFoto ? (
             <>
@@ -595,34 +595,34 @@ function FormAbsen({
       )}
       <input ref={fileInputRef} type="file" accept="image/*" {...(isIzinSakit ? {} : { capture: "user" as const })}
         className="hidden" onChange={onFotoChange} />
-      {fotoMissing && <p className="mt-1 text-[11px] font-semibold text-[#6E6E6E]">{fotoLabel} wajib diisi</p>}
+      {fotoMissing && <p className="mt-1 text-[11px] font-semibold text-[#8B0000]">{fotoLabel} wajib diisi</p>}
     </div>
   );
 
   const lokasiField = (
     <div>
       <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-        <MapPin size={12} /> Lokasi <span className="text-[#8C8C8C] normal-case">*wajib</span>
+        <MapPin size={12} /> Lokasi <span className="text-[#A62E2E] normal-case">*wajib</span>
       </p>
       <div className={`flex h-18 items-center gap-2 rounded-xl border bg-slate-50 px-3 py-2.5 dark:bg-slate-900/40 ${
-        lokasiMissing ? "border-[#B0B0B0] dark:border-[#262626]" : "border-slate-100 dark:border-slate-700"
+        lokasiMissing ? "border-[#C25858] dark:border-[#470000]" : "border-slate-100 dark:border-slate-700"
       }`}>
-        <MapPin size={15} className={lokasi ? "text-[#6E9CA0]" : "text-[#8C8C8C]"} />
+        <MapPin size={15} className={lokasi ? "text-[#FFEB3B]" : "text-[#A62E2E]"} />
         {lokasiLoading ? (
           <span className="text-xs text-slate-400">Mendeteksi lokasi...</span>
         ) : lokasi ? (
           <span className="font-mono text-xs text-slate-600 dark:text-slate-300">{lokasi}</span>
         ) : (
           <div className="flex flex-1 items-center justify-between gap-2">
-            <span className="text-xs text-[#6E6E6E]">{lokasiError ?? "Lokasi belum terdeteksi"}</span>
-            <button type="button" onClick={onRetryLokasi} className="shrink-0 text-[11px] font-bold text-[#6E6E6E] hover:underline">
+            <span className="text-xs text-[#8B0000]">{lokasiError ?? "Lokasi belum terdeteksi"}</span>
+            <button type="button" onClick={onRetryLokasi} className="shrink-0 text-[11px] font-bold text-[#8B0000] hover:underline">
               Coba lagi
             </button>
           </div>
         )}
       </div>
       {lokasiMissing && !lokasiLoading && (
-        <p className="mt-1 text-[11px] font-semibold text-[#6E6E6E]">{lokasiError ?? "Lokasi (GPS) wajib diisi"}</p>
+        <p className="mt-1 text-[11px] font-semibold text-[#8B0000]">{lokasiError ?? "Lokasi (GPS) wajib diisi"}</p>
       )}
     </div>
   );
@@ -674,25 +674,25 @@ function FormAbsen({
           <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
             <MessageSquareText size={12} />
             {isIzinSakit
-              ? <>Keterangan / Alasan <span className="text-[#8C8C8C] normal-case">*wajib</span></>
+              ? <>Keterangan / Alasan <span className="text-[#A62E2E] normal-case">*wajib</span></>
               : "Keterangan (opsional)"}
           </p>
           <textarea value={catatan} onChange={(e) => setCatatan(e.target.value)} rows={2}
             placeholder={isIzinSakit ? "Tulis alasan izin/sakit..." : "Tulis keterangan tambahan..."}
             className={`w-full resize-none rounded-xl border bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:outline-none focus:ring-2 dark:bg-slate-900/40 dark:text-slate-200 ${
-              catatanMissing ? "border-[#B0B0B0] focus:ring-[#B0B0B0] dark:border-[#262626]" : "border-slate-200 focus:ring-[#8C8C8C] dark:border-slate-600"
+              catatanMissing ? "border-[#C25858] focus:ring-[#C25858] dark:border-[#470000]" : "border-slate-200 focus:ring-[#A62E2E] dark:border-slate-600"
             }`} />
-          {catatanMissing && <p className="mt-1 text-[11px] font-semibold text-[#6E6E6E]">Keterangan wajib diisi</p>}
+          {catatanMissing && <p className="mt-1 text-[11px] font-semibold text-[#8B0000]">Keterangan wajib diisi</p>}
         </div>
 
         <div>
           <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
-            <FileSignature size={12} /> Tanda Tangan <span className="text-[#8C8C8C] normal-case">*wajib</span>
+            <FileSignature size={12} /> Tanda Tangan <span className="text-[#A62E2E] normal-case">*wajib</span>
           </p>
-          <div className={ttdMissing ? "rounded-xl ring-2 ring-[#B0B0B0]" : ""}>
+          <div className={ttdMissing ? "rounded-xl ring-2 ring-[#C25858]" : ""}>
             <SignaturePad onChange={setTtd} />
           </div>
-          {ttdMissing && <p className="mt-1 text-[11px] font-semibold text-[#6E6E6E]">Tanda tangan wajib diisi</p>}
+          {ttdMissing && <p className="mt-1 text-[11px] font-semibold text-[#8B0000]">Tanda tangan wajib diisi</p>}
         </div>
 
         <motion.button whileTap={{ scale: 0.98 }} onClick={onSubmit}

@@ -74,52 +74,52 @@ const THEME = {
     label:       "Berhasil",
   },
   error: {
-    headerFrom:  "#FEE2E2",
-    headerTo:    "#FEF2F2",
+    headerFrom:  "#FDEBEA",
+    headerTo:    "#FDEBEA",
     blob1:       "rgba(239,68,68,0.22)",
     blob2:       "rgba(252,165,165,0.14)",
     ring1:       "rgba(239,68,68,0.18)",
     ring2:       "rgba(239,68,68,0.10)",
-    iconBg:      "#EF4444",
+    iconBg:      "#D32F2F",
     iconShadow:  "0 16px 40px rgba(239,68,68,0.55)",
-    bar:         "#EF4444",
-    btnBg:       "#EF4444",
+    bar:         "#D32F2F",
+    btnBg:       "#D32F2F",
     btnShadow:   "0 8px 24px rgba(239,68,68,0.45)",
-    dotColor:    "#EF4444",
+    dotColor:    "#D32F2F",
     fg:          "#ffffff",
     icon:        XCircle,
     label:       "Gagal",
   },
   warning: {
-    headerFrom:  "#FFEDD5",
+    headerFrom:  "#FFDACB",
     headerTo:    "#FFF6EF",
     blob1:       "rgba(255,91,25,0.22)",
     blob2:       "rgba(255,138,84,0.14)",
     ring1:       "rgba(255,91,25,0.18)",
     ring2:       "rgba(255,91,25,0.10)",
-    iconBg:      "linear-gradient(135deg,#CC4913,#FF5B19,#FFC49E)",
+    iconBg:      "#C93B12",
     iconShadow:  "0 16px 40px rgba(255,91,25,0.55)",
-    bar:         "linear-gradient(90deg,#CC4913,#FFC49E)",
-    btnBg:       "linear-gradient(135deg,#CC4913,#FF5B19)",
+    bar:         "#C93B12",
+    btnBg:       "#C93B12",
     btnShadow:   "0 8px 24px rgba(255,91,25,0.45)",
-    dotColor:    "#FF5B19",
+    dotColor:    "#FF5722",
     fg:          "#ffffff",
     icon:        AlertTriangle,
     label:       "Perhatian",
   },
   info: {
-    headerFrom:  "#DBEAFE",
-    headerTo:    "#EFF6FF",
+    headerFrom:  "#EBC4C4",
+    headerTo:    "#F7E8E8",
     blob1:       "rgba(37,99,235,0.22)",
     blob2:       "rgba(147,197,253,0.14)",
     ring1:       "rgba(37,99,235,0.18)",
     ring2:       "rgba(37,99,235,0.10)",
-    iconBg:      "#2563EB",
+    iconBg:      "#8B0000",
     iconShadow:  "0 16px 40px rgba(37,99,235,0.55)",
-    bar:         "#2563EB",
-    btnBg:       "#2563EB",
+    bar:         "#8B0000",
+    btnBg:       "#8B0000",
     btnShadow:   "0 8px 24px rgba(37,99,235,0.45)",
-    dotColor:    "#2563EB",
+    dotColor:    "#8B0000",
     fg:          "#ffffff",
     icon:        Info,
     label:       "Informasi",
@@ -355,7 +355,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
   const divider    = isDark ? "rgba(255,255,255,0.07)" : "rgba(0,0,0,0.06)";
   const cancelBg   = isDark ? "rgba(255,255,255,0.08)" : "#f1f5f9";
   const cancelText = isDark ? "#94a3b8" : "#64748b";
-  const headerBg   = isDark ? "rgba(255,255,255,0.03)" : "linear-gradient(180deg,#E8E7E4 0%,#E8E7E4 100%)";
+  const headerBg   = isDark ? "rgba(255,255,255,0.03)" : "#EBC4C4";
 
   const dots = [
     { x: -50, y: -46, delay: 0.1,  size: 7 },
@@ -403,7 +403,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
 
           <div className="relative flex items-center justify-center">
             {dots.map((d, i) => (
-              <FloatingDot key={i} color="#161616" x={d.x} y={d.y} delay={d.delay} size={d.size} />
+              <FloatingDot key={i} color="#300000" x={d.x} y={d.y} delay={d.delay} size={d.size} />
             ))}
 
             <motion.div
@@ -425,7 +425,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               transition={{ type: "spring", damping: 13, stiffness: 260, delay: 0.1 }}
               className="relative z-10 flex h-17 w-17 items-center justify-center rounded-2xl text-white"
               style={{
-                background: "linear-gradient(135deg,#161616,#FF5B19,#3D3D3D)",
+                background: "#300000",
                 boxShadow: "0 16px 40px rgba(239,68,68,0.55)",
               }}
             >
@@ -453,7 +453,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
             className="mt-5 rounded-full px-3 py-1 text-[10px] font-black tracking-[0.16em] uppercase"
             style={{
               background: isDark ? "rgba(255,255,255,0.08)" : "rgba(239,68,68,0.10)",
-              color: "#161616",
+              color: "#300000",
             }}
           >
             Konfirmasi
@@ -505,7 +505,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               onClick={() => onClose(true)}
               className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-white"
               style={{
-                background: "linear-gradient(135deg,#FF5B19,#161616)",
+                background: "#FF5722",
                 boxShadow: "0 6px 20px rgba(239,68,68,0.40)",
               }}
             >
