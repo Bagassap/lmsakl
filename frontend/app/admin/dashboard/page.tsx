@@ -253,14 +253,6 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        <StatsCard icon={Users}         label="Total Siswa"  value={data.totalSiswa}           sub="Siswa aktif terdaftar" index={0} delay={0.25} />
-        <StatsCard icon={GraduationCap} label="Total Guru"   value={data.totalGuru}            sub="Termasuk wali kelas" index={1} delay={0.30} />
-        <StatsCard icon={School}        label="Total Kelas"  value={data.totalKelas}           sub="X, XI, XII AKL" index={2} delay={0.35} />
-        <StatsCard icon={Calendar}      label="% Hadir Hari Ini" value={data.kehadiran.persen} suffix="%" sub="Dari total siswa" index={3} delay={0.40} />
-        <StatsCard icon={Activity}      label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa tercatat hadir" index={0} delay={0.45} />
-      </div>
-
       <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
 
         <motion.div
@@ -307,10 +299,18 @@ export default function AdminDashboardPage() {
         </motion.div>
       </div>
 
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <StatsCard icon={Users}         label="Total Siswa"  value={data.totalSiswa}           sub="Siswa aktif terdaftar" index={0} delay={0.35} />
+        <StatsCard icon={GraduationCap} label="Total Guru"   value={data.totalGuru}            sub="Termasuk wali kelas" index={1} delay={0.40} />
+        <StatsCard icon={School}        label="Total Kelas"  value={data.totalKelas}           sub="X, XI, XII AKL" index={2} delay={0.45} />
+        <StatsCard icon={Calendar}      label="% Hadir Hari Ini" value={data.kehadiran.persen} suffix="%" sub="Dari total siswa" index={3} delay={0.50} />
+        <StatsCard icon={Activity}      label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa tercatat hadir" index={0} delay={0.55} />
+      </div>
+
       <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.5 }}
+          transition={{ duration: 0.4, delay: 0.6 }}
           className="rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] lg:col-span-2"
         >
           <h2 className="mb-1 text-base font-bold text-slate-800 dark:text-white">Kehadiran Per Kelas</h2>
@@ -332,7 +332,7 @@ export default function AdminDashboardPage() {
               <ViewAll href="/admin/pengumuman" />
             </div>
           }
-          delay={0.55} className="" bodyClass="px-0 py-0">
+          delay={0.65} className="" bodyClass="px-0 py-0">
           {data.pengumuman.length === 0 ? (
             <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada pengumuman</p>
           ) : (
