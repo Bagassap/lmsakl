@@ -5,7 +5,19 @@ export type TugasKelasRef = { id: string; nama: string };
 
 // Satu baris jurnal umum pada mode Praktik Akuntansi — debit/kredit disimpan
 // sebagai string supaya input kosong tidak dipaksa jadi "0" saat diketik.
-export type PraktikRow = { tanggal: string; akun: string; debit: string; kredit: string };
+// noBukti menandai baris-baris yang berasal dari transaksi yang sama (satu
+// transaksi biasanya punya 2+ baris: akun debit lalu akun kredit di
+// bawahnya) — dipakai untuk mengelompokkan tampilan & menghitung jumlah
+// transaksi, sesuai format jurnal umum standar akuntansi.
+export type PraktikRow = {
+  noBukti: string;
+  tanggal: string;
+  kodeAkun: string;
+  akun: string;
+  keterangan: string;
+  debit: string;
+  kredit: string;
+};
 
 export function parsePraktikRows(raw: string | null | undefined): PraktikRow[] {
   if (!raw) return [];

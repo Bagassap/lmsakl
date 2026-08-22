@@ -1,9 +1,13 @@
 "use client";
 
-import { Plus, Trash2, CheckCircle, AlertCircle, RotateCcw } from "lucide-react";
+import { Plus, FilePlus2, Trash2, CheckCircle, AlertCircle, RotateCcw } from "lucide-react";
 import type { PraktikRow } from "./types";
 
 const INPUT_CLS = "w-full rounded-lg border border-slate-200 bg-slate-50 px-2.5 py-1.5 text-xs text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200";
+
+function emptyRow(patch?: Partial<PraktikRow>): PraktikRow {
+  return { noBukti: "", tanggal: "", kodeAkun: "", akun: "", keterangan: "", debit: "", kredit: "", ...patch };
+}
 
 function toNumber(v: string): number {
   const n = Number(v.replace(/[^0-9.-]/g, ""));
@@ -12,6 +16,19 @@ function toNumber(v: string): number {
 
 function formatRupiah(n: number): string {
   return n.toLocaleString("id-ID");
+}
+
+// Nomor bukti berikutnya — kalau baris terakhir sudah punya nomor urut
+// (mis. "005"), disarankan "006"; kalau tidak ada pola numerik, biarkan
+// kosong supaya siswa isi manual.
+function suggestNextNoBukti(rows: PraktikRow[]): string {
+  const last = [...rows].reverse().find((r) => r.noBukti.trim());
+  if (!last) return "001";
+  const match = last.noBukti.match(/^(\D*)(\d+)(\D*)$/);
+  if (!match) return "";
+  const [, prefix, digits, suffix] = match;
+  const next = String(Number(digits) + 1).padStart(digits.length, "0");
+  return `${prefix}${next}${suffix}`;
 }
 
 export function PraktikAkuntansiGrid({
@@ -24,8 +41,15 @@ export function PraktikAkuntansiGrid({
   // (starter template yang disiapkan guru) alih-alih mengosongkan semua.
   initialRows?: PraktikRow[];
 }) {
-  function addRow() {
-    onChange?.([...rows, { tanggal: "", akun: "", debit: "", kredit: "" }]);
+  // Menambah baris pada transaksi yang sedang berjalan (No. Bukti, Tanggal,
+  // Keterangan ikut baris terakhir) — dipakai untuk menambahkan baris akun
+  // kredit setelah baris akun debit pada transaksi yang sama.
+  function addRowSameTransaksi() {
+    const last = rows[rows.length - 1];
+    onChange?.([...rows, emptyRow(last ? { noBukti: last.noBukti, tanggal: last.tanggal, keterangan: last.keterangan } : {})]);
+  }
+  function addTransaksiBaru() {
+    onChange?.([...rows, emptyRow({ noBukti: suggestNextNoBukti(rows) })]);
   }
   function removeRow(idx: number) {
     onChange?.(rows.filter((_, i) => i !== idx));
@@ -40,6 +64,9 @@ export function PraktikAkuntansiGrid({
   const totalDebit = rows.reduce((s, r) => s + toNumber(r.debit), 0);
   const totalKredit = rows.reduce((s, r) => s + toNumber(r.kredit), 0);
   const balanced = rows.length > 0 && totalDebit === totalKredit;
+  const jumlahTransaksi = new Set(
+    rows.map((r, idx) => (r.noBukti.trim() ? r.noBukti.trim() : `__baris-${idx}`))
+  ).size;
 
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
@@ -53,21 +80,29 @@ export function PraktikAkuntansiGrid({
                 <RotateCcw size={12} /> Reset
               </button>
             )}
-            <button type="button" onClick={addRow}
+            <button type="button" onClick={addRowSameTransaksi}
+              className="flex items-center gap-1 rounded-lg border border-slate-200 px-3 py-1.5 text-[11px] font-bold text-slate-600 hover:bg-slate-100 dark:border-slate-600 dark:text-slate-300 dark:hover:bg-slate-700"
+              title="Tambah baris akun lain pada transaksi yang sama (mis. baris kredit setelah baris debit)">
+              <Plus size={12} /> Tambah Baris
+            </button>
+            <button type="button" onClick={addTransaksiBaru}
               className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white shadow-sm hover:brightness-105"
               style={{ background: "#FF5722" }}>
-              <Plus size={12} /> Tambah Baris
+              <FilePlus2 size={12} /> Transaksi Baru
             </button>
           </div>
         )}
       </div>
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[520px] text-left text-sm">
+        <table className="w-full min-w-[880px] text-left text-sm">
           <thead className="border-b border-slate-100 bg-slate-50/90 dark:border-slate-700/40 dark:bg-slate-700/60">
             <tr>
+              <th className="whitespace-nowrap px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">No. Bukti</th>
               <th className="whitespace-nowrap px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Tanggal</th>
-              <th className="whitespace-nowrap px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Akun</th>
+              <th className="whitespace-nowrap px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Kode Akun</th>
+              <th className="whitespace-nowrap px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Nama Akun</th>
+              <th className="whitespace-nowrap px-3 py-2 text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Keterangan</th>
               <th className="whitespace-nowrap px-3 py-2 text-right text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Debit</th>
               <th className="whitespace-nowrap px-3 py-2 text-right text-xs font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">Kredit</th>
               {!readOnly && <th className="w-10 px-2 py-2" />}
@@ -76,60 +111,90 @@ export function PraktikAkuntansiGrid({
           <tbody>
             {rows.length === 0 && (
               <tr>
-                <td colSpan={readOnly ? 4 : 5} className="px-3 py-8 text-center text-xs text-slate-400">
-                  {readOnly ? "Belum ada baris jurnal" : "Belum ada baris — klik \"Tambah Baris\" untuk mulai"}
+                <td colSpan={readOnly ? 7 : 8} className="px-3 py-8 text-center text-xs text-slate-400">
+                  {readOnly ? "Belum ada baris jurnal" : "Belum ada baris — klik \"Transaksi Baru\" untuk mulai"}
                 </td>
               </tr>
             )}
-            {rows.map((r, idx) => (
-              <tr key={idx} className="border-b border-slate-100 last:border-0 dark:border-slate-700/40">
-                <td className="px-3 py-2">
-                  {readOnly ? (
-                    <span className="text-xs text-slate-600 dark:text-slate-300">{r.tanggal || "—"}</span>
-                  ) : (
-                    <input type="date" value={r.tanggal} onChange={(e) => updateRow(idx, { tanggal: e.target.value })} className={INPUT_CLS} />
-                  )}
-                </td>
-                <td className="px-3 py-2">
-                  {readOnly ? (
-                    <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{r.akun || "—"}</span>
-                  ) : (
-                    <input type="text" value={r.akun} onChange={(e) => updateRow(idx, { akun: e.target.value })}
-                      placeholder="Nama akun" className={INPUT_CLS} />
-                  )}
-                </td>
-                <td className="px-3 py-2 text-right">
-                  {readOnly ? (
-                    <span className="text-xs text-slate-600 dark:text-slate-300">{r.debit ? formatRupiah(toNumber(r.debit)) : "—"}</span>
-                  ) : (
-                    <input type="number" value={r.debit} onChange={(e) => updateRow(idx, { debit: e.target.value })}
-                      placeholder="0" className={`${INPUT_CLS} text-right`} />
-                  )}
-                </td>
-                <td className="px-3 py-2 text-right">
-                  {readOnly ? (
-                    <span className="text-xs text-slate-600 dark:text-slate-300">{r.kredit ? formatRupiah(toNumber(r.kredit)) : "—"}</span>
-                  ) : (
-                    <input type="number" value={r.kredit} onChange={(e) => updateRow(idx, { kredit: e.target.value })}
-                      placeholder="0" className={`${INPUT_CLS} text-right`} />
-                  )}
-                </td>
-                {!readOnly && (
-                  <td className="px-2 py-2 text-right">
-                    <button type="button" onClick={() => removeRow(idx)}
-                      className="rounded-lg p-1.5 text-slate-300 hover:bg-[#FDEBEA] hover:text-[#D32F2F] dark:hover:bg-[#8B0000]/20">
-                      <Trash2 size={13} />
-                    </button>
+            {rows.map((r, idx) => {
+              const isKredit = toNumber(r.kredit) > 0 && toNumber(r.debit) === 0;
+              const isNewGroup = idx === 0 || rows[idx - 1].noBukti !== r.noBukti;
+              return (
+                <tr key={idx}
+                  className={`border-b border-slate-100 last:border-0 dark:border-slate-700/40 ${isNewGroup && idx > 0 ? "border-t-2 border-t-slate-200 dark:border-t-slate-600" : ""}`}>
+                  <td className="px-3 py-2">
+                    {readOnly ? (
+                      <span className="text-xs text-slate-500 dark:text-slate-400">{r.noBukti || "—"}</span>
+                    ) : (
+                      <input type="text" value={r.noBukti} onChange={(e) => updateRow(idx, { noBukti: e.target.value })}
+                        placeholder="001" className={INPUT_CLS} />
+                    )}
                   </td>
-                )}
-              </tr>
-            ))}
+                  <td className="px-3 py-2">
+                    {readOnly ? (
+                      <span className="text-xs text-slate-600 dark:text-slate-300">{r.tanggal || "—"}</span>
+                    ) : (
+                      <input type="date" value={r.tanggal} onChange={(e) => updateRow(idx, { tanggal: e.target.value })} className={INPUT_CLS} />
+                    )}
+                  </td>
+                  <td className="px-3 py-2">
+                    {readOnly ? (
+                      <span className="text-xs text-slate-500 dark:text-slate-400">{r.kodeAkun || "—"}</span>
+                    ) : (
+                      <input type="text" value={r.kodeAkun} onChange={(e) => updateRow(idx, { kodeAkun: e.target.value })}
+                        placeholder="111" className={INPUT_CLS} />
+                    )}
+                  </td>
+                  <td className="px-3 py-2" style={isKredit ? { paddingLeft: "1.5rem" } : undefined}>
+                    {readOnly ? (
+                      <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{r.akun || "—"}</span>
+                    ) : (
+                      <input type="text" value={r.akun} onChange={(e) => updateRow(idx, { akun: e.target.value })}
+                        placeholder="Nama akun" className={INPUT_CLS} />
+                    )}
+                  </td>
+                  <td className="px-3 py-2">
+                    {readOnly ? (
+                      <span className="text-xs text-slate-500 dark:text-slate-400">{r.keterangan || "—"}</span>
+                    ) : (
+                      <input type="text" value={r.keterangan} onChange={(e) => updateRow(idx, { keterangan: e.target.value })}
+                        placeholder="Keterangan transaksi" className={INPUT_CLS} />
+                    )}
+                  </td>
+                  <td className="px-3 py-2 text-right">
+                    {readOnly ? (
+                      <span className="text-xs text-slate-600 dark:text-slate-300">{r.debit ? formatRupiah(toNumber(r.debit)) : "—"}</span>
+                    ) : (
+                      <input type="number" value={r.debit} onChange={(e) => updateRow(idx, { debit: e.target.value })}
+                        placeholder="0" className={`${INPUT_CLS} text-right`} />
+                    )}
+                  </td>
+                  <td className="px-3 py-2 text-right">
+                    {readOnly ? (
+                      <span className="text-xs text-slate-600 dark:text-slate-300">{r.kredit ? formatRupiah(toNumber(r.kredit)) : "—"}</span>
+                    ) : (
+                      <input type="number" value={r.kredit} onChange={(e) => updateRow(idx, { kredit: e.target.value })}
+                        placeholder="0" className={`${INPUT_CLS} text-right`} />
+                    )}
+                  </td>
+                  {!readOnly && (
+                    <td className="px-2 py-2 text-right">
+                      <button type="button" onClick={() => removeRow(idx)}
+                        className="rounded-lg p-1.5 text-slate-300 hover:bg-[#FDEBEA] hover:text-[#D32F2F] dark:hover:bg-[#8B0000]/20">
+                        <Trash2 size={13} />
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
 
-      <div className="flex items-center justify-between gap-3 border-t border-slate-100 px-3 py-2.5 dark:border-slate-700/60">
-        <div className="flex items-center gap-4 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-t border-slate-100 px-3 py-2.5 dark:border-slate-700/60">
+        <div className="flex flex-wrap items-center gap-4 text-xs">
+          <span className="text-slate-400">Transaksi <strong className="text-slate-700 dark:text-slate-200">{jumlahTransaksi}</strong></span>
           <span className="text-slate-400">Total Debit <strong className="text-slate-700 dark:text-slate-200">{formatRupiah(totalDebit)}</strong></span>
           <span className="text-slate-400">Total Kredit <strong className="text-slate-700 dark:text-slate-200">{formatRupiah(totalKredit)}</strong></span>
         </div>

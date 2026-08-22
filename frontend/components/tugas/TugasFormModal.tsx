@@ -53,7 +53,7 @@ function wibInputToIso(value: string) {
 
 const TIPE_OPTIONS: { value: TugasTipe; label: string; icon: typeof Send; gradient: string; onLight?: boolean; desc: string }[] = [
   { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "#FF5722", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
-  { value: "PRAKTIK", label: "Praktik Akuntansi", icon: Calculator, gradient: "#FFEB3B", onLight: true, desc: "Siswa mengisi grid jurnal umum (tanggal/akun/debit/kredit) langsung di LMS." },
+  { value: "PRAKTIK", label: "Praktik Akuntansi", icon: Calculator, gradient: "#FFEB3B", onLight: true, desc: "Siswa mengisi jurnal umum lengkap (No. Bukti, tanggal, kode & nama akun, keterangan, debit/kredit) langsung di LMS." },
   { value: "PILIHAN_GANDA", label: "Pilihan Ganda", icon: ListChecks, gradient: "#300000", desc: "Siswa memilih jawaban A–D untuk tiap soal." },
   { value: "ESSAY", label: "Essay", icon: PenLine, gradient: "#B8B84A", desc: "Siswa mengetik jawaban esai untuk tiap soal." },
 ];
