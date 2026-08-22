@@ -280,6 +280,10 @@ model Tugas {
   fileUrl        String?
   fileName       String?
   starterPraktik String?  @db.Text
+  // Durasi pengerjaan (menit) untuk lembar pengerjaan lockdown (PRAKTIK/
+  // PILIHAN_GANDA/ESSAY) — wajib untuk PILIHAN_GANDA/ESSAY, opsional untuk
+  // PRAKTIK, null untuk SUBMIT.
+  durasiMenit    Int?
   createdById    String
   createdBy      User     @relation(fields: [createdById], references: [id])
 
@@ -334,6 +338,13 @@ model TugasSubmisi {
   nilai            Int?
   submittedAt      DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
+
+  // Lockdown/exam-mode (PRAKTIK/PILIHAN_GANDA/ESSAY) — maksimal 2 percobaan.
+  jumlahPercobaan Int       @default(0)
+  terkunci        Boolean   @default(false)
+  dipaksaKeluar   Boolean   @default(false)
+  waktuMulai      DateTime?
+  deadlineWaktu   DateTime?
 
   jawaban TugasJawaban[]
 
