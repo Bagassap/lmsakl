@@ -208,7 +208,7 @@ export default function AdminDashboardPage() {
         <GreetingHero nama={user.nama} role={user.role} />
       </motion.div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5 [&>*:last-child]:col-span-2 lg:[&>*:last-child]:col-span-1">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
         <StatsCard icon={Users}         label="Total Siswa"  value={data.totalSiswa}           sub="Siswa aktif terdaftar" index={0} delay={0.05} />
         <StatsCard icon={GraduationCap} label="Total Guru"   value={data.totalGuru}            sub="Termasuk wali kelas" index={1} delay={0.10} />
         <StatsCard icon={School}        label="Total Kelas"  value={data.totalKelas}           sub="X, XI, XII AKL" index={2} delay={0.15} />
@@ -216,27 +216,12 @@ export default function AdminDashboardPage() {
         <StatsCard icon={Activity}      label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa tercatat hadir" index={0} delay={0.25} />
       </div>
 
-      <div className="grid grid-cols-12 gap-4 md:gap-5">
+      <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
 
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.25 }}
-          className="col-span-12 rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] xl:col-span-4"
-        >
-          <div className="mb-1">
-            <h2 className="text-base font-bold text-slate-800 dark:text-white">Statistik Kehadiran</h2>
-            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Distribusi kehadiran hari ini</p>
-          </div>
-          <StatisticRainbow
-            hadir={hadirCount} sakit={sakit} izin={izin} alpha={alpha}
-            total={data.kehadiran.total}
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
-          className="col-span-12 flex flex-col rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] xl:col-span-8"
+          className="flex flex-col rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] lg:col-span-2"
         >
           <div className="mb-2 flex items-start justify-between">
             <div>
@@ -259,6 +244,21 @@ export default function AdminDashboardPage() {
           ) : (
             <KehadiranAreaChart data={data.weeklyAbsensi} />
           )}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]"
+        >
+          <div className="mb-1">
+            <h2 className="text-base font-bold text-slate-800 dark:text-white">Statistik Kehadiran</h2>
+            <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Distribusi kehadiran hari ini</p>
+          </div>
+          <StatisticRainbow
+            hadir={hadirCount} sakit={sakit} izin={izin} alpha={alpha}
+            total={data.kehadiran.total}
+          />
         </motion.div>
       </div>
 
@@ -353,11 +353,11 @@ export default function AdminDashboardPage() {
         </SectionCard>
       </div>
 
-      <div className="grid grid-cols-12 gap-4 md:gap-5">
+      <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.6 }}
-          className="col-span-12 rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] xl:col-span-7"
+          className="rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] lg:col-span-2"
         >
           <h2 className="mb-1 text-base font-bold text-slate-800 dark:text-white">Kehadiran Per Kelas</h2>
           <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Hadir vs tidak hadir per kelas</p>
@@ -376,7 +376,7 @@ export default function AdminDashboardPage() {
               <ViewAll href="/admin/magang/absensi" />
             </div>
           }
-          delay={0.65} className="col-span-12 xl:col-span-5">
+          delay={0.65} className="">
           {kelasData.length === 0 ? (
             <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada data</p>
           ) : (

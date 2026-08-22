@@ -189,32 +189,19 @@ export default function GuruDashboardPage() {
         <GreetingHero nama={user.nama} role={user.role} />
       </motion.div>
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <StatsCard icon={Users}         label="Siswa Diampu" value={data.siswaAmpu}        sub="Di kelas yang Anda ampu" index={0} delay={0.05} />
         <StatsCard icon={GraduationCap} label="Kelas Wali"   value={kelasWali.length}      sub="Kelas dengan Anda sebagai wali" index={1} delay={0.10} />
         <StatsCard icon={TrendingUp}    label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa hadir hari ini" index={2} delay={0.15} />
         <StatsCard icon={Calendar}      label="% Hadir Hari Ini" value={data.kehadiran.persen} suffix="%" sub="Dari siswa yang diampu" index={3} delay={0.20} />
       </div>
 
-      <div className="grid grid-cols-12 gap-4 md:gap-5">
+      <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
 
         <motion.div
           initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.25 }}
-          className="col-span-12 rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] xl:col-span-4"
-        >
-          <h2 className="text-base font-bold text-slate-800 dark:text-white">Statistik Kehadiran</h2>
-          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Distribusi absensi kelas wali hari ini</p>
-          <StatisticRainbow
-            hadir={hadirCount} sakit={sakit} izin={izin} alpha={alpha}
-            total={data.kehadiran.total}
-          />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.3 }}
-          className="col-span-12 flex flex-col rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] xl:col-span-8"
+          className="flex flex-col rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] lg:col-span-2"
         >
           <div className="mb-3 flex items-start justify-between">
             <div>
@@ -237,6 +224,19 @@ export default function GuruDashboardPage() {
           ) : (
             <KehadiranAreaChart data={data.weeklyAbsensi} />
           )}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.3 }}
+          className="rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]"
+        >
+          <h2 className="text-base font-bold text-slate-800 dark:text-white">Statistik Kehadiran</h2>
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Distribusi absensi kelas wali hari ini</p>
+          <StatisticRainbow
+            hadir={hadirCount} sakit={sakit} izin={izin} alpha={alpha}
+            total={data.kehadiran.total}
+          />
         </motion.div>
       </div>
 
@@ -280,30 +280,7 @@ export default function GuruDashboardPage() {
         ))}
       </div>
 
-      <div className="grid grid-cols-12 gap-4 md:gap-5">
-
-        <SectionCard title="Kelas Wali Saya" icon={GraduationCap} iconColor={P}
-          action={<ViewAll href="/guru/absensi-harian" />}
-          delay={0.45} className="col-span-12 xl:col-span-5" bodyClass="px-4 py-2">
-          {kelasWali.length === 0 ? (
-            <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Anda belum menjadi wali kelas</p>
-          ) : (
-            <ul className="divide-y divide-slate-50 dark:divide-slate-700/30">
-              {kelasWali.map((k, i) => (
-                <motion.li key={k.id}
-                  initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + i * 0.06 }}
-                  className="flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/30">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-extrabold text-white"
-                    style={{ background: "#5E0000" }}>
-                    {k.nama.charAt(0)}
-                  </div>
-                  <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{k.nama}</p>
-                </motion.li>
-              ))}
-            </ul>
-          )}
-        </SectionCard>
+      <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
 
         <SectionCard title="Pengumuman Terbaru" icon={Megaphone} iconColor={R}
           action={
@@ -315,7 +292,7 @@ export default function GuruDashboardPage() {
               <ViewAll href="/guru/pengumuman" />
             </div>
           }
-          delay={0.5} className="col-span-12 xl:col-span-7" bodyClass="px-0 py-0">
+          delay={0.45} className="lg:col-span-2" bodyClass="px-0 py-0">
           {data.pengumuman.length === 0 ? (
             <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada pengumuman</p>
           ) : (
@@ -343,6 +320,29 @@ export default function GuruDashboardPage() {
                   </div>
                   <span className="shrink-0 rounded-full px-2 py-0.5 text-[9px] font-bold"
                     style={{ background: `${kColor(p.kategori)}18`, color: kColor(p.kategori) }}>{p.kategori}</span>
+                </motion.li>
+              ))}
+            </ul>
+          )}
+        </SectionCard>
+
+        <SectionCard title="Kelas Wali Saya" icon={GraduationCap} iconColor={P}
+          action={<ViewAll href="/guru/absensi-harian" />}
+          delay={0.5} className="" bodyClass="px-4 py-2">
+          {kelasWali.length === 0 ? (
+            <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Anda belum menjadi wali kelas</p>
+          ) : (
+            <ul className="divide-y divide-slate-50 dark:divide-slate-700/30">
+              {kelasWali.map((k, i) => (
+                <motion.li key={k.id}
+                  initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.55 + i * 0.06 }}
+                  className="flex items-center gap-3 rounded-xl px-2 py-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/30">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[11px] font-extrabold text-white"
+                    style={{ background: "#5E0000" }}>
+                    {k.nama.charAt(0)}
+                  </div>
+                  <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{k.nama}</p>
                 </motion.li>
               ))}
             </ul>
