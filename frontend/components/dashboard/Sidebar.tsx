@@ -165,7 +165,7 @@ export function Sidebar({
         <div
           className={[
             "relative flex h-full w-full flex-col overflow-hidden rounded-r-2xl border-r border-slate-100 bg-white shadow-xl shadow-black/5 dark:border-slate-700 dark:bg-slate-800 dark:shadow-black/30",
-            collapsed ? "px-2 pb-4 pt-6" : "px-4 pb-4 pt-6",
+            collapsed ? "px-2 pb-4 pt-9" : "px-4 pb-4 pt-9",
           ].join(" ")}
         >
           <button
@@ -178,16 +178,30 @@ export function Sidebar({
           </button>
 
           <div className="relative z-10 flex h-full flex-col gap-4">
-            <div className={[collapsed ? "flex flex-col items-center gap-2" : "flex items-center justify-between gap-2 px-1", "mb-3"].join(" ")}>
-              <span
-                className={[
-                  "flex shrink-0 items-center justify-center rounded-xl bg-primary shadow-sm shadow-primary/25",
-                  collapsed ? "h-9 w-9" : "h-9 px-2.5",
-                ].join(" ")}
-              >
-                <Image src="/AKL.png" alt="LMS AKL" width={18} height={23} className="h-5 w-auto object-contain" />
-                {!collapsed && <span className="ml-1.5 text-[13px] font-black tracking-tight text-white">LMS AKL</span>}
-              </span>
+            <div className={[collapsed ? "flex flex-col items-center gap-2.5" : "flex items-center justify-between gap-2 px-1", "mb-5"].join(" ")}>
+              <div className={collapsed ? "flex flex-col items-center" : "flex min-w-0 items-center gap-2.5"}>
+                <span
+                  className={[
+                    "relative flex shrink-0 items-center justify-center overflow-hidden rounded-2xl shadow-lg shadow-primary/30",
+                    collapsed ? "h-11 w-11" : "h-11 w-11",
+                  ].join(" ")}
+                  style={{ background: "linear-gradient(135deg, var(--color-primary), var(--color-brand-dark, #9E1B2E))" }}
+                >
+                  <span className="pointer-events-none absolute -right-2 -top-3 h-8 w-8 rounded-full bg-white/15" />
+                  <span className="pointer-events-none absolute -bottom-3 -left-2 h-7 w-7 rounded-full bg-black/10" />
+                  <Image src="/AKL.png" alt="LMS AKL" width={20} height={26} className="relative h-6 w-auto object-contain drop-shadow-sm" />
+                </span>
+                {!collapsed && (
+                  <div className="min-w-0">
+                    <p className="text-[15px] font-black leading-tight tracking-tight text-slate-800 dark:text-white">
+                      LMS <span className="text-primary">AKL</span>
+                    </p>
+                    <p className="truncate text-[10px] font-semibold leading-tight text-slate-400 dark:text-slate-500">
+                      Akuntansi &amp; Keuangan Lembaga
+                    </p>
+                  </div>
+                )}
+              </div>
 
               <button
                 type="button"
