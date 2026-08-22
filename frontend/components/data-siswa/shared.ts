@@ -88,7 +88,7 @@ export function formatAlamatLengkap(s: AlamatFields): string {
 export const AVATAR_PALETTE = [
   "#300000", // charcoal gelap
   "#5e0000", // charcoal
-  "#ff5722", // oren
+  "#d7263d", // oren
   "#ffeb3b", // powder blue
   "#bfa300", // powder blue gelap
   "#9c9776", // platinum gelap

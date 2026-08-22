@@ -8,7 +8,7 @@ import {
 
 type FeatureType = "magang" | "ujian-ukk";
 
-const BRAND_GRADIENT = "#FF5722";
+const BRAND_GRADIENT = "#D7263D";
 
 const CONFIG: Record<FeatureType, {
   icon: React.ComponentType<{ size?: number; className?: string; strokeWidth?: number }>;

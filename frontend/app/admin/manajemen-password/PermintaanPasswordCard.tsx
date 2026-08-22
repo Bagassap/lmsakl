@@ -80,7 +80,7 @@ export function PermintaanPasswordCard({
       <div className="grid grid-cols-2 gap-2.5">
         <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
           <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-            <Clock size={11} className="text-[#FF5722]" /> Pending
+            <Clock size={11} className="text-[#D7263D]" /> Pending
           </p>
           <p className="mt-1 text-lg font-bold text-slate-800 dark:text-white">{loading ? "—" : pending.length}</p>
         </div>
@@ -104,7 +104,7 @@ export function PermintaanPasswordCard({
           </div>
         ) : (
           pending.map((r) => (
-            <div key={r.id} className="rounded-xl border-l-4 border-[#FF7440] bg-[#FFF2EE]/50 p-2.5 dark:bg-[#74220A]/10">
+            <div key={r.id} className="rounded-xl border-l-4 border-[#E8677A] bg-[#FCF0F1]/50 p-2.5 dark:bg-[#5C1420]/10">
               <div className="flex items-start gap-2">
                 <Avatar
                   src={r.user?.fotoProfil}

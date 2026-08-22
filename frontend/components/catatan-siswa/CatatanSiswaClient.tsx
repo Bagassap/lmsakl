@@ -299,7 +299,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
             <div className="grid grid-cols-2 gap-2">
               <button type="button" onClick={() => handleDownload("pdf")} disabled={!selectedKelasId || downloading !== null}
                 className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
-                style={{ background: "#FF5722" }}>
+                style={{ background: "#D7263D" }}>
                 {downloading === "pdf" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
                 PDF Kelas
               </button>

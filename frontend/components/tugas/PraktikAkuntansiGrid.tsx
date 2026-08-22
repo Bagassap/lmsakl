@@ -125,7 +125,7 @@ export function PraktikAkuntansiGrid({
             </button>
             <button type="button" onClick={addTransaksiBaru}
               className="flex items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white shadow-sm hover:brightness-105"
-              style={{ background: "#FF5722" }}>
+              style={{ background: "#D7263D" }}>
               <FilePlus2 size={12} /> Transaksi Baru
             </button>
           </div>

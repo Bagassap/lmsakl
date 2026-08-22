@@ -91,18 +91,18 @@ const THEME = {
     label:       "Gagal",
   },
   warning: {
-    headerFrom:  "#FFDACB",
+    headerFrom:  "#F8D6DA",
     headerTo:    "#FFF6EF",
-    blob1:       "rgba(255,91,25,0.22)",
+    blob1:       "rgba(215,38,61,0.22)",
     blob2:       "rgba(255,138,84,0.14)",
-    ring1:       "rgba(255,91,25,0.18)",
-    ring2:       "rgba(255,91,25,0.10)",
-    iconBg:      "#C93B12",
-    iconShadow:  "0 16px 40px rgba(255,91,25,0.55)",
-    bar:         "#C93B12",
-    btnBg:       "#C93B12",
-    btnShadow:   "0 8px 24px rgba(255,91,25,0.45)",
-    dotColor:    "#FF5722",
+    ring1:       "rgba(215,38,61,0.18)",
+    ring2:       "rgba(215,38,61,0.10)",
+    iconBg:      "#9E1B2E",
+    iconShadow:  "0 16px 40px rgba(215,38,61,0.55)",
+    bar:         "#9E1B2E",
+    btnBg:       "#9E1B2E",
+    btnShadow:   "0 8px 24px rgba(215,38,61,0.45)",
+    dotColor:    "#D7263D",
     fg:          "#ffffff",
     icon:        AlertTriangle,
     label:       "Perhatian",
@@ -505,7 +505,7 @@ function ConfirmDialog({ item, onClose }: { item: ConfirmItem; onClose: (val: bo
               onClick={() => onClose(true)}
               className="flex flex-1 items-center justify-center gap-2 rounded-2xl py-3 text-sm font-bold text-white"
               style={{
-                background: "#FF5722",
+                background: "#D7263D",
                 boxShadow: "0 6px 20px rgba(239,68,68,0.40)",
               }}
             >

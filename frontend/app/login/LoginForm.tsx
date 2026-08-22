@@ -93,7 +93,7 @@ export function LoginForm() {
             value={login}
             onChange={(e) => setLogin(e.target.value)}
             placeholder="NIS atau email"
-            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
           />
         </div>
       </motion.div>
@@ -116,7 +116,7 @@ export function LoginForm() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Kata sandi"
-            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 pr-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+            className="w-full rounded-xl border border-stone-200 bg-stone-50 px-4 py-3 pl-11 pr-11 text-sm text-stone-900 placeholder:text-stone-400 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
           />
           <button
             type="button"
@@ -135,7 +135,7 @@ export function LoginForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#FF7440] bg-[#470000] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#E8677A] bg-[#470000] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -147,8 +147,8 @@ export function LoginForm() {
         disabled={loading}
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(255,91,25,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(255,91,25,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "#FF5722" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(215,38,61,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(215,38,61,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
+        style={{ background: "#D7263D" }}
       >
         {loading ? (
           <>
@@ -163,7 +163,7 @@ export function LoginForm() {
       <motion.div variants={item} className="text-center">
         <Link
           href="/lupa-password"
-          className="text-sm text-stone-400 transition-colors hover:text-[#C93B12]"
+          className="text-sm text-stone-400 transition-colors hover:text-[#9E1B2E]"
         >
           Lupa Password?
         </Link>

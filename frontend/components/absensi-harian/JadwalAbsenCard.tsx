@@ -173,7 +173,7 @@ export function JadwalAbsenCard() {
             </p>
           </div>
           {isOverriddenToday && (
-            <div className="col-span-2 flex items-start gap-1.5 rounded-xl bg-[#FFF2EE] px-3 py-2 text-[11px] text-[#C93B12] dark:bg-[#74220A]/20 dark:text-[#FF7440]">
+            <div className="col-span-2 flex items-start gap-1.5 rounded-xl bg-[#FCF0F1] px-3 py-2 text-[11px] text-[#9E1B2E] dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
               <Sparkles size={12} className="mt-0.5 shrink-0" />
               <span>Jadwal hari ini disesuaikan{hariIni.override?.keterangan ? ` — ${hariIni.override.keterangan}` : ""}</span>
             </div>

@@ -70,10 +70,10 @@ export function LupaPasswordForm() {
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-[#FF5722]/15 bg-[#FF5722]/[0.04] px-6 py-8 text-center"
+        className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-[#D7263D]/15 bg-[#D7263D]/[0.04] px-6 py-8 text-center"
       >
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#FFF2EE]">
-          <Clock size={28} className="text-[#FF5722]" />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#FCF0F1]">
+          <Clock size={28} className="text-[#D7263D]" />
         </div>
         <p className="text-sm font-semibold text-black/80">
           Tunggu Konfirmasi Admin
@@ -84,7 +84,7 @@ export function LupaPasswordForm() {
         </p>
         <Link
           href="/login"
-          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#FF5722] transition-colors hover:text-[#FF5722]/70"
+          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#D7263D] transition-colors hover:text-[#D7263D]/70"
         >
           <ArrowLeft size={15} /> Kembali ke halaman login
         </Link>
@@ -110,7 +110,7 @@ export function LupaPasswordForm() {
         </p>
         <Link
           href="/login"
-          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#FF5722] transition-colors hover:text-[#FF5722]/70"
+          className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#D7263D] transition-colors hover:text-[#D7263D]/70"
         >
           <ArrowLeft size={15} /> Kembali ke halaman login
         </Link>
@@ -144,7 +144,7 @@ export function LupaPasswordForm() {
             value={loginIdDiajukan}
             onChange={(e) => setLoginIdDiajukan(e.target.value)}
             placeholder="NIS atau kode login Anda"
-            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
           />
         </div>
       </motion.div>
@@ -167,7 +167,7 @@ export function LupaPasswordForm() {
             value={namaPengaju}
             onChange={(e) => setNamaPengaju(e.target.value)}
             placeholder="Nama lengkap Anda"
-            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+            className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
           />
         </div>
       </motion.div>
@@ -188,7 +188,7 @@ export function LupaPasswordForm() {
             value={keterangan}
             onChange={(e) => setKeterangan(e.target.value)}
             placeholder="Alasan lupa password, atau info tambahan lain..."
-            className="w-full resize-none rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+            className="w-full resize-none rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
           />
         </div>
       </motion.div>
@@ -197,7 +197,7 @@ export function LupaPasswordForm() {
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#FF5722] bg-[#FF5722] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#D7263D] bg-[#D7263D] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -209,8 +209,8 @@ export function LupaPasswordForm() {
         disabled={loading}
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(255,91,25,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(255,91,25,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "#FF5722" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(215,38,61,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(215,38,61,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
+        style={{ background: "#D7263D" }}
       >
         {loading ? (
           <>

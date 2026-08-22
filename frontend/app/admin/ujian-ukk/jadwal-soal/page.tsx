@@ -15,16 +15,16 @@ import { downloadUjianUkkSubmisiExcel } from "@/lib/downloadUjianUkkExcel";
 
 const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loading: () => (
   <div className="flex-1 flex items-center justify-center py-20">
-    <Loader2 size={28} className="animate-spin text-[#FF5722]"/>
+    <Loader2 size={28} className="animate-spin text-[#D7263D]"/>
   </div>
 )});
 
-const PRIMARY = "#FF5722";
+const PRIMARY = "#D7263D";
 
 const PALETTE = [
-  { bg: "#FFDACB", text: "#FF5722",  bar: "#FF5722",  gradient: "#FF5722" },
-  { bg: "#EBC4C4", text: "#8B0000",  bar: "#8B0000",  gradient: "#8B0000" },
-  { bg: "#FDEBEA", text: "#D32F2F",  bar: "#D32F2F",  gradient: "#D32F2F" },
+  { bg: "#F8D6DA", text: "#D7263D",  bar: "#D7263D",  gradient: "#D7263D" }, // merah (brand)
+  { bg: "#EBC4C4", text: "#8B0000",  bar: "#8B0000",  gradient: "#8B0000" }, // dark red
+  { bg: "#FFE3D2", text: "#FF5722",  bar: "#FF5722",  gradient: "#FF5722" }, // oren — dulu tomato red, diganti karena kembar dengan brand yg sekarang merah
   { bg: "#ECFCCB", text: "#4D7C0F",  bar: "#4D7C0F",  gradient: "#C3F84A" }, // lime — text/bar dipakaikan varian gelap supaya kontras
   { bg: "#FFFBD1", text: "#BFA300",  bar: "#BFA300",  gradient: "#FFEB3B" },
 ];
@@ -39,10 +39,10 @@ interface Submisi { id: string; fileUrl: string; fileName: string; catatan?: str
 function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }); }
 function statusBadge(s: StatusSubmisi) {
   if (s === "DITERIMA") return { bg: "#ECFCCB", text: "#4D7C0F", icon: <CheckCircle size={10} /> };
-  if (s === "REVISI")   return { bg: "#FFDACB", text: "#FF5722", icon: <AlertCircle size={10} /> };
+  if (s === "REVISI")   return { bg: "#F8D6DA", text: "#D7263D", icon: <AlertCircle size={10} /> };
   return { bg: "#FFFBD1", text: "#BFA300", icon: <Clock size={10} /> };
 }
-function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#8B0000", GURU: "#FF5722", SISWA: "#4D7C0F" }; return m[role] ?? "#64748b"; }
+function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#8B0000", GURU: "#D7263D", SISWA: "#4D7C0F" }; return m[role] ?? "#64748b"; }
 
 function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
   const today = new Date();
@@ -115,8 +115,8 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
               <div
                 className="w-9 h-9 flex items-center justify-center rounded-full text-sm transition-all cursor-default select-none"
                 style={{
-                  background: isUkk ? "#FF5722" : "transparent",
-                  color:      isUkk ? "#fff" : isToday ? "#FF5722" : "inherit",
+                  background: isUkk ? "#D7263D" : "transparent",
+                  color:      isUkk ? "#fff" : isToday ? "#D7263D" : "inherit",
                   fontWeight: isUkk || isToday ? 700 : 400,
                 }}>
                 {d.getDate()}
@@ -126,7 +126,7 @@ function Calendar({ tahapanList }: { tahapanList: Tahapan[] }) {
                   {tasks.map((tk) => (
                     <div key={tk.id}
                       className="whitespace-nowrap text-[10px] font-semibold px-2.5 py-1 rounded-lg shadow-lg text-white"
-                      style={{ background: "#FF5722" }}>
+                      style={{ background: "#D7263D" }}>
                       {tk.judul}
                     </div>
                   ))}
@@ -604,7 +604,7 @@ export default function AdminJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{ background: "#FF5722" }}>
+            style={{ background: "#D7263D" }}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -660,7 +660,7 @@ export default function AdminJadwalSoalPage() {
                   style={{maxHeight:"92vh"}}>
 
                   <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                    style={{background:"#FF5722"}}>
+                    style={{background:"#D7263D"}}>
                     <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                     <div className="absolute -bottom-6 right-24 w-24 h-24 rounded-full bg-white/8 pointer-events-none"/>
                     <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
@@ -710,8 +710,8 @@ export default function AdminJadwalSoalPage() {
                     <SoalPdfViewer soal={curSoal} onClose={()=>setOpenJadwalModal(false)}/>
                   ) : (
                     <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"#FF572222"}}>
-                        <FileText size={30} className="text-[#FF7440]"/>
+                      <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"#D7263D22"}}>
+                        <FileText size={30} className="text-[#E8677A]"/>
                       </div>
                       <div>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada file jadwal</p>
@@ -813,7 +813,7 @@ export default function AdminJadwalSoalPage() {
               <div className="flex flex-col gap-4">
                 <button type="button" onClick={() => { setSoalJadwalIdx(0); setOpenJadwalModal(true); }}
                   className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
-                  style={{ background: "#FF5722", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
+                  style={{ background: "#D7263D", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
                   <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
                   <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-white/20">
                     <CalendarDays size={16} />
@@ -840,17 +840,17 @@ export default function AdminJadwalSoalPage() {
             </div>
 
             <div className="flex flex-col bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
-              <div className="px-5 pt-5 pb-0" style={{background:"rgba(255,87,34,0.05)"}}>
+              <div className="px-5 pt-5 pb-0" style={{background:"rgba(215,38,61,0.05)"}}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"#FF5722"}}>
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"#D7263D"}}>
                       <BookOpen size={14} className="text-white"/>
                     </div>
                     <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
                   </div>
                   <button onClick={() => { setEditTarget(null); setOpenTahapan(true); }}
                     className="flex items-center gap-1.5 text-xs font-semibold px-4 py-2 rounded-xl text-white shadow-sm"
-                    style={{background:"#FF5722"}}>
+                    style={{background:"#D7263D"}}>
                     <Plus size={13} /> Tambah Task
                   </button>
                 </div>
@@ -863,9 +863,9 @@ export default function AdminJadwalSoalPage() {
                 <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
                   <button onClick={() => setTab("active")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active" ? "border-primary" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                    style={tab==="active"?{color:"#FF5722"}:{}}>
+                    style={tab==="active"?{color:"#D7263D"}:{}}>
                     Active Task
-                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5722"}}>{active.length}</span>}
+                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#D7263D"}}>{active.length}</span>}
                   </button>
                   <button onClick={() => setTab("completed")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-[#4D7C0F]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
@@ -973,7 +973,7 @@ export default function AdminJadwalSoalPage() {
                 className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-3xl max-h-[90vh] flex flex-col overflow-hidden">
 
                 <div className="relative p-6 shrink-0"
-                  style={{background:"#FF5722"}}>
+                  style={{background:"#D7263D"}}>
                   <div className="pointer-events-none absolute -right-8 -top-8 w-40 h-40 rounded-full bg-white/10"/>
                   <button onClick={() => setSubmisiModalTahapan(null)}
                     className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/20 hover:bg-white/30 transition-colors">
@@ -1010,7 +1010,7 @@ export default function AdminJadwalSoalPage() {
                   {[
                     { label: "Total",    val: rows.length,   color: "#5E0000" },
                     { label: "Diterima", val: cntDiterima,   color: "#4D7C0F" },
-                    { label: "Revisi",   val: cntRevisi,     color: "#FF5722" },
+                    { label: "Revisi",   val: cntRevisi,     color: "#D7263D" },
                     { label: "Menunggu", val: cntMenunggu,   color: "#8B0000" },
                   ].map((st, i) => (
                     <div key={i} className="p-4 text-center border-r last:border-r-0 border-slate-100 dark:border-slate-700">
@@ -1065,7 +1065,7 @@ export default function AdminJadwalSoalPage() {
                             </button>
                             <button onClick={() => { setRevisiTarget(s); setPesanRevisi(""); }}
                               className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                              style={{background:"#FF5722"}}>
+                              style={{background:"#D7263D"}}>
                               <AlertCircle size={12}/> Revisi
                             </button>
                           </div>
@@ -1077,7 +1077,7 @@ export default function AdminJadwalSoalPage() {
 
                 <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                   <p className="text-[11px] text-slate-400 leading-relaxed">
-                    <span className="font-semibold text-[#FF5722]">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
+                    <span className="font-semibold text-[#D7263D]">Revisi</span> → siswa kirim ulang, dokumen lama tergantikan ·{" "}
                     <span className="font-semibold text-[#4D7C0F] dark:text-[#C3F84A]">Terima</span> → UKK selesai
                   </p>
                   <button onClick={() => setSubmisiModalTahapan(null)}
@@ -1108,7 +1108,7 @@ export default function AdminJadwalSoalPage() {
         }}
         tahapanList={filePool ? [filePool] : []}
         title="Tambah Jadwal"
-        gradient="#FF5722"
+        gradient="#D7263D"
         showTahapan={false}
       />
 
@@ -1137,7 +1137,7 @@ export default function AdminJadwalSoalPage() {
               onClick={(e)=>e.stopPropagation()}>
 
               <div className="relative px-6 py-5 overflow-hidden"
-                style={{background:"#FF5722"}}>
+                style={{background:"#D7263D"}}>
                 <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"/>
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
@@ -1151,9 +1151,9 @@ export default function AdminJadwalSoalPage() {
               </div>
 
               <div className="px-6 py-5 space-y-4">
-                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FFF2EE] dark:bg-[#FF5722]/10 border border-[#FFDACB] dark:border-[#FF5722]/20">
-                  <AlertCircle size={15} className="text-[#FF5722] mt-0.5 shrink-0"/>
-                  <p className="text-xs text-[#C93B12] dark:text-[#FF7440] leading-relaxed">
+                <div className="flex items-start gap-3 px-4 py-3 rounded-xl bg-[#FCF0F1] dark:bg-[#D7263D]/10 border border-[#F8D6DA] dark:border-[#D7263D]/20">
+                  <AlertCircle size={15} className="text-[#D7263D] mt-0.5 shrink-0"/>
+                  <p className="text-xs text-[#9E1B2E] dark:text-[#E8677A] leading-relaxed">
                     Siswa akan menerima notifikasi revisi dan <strong>wajib mengirim ulang</strong> project mereka.
                   </p>
                 </div>
@@ -1166,7 +1166,7 @@ export default function AdminJadwalSoalPage() {
                     onChange={(e)=>setPesanRevisi(e.target.value)}
                     rows={4}
                     placeholder="Tuliskan catatan revisi untuk siswa, misalnya: &quot;Tampilan UI belum responsif, perbaiki layout mobile dan tambahkan validasi form login.&quot;"
-                    className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FF7440] placeholder:text-slate-400"
+                    className="w-full text-sm px-3 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#E8677A] placeholder:text-slate-400"
                     autoFocus
                   />
                   <p className="text-[11px] text-slate-400 mt-1">{pesanRevisi.length} karakter</p>
@@ -1180,7 +1180,7 @@ export default function AdminJadwalSoalPage() {
                 </button>
                 <button onClick={kirimRevisi} disabled={!pesanRevisi.trim()}
                   className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-50 transition-all hover:brightness-110"
-                  style={{background:"#FF5722"}}>
+                  style={{background:"#D7263D"}}>
                   <span className="flex items-center justify-center gap-2">
                     <AlertCircle size={14}/> Kirim Revisi
                   </span>

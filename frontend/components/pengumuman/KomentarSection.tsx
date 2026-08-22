@@ -18,15 +18,15 @@ export type KomentarItem = {
 
 const ROLE_BADGE: Record<string, { label: string; cls: string; dot: string }> = {
   ADMIN: { label: "Admin",  cls: "bg-[#EBC4C4] text-[#5E0000] dark:bg-[#5E0000]/40 dark:text-[#C25858]", dot: "#5E0000" },
-  GURU:  { label: "Guru",   cls: "bg-[#FFDACB] text-[#FF5722] dark:bg-[#FF5722]/30 dark:text-[#FF8F63]",  dot: "#FF5722" },
+  GURU:  { label: "Guru",   cls: "bg-[#F8D6DA] text-[#D7263D] dark:bg-[#D7263D]/30 dark:text-[#E8828C]",  dot: "#D7263D" },
   SISWA: { label: "Siswa",  cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#BFA300]/30 dark:text-[#FFEF6B]", dot: "#BFA300" },
 };
 
 const AVATAR_PALETTE = [
   "#5E0000",
   "#300000",
-  "#FF5722",
-  "#C93B12",
+  "#D7263D",
+  "#9E1B2E",
   "#BFA300",
   "#FFEB3B",
 ];

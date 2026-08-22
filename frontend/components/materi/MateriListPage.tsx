@@ -29,9 +29,9 @@ function formatDate(iso: string): string {
 const ROW_PALETTES = [
   { gradient: "#FFEB3B" },
   { gradient: "#B8B84A" },
-  { gradient: "#FF5722" },
+  { gradient: "#D7263D" },
   { gradient: "#300000" },
-  { gradient: "#FF7440" },
+  { gradient: "#E8677A" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -172,7 +172,7 @@ export function MateriListPage({
         <AnimatePresence>
           {!canCreate && (
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#FFDACB] bg-[#FFF2EE] px-4 py-3 text-sm text-[#C93B12] dark:border-[#74220A]/40 dark:bg-[#74220A]/20 dark:text-[#FF7440]">
+              className="mx-5 mb-4 flex items-center gap-2 rounded-xl border border-[#F8D6DA] bg-[#FCF0F1] px-4 py-3 text-sm text-[#9E1B2E] dark:border-[#5C1420]/40 dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
               <AlertCircle size={14} className="shrink-0" />
               Anda belum terdaftar sebagai pengampu mata pelajaran apa pun, jadi belum bisa menambahkan materi. Hubungi admin bila ini keliru.
             </motion.div>
@@ -264,7 +264,7 @@ export function MateriListPage({
                           {canEdit(m) && (
                             <>
                               <button onClick={() => { setEditItem(m); setModalOpen(true); }} title="Edit"
-                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFF2EE] hover:text-[#FF5722] dark:hover:bg-[#74220A]/20">
+                                className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FCF0F1] hover:text-[#D7263D] dark:hover:bg-[#5C1420]/20">
                                 <Pencil size={14} />
                               </button>
                               <button onClick={() => handleDelete(m)} title="Hapus"

@@ -27,9 +27,9 @@ function formatDate(iso: string): string {
 const ROW_PALETTES = [
   { gradient: "#FFEB3B" },
   { gradient: "#B8B84A" },
-  { gradient: "#FF5722" },
+  { gradient: "#D7263D" },
   { gradient: "#300000" },
-  { gradient: "#FF7440" },
+  { gradient: "#E8677A" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 

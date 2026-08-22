@@ -13,7 +13,7 @@ const INLINE_LIMIT = 5;
 const GRID_COLS = "36px 40px 2fr 1.4fr 80px 1.2fr";
 
 const RANK_STYLE = [
-  { bg: "#FFDACB", clr: "#FF5722" }, // gold -> oren
+  { bg: "#F8D6DA", clr: "#D7263D" }, // gold -> oren
   { bg: "#EBC4C4", clr: "#8B0000" }, // silver -> charcoal
   { bg: "#FAFAED", clr: "#B8B84A" }, // bronze -> platinum gelap
 ];
@@ -38,7 +38,7 @@ function RankBadge({ index }: { index: number }) {
 // amber under 75%, blue otherwise.
 function severityColor(pct: number) {
   if (pct < 50) return "#300000";
-  if (pct < 75) return "#C93B12";
+  if (pct < 75) return "#9E1B2E";
   return "#BFA300";
 }
 
@@ -111,7 +111,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
             ] as { key: PeriodeLaporan; label: string }[]).map((opt) => (
               <button key={opt.key} type="button" onClick={() => setPeriode(opt.key)}
                 className={`rounded-md px-2.5 py-1 text-[11px] font-bold transition-colors ${
-                  periode === opt.key ? "bg-[#FF5722] text-white shadow-sm" : "text-slate-500 dark:text-slate-400"
+                  periode === opt.key ? "bg-[#D7263D] text-white shadow-sm" : "text-slate-500 dark:text-slate-400"
                 }`}>
                 {opt.label}
               </button>
@@ -208,7 +208,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
 
               <div className="flex shrink-0 flex-wrap gap-2 px-5 py-3">
                 <StatPill icon={AlertTriangle} gradient={CARD_GRADIENTS[1]} iconColor="#300000" value={String(totalBermasalah)} label="Bermasalah" />
-                <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#C93B12" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
+                <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#9E1B2E" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
                 <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#BFA300" value={`${rataKehadiran}%`} label="Rata Hadir" />
               </div>
 

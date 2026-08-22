@@ -11,10 +11,10 @@ export function PlaceholderPage({
 }) {
   const badgeStyle =
     badgeVariant === "kelola"
-      ? "bg-[#FF5722]/15 text-[#FF5722]"
+      ? "bg-[#D7263D]/15 text-[#D7263D]"
       : badgeVariant === "lihat"
-        ? "bg-[#FF5722]/10 text-[#FF5722]"
-        : "bg-[#FF5722] text-[#FF5722]";
+        ? "bg-[#D7263D]/10 text-[#D7263D]"
+        : "bg-[#D7263D] text-[#D7263D]";
 
   return (
     <div>

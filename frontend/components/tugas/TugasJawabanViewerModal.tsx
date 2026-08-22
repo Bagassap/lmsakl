@@ -19,7 +19,7 @@ export function TugasJawabanViewerModal({
   onSaveNilai?: (nilai: number) => Promise<void>;
 }) {
   const isPg = tipe === "PILIHAN_GANDA";
-  const warna = isPg ? "#FF5722" : "#BFA300";
+  const warna = isPg ? "#D7263D" : "#BFA300";
   const sorted = [...jawaban].sort((a, b) => (a.soal?.urutan ?? 0) - (b.soal?.urutan ?? 0));
   const benar = sorted.filter((j) => j.soal?.jawabanBenar && j.jawabanPilihan === j.soal.jawabanBenar).length;
   const nilaiAkhir = isPg ? nilaiPilihanGanda({ nilai, jawaban: sorted }) : null;

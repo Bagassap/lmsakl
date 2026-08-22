@@ -4,11 +4,11 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Search, X, Users, BookOpen, Mars, Venus, Filter, Sparkles, School, ChevronDown } from "lucide-react";
 import { kelasShort, type SiswaCardData, type KelasRef } from "./shared";
 
-// #FF5722 = referensi Nasabah's "primary" (dipakai literal di dot-grid pattern
+// #D7263D = referensi Nasabah's "primary" (dipakai literal di dot-grid pattern
 // & JENIS_COLOR.siswa di file referensi), sengaja di-hardcode di sini alih-alih
-// pakai token --color-primary bawaan (#FF5722) karena token itu dipakai luas
+// pakai token --color-primary bawaan (#D7263D) karena token itu dipakai luas
 // di luar Data Siswa (sidebar, topbar, dll) dan tidak boleh ikut berubah.
-const REF_PRIMARY = "#FF5722";
+const REF_PRIMARY = "#D7263D";
 const REF_SUCCESS = "#ffeb3b";
 
 const JURUSAN_PILLS = [
@@ -77,7 +77,7 @@ export function FilterBar({
             <select
               value={selectedKelasId}
               onChange={(e) => onSelectKelas(e.target.value)}
-              className="h-10.5 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm font-semibold text-slate-700 transition-all focus:border-[#FF5722] focus:outline-none focus:ring-2 focus:ring-[#FF5722]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
+              className="h-10.5 w-full appearance-none rounded-lg border border-slate-200 bg-white pl-9 pr-8 text-sm font-semibold text-slate-700 transition-all focus:border-[#D7263D] focus:outline-none focus:ring-2 focus:ring-[#D7263D]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200"
             >
               {kelasList.map((k) => <option key={k.id} value={k.id}>{kelasShort(k.nama)}</option>)}
             </select>
@@ -95,7 +95,7 @@ export function FilterBar({
               value={search}
               onChange={(e) => onSearch(e.target.value)}
               placeholder="Cari nama atau NIS…"
-              className="h-10.5 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-9 text-sm text-slate-700 placeholder:text-slate-400 transition-all focus:border-[#FF5722] focus:outline-none focus:ring-2 focus:ring-[#FF5722]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500"
+              className="h-10.5 w-full rounded-lg border border-slate-200 bg-white pl-10 pr-9 text-sm text-slate-700 placeholder:text-slate-400 transition-all focus:border-[#D7263D] focus:outline-none focus:ring-2 focus:ring-[#D7263D]/12 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-200 dark:placeholder:text-slate-500"
             />
             <AnimatePresence>
               {search && (

@@ -32,7 +32,7 @@ interface DashboardData {
 }
 
 
-const P = "#FF5722";
+const P = "#D7263D";
 const R = "#300000";
 const G = "#FFEB3B";
 
@@ -149,7 +149,7 @@ export default function GuruDashboardPage() {
       label: "Absensi Harian",
       value: data.kehadiran.hadir,
       suffix: " hadir",
-      gradient: "#FF5722",
+      gradient: "#D7263D",
       onLime: false,
       icon: ClipboardCheck,
     },
@@ -167,7 +167,7 @@ export default function GuruDashboardPage() {
       label: "Kelas Wali",
       value: kelasWali.length,
       suffix: " kelas",
-      gradient: "#D32F2F",
+      gradient: "#FF5722",
       onLime: false,
       icon: GraduationCap,
     },
@@ -226,7 +226,7 @@ export default function GuruDashboardPage() {
                 <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: P }} />Hadir
               </span>
               <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#FF5722" }} />Total
+                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#D7263D" }} />Total
               </span>
             </div>
           </div>

@@ -132,9 +132,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
     >
       <motion.div
         variants={item}
-        className="flex items-start gap-2.5 rounded-xl border border-[#FF5722]/15 bg-[#FF5722]/5 px-3.5 py-3"
+        className="flex items-start gap-2.5 rounded-xl border border-[#D7263D]/15 bg-[#D7263D]/5 px-3.5 py-3"
       >
-        <Sparkles size={16} className="mt-0.5 shrink-0 text-[#FF5722]" />
+        <Sparkles size={16} className="mt-0.5 shrink-0 text-[#D7263D]" />
         <p className="text-xs leading-relaxed text-black/65">
           Selamat datang! Untuk keamanan akun Anda, silakan buat password baru.
           Password default Anda adalah NIS Anda.
@@ -155,9 +155,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         <>
           <motion.div
             variants={item}
-            className="flex items-start gap-2.5 rounded-xl border border-[#FF5722]/20 bg-[#FF5722]/5 px-3.5 py-3"
+            className="flex items-start gap-2.5 rounded-xl border border-[#D7263D]/20 bg-[#D7263D]/5 px-3.5 py-3"
           >
-            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#E44715]" />
+            <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#C22540]" />
             <p className="text-xs leading-relaxed text-black/65">
               Untuk keamanan, konfirmasi identitas Anda sebelum membuat password baru —
               ini mencegah orang lain mengganti password akun Anda dengan NIS yang bukan miliknya.
@@ -183,7 +183,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
                 value={identityConfirm}
                 onChange={(e) => setIdentityConfirm(e.target.value)}
                 placeholder={profileCompleted ? undefined : "Ketik persis sesuai data akun Anda"}
-                className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+                className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
               />
             </div>
             <p className="text-[11px] text-black/40">
@@ -230,7 +230,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
               value={values[key]}
               onChange={(e) => set(key, e.target.value)}
               placeholder={placeholder}
-              className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#FF5722] focus:bg-white focus:ring-2 focus:ring-[#FF5722]/15"
+              className="w-full rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 pr-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
             />
             <button
               type="button"
@@ -248,7 +248,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         <motion.p
           initial={{ opacity: 0, y: -4 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-lg border-l-4 border-l-[#FF5722] bg-[#FF5722] px-3 py-2 text-sm font-medium text-white"
+          className="rounded-lg border-l-4 border-l-[#D7263D] bg-[#D7263D] px-3 py-2 text-sm font-medium text-white"
         >
           {error}
         </motion.p>
@@ -260,8 +260,8 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
         disabled={loading}
         whileHover={!loading ? { scale: 1.02 } : undefined}
         whileTap={!loading ? { scale: 0.98 } : undefined}
-        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(255,91,25,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(255,91,25,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
-        style={{ background: "#FF5722" }}
+        className="mt-2 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(215,38,61,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(215,38,61,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-70"
+        style={{ background: "#D7263D" }}
       >
         {loading ? (
           <>

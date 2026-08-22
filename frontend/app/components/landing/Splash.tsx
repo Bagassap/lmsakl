@@ -15,18 +15,18 @@ const STYLES = `
 `;
 
 const PARTICLES: { x: string; y: string; size: number; color: string; delay: number; dur: number }[] = [
-  { x: "11%",  y: "15%", size: 3,   color: "#FF5722", delay: 0,    dur: 6.2 },
+  { x: "11%",  y: "15%", size: 3,   color: "#D7263D", delay: 0,    dur: 6.2 },
   { x: "79%",  y: "10%", size: 2,   color: "#ffffff", delay: 1.3,  dur: 7.6 },
-  { x: "54%",  y: "6%",  size: 3.5, color: "#FF5722", delay: 0.7,  dur: 5.9 },
-  { x: "89%",  y: "43%", size: 2,   color: "#FF5722", delay: 1.9,  dur: 8.1 },
+  { x: "54%",  y: "6%",  size: 3.5, color: "#D7263D", delay: 0.7,  dur: 5.9 },
+  { x: "89%",  y: "43%", size: 2,   color: "#D7263D", delay: 1.9,  dur: 8.1 },
   { x: "23%",  y: "74%", size: 3,   color: "#ffffff", delay: 0.4,  dur: 6.6 },
-  { x: "66%",  y: "82%", size: 2,   color: "#FF5722", delay: 2.2,  dur: 7.1 },
-  { x: "93%",  y: "68%", size: 2.5, color: "#FF5722", delay: 1.0,  dur: 5.6 },
+  { x: "66%",  y: "82%", size: 2,   color: "#D7263D", delay: 2.2,  dur: 7.1 },
+  { x: "93%",  y: "68%", size: 2.5, color: "#D7263D", delay: 1.0,  dur: 5.6 },
   { x: "7%",   y: "52%", size: 2,   color: "#ffffff", delay: 1.6,  dur: 8.6 },
-  { x: "37%",  y: "90%", size: 3,   color: "#FF5722", delay: 2.5,  dur: 6.3 },
-  { x: "73%",  y: "33%", size: 2,   color: "#FF5722", delay: 0.8,  dur: 7.3 },
+  { x: "37%",  y: "90%", size: 3,   color: "#D7263D", delay: 2.5,  dur: 6.3 },
+  { x: "73%",  y: "33%", size: 2,   color: "#D7263D", delay: 0.8,  dur: 7.3 },
   { x: "46%",  y: "60%", size: 1.5, color: "#ffffff", delay: 3.0,  dur: 9.0 },
-  { x: "18%",  y: "38%", size: 2,   color: "#FF5722", delay: 1.1,  dur: 6.8 },
+  { x: "18%",  y: "38%", size: 2,   color: "#D7263D", delay: 1.1,  dur: 6.8 },
 ];
 
 const container: Variants = {
@@ -58,7 +58,7 @@ const fadeUp: Variants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 };
 
-const DOT_COLORS = ["#FF5722", "#FF5722", "#ffffff"] as const;
+const DOT_COLORS = ["#D7263D", "#D7263D", "#ffffff"] as const;
 
 export function Splash() {
   const router = useRouter();
@@ -76,9 +76,9 @@ export function Splash() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 70% 5%, rgba(255,91,25,0.45), transparent 50%)," +
+            "radial-gradient(ellipse at 70% 5%, rgba(215,38,61,0.45), transparent 50%)," +
             "radial-gradient(ellipse at 5% 95%, rgba(185,28,28,0.55), transparent 50%)," +
-            "#FF5722",
+            "#D7263D",
           backgroundSize: "200% 200%",
           animation: "gradientShift 9s ease-in-out infinite",
         }}
@@ -86,7 +86,7 @@ export function Splash() {
 
       <motion.div
         className="pointer-events-none absolute left-[4%] top-[4%] h-100 w-100 rounded-full blur-[110px]"
-        style={{ background: "rgba(255,91,25,0.25)" }}
+        style={{ background: "rgba(215,38,61,0.25)" }}
         animate={{ x: [0, 48, -12, 0], y: [0, 28, -16, 0] }}
         transition={{ duration: 28, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -104,7 +104,7 @@ export function Splash() {
       />
       <motion.div
         className="pointer-events-none absolute right-[14%] top-[22%] h-65 w-65 rounded-full blur-[85px]"
-        style={{ background: "rgba(255,91,25,0.16)" }}
+        style={{ background: "rgba(215,38,61,0.16)" }}
         animate={{ x: [0, -22, 10, 0], y: [0, 32, -10, 0] }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
       />
@@ -180,7 +180,7 @@ export function Splash() {
               width: 200,
               height: 200,
               background:
-                "radial-gradient(circle, rgba(255,91,25,0.55), rgba(220,38,38,0.25) 55%, transparent 80%)",
+                "radial-gradient(circle, rgba(215,38,61,0.55), rgba(220,38,38,0.25) 55%, transparent 80%)",
               filter: "blur(40px)",
             }}
             animate={{ scale: [1, 1.22, 1], opacity: [0.5, 0.9, 0.5] }}
@@ -192,13 +192,13 @@ export function Splash() {
               width: 136,
               height: 136,
               background:
-                "radial-gradient(circle, rgba(255,91,25,0.45), rgba(220,38,38,0.18) 60%, transparent 80%)",
+                "radial-gradient(circle, rgba(215,38,61,0.45), rgba(220,38,38,0.18) 60%, transparent 80%)",
               filter: "blur(18px)",
             }}
             animate={{ scale: [1, 1.1, 1], opacity: [0.6, 1, 0.6] }}
             transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
           />
-          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#FF8F63]/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(255,91,25,0.5)] sm:h-32 sm:w-32">
+          <div className="relative flex h-28 w-28 items-center justify-center rounded-full border-2 border-[#E8828C]/50 bg-white/95 p-3 shadow-[0_0_40px_rgba(215,38,61,0.5)] sm:h-32 sm:w-32">
             <Image
               src="/AKL.png"
               alt="Logo AKL"
@@ -240,7 +240,7 @@ export function Splash() {
           >
             <span
               className="h-1.25 w-1.25 shrink-0 rounded-full"
-              style={{ background: "#FF5722", boxShadow: "0 0 6px #FF5722" }}
+              style={{ background: "#D7263D", boxShadow: "0 0 6px #D7263D" }}
             />
             SMK Ma&apos;arif NU 01 Limpung
           </span>

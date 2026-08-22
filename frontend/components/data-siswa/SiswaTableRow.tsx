@@ -13,7 +13,7 @@ const TD = "whitespace-nowrap px-4 py-3";
 const TEXT = "text-sm font-medium text-slate-800 dark:text-white";
 
 // Warna persis dari referensi Nasabah - lihat catatan yang sama di FilterBar.tsx.
-const REF_PRIMARY = "#FF5722";
+const REF_PRIMARY = "#D7263D";
 const REF_SUCCESS = "#ffeb3b";
 const REF_DANGER = "#5e0000";
 
@@ -127,7 +127,7 @@ export function SiswaTableRow({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.92 }}
               onClick={() => onImpersonate(siswa)}
-              className="flex items-center gap-1 rounded-lg bg-[#FF5722] px-2.5 py-1.5 text-xs font-bold text-white shadow-sm transition-colors hover:brightness-95"
+              className="flex items-center gap-1 rounded-lg bg-[#D7263D] px-2.5 py-1.5 text-xs font-bold text-white shadow-sm transition-colors hover:brightness-95"
             >
               <ScanEye size={12} />
               Pantau

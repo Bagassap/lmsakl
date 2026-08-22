@@ -16,7 +16,7 @@ import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal
 import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { KehadiranBarChart } from "@/components/dashboard/KehadiranBarChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
-const P = "#FF5722";   
+const P = "#D7263D";   
 const R = "#300000";   
 const B = "#5E0000";   
 const G = "#FFEB3B";   
@@ -159,7 +159,7 @@ export default function AdminDashboardPage() {
       suffix: " hadir",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "#FF5722",
+      gradient: "#D7263D",
       onLime: false,
       icon: Calendar,
     },
@@ -183,7 +183,7 @@ export default function AdminDashboardPage() {
       suffix: " siswa",
       validThru: "2024/2025",
       holder: "Admin AKL",
-      gradient: "#D32F2F",
+      gradient: "#FF5722",
       onLime: false,
       icon: Briefcase,
     },
@@ -248,7 +248,7 @@ export default function AdminDashboardPage() {
                 <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: P }} />Hadir
               </span>
               <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
-                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#FF5722" }} />Total
+                <span className="inline-block h-2 w-2 rounded-full" style={{ backgroundColor: "#D7263D" }} />Total
               </span>
             </div>
           </div>

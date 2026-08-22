@@ -19,9 +19,9 @@ type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 const KATEGORI_GRADIENT: Record<string, string> = {
   Umum:     "#300000",
   Akademik: "#BFA300",
-  Magang:   "#FF5722",
+  Magang:   "#D7263D",
   Ujian:    "#B8B84A",
-  Lainnya:  "#FF7440",
+  Lainnya:  "#E8677A",
 };
 
 const MONTH_ID = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
@@ -150,7 +150,7 @@ function AccordionCard({
   onPin: () => void;
 }) {
   const gradient = p.isPinned
-    ? "#FF5722"
+    ? "#D7263D"
     : (KATEGORI_GRADIENT[p.kategori] ?? KATEGORI_GRADIENT.Lainnya);
 
   function timeAgo(iso: string): string {
@@ -279,8 +279,8 @@ function AccordionCard({
                       <button onClick={onPin} title={p.isPinned ? "Lepas sematkan" : "Sematkan"}
                         className={`flex h-7 w-7 items-center justify-center rounded-lg transition-all ${
                           p.isPinned
-                            ? "bg-[#FFF2EE] text-[#FF5722] dark:bg-[#74220A]/20"
-                            : "text-slate-400 hover:bg-[#FFF2EE] hover:text-[#FF5722] dark:hover:bg-[#74220A]/20"
+                            ? "bg-[#FCF0F1] text-[#D7263D] dark:bg-[#5C1420]/20"
+                            : "text-slate-400 hover:bg-[#FCF0F1] hover:text-[#D7263D] dark:hover:bg-[#5C1420]/20"
                         }`}><Pin size={13} /></button>
                       <button onClick={onEdit} title="Edit"
                         className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFFEF0] hover:text-[#FFEB3B] dark:hover:bg-[#735F00]/20">
@@ -465,7 +465,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
     <div className="space-y-5">
 
       <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: "#FF5722" }}>
+        style={{ background: "#D7263D" }}>
         <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
         <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
         <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>

@@ -31,13 +31,13 @@ export function LengkapiFotoProfilCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_0_0_1px_rgba(255,91,25,0.12),0_4px_16px_rgba(255,91,25,0.08),0_20px_56px_rgba(255,91,25,0.14),0_40px_100px_rgba(255,91,25,0.10)]"
+      className="relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_0_0_1px_rgba(215,38,61,0.12),0_4px_16px_rgba(215,38,61,0.08),0_20px_56px_rgba(215,38,61,0.14),0_40px_100px_rgba(215,38,61,0.10)]"
     >
       {/* ── Header band: lockup horizontal, bukan panel sisi ────────── */}
       <div
         className="relative overflow-hidden px-6 py-5 sm:px-8 sm:py-6"
         style={{
-          backgroundColor: "#FF5722",
+          backgroundColor: "#D7263D",
         }}
       >
         <div
@@ -51,7 +51,7 @@ export function LengkapiFotoProfilCard() {
 
         <div className="relative z-10 flex items-center gap-3.5">
           <motion.div variants={logoVariants} className="relative shrink-0">
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/95 p-1.5 shadow-[0_0_20px_rgba(255,91,25,0.55)] sm:h-14 sm:w-14">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/40 bg-white/95 p-1.5 shadow-[0_0_20px_rgba(215,38,61,0.55)] sm:h-14 sm:w-14">
               <Image
                 src="/AKL.png"
                 alt="Logo AKL"
@@ -64,7 +64,7 @@ export function LengkapiFotoProfilCard() {
           </motion.div>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-[#FFDACB]/70">
+            <p className="text-[9.5px] font-semibold uppercase tracking-[0.2em] text-[#F8D6DA]/70">
               Satu Langkah Terakhir
             </p>
             <h1 className="mt-0.5 truncate text-lg font-bold text-white sm:text-xl">

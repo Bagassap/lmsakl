@@ -9,7 +9,7 @@ import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Calculator; cls: string }> = {
   PRAKTIK: { icon: Calculator, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
-  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#FFDACB] text-[#C93B12] dark:bg-[#74220A]/40 dark:text-[#FF7440]" },
+  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/40 dark:text-[#E8677A]" },
   ESSAY: { icon: PenLine, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
 };
 
@@ -17,7 +17,7 @@ const ROW_PALETTES = [
   { bar: "#FFEB3B", gradient: "#FFEB3B" },
   { bar: "#FFEB3B", gradient: "#FFEB3B" },
   { bar: "#300000", gradient: "#300000" },
-  { bar: "#FF5722", gradient: "#FF5722" },
+  { bar: "#D7263D", gradient: "#D7263D" },
   { bar: "#BFA300", gradient: "#BFA300" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }

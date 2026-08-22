@@ -9,7 +9,7 @@ import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Calculator; cls: string }> = {
   PRAKTIK: { icon: Calculator, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
-  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#FFDACB] text-[#C93B12] dark:bg-[#74220A]/40 dark:text-[#FF7440]" },
+  PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/40 dark:text-[#E8677A]" },
   ESSAY: { icon: PenLine, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
 };
 
@@ -17,7 +17,7 @@ const ROW_PALETTES = [
   { bar: "#FFEB3B", gradient: "#FFEB3B" },
   { bar: "#FFEB3B", gradient: "#FFEB3B" },
   { bar: "#300000", gradient: "#300000" },
-  { bar: "#FF5722", gradient: "#FF5722" },
+  { bar: "#D7263D", gradient: "#D7263D" },
   { bar: "#BFA300", gradient: "#BFA300" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
@@ -99,7 +99,7 @@ export function TugasListCardSiswa({
                 const btn = isDiterima
                   ? { label: "Diterima", icon: <CheckCircle size={11} />, bg: "#ECFCCB", clr: "#4D7C0F", border: "#C3F84A", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isRevisi
-                  ? { label: "Revisi", icon: <AlertCircle size={11} />, bg: "#FF5722", clr: "#FF5722", border: "#FF5722", onClick: () => onLihatDetail(mySubmisi!, t) }
+                  ? { label: "Revisi", icon: <AlertCircle size={11} />, bg: "#D7263D", clr: "#D7263D", border: "#D7263D", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : isTerkirim
                   ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#FFFBD1", clr: "#BFA300", border: "#BFA300", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : overdue
@@ -134,7 +134,7 @@ export function TugasListCardSiswa({
                     <td className="px-4 py-3 text-right">
                       <div className="flex flex-wrap items-center justify-end gap-1.5">
                         {(t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY") && mySubmisi?.nilai !== null && mySubmisi?.nilai !== undefined && (
-                          <span className="inline-flex items-center rounded-full bg-[#FFF2EE] px-2 py-1 text-[11px] font-bold text-[#E44715] dark:bg-[#74220A]/20 dark:text-[#FF7440]">
+                          <span className="inline-flex items-center rounded-full bg-[#FCF0F1] px-2 py-1 text-[11px] font-bold text-[#C22540] dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
                             Nilai {mySubmisi.nilai}
                           </span>
                         )}

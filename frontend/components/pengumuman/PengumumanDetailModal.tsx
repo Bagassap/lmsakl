@@ -18,13 +18,13 @@ type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 const KATEGORI_GRADIENT: Record<string, string> = {
   Umum:     "#300000",
   Akademik: "#BFA300",
-  Magang:   "#FF5722",
+  Magang:   "#D7263D",
   Ujian:    "#B8B84A",
-  Lainnya:  "#FF7440",
+  Lainnya:  "#E8677A",
 };
 
 const PRIORITAS_BADGE: Record<string, { cls: string; label: string }> = {
-  PENTING:  { cls: "bg-[#FFDACB] text-[#FF5722] dark:bg-[#FF5722]/30 dark:text-[#FF8F63]", label: "Penting"  },
+  PENTING:  { cls: "bg-[#F8D6DA] text-[#D7263D] dark:bg-[#D7263D]/30 dark:text-[#E8828C]", label: "Penting"  },
   MENDESAK: { cls: "bg-[#EBC4C4] text-[#300000] dark:bg-[#5E0000]/40 dark:text-[#C25858]",  label: "Mendesak" },
 };
 
@@ -246,7 +246,7 @@ export default function PengumumanDetailModal({
                         disabled={pinning}
                         whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
                         className={`flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur-sm transition-colors ${
-                          pengumuman.isPinned ? "bg-[#FF7440]/30 hover:bg-[#FF7440]/40" : "bg-white/15 hover:bg-white/25"
+                          pengumuman.isPinned ? "bg-[#E8677A]/30 hover:bg-[#E8677A]/40" : "bg-white/15 hover:bg-white/25"
                         }`}
                       >
                         {pinning ? <Loader2 size={12} className="animate-spin" /> : <Pin size={12} />}

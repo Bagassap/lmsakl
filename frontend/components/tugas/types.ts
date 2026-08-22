@@ -106,7 +106,7 @@ export function isTugasActive(t: { deadline: string }) {
 
 export function statusInfo(s: StatusTugas) {
   if (s === "DITERIMA") return { bg: "#ECFCCB", color: "#4D7C0F", label: "Diterima" };
-  if (s === "REVISI") return { bg: "#FFDACB", color: "#C93B12", label: "Perlu Revisi" };
+  if (s === "REVISI") return { bg: "#F8D6DA", color: "#9E1B2E", label: "Perlu Revisi" };
   return { bg: "#FFFBD1", color: "#BFA300", label: "Menunggu Review" };
 }
 

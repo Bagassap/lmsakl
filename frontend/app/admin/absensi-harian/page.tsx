@@ -259,7 +259,7 @@ export default function AdminAbsensiHarianPage() {
     <>
       <div className="space-y-5 p-1">
         <div className="relative overflow-hidden rounded-2xl p-6"
-          style={{ background: "#FF5722" }}>
+          style={{ background: "#D7263D" }}>
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
           <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

@@ -143,7 +143,7 @@ export function AbsensiHarianTable({
                   <div className="min-w-0">
                     {lokasiParsed ? (
                       <button onClick={openDokumen} title="Lihat lokasi absen"
-                        className="block max-w-full truncate text-left text-[11px] text-[#FF5722] hover:underline">
+                        className="block max-w-full truncate text-left text-[11px] text-[#D7263D] hover:underline">
                         {lokasiParsed.lat.slice(0, 8)}…
                       </button>
                     ) : (

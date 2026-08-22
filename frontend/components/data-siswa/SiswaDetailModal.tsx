@@ -13,7 +13,7 @@ import { ProgressRing } from "./ProgressRing";
 
 const HEADER_GRADIENT = "#300000";
 // Warna persis dari referensi Nasabah - lihat catatan yang sama di FilterBar.tsx.
-const REF_PRIMARY = "#FF5722";
+const REF_PRIMARY = "#D7263D";
 
 function FieldItem({ icon: Icon, label, value, full }: {
   icon: React.ElementType; label: string; value: string | null | undefined; full?: boolean;

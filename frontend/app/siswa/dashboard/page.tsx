@@ -30,7 +30,7 @@ interface DashboardData {
 }
 
 
-const P = "#FF5722";
+const P = "#D7263D";
 const R = "#300000";
 const G = "#FFEB3B";
 
@@ -141,7 +141,7 @@ export default function SiswaDashboardPage() {
       label: "Absensi Harian",
       display: `${absensi.persentase}% hadir`,
       small: false,
-      gradient: "#FF5722",
+      gradient: "#D7263D",
       onLime: false,
       icon: ClipboardCheck,
     },
@@ -159,7 +159,7 @@ export default function SiswaDashboardPage() {
       label: "Pengumuman",
       display: `${data.pengumuman.length} info`,
       small: false,
-      gradient: "#D32F2F",
+      gradient: "#FF5722",
       onLime: false,
       icon: Megaphone,
     },

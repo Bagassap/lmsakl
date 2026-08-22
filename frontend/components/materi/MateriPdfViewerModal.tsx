@@ -54,7 +54,7 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
             className="relative flex h-[92dvh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800">
 
             <div className="relative flex shrink-0 items-center gap-3 overflow-hidden px-6 py-4"
-              style={{ background: "#FF5722" }}>
+              style={{ background: "#D7263D" }}>
               <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15">
                 <BookOpen size={18} className="text-white" />
@@ -71,15 +71,15 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
 
             {!fileUrl ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF2EE]">
-                  <AlertCircle size={28} className="text-[#FF5722]" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FCF0F1]">
+                  <AlertCircle size={28} className="text-[#D7263D]" />
                 </div>
                 <p className="font-bold text-gray-700 dark:text-slate-200">Materi ini belum punya file</p>
               </div>
             ) : !pdf ? (
               <div className="flex flex-1 flex-col items-center justify-center gap-4 p-10 text-center">
-                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF2EE] dark:bg-[#74220A]/20">
-                  <FileText size={28} className="text-[#FF5722]" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FCF0F1] dark:bg-[#5C1420]/20">
+                  <FileText size={28} className="text-[#D7263D]" />
                 </div>
                 <div>
                   <p className="font-bold text-gray-700 dark:text-slate-200">{materi.fileName ?? "File modul"}</p>
@@ -87,7 +87,7 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
                 </div>
                 <a href={fileUrl} target="_blank" rel="noopener noreferrer"
                   className="flex items-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-md"
-                  style={{ background: "#C93B12" }}>
+                  style={{ background: "#9E1B2E" }}>
                   <Download size={14} /> Unduh File
                 </a>
               </div>
@@ -96,8 +96,8 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
                 <div ref={containerRef} className="relative flex-1 overflow-y-auto bg-gray-100 dark:bg-slate-900">
                   {pdfError ? (
                     <div className="flex flex-col items-center justify-center gap-4 p-10 text-center" style={{ minHeight: 340 }}>
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FFF2EE]">
-                        <AlertCircle size={28} className="text-[#FF5722]" />
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#FCF0F1]">
+                        <AlertCircle size={28} className="text-[#D7263D]" />
                       </div>
                       <div>
                         <p className="font-bold text-gray-700 dark:text-slate-200">PDF tidak dapat dimuat</p>
@@ -106,7 +106,7 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
                     </div>
                   ) : !blobUrl ? (
                     <div className="flex items-center justify-center gap-3 py-20">
-                      <Loader2 size={28} className="animate-spin text-[#FF5722]" />
+                      <Loader2 size={28} className="animate-spin text-[#D7263D]" />
                       <span className="text-sm text-gray-500 dark:text-slate-400">Memuat PDF…</span>
                     </div>
                   ) : (
@@ -114,10 +114,10 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
                       <Document file={blobUrl}
                         onLoadSuccess={({ numPages: n }) => { setNumPages(n); setPdfError(false); }}
                         onLoadError={() => setPdfError(true)}
-                        loading={<div className="flex items-center justify-center gap-3 py-20"><Loader2 size={28} className="animate-spin text-[#FF5722]" /></div>}>
+                        loading={<div className="flex items-center justify-center gap-3 py-20"><Loader2 size={28} className="animate-spin text-[#D7263D]" /></div>}>
                         <Page pageNumber={pageNumber} width={pageWidth > 0 ? pageWidth : 640}
                           renderAnnotationLayer={false} renderTextLayer={false}
-                          loading={<div className="flex justify-center py-12"><Loader2 size={22} className="animate-spin text-[#FF5722]" /></div>}
+                          loading={<div className="flex justify-center py-12"><Loader2 size={22} className="animate-spin text-[#D7263D]" /></div>}
                           className="shadow-xl" />
                       </Document>
                     </div>
@@ -140,7 +140,7 @@ export function MateriPdfViewerModal({ materi, onClose }: { materi: MateriItem |
                   <p className="min-w-0 flex-1 truncate text-xs text-slate-400">{materi.fileName}</p>
                   <a href={fileUrl} target="_blank" rel="noopener noreferrer"
                     className="flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold text-white shadow-md shrink-0"
-                    style={{ background: "#C93B12" }}>
+                    style={{ background: "#9E1B2E" }}>
                     <Download size={14} /> Unduh PDF
                   </a>
                 </div>

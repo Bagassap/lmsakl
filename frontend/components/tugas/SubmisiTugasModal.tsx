@@ -89,9 +89,9 @@ export function SubmisiTugasModal({
 
               <div className="grid grid-cols-3 gap-y-3 shrink-0 border-b border-slate-100 py-3 dark:border-slate-700 sm:grid-cols-5 sm:gap-y-0 sm:py-0">
                 {[
-                  { label: "Total", val: rows.length, color: "#FF5722" },
+                  { label: "Total", val: rows.length, color: "#D7263D" },
                   { label: "Diterima", val: cntDiterima, color: "#4D7C0F" },
-                  { label: "Revisi", val: cntRevisi, color: "#FF5722" },
+                  { label: "Revisi", val: cntRevisi, color: "#D7263D" },
                   { label: "Menunggu", val: cntMenunggu, color: "#8B0000" },
                   { label: "Belum Kumpul", val: belumLoading ? "…" : belumList.length, color: "#300000" },
                 ].map((st, i) => (
@@ -165,7 +165,7 @@ export function SubmisiTugasModal({
                         <p className="text-xs text-slate-400 truncate">{formatTglJam(s.submittedAt)}{s.catatan ? ` · ${s.catatan}` : ""}</p>
                       </div>
                       {(tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY") && s.nilai !== null && (
-                        <span className="shrink-0 rounded-full bg-[#FFF2EE] px-2.5 py-1 text-[11px] font-bold text-[#E44715] dark:bg-[#74220A]/20 dark:text-[#FF7440]">
+                        <span className="shrink-0 rounded-full bg-[#FCF0F1] px-2.5 py-1 text-[11px] font-bold text-[#C22540] dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
                           Nilai {s.nilai}
                         </span>
                       )}
@@ -199,7 +199,7 @@ export function SubmisiTugasModal({
                           </button>
                           <button onClick={() => onRevisi(s)}
                             className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl text-white shadow-sm transition-transform hover:scale-105"
-                            style={{ background: "#FF5722" }}>
+                            style={{ background: "#D7263D" }}>
                             <AlertCircle size={12} /> Revisi
                           </button>
                         </div>
@@ -211,7 +211,7 @@ export function SubmisiTugasModal({
 
               <div className="px-6 py-4 shrink-0 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-4 bg-slate-50 dark:bg-slate-800/60">
                 <p className="text-[11px] text-slate-400 leading-relaxed">
-                  <span className="font-semibold text-[#FF5722]">Revisi</span> → siswa kirim ulang ·{" "}
+                  <span className="font-semibold text-[#D7263D]">Revisi</span> → siswa kirim ulang ·{" "}
                   <span className="font-semibold text-[#4D7C0F] dark:text-[#C3F84A]">Terima</span> → tugas selesai
                 </p>
                 <button onClick={onClose}

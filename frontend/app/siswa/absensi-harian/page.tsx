@@ -418,7 +418,7 @@ export default function SiswaAbsensiHarianPage() {
                       className="flex flex-col items-center rounded-2xl border border-slate-100 bg-white px-6 py-12 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
                       <div className={`flex h-16 w-16 items-center justify-center rounded-full ${window_ === "HADIR" ? "" : "bg-[#F7E8E8] dark:bg-[#300000]/20"}`}
                         style={window_ === "HADIR" ? { background: "#FFFBD1" } : undefined}>
-                        {window_ === "HADIR" ? <Clock size={26} style={{ color: "#FF5722" }} /> : <AlertCircle size={26} className="text-[#8B0000]" />}
+                        {window_ === "HADIR" ? <Clock size={26} style={{ color: "#D7263D" }} /> : <AlertCircle size={26} className="text-[#8B0000]" />}
                       </div>
                       <h2 className="mt-4 text-lg font-extrabold text-slate-800 dark:text-white">
                         {window_ === "HADIR" ? "Belum Waktunya" : "Waktu Sudah Berakhir"}

@@ -29,12 +29,12 @@ export function LupaPasswordCard() {
       initial="hidden"
       animate="visible"
       variants={cardVariants}
-      className="relative z-10 flex w-full max-w-235 flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(255,91,25,0.18),0_4px_16px_rgba(255,91,25,0.08),0_20px_56px_rgba(255,91,25,0.12),0_40px_100px_rgba(255,91,25,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
+      className="relative z-10 flex w-full max-w-235 flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(215,38,61,0.18),0_4px_16px_rgba(215,38,61,0.08),0_20px_56px_rgba(215,38,61,0.12),0_40px_100px_rgba(215,38,61,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
     >
       <div
         className="relative overflow-hidden rounded-3xl px-6 py-5 sm:w-[320px] sm:shrink-0 sm:px-10 sm:py-12"
         style={{
-          backgroundColor: "#FF5722",
+          backgroundColor: "#D7263D",
         }}
       >
         <div
@@ -45,8 +45,8 @@ export function LupaPasswordCard() {
           }}
         />
 
-        <div className="pointer-events-none absolute -left-16 -top-16 hidden h-48 w-48 rounded-full bg-[#FF5722]/50 blur-3xl sm:block" />
-        <div className="pointer-events-none absolute -bottom-20 -right-16 hidden h-56 w-56 rounded-full bg-[#FF5722]/30 blur-3xl sm:block" />
+        <div className="pointer-events-none absolute -left-16 -top-16 hidden h-48 w-48 rounded-full bg-[#D7263D]/50 blur-3xl sm:block" />
+        <div className="pointer-events-none absolute -bottom-20 -right-16 hidden h-56 w-56 rounded-full bg-[#D7263D]/30 blur-3xl sm:block" />
 
         <div className="relative z-10 flex flex-row items-center gap-3 sm:flex-col sm:gap-0 sm:text-center">
           <motion.div
@@ -54,7 +54,7 @@ export function LupaPasswordCard() {
             className="relative flex shrink-0 items-center justify-center"
           >
             <motion.div
-              className="absolute h-24 w-24 rounded-full bg-[#FF5722]/35 blur-2xl sm:h-48 sm:w-48"
+              className="absolute h-24 w-24 rounded-full bg-[#D7263D]/35 blur-2xl sm:h-48 sm:w-48"
               animate={{ scale: [1, 1.15, 1], opacity: [0.45, 0.85, 0.45] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             />
@@ -62,7 +62,7 @@ export function LupaPasswordCard() {
               className="absolute hidden h-32 w-32 rounded-full blur-xl sm:block"
               style={{
                 background:
-                  "radial-gradient(circle, rgba(255,91,25,0.45), rgba(255,91,25,0.2) 60%, transparent 80%)",
+                  "radial-gradient(circle, rgba(215,38,61,0.45), rgba(215,38,61,0.2) 60%, transparent 80%)",
               }}
             />
             <Image
@@ -74,7 +74,7 @@ export function LupaPasswordCard() {
               className="relative h-12 w-auto sm:h-27.5"
               style={{
                 filter:
-                  "drop-shadow(0 0 22px rgba(255,91,25,0.7))",
+                  "drop-shadow(0 0 22px rgba(215,38,61,0.7))",
               }}
             />
           </motion.div>
@@ -99,7 +99,7 @@ export function LupaPasswordCard() {
               className="mx-auto mt-4 hidden h-px w-16 sm:block"
               style={{
                 background:
-                  "linear-gradient(90deg, transparent, rgba(255,91,25,0.9), rgba(255,91,25,0.7), transparent)",
+                  "linear-gradient(90deg, transparent, rgba(215,38,61,0.9), rgba(215,38,61,0.7), transparent)",
               }}
             />
 
@@ -111,7 +111,7 @@ export function LupaPasswordCard() {
 
             <div className="mt-5 hidden sm:flex sm:justify-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-white/18 bg-white/[0.07] px-3.5 py-1.5 text-[9.5px] font-medium uppercase tracking-[0.12em] text-white/75">
-                <span className="h-1 w-1 shrink-0 rounded-full bg-[#FF5722]/70" />
+                <span className="h-1 w-1 shrink-0 rounded-full bg-[#D7263D]/70" />
                 SMK Ma&apos;arif NU 01 Limpung
               </span>
             </div>

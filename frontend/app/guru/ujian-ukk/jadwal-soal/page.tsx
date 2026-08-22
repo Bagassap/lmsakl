@@ -15,7 +15,7 @@ const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), {
   ssr: false,
   loading: () => (
     <div className="flex-1 flex items-center justify-center py-20">
-      <Loader2 size={28} className="animate-spin text-[#FF5722]" />
+      <Loader2 size={28} className="animate-spin text-[#D7263D]" />
     </div>
   ),
 });
@@ -30,7 +30,7 @@ const ROW_PALETTES = [
   { bg:"#FFFBD1", text:"#BFA300",  bar:"#BFA300",  gradient:"#BFA300" },
   { bg:"#FAFAED", text:"#B8B84A",  bar:"#B8B84A",  gradient:"#B8B84A" },
   { bg:"#EBC4C4", text:"#5E0000",  bar:"#5E0000",  gradient:"#300000" },
-  { bg:"#FFDACB", text:"#FF5722",  bar:"#FF5722",  gradient:"#FF5722" },
+  { bg:"#F8D6DA", text:"#D7263D",  bar:"#D7263D",  gradient:"#D7263D" },
   { bg:"#ECEBE8", text:"#8B0000",  bar:"#8B0000",  gradient:"#5E0000" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
@@ -104,7 +104,7 @@ export default function GuruJadwalSoalPage() {
         <div className="flex-1 min-w-0 space-y-6">
 
           <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{background:"#FF5722"}}>
+            style={{background:"#D7263D"}}>
             <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
             <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
             <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
@@ -156,7 +156,7 @@ export default function GuruJadwalSoalPage() {
                     className="w-full max-w-3xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl flex flex-col overflow-hidden"
                     style={{maxHeight:"92vh"}}>
                     <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                      style={{background:"#FF5722"}}>
+                      style={{background:"#D7263D"}}>
                       <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
                       <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0">
                         <CalendarDays size={22} className="text-white"/>
@@ -189,7 +189,7 @@ export default function GuruJadwalSoalPage() {
                       <SoalPdfViewer soal={curSoal} onClose={()=>setOpenJadwalModal(false)}/>
                     ) : (
                       <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                        <FileText size={30} className="text-[#FF8F63]"/>
+                        <FileText size={30} className="text-[#E8828C]"/>
                         <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada file jadwal</p>
                       </div>
                     )}
@@ -262,7 +262,7 @@ export default function GuruJadwalSoalPage() {
               <div className="flex flex-col gap-4">
                 <button type="button" onClick={()=>{ setSoalJadwalIdx(0); setOpenJadwalModal(true); }}
                   className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
-                  style={{ background: "#FF5722", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
+                  style={{ background: "#D7263D", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
                   <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
                   <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-white/20">
                     <CalendarDays size={16} />
@@ -289,10 +289,10 @@ export default function GuruJadwalSoalPage() {
             </div>
 
             <div className="flex flex-col bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
-              <div className="px-5 pt-5 pb-0" style={{background:"rgba(255,87,34,0.05)"}}>
+              <div className="px-5 pt-5 pb-0" style={{background:"rgba(215,38,61,0.05)"}}>
                 <div className="flex items-center justify-between mb-4">
                   <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"#FF5722"}}>
+                    <div className="w-8 h-8 rounded-xl flex items-center justify-center" style={{background:"#D7263D"}}>
                       <BookOpen size={14} className="text-white"/>
                     </div>
                     <p className="text-base font-bold text-slate-800 dark:text-slate-100">My Task</p>
@@ -313,9 +313,9 @@ export default function GuruJadwalSoalPage() {
                   </button>
                   <button onClick={()=>setTab("active")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="active" ? "border-primary" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-                    style={tab==="active"?{color:"#FF5722"}:{}}>
+                    style={tab==="active"?{color:"#D7263D"}:{}}>
                     Aktif
-                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#FF5722"}}>{active.length}</span>}
+                    {tab==="active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-full text-white font-bold" style={{backgroundColor:"#D7263D"}}>{active.length}</span>}
                   </button>
                   <button onClick={()=>setTab("completed")}
                     className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab==="completed" ? "border-[#4D7C0F]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
@@ -402,7 +402,7 @@ export default function GuruJadwalSoalPage() {
                                       {submisiTahapan.map(s => {
                                         const statusCfg: Record<string,{label:string;color:string;bg:string}> = {
                                           DITERIMA:{ label:"Diterima", color:"#4D7C0F", bg:"#ECFCCB" },
-                                          REVISI:  { label:"Revisi",   color:"#FF5722", bg:"#FFDACB" },
+                                          REVISI:  { label:"Revisi",   color:"#D7263D", bg:"#F8D6DA" },
                                           TERKIRIM:{ label:"Menunggu", color:"#5E0000", bg:"#EBC4C4" },
                                         };
                                         const cfg = statusCfg[s.status];
