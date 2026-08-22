@@ -165,7 +165,7 @@ export function Sidebar({
         <div
           className={[
             "relative flex h-full w-full flex-col overflow-hidden rounded-r-2xl border-r border-slate-100 bg-white shadow-xl shadow-black/5 dark:border-slate-700 dark:bg-slate-800 dark:shadow-black/30",
-            collapsed ? "px-2 py-4" : "p-4",
+            collapsed ? "px-2 pb-4 pt-6" : "px-4 pb-4 pt-6",
           ].join(" ")}
         >
           <button
@@ -178,7 +178,7 @@ export function Sidebar({
           </button>
 
           <div className="relative z-10 flex h-full flex-col gap-4">
-            <div className={collapsed ? "flex flex-col items-center gap-2" : "flex items-center justify-between gap-2 px-1"}>
+            <div className={[collapsed ? "flex flex-col items-center gap-2" : "flex items-center justify-between gap-2 px-1", "mb-3"].join(" ")}>
               <span
                 className={[
                   "flex shrink-0 items-center justify-center rounded-xl bg-primary shadow-sm shadow-primary/25",
