@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   Users, GraduationCap, School, Calendar,
   Bell, AlertCircle, RefreshCw, ChevronRight,
-  Megaphone, Activity, Clock, BookOpen,
+  Megaphone, Activity, Clock,
   Briefcase, FileText,
 } from "lucide-react";
 import GreetingHero from "@/components/dashboard/GreetingHero";
@@ -208,12 +208,57 @@ export default function AdminDashboardPage() {
         <GreetingHero nama={user.nama} role={user.role} />
       </motion.div>
 
+      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        {CARDS.map((card, i) => (
+          <motion.div key={card.href}
+            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -4, scale: 1.01 }}
+            transition={{ duration: 0.35, delay: 0.05 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <Link href={card.href}
+              className={`relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 ${card.onLime ? "text-black" : "text-white"}`}
+              style={{ background: card.gradient, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
+            >
+              <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/10"}`} />
+              <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/8"}`} />
+
+              <div className="relative flex items-start justify-between">
+                <div>
+                  <p className={`text-[10px] font-medium uppercase tracking-widest ${card.onLime ? "text-black/70" : "text-white/70"}`}>Akses Cepat</p>
+                  <p className="mt-0.5 text-sm font-bold">{card.label}</p>
+                </div>
+                <div className={`flex h-9 w-9 items-center justify-center rounded-full ${card.onLime ? "bg-black/10" : "bg-white/20"}`}>
+                  <card.icon size={17} />
+                </div>
+              </div>
+
+              <div className="relative">
+                <p className="text-3xl font-bold tabular-nums">
+                  {card.prefix}{card.value}{card.suffix}
+                </p>
+              </div>
+
+              <div className="relative flex items-end justify-between">
+                <div>
+                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>TA</p>
+                  <p className="text-[11px] font-semibold">{card.validThru}</p>
+                </div>
+                <div className="text-right">
+                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Pengelola</p>
+                  <p className="text-[11px] font-semibold">{card.holder}</p>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-        <StatsCard icon={Users}         label="Total Siswa"  value={data.totalSiswa}           sub="Siswa aktif terdaftar" index={0} delay={0.05} />
-        <StatsCard icon={GraduationCap} label="Total Guru"   value={data.totalGuru}            sub="Termasuk wali kelas" index={1} delay={0.10} />
-        <StatsCard icon={School}        label="Total Kelas"  value={data.totalKelas}           sub="X, XI, XII AKL" index={2} delay={0.15} />
-        <StatsCard icon={Calendar}      label="% Hadir Hari Ini" value={data.kehadiran.persen} suffix="%" sub="Dari total siswa" index={3} delay={0.20} />
-        <StatsCard icon={Activity}      label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa tercatat hadir" index={0} delay={0.25} />
+        <StatsCard icon={Users}         label="Total Siswa"  value={data.totalSiswa}           sub="Siswa aktif terdaftar" index={0} delay={0.25} />
+        <StatsCard icon={GraduationCap} label="Total Guru"   value={data.totalGuru}            sub="Termasuk wali kelas" index={1} delay={0.30} />
+        <StatsCard icon={School}        label="Total Kelas"  value={data.totalKelas}           sub="X, XI, XII AKL" index={2} delay={0.35} />
+        <StatsCard icon={Calendar}      label="% Hadir Hari Ini" value={data.kehadiran.persen} suffix="%" sub="Dari total siswa" index={3} delay={0.40} />
+        <StatsCard icon={Activity}      label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa tercatat hadir" index={0} delay={0.45} />
       </div>
 
       <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
@@ -262,52 +307,20 @@ export default function AdminDashboardPage() {
         </motion.div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {CARDS.map((card, i) => (
-          <motion.div key={card.href}
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -4, scale: 1.01 }}
-            transition={{ duration: 0.35, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Link href={card.href}
-              className={`relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 ${card.onLime ? "text-black" : "text-white"}`}
-              style={{ background: card.gradient, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
-            >
-              <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/10"}`} />
-              <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/8"}`} />
-
-              <div className="relative flex items-start justify-between">
-                <div>
-                  <p className={`text-[10px] font-medium uppercase tracking-widest ${card.onLime ? "text-black/70" : "text-white/70"}`}>Akses Cepat</p>
-                  <p className="mt-0.5 text-sm font-bold">{card.label}</p>
-                </div>
-                <div className={`flex h-9 w-9 items-center justify-center rounded-full ${card.onLime ? "bg-black/10" : "bg-white/20"}`}>
-                  <card.icon size={17} />
-                </div>
-              </div>
-
-              <div className="relative">
-                <p className="text-3xl font-bold tabular-nums">
-                  {card.prefix}{card.value}{card.suffix}
-                </p>
-              </div>
-
-              <div className="relative flex items-end justify-between">
-                <div>
-                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>TA</p>
-                  <p className="text-[11px] font-semibold">{card.validThru}</p>
-                </div>
-                <div className="text-right">
-                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Pengelola</p>
-                  <p className="text-[11px] font-semibold">{card.holder}</p>
-                </div>
-              </div>
-            </Link>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="grid grid-cols-12 gap-4 md:gap-5">
+      <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
+        <motion.div
+          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, delay: 0.5 }}
+          className="rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] lg:col-span-2"
+        >
+          <h2 className="mb-1 text-base font-bold text-slate-800 dark:text-white">Kehadiran Per Kelas</h2>
+          <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Hadir vs tidak hadir per kelas</p>
+          {kelasData.length === 0 ? (
+            <p className="py-14 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada data absensi</p>
+          ) : (
+            <KehadiranBarChart data={kelasData.map((k) => ({ kelas: k.kelas, hadir: k.hadir, tidakHadir: k.tidakHadir }))} />
+          )}
+        </motion.div>
 
         <SectionCard title="Pengumuman Terbaru" icon={Megaphone} iconColor={R}
           action={
@@ -319,7 +332,7 @@ export default function AdminDashboardPage() {
               <ViewAll href="/admin/pengumuman" />
             </div>
           }
-          delay={0.55} className="col-span-12" bodyClass="px-0 py-0">
+          delay={0.55} className="" bodyClass="px-0 py-0">
           {data.pengumuman.length === 0 ? (
             <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada pengumuman</p>
           ) : (
@@ -329,7 +342,7 @@ export default function AdminDashboardPage() {
                   initial={{ opacity: 0 }} animate={{ opacity: 1 }}
                   transition={{ delay: 0.6 + i * 0.05 }}
                   onClick={() => setSelectedSlug(p.slug)}
-                  className="group flex cursor-pointer items-center gap-3 px-6 py-3.5 transition-all hover:bg-slate-50 dark:hover:bg-slate-700/30">
+                  className="group flex cursor-pointer items-center gap-3 px-5 py-3.5 transition-all hover:bg-slate-50 dark:hover:bg-slate-700/30">
                   <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
                     style={{ background: kColor(p.kategori) + "18" }}>
                     <Bell size={14} style={{ color: kColor(p.kategori) }} />
@@ -349,66 +362,6 @@ export default function AdminDashboardPage() {
                 </motion.li>
               ))}
             </ul>
-          )}
-        </SectionCard>
-      </div>
-
-      <div className="grid grid-cols-1 items-start gap-4 md:gap-5 lg:grid-cols-3">
-        <motion.div
-          initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.6 }}
-          className="rounded-3xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] lg:col-span-2"
-        >
-          <h2 className="mb-1 text-base font-bold text-slate-800 dark:text-white">Kehadiran Per Kelas</h2>
-          <p className="mb-3 text-xs text-slate-500 dark:text-slate-400">Hadir vs tidak hadir per kelas</p>
-          {kelasData.length === 0 ? (
-            <p className="py-14 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada data absensi</p>
-          ) : (
-            <KehadiranBarChart data={kelasData.map((k) => ({ kelas: k.kelas, hadir: k.hadir, tidakHadir: k.tidakHadir }))} />
-          )}
-        </motion.div>
-
-        <SectionCard title="Detail Per Kelas" icon={BookOpen} iconColor={B}
-          action={
-            <div className="flex items-center gap-2">
-              <span className="rounded-full px-2 py-0.5 text-[10px] font-bold"
-                style={{ background: B + "18", color: B }}>{kelasData.length} kelas</span>
-              <ViewAll href="/admin/magang/absensi" />
-            </div>
-          }
-          delay={0.65} className="">
-          {kelasData.length === 0 ? (
-            <p className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada data</p>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-slate-100 text-[11px] font-semibold uppercase text-slate-400 dark:border-slate-700/40 dark:text-slate-500">
-                    <th className="py-3 pl-7.5 text-left">Kelas</th>
-                    <th className="py-3 text-center">Hadir</th>
-                    <th className="py-3 text-center" style={{ color: G }}>%</th>
-                    <th className="py-3 pr-7.5 text-center" style={{ color: R }}>Tidak</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {kelasData.map((row, i) => (
-                    <motion.tr key={row.kelas}
-                      initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                      transition={{ delay: 0.7 + i * 0.04 }}
-                      className="border-b border-slate-100 last:border-0 dark:border-slate-700/40">
-                      <td className="py-3 pl-7.5 font-semibold text-slate-800 dark:text-white">{row.kelas}</td>
-                      <td className="py-3 text-center text-slate-600 dark:text-slate-300">{row.hadir}</td>
-                      <td className="py-3 text-center">
-                        <span className="font-bold" style={{ color: row.persentase >= 75 ? G : R }}>
-                          {row.persentase}%
-                        </span>
-                      </td>
-                      <td className="py-3 pr-7.5 text-center font-medium" style={{ color: R }}>{row.tidakHadir}</td>
-                    </motion.tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
           )}
         </SectionCard>
       </div>
