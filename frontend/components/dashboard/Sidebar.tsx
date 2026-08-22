@@ -374,12 +374,12 @@ export function Sidebar({
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-sm font-semibold text-slate-800 dark:text-white">{user.nama}</p>
                       <div className="mt-1 flex flex-wrap items-center gap-1">
-                        <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
+                        <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">
                           <ShieldCheck size={10} />
                           {ROLE_LABEL[user.role]}
                         </span>
                         {isSuperAdmin && (
-                          <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-slate-600 dark:text-slate-300">
+                          <span className="inline-flex items-center gap-1 whitespace-nowrap rounded-lg bg-slate-200 px-2 py-0.5 text-[10px] font-bold text-slate-600 dark:bg-slate-600 dark:text-slate-300">
                             Superadmin
                           </span>
                         )}

@@ -106,7 +106,7 @@ export function FilterBarPassword({
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <span className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-[10px] font-semibold ${wali.mustChangePassword ? "bg-[#8B0000] text-white" : "bg-[#FFEB3B] text-white"}`}>
+            <span className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold ${wali.mustChangePassword ? "bg-[#8B0000] text-white" : "bg-[#FFEB3B] text-white"}`}>
               {wali.mustChangePassword ? "Belum Ganti" : "Sudah Ganti"}
             </span>
             <button onClick={onResetWali}
@@ -127,7 +127,7 @@ export function FilterBarPassword({
               type="button"
               whileTap={{ scale: 0.95 }}
               onClick={() => onStatusFilter(opt.value)}
-              className="relative rounded-full px-3.5 py-1.5 text-xs font-semibold"
+              className="relative rounded-lg px-3.5 py-1.5 text-xs font-semibold"
             >
               {active && (
                 <motion.span

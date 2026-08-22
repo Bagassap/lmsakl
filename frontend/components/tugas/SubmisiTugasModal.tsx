@@ -75,10 +75,10 @@ export function SubmisiTugasModal({
                   </div>
                 </div>
                 <div className="flex flex-wrap gap-2">
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-semibold text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/20 text-xs font-semibold text-white">
                     {tugas.mapel}
                   </span>
-                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 text-xs font-semibold text-white">
+                  <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/20 text-xs font-semibold text-white">
                     Kelas: {tugas.kelas?.nama ?? "Semua Kelas"}
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/20 text-xs font-semibold text-white">
@@ -139,7 +139,7 @@ export function SubmisiTugasModal({
                           <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{nama}</p>
                           {s.kelas && <p className="text-xs text-slate-400">{s.kelas.nama}</p>}
                         </div>
-                        <span className="shrink-0 rounded-full bg-[#F7E8E8] px-2.5 py-1 text-[11px] font-bold text-[#8B0000] dark:bg-[#300000]/20">
+                        <span className="shrink-0 rounded-lg bg-[#F7E8E8] px-2.5 py-1 text-[11px] font-bold text-[#8B0000] dark:bg-[#300000]/20">
                           Belum Kumpul
                         </span>
                       </div>
@@ -165,11 +165,11 @@ export function SubmisiTugasModal({
                         <p className="text-xs text-slate-400 truncate">{formatTglJam(s.submittedAt)}{s.catatan ? ` · ${s.catatan}` : ""}</p>
                       </div>
                       {(tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY") && s.nilai !== null && (
-                        <span className="shrink-0 rounded-full bg-[#FCF0F1] px-2.5 py-1 text-[11px] font-bold text-[#C22540] dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
+                        <span className="shrink-0 rounded-lg bg-[#FCF0F1] px-2.5 py-1 text-[11px] font-bold text-[#C22540] dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
                           Nilai {s.nilai}
                         </span>
                       )}
-                      <span className="text-[11px] font-bold px-2.5 py-1 rounded-full shrink-0" style={{ backgroundColor: sc.bg, color: sc.color }}>
+                      <span className="text-[11px] font-bold px-2.5 py-1 rounded-lg shrink-0" style={{ backgroundColor: sc.bg, color: sc.color }}>
                         {isDone ? "✓ Diterima" : s.status === "REVISI" ? "⚠ Perlu Revisi" : "⏳ Menunggu Review"}
                       </span>
                       {isPraktik ? (

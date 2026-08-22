@@ -114,7 +114,7 @@ export function AbsensiHarianTable({
                   <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{s.nama}</p>
                   <p className="truncate text-sm font-semibold text-slate-600 dark:text-slate-300">{s.nis ?? "—"}</p>
                   {isPulangView ? (
-                    <span className="inline-flex w-fit items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-bold"
+                    <span className="inline-flex w-fit items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold"
                       style={{ backgroundColor: PULANG_CFG.bg, color: PULANG_CFG.clr }}>
                       <PULANG_CFG.icon size={10} /> Pulang
                     </span>
@@ -169,7 +169,7 @@ export function AbsensiHarianTable({
                   <div className="flex justify-end">
                     {hasDok ? (
                       <button onClick={openDokumen}
-                        className="group flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
+                        className="group flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
                         style={{ background: "#5E0000" }}>
                         <Eye size={11} /> Lihat
                       </button>

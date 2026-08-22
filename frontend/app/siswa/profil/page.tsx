@@ -370,7 +370,7 @@ export default function SiswaProfilPage() {
             <div className="min-w-0">
               <div className="mb-1 flex items-center gap-2">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Profil Saya</span>
-                <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Siswa</span>
+                <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Siswa</span>
               </div>
               <h1 className="text-2xl font-extrabold leading-tight text-white">Profil Saya</h1>
               <p className="mt-0.5 text-sm text-white/70">Informasi data diri kamu</p>
@@ -386,7 +386,7 @@ export default function SiswaProfilPage() {
             { label: `Angkatan ${profil.angkatan}`, bg: "bg-white/10" },
             { label: profil.jenisKelamin ?? "—", bg: isP ? "bg-[#A62E2E]/30" : "bg-[#FFE94B]/20" },
           ].map(({ label, bg }, i) => (
-            <span key={i} className={`rounded-full px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm ${bg}`}>
+            <span key={i} className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm ${bg}`}>
               {label}
             </span>
           ))}
@@ -403,7 +403,7 @@ export default function SiswaProfilPage() {
           <div className="relative h-24" style={{ background: kelasGrad }}>
             <div className="pointer-events-none absolute inset-0 opacity-30"
               style={{ backgroundImage: "radial-gradient(circle at 80% 20%, rgba(255,255,255,0.3) 0%, transparent 60%)" }} />
-            <span className="absolute right-3 top-3 rounded-full bg-white/20 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+            <span className="absolute right-3 top-3 rounded-lg bg-white/20 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
               {kelasShort(profil.kelas.nama)}
             </span>
           </div>
@@ -431,7 +431,7 @@ export default function SiswaProfilPage() {
             </div>
 
             <h2 className="text-center text-lg font-extrabold text-slate-800 dark:text-white">{nama}</h2>
-            <div className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-[#E6C700]/10 px-3.5 py-1.5 dark:bg-[#FFE94B]/15">
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[#E6C700]/10 px-3.5 py-1.5 dark:bg-[#FFE94B]/15">
               <IdCard size={14} className="text-[#E6C700] dark:text-[#FFEF6B]" />
               <span className="font-mono text-sm font-extrabold tracking-wide text-[#E6C700] dark:text-[#FFEF6B]">
                 NIS {profil.nis}
@@ -445,7 +445,7 @@ export default function SiswaProfilPage() {
             )}
 
             {profil.jenisKelamin && (
-              <span className={`mt-3 rounded-full px-3.5 py-1.5 text-[11px] font-bold ${
+              <span className={`mt-3 rounded-lg px-3.5 py-1.5 text-[11px] font-bold ${
                 isP
                   ? "bg-[#F7E8E8] text-[#750000] dark:bg-[#300000]/20 dark:text-[#A62E2E]"
                   : "bg-[#FFFEF0] text-[#E6C700] dark:bg-[#735F00]/20 dark:text-[#FFE94B]"

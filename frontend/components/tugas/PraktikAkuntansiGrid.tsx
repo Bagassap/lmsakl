@@ -250,7 +250,7 @@ export function PraktikAkuntansiGrid({
           <span className="text-slate-400">Total Kredit <strong className="text-slate-700 dark:text-slate-200">{formatRupiah(totalKredit)}</strong></span>
         </div>
         {rows.length > 0 && (
-          <span className={`flex items-center gap-1.5 rounded-full px-3 py-1 text-[11px] font-bold ${balanced ? "text-black" : "text-white"}`}
+          <span className={`flex items-center gap-1.5 rounded-lg px-3 py-1 text-[11px] font-bold ${balanced ? "text-black" : "text-white"}`}
             style={{ background: balanced ? "#C3F84A" : "#D32F2F" }}>
             {balanced ? <CheckCircle size={12} /> : <AlertCircle size={12} />}
             {balanced ? "Balance" : "Belum Balance"}

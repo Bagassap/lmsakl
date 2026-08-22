@@ -83,15 +83,15 @@ function DonutRingkasan({ rekap, hadirPct, total, pulangCount, belumAbsen, kelas
       </div>
 
       <div className="flex flex-wrap items-center justify-center gap-2 border-t border-slate-100 pt-3 text-[11px] dark:border-slate-700">
-        <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+        <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
           <Users size={12} className="text-[#FFEB3B]" />
           Total {total} siswa
         </span>
-        <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+        <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
           <LogOut size={12} className="text-[#FFEB3B]" />
           Sudah pulang {pulangCount} siswa
         </span>
-        <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+        <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
           <UserX size={12} className="text-[#FFEB3B]" />
           Belum absen {belumAbsen} siswa
         </span>
@@ -217,7 +217,7 @@ export default function GuruAbsensiHarianPage() {
               <div>
                 <div className="mb-1 flex items-center gap-2">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi Wajib Harian</span>
-                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Wali Kelas</span>
+                  <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Wali Kelas</span>
                 </div>
                 <h1 className="text-2xl font-extrabold leading-tight text-white">Absensi Harian</h1>
                 <p className="mt-0.5 text-sm text-white/70">Catat kehadiran siswa di kelas yang Anda wali-i</p>
@@ -254,7 +254,7 @@ export default function GuruAbsensiHarianPage() {
                         <span className={`flex h-9 w-9 items-center justify-center rounded-full ${onLime ? "bg-black/15" : "bg-white/25"}`}>
                           <BookOpen size={16} />
                         </span>
-                        <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${onLime ? "bg-black/10" : "bg-white/20"}`}>
+                        <span className={`rounded-lg px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${onLime ? "bg-black/10" : "bg-white/20"}`}>
                           Kelas Wali
                         </span>
                       </div>
@@ -276,9 +276,9 @@ export default function GuruAbsensiHarianPage() {
                           </div>
 
                           <div className="relative flex flex-wrap items-center gap-1.5">
-                            <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Izin {rekap.IZIN}</span>
-                            <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Sakit {rekap.SAKIT}</span>
-                            <span className={`rounded-full px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Alpa {rekap.ALPA}</span>
+                            <span className={`rounded-lg px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Izin {rekap.IZIN}</span>
+                            <span className={`rounded-lg px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Sakit {rekap.SAKIT}</span>
+                            <span className={`rounded-lg px-2 py-0.5 text-[9px] font-bold ${onLime ? "bg-black/10" : "bg-white/20"}`}>Alpa {rekap.ALPA}</span>
                           </div>
                         </>
                       ) : (
@@ -358,15 +358,15 @@ export default function GuruAbsensiHarianPage() {
             </div>
 
             <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-slate-100 pt-4 text-[11px] dark:border-slate-700">
-              <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+              <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
                 <Users size={12} className="text-[#8B0000]" />
                 Total {total} siswa
               </span>
-              <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+              <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
                 <TrendingUp size={12} className="text-[#8B0000]" />
                 Kehadiran {hadirPct}%
               </span>
-              <span className="flex items-center gap-1.5 rounded-full bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
+              <span className="flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 font-semibold text-slate-500 dark:bg-slate-700 dark:text-slate-300">
                 <LogOut size={12} className="text-[#8B0000]" />
                 Sudah pulang {pulangCount} siswa
               </span>

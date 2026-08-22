@@ -252,7 +252,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
                               <p className="truncate text-sm font-semibold text-slate-700 dark:text-slate-200">{r.nama}</p>
                             </div>
                             <p className="truncate text-[11px] text-slate-400">{r.kelasNama} · {r.nis ?? "—"}</p>
-                            <span className="mx-auto rounded-full bg-[#EBC4C4] px-2.5 py-1 text-[11px] font-extrabold text-[#300000] dark:bg-[#5E0000]/40">
+                            <span className="mx-auto rounded-lg bg-[#EBC4C4] px-2.5 py-1 text-[11px] font-extrabold text-[#300000] dark:bg-[#5E0000]/40">
                               {r.summary.ALPA}x
                             </span>
                             <div className="flex items-center gap-2">

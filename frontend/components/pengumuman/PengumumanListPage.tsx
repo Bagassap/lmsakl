@@ -193,17 +193,17 @@ function AccordionCard({
           </div>
 
           <div className="relative mt-2.5 flex flex-wrap items-center gap-1.5">
-            <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-semibold text-white">
+            <span className="rounded-lg bg-white/20 px-2.5 py-0.5 text-[10px] font-semibold text-white">
               {p.kategori}
             </span>
             {p.isPinned && (
-              <span className="rounded-full bg-white/25 px-2 py-0.5 text-[9px] font-bold text-white">Disematkan</span>
+              <span className="rounded-lg bg-white/25 px-2 py-0.5 text-[9px] font-bold text-white">Disematkan</span>
             )}
             {p.prioritas === "PENTING" && (
-              <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">Penting</span>
+              <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[10px] font-semibold text-white">Penting</span>
             )}
             {p.prioritas === "MENDESAK" && (
-              <span className="animate-pulse rounded-full bg-[#8B0000]/30 px-2 py-0.5 text-[10px] font-bold text-white">Mendesak</span>
+              <span className="animate-pulse rounded-lg bg-[#8B0000]/30 px-2 py-0.5 text-[10px] font-bold text-white">Mendesak</span>
             )}
           </div>
         </div>
@@ -311,7 +311,7 @@ function AccordionCard({
                   Ruang Diskusi
                 </span>
                 {detail && (
-                  <span className="rounded-full bg-[#5E0000]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#5E0000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">
+                  <span className="rounded-lg bg-[#5E0000]/10 px-2.5 py-0.5 text-[10px] font-bold text-[#5E0000] dark:bg-[#300000]/30 dark:text-[#A62E2E]">
                     {detail.komentar.reduce((s, k) => s + 1 + (k.replies?.length ?? 0), 0)} pesan
                   </span>
                 )}
@@ -477,7 +477,7 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Papan Informasi</span>
-                {canManage && <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-white/20 text-white/90">Admin</span>}
+                {canManage && <span className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-white/20 text-white/90">Admin</span>}
               </div>
               <h1 className="text-2xl font-extrabold text-white leading-tight">Pengumuman</h1>
               <p className="text-sm text-white/70 mt-0.5">Kelola dan pantau semua pengumuman sekolah</p>

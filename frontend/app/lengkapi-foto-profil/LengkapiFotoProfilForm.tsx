@@ -179,7 +179,7 @@ export function LengkapiFotoProfilForm() {
         disabled={!imageSrc || !croppedAreaPixels || loading}
         whileHover={imageSrc ? { scale: 1.02 } : undefined}
         whileTap={imageSrc ? { scale: 0.98 } : undefined}
-        className="mt-1 flex min-h-12 w-full items-center justify-center gap-2 rounded-full px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(215,38,61,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(215,38,61,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-1 flex min-h-12 w-full items-center justify-center gap-2 rounded-lg px-4 py-3.5 text-sm font-semibold text-white shadow-[0_10px_30px_-8px_rgba(215,38,61,0.55)] transition-all hover:shadow-[0_14px_40px_-8px_rgba(215,38,61,0.70)] hover:brightness-90 disabled:cursor-not-allowed disabled:opacity-50"
         style={{ background: "#D7263D" }}
       >
         {loading ? (

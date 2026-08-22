@@ -91,13 +91,13 @@ export function SiswaPasswordTable({
                           <span className="text-xs text-slate-300 dark:text-slate-600">Belum ada akun</span>
                         ) : mustChange ? (
                           <div className="flex flex-col gap-0.5">
-                            <span className="inline-flex w-fit items-center gap-1 rounded-full bg-[#8B0000] px-2.5 py-1 text-[11px] font-semibold text-white">
+                            <span className="inline-flex w-fit items-center gap-1 rounded-lg bg-[#8B0000] px-2.5 py-1 text-[11px] font-semibold text-white">
                               <XCircle size={11} /> Belum Ganti
                             </span>
                             <span className="text-[10px] text-slate-400 dark:text-slate-500">{belumGantiLabel(s.user!.updatedAt)}</span>
                           </div>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full bg-[#FFFBD1] px-2.5 py-1 text-xs font-medium text-[#BFA300] dark:bg-[#735F00]/30 dark:text-[#FFE94B]">
+                          <span className="inline-flex items-center gap-1 rounded-lg bg-[#FFFBD1] px-2.5 py-1 text-xs font-medium text-[#BFA300] dark:bg-[#735F00]/30 dark:text-[#FFE94B]">
                             <CheckCircle2 size={12} /> Sudah Ganti
                           </span>
                         )}

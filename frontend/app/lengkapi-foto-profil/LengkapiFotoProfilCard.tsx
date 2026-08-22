@@ -72,7 +72,7 @@ export function LengkapiFotoProfilCard() {
             </h1>
           </div>
 
-          <span className="hidden shrink-0 items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-white/85 sm:inline-flex">
+          <span className="hidden shrink-0 items-center gap-1.5 rounded-lg border border-white/25 bg-white/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[0.1em] text-white/85 sm:inline-flex">
             <Camera size={11} />
             Wajib
           </span>

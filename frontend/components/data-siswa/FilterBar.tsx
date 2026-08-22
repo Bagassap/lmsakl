@@ -154,7 +154,7 @@ export function FilterBar({
                 type="button"
                 whileTap={{ scale: 0.95 }}
                 onClick={() => onFilterGender(opt.value)}
-                className="relative rounded-full px-3.5 py-1.5 text-xs font-semibold"
+                className="relative rounded-lg px-3.5 py-1.5 text-xs font-semibold"
               >
                 {active && (
                   <motion.span
@@ -209,19 +209,19 @@ export function FilterBar({
             Filter aktif:
           </span>
           {search && (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${REF_PRIMARY}1a`, color: REF_PRIMARY }}>
+            <span className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${REF_PRIMARY}1a`, color: REF_PRIMARY }}>
               <Search size={12} /> &ldquo;{search}&rdquo;
               <button type="button" onClick={() => onSearch("")}><X size={12} /></button>
             </span>
           )}
           {filterJurusan && (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${REF_PRIMARY}1a`, color: REF_PRIMARY }}>
+            <span className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${REF_PRIMARY}1a`, color: REF_PRIMARY }}>
               <BookOpen size={12} /> {JURUSAN_PILLS.find((j) => j.value === filterJurusan)?.label ?? filterJurusan}
               <button type="button" onClick={() => onFilterJurusan("")}><X size={12} /></button>
             </span>
           )}
           {filterGender && (
-            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${REF_SUCCESS}1a`, color: REF_SUCCESS }}>
+            <span className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1 text-xs font-medium" style={{ backgroundColor: `${REF_SUCCESS}1a`, color: REF_SUCCESS }}>
               {filterGender === "Laki-laki" ? <Mars size={12} /> : <Venus size={12} />} {filterGender}
               <button type="button" onClick={() => onFilterGender("")}><X size={12} /></button>
             </span>

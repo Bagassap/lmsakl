@@ -286,7 +286,7 @@ export default function SiswaAbsensiHarianPage() {
             </div>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-center">
-            <span className="flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
+            <span className="flex items-center gap-1.5 rounded-lg bg-white/15 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
               <Clock size={11} /> {winInfo.label} · {winInfo.range}
             </span>
             <LiveClock />
@@ -294,16 +294,16 @@ export default function SiswaAbsensiHarianPage() {
         </div>
 
         <div className="relative mt-5 flex flex-wrap gap-2">
-          <span className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm"
+          <span className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm"
             style={{ background: data?.sudahAbsen ? "rgba(16,185,129,0.35)" : "rgba(255,255,255,0.12)" }}>
             <LogIn size={11} /> Datang {data?.sudahAbsen ? `· ${data.record?.waktuAbsen ?? ""}` : "· belum"}
           </span>
-          <span className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm"
+          <span className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm"
             style={{ background: data?.sudahPulang ? "rgba(59,124,232,0.35)" : "rgba(255,255,255,0.12)" }}>
             <LogOut size={11} /> Pulang {data?.sudahPulang ? `· ${data.record?.waktuPulang ?? ""}` : "· belum"}
           </span>
           {data?.status && data.status !== "HADIR" && (
-            <span className="flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm"
+            <span className="flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm"
               style={{ background: "rgba(255,255,255,0.18)" }}>
               Keterangan: {cfg.label}
             </span>
