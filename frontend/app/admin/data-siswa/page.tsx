@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { Users, User, School } from "lucide-react";
+import { Users, User, School, ArrowUpCircle, ChevronRight } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { ResetPasswordModal } from "@/components/shared/ResetPasswordModal";
 import { DataSiswaHeader } from "@/components/data-siswa/DataSiswaHeader";
+import { KartuPelajarBanner } from "@/components/shared/KartuPelajarBanner";
 import { FilterBar } from "@/components/data-siswa/FilterBar";
 import { UnduhDataSiswaCard } from "@/components/data-siswa/UnduhDataSiswaCard";
+import { KenaikanKelasModal } from "@/components/data-siswa/KenaikanKelasModal";
 import { SiswaTable } from "@/components/data-siswa/SiswaTable";
 import { EditSiswaModal } from "@/components/data-siswa/EditSiswaModal";
 import { type SiswaCardData, type KelasRef, getNama, toTitleCase, hasGenderData } from "@/components/data-siswa/shared";
@@ -21,11 +23,16 @@ export default function AdminDataSiswaPage() {
   const [filterGender, setFilterGender] = useState("");
   const [editTarget, setEditTarget] = useState<SiswaCardData | null>(null);
   const [resetTarget, setResetTarget] = useState<SiswaCardData | null>(null);
+  const [kenaikanOpen, setKenaikanOpen] = useState(false);
   const toast = useToast();
 
-  useEffect(() => {
-    fetch("/api/kelas").then((r) => r.json()).then((list) => setKelasList(Array.isArray(list) ? list : [])).catch(() => {});
+  const loadKelasList = useCallback(async () => {
+    const res = await fetch("/api/kelas");
+    const list = await res.json().catch(() => []);
+    setKelasList(Array.isArray(list) ? list : []);
   }, []);
+
+  useEffect(() => { loadKelasList(); }, [loadKelasList]);
 
   useEffect(() => {
     if (!selectedKelasId && kelasList.length > 0) setSelectedKelasId(kelasList[0].id);
@@ -90,6 +97,24 @@ export default function AdminDataSiswaPage() {
         ]}
       />
 
+      <div className="grid grid-cols-1 items-stretch gap-3 lg:grid-cols-2">
+        <KartuPelajarBanner />
+
+        <button onClick={() => setKenaikanOpen(true)}
+          className="flex w-full items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-white px-5 py-4 text-left shadow-sm transition-colors hover:border-primary/30 hover:bg-primary-light/20 dark:border-slate-700 dark:bg-slate-800 dark:hover:bg-slate-700/40">
+          <div className="flex items-center gap-3">
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#2962FF] text-white">
+              <ArrowUpCircle size={18} />
+            </span>
+            <div>
+              <p className="text-sm font-bold text-slate-800 dark:text-white">Kenaikan Kelas &amp; Kelulusan</p>
+              <p className="text-[11px] text-slate-400 dark:text-slate-500">Naikkan siswa antar kelas, atau luluskan satu kelas sekaligus (akhir tahun ajaran)</p>
+            </div>
+          </div>
+          <ChevronRight size={16} className="shrink-0 text-slate-300" />
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         <div className="lg:col-span-2">
           <FilterBar
@@ -119,6 +144,13 @@ export default function AdminDataSiswaPage() {
         onEdit={setEditTarget}
         onResetPassword={setResetTarget}
         onImpersonate={handleImpersonate}
+      />
+
+      <KenaikanKelasModal
+        open={kenaikanOpen}
+        onClose={() => setKenaikanOpen(false)}
+        kelasList={kelasList}
+        onDone={() => { loadKelasList(); fetchData(); }}
       />
 
       {editTarget && <EditSiswaModal siswa={editTarget} kelasList={kelasList} onClose={() => setEditTarget(null)} onSave={handleSaved} />}
