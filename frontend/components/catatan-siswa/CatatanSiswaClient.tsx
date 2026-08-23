@@ -305,7 +305,7 @@ export function CatatanSiswaClient({ roleBadge, subtitle }: { roleBadge: string;
               </button>
               <button type="button" onClick={() => handleDownload("excel")} disabled={!selectedKelasId || downloading !== null}
                 className="flex items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-opacity disabled:opacity-50"
-                style={{ background: "#bfa300" }}>
+                style={{ background: "#8B0000" }}>
                 {downloading === "excel" ? <Loader2 size={13} className="animate-spin" /> : <FileSpreadsheet size={13} />}
                 Excel Kelas
               </button>
