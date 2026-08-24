@@ -71,6 +71,16 @@ export const WALLET_GRADIENTS = [
   "#2962FF", // biru (senada dengan brand)
 ];
 export const WALLET_ON_LIME = [false, true, false, false];
+// Turunan warna teks per WALLET_GRADIENTS — dipakai halaman yang butuh nilai
+// warna langsung (bukan flag boolean), mis. absensi PKL.
+export const WALLET_ON_TEXT = WALLET_ON_LIME.map((lime) => (lime ? "#000000" : "#FFFFFF"));
+
+// Warna teks di atas tiap gradient card "Unduh Laporan" — hitam untuk lime,
+// putih untuk lainnya. Sama seperti RANGE_MODE_CARDS[i].onLime, tapi dalam
+// bentuk fungsi supaya bisa dipanggil langsung dari nilai gradient-nya.
+export function reportCardFg(gradient: string): string {
+  return gradient === "#C3F84A" ? "#000000" : "#FFFFFF";
+}
 
 // Subtle repeating wave-line texture drawn straight into each wallet card's
 // gradient background, matching the reference's faint background pattern.
