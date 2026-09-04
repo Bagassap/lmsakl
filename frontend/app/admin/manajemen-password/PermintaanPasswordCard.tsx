@@ -66,7 +66,7 @@ export function PermintaanPasswordCard({
   const pagedRiwayat = riwayat.slice(riwayatPage * RIWAYAT_PAGE_SIZE, (riwayatPage + 1) * RIWAYAT_PAGE_SIZE);
 
   return (
-    <div className="flex h-full flex-col rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <div className="flex flex-1 flex-col p-5">
       <div className="mb-3 flex items-center gap-2.5">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
           <Inbox size={18} />
@@ -78,17 +78,17 @@ export function PermintaanPasswordCard({
       </div>
 
       <div className="grid grid-cols-2 gap-2.5">
-        <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
-          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-            <Clock size={11} className="text-[#D7263D]" /> Pending
+        <div className="rounded-2xl bg-[#8B0000] p-3">
+          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-white/80">
+            <Clock size={11} /> Pending
           </p>
-          <p className="mt-1 text-lg font-bold text-slate-800 dark:text-white">{loading ? "—" : pending.length}</p>
+          <p className="mt-1 text-lg font-bold text-white">{loading ? "—" : pending.length}</p>
         </div>
-        <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
-          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-            <CheckCircle2 size={11} className="text-[#FFEB3B]" /> Selesai Hari Ini
+        <div className="rounded-2xl bg-[#C3F84A] p-3">
+          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-black/70">
+            <CheckCircle2 size={11} /> Selesai Hari Ini
           </p>
-          <p className="mt-1 text-lg font-bold text-slate-800 dark:text-white">{loading ? "—" : selesaiHariIni}</p>
+          <p className="mt-1 text-lg font-bold text-black">{loading ? "—" : selesaiHariIni}</p>
         </div>
       </div>
 
@@ -99,7 +99,7 @@ export function PermintaanPasswordCard({
           </div>
         ) : pending.length === 0 ? (
           <div className="flex flex-col items-center gap-1.5 py-6 text-center">
-            <CheckCircle2 size={20} className="text-[#FFE94B]" />
+            <CheckCircle2 size={20} className="text-[#6B93FF]" />
             <p className="text-xs font-medium text-slate-400 dark:text-slate-500">Tidak ada permintaan pending</p>
           </div>
         ) : (
@@ -110,7 +110,7 @@ export function PermintaanPasswordCard({
                   src={r.user?.fotoProfil}
                   nama={r.namaPengaju}
                   sizePx={30}
-                  fallbackBg={r.user ? (r.user.role === "SISWA" ? "#FFEB3B" : "#5E0000") : "linear-gradient(135deg,#94a3b8,#64748b)"}
+                  fallbackBg={r.user ? (r.user.role === "SISWA" ? "#2962FF" : "#5E0000") : "linear-gradient(135deg,#94a3b8,#64748b)"}
                   textClassName="text-[10px] font-bold"
                 />
                 <div className="min-w-0 flex-1">
@@ -174,7 +174,7 @@ export function PermintaanPasswordCard({
                 <>
                   <div className="flex-1 space-y-2 overflow-y-auto">
                     {pagedRiwayat.map((r) => (
-                      <div key={r.id} className="flex flex-col gap-2 rounded-xl border-l-4 border-[#FFE94B] bg-slate-50 p-3 dark:bg-slate-700/30 sm:flex-row sm:items-center sm:justify-between">
+                      <div key={r.id} className="flex flex-col gap-2 rounded-xl border-l-4 border-[#6B93FF] bg-slate-50 p-3 dark:bg-slate-700/30 sm:flex-row sm:items-center sm:justify-between">
                         <div className="flex min-w-0 items-center gap-3">
                           <Avatar src={r.user?.fotoProfil} nama={r.namaPengaju} sizePx={32} fallbackBg="linear-gradient(135deg,#94a3b8,#64748b)" textClassName="text-xs font-bold" />
                           <div className="min-w-0">

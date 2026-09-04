@@ -25,7 +25,7 @@ type KelasGroup = {
 
 function formatTanggalLahir(tempatLahir: string | null, tanggalLahir: Date | null): string {
   const tgl = tanggalLahir
-    ? tanggalLahir.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })
+    ? tanggalLahir.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', timeZone: 'Asia/Jakarta' })
     : null;
   if (tempatLahir && tgl) return `${tempatLahir}, ${tgl}`;
   return tempatLahir || tgl || '-';

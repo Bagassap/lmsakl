@@ -7,7 +7,6 @@ import {
   FileSignature, MessageSquareText, LogIn, LogOut, Briefcase, AlertCircle,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
-import { LiveClock } from "@/components/shared/LiveClock";
 import { SignaturePad } from "@/components/absensi-harian/SignaturePad";
 import { STATUS_CFG, PULANG_CFG, BRAND_GRADIENT, formatTgl, resolveMediaSrc, todayJakarta } from "@/components/absensi-harian/shared";
 import type { StatusAbsensi } from "@/components/absensi-magang/types";
@@ -197,39 +196,20 @@ export default function SiswaMagangAbsensiPage() {
   return (
     <div className="space-y-5">
 
-      <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-        className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: BRAND_GRADIENT }}>
-        <div className="pointer-events-none absolute -right-10 -top-10 h-60 w-60 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-14 right-28 h-52 w-52 rounded-full bg-white/6" />
-        <div className="pointer-events-none absolute top-3 left-[45%] h-24 w-24 rounded-full bg-white/5" />
-        <div className="pointer-events-none absolute -left-8 -bottom-8 h-36 w-36 rounded-full bg-white/5" />
-
-        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <motion.div
-              initial={{ scale: 0, rotate: -20 }} animate={{ scale: 1, rotate: 0 }}
-              transition={{ type: "spring", damping: 12, stiffness: 300, delay: 0.05 }}
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
-              <ClipboardCheck size={22} className="text-white sm:hidden" />
-              <ClipboardCheck size={26} className="hidden text-white sm:block" />
-            </motion.div>
-            <div className="min-w-0">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
-              <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
-              <p className="mt-0.5 text-sm text-white/70">{formatTgl(today)}</p>
-            </div>
+      <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
+        <div className="relative flex items-center gap-3 sm:gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+            <ClipboardCheck size={22} className="text-white sm:hidden" />
+            <ClipboardCheck size={26} className="hidden text-white sm:block" />
           </div>
-          <div className="flex shrink-0 flex-wrap items-center gap-2 self-start sm:self-center">
-            {data?.tempatMagang && (
-              <span className="flex items-center gap-1.5 rounded-xl bg-white/15 px-3 py-1.5 text-[11px] font-bold text-white backdrop-blur-sm">
-                <Briefcase size={11} /> {data.tempatMagang.namaTempat}
-              </span>
-            )}
-            <LiveClock />
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
+            <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
           </div>
         </div>
-      </motion.div>
+      </div>
 
       {loading ? (
         <div className="flex items-center justify-center rounded-2xl border border-slate-100 bg-white py-20 dark:border-slate-700 dark:bg-slate-800">
@@ -247,6 +227,15 @@ export default function SiswaMagangAbsensiPage() {
         </div>
       ) : (
         <>
+          <div className="mb-3 flex items-center justify-between gap-2">
+            <span className="text-xs text-slate-400 dark:text-slate-500">{formatTgl(today)}</span>
+            {data?.tempatMagang && (
+              <span className="flex items-center gap-1.5 rounded-xl bg-slate-100 px-3 py-1.5 text-[11px] font-bold text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <Briefcase size={11} /> {data.tempatMagang.namaTempat}
+              </span>
+            )}
+          </div>
+
           <div className="grid grid-cols-12 gap-4 md:gap-5">
 
             <div className="col-span-12 xl:col-span-7">
@@ -338,13 +327,19 @@ export default function SiswaMagangAbsensiPage() {
               <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.4, delay: 0.25 }}
                 className="col-span-12 rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-slate-800 xl:col-span-5">
-                <h2 className="flex items-center gap-2 text-base font-bold text-slate-800 dark:text-white">
-                  <Briefcase size={16} className="text-primary" /> Tempat PKL
-                </h2>
-                <p className="mt-2 text-sm font-bold text-slate-700 dark:text-slate-200">{data.tempatMagang.namaTempat}</p>
-                <p className="mt-1 flex items-start gap-1.5 text-xs text-slate-400 dark:text-slate-500">
-                  <MapPin size={12} className="mt-0.5 shrink-0" /> {data.tempatMagang.alamat}
-                </p>
+                <h2 className="text-base font-bold text-slate-800 dark:text-white">Tempat PKL</h2>
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Lokasi penempatan magangmu saat ini</p>
+                <div className="mt-4 flex items-center gap-3 rounded-xl bg-slate-50 p-4 dark:bg-slate-900/40">
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary-light/25 dark:bg-red-900/20">
+                    <Briefcase size={18} className="text-primary" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-bold text-slate-700 dark:text-slate-200">{data.tempatMagang.namaTempat}</p>
+                    <p className="mt-0.5 flex items-start gap-1.5 text-xs text-slate-400 dark:text-slate-500">
+                      <MapPin size={12} className="mt-0.5 shrink-0" /> {data.tempatMagang.alamat}
+                    </p>
+                  </div>
+                </div>
               </motion.div>
             )}
           </div>

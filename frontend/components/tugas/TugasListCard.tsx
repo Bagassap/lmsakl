@@ -8,17 +8,17 @@ import { formatTgl, isTugasActive, tipeLabel } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Calculator; cls: string }> = {
-  PRAKTIK: { icon: Calculator, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
+  PRAKTIK: { icon: Calculator, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
   PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/40 dark:text-[#E8677A]" },
-  ESSAY: { icon: PenLine, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
+  ESSAY: { icon: PenLine, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
 };
 
 const ROW_PALETTES = [
-  { bar: "#FFEB3B", gradient: "#FFEB3B" },
-  { bar: "#FFEB3B", gradient: "#FFEB3B" },
+  { bar: "#2962FF", gradient: "#2962FF" },
+  { bar: "#2962FF", gradient: "#2962FF" },
   { bar: "#300000", gradient: "#300000" },
   { bar: "#D7263D", gradient: "#D7263D" },
-  { bar: "#BFA300", gradient: "#BFA300" },
+  { bar: "#1745B0", gradient: "#1745B0" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -74,16 +74,16 @@ export function TugasListCard({
         </div>
         <div className="flex gap-6 border-b border-slate-100 dark:border-slate-700">
           <button onClick={() => setTab("active")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "active" ? { color: "#FFEB3B" } : {}}>
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#2962FF]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            style={tab === "active" ? { color: "#2962FF" } : {}}>
             Aktif
-            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#FFEB3B" }}>{active.length}</span>}
+            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#2962FF" }}>{active.length}</span>}
           </button>
           <button onClick={() => setTab("completed")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "completed" ? { color: "#FFEB3B" } : {}}>
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#2962FF]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            style={tab === "completed" ? { color: "#2962FF" } : {}}>
             Selesai
-            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#FFEB3B" }}>{completed.length}</span>}
+            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#2962FF" }}>{completed.length}</span>}
           </button>
         </div>
       </div>
@@ -134,7 +134,19 @@ export function TugasListCard({
                         )}
                       </div>
                     </td>
-                    <td className="whitespace-nowrap px-4 py-3 text-xs text-slate-500 dark:text-slate-400">{t.kelas?.nama ?? "Semua Kelas"}</td>
+                    <td className="px-4 py-3 text-xs text-slate-500 dark:text-slate-400">
+                      {t.kelasList.length ? (
+                        <div className="flex flex-wrap gap-1">
+                          {t.kelasList.map((k) => (
+                            <span key={k.id} className="inline-flex items-center rounded-lg bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                              {k.nama}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        "Semua Kelas"
+                      )}
+                    </td>
                     <td className="whitespace-nowrap px-4 py-3 text-xs text-slate-500 dark:text-slate-400">
                       <span className="flex items-center gap-1"><CalendarClock size={11} />{formatTgl(t.deadline)}</span>
                     </td>

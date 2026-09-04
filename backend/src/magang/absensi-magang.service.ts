@@ -291,6 +291,75 @@ export class AbsensiMagangService {
     return this.getRekapTempat(tempatMagangId, tanggal, onlySiswaIds);
   }
 
+  // Kirim notifikasi in-app ke siswa magang yang belum tercatat absen hari
+  // ini — hanya menyasar status null (murni belum absen), bukan yang sudah
+  // ditandai ALPA (itu sudah final, pengingat tidak relevan lagi buat
+  // mereka), sama seperti aturan kirimPengingatAbsen di absensi-harian.
+  // ADMIN tidak perlu memilih tempat — tempatMagangId kosong dari ADMIN
+  // berarti "semua tempat magang sekaligus". GURU wajib mengisi
+  // tempatMagangId dan dibatasi ke siswa bimbingannya (assertTempatAccessible),
+  // sama seperti pola akses baca (getForActor).
+  async kirimPengingatBelumAbsen(
+    tempatMagangId: string | undefined,
+    tanggal: string,
+    actorUserId: string,
+    actorRole: string,
+  ) {
+    const isAdmin = actorRole === 'ADMIN';
+    let message: string;
+    let penempatanList: { id: string; siswa: { userId: string | null } }[];
+
+    if (isAdmin) {
+      penempatanList = await this.prisma.penempatanMagang.findMany({
+        where: { status: 'AKTIF' },
+        select: { id: true, siswa: { select: { userId: true } } },
+      });
+      message = 'Kamu belum tercatat absen magang hari ini. Segera lakukan presensi.';
+    } else {
+      if (!tempatMagangId) throw new BadRequestException('tempatMagangId wajib diisi');
+      const onlySiswaIds = await this.assertTempatAccessible(tempatMagangId, actorUserId, actorRole);
+
+      const tempat = await this.prisma.tempatMagang.findUnique({
+        where: { id: tempatMagangId },
+        select: { namaTempat: true },
+      });
+      if (!tempat) throw new NotFoundException('Tempat magang tidak ditemukan');
+
+      penempatanList = await this.prisma.penempatanMagang.findMany({
+        where: {
+          tempatMagangId,
+          status: 'AKTIF',
+          ...(onlySiswaIds ? { siswaId: { in: onlySiswaIds } } : {}),
+        },
+        select: { id: true, siswa: { select: { userId: true } } },
+      });
+      message = `Kamu belum tercatat absen magang hari ini di ${tempat.namaTempat}. Segera lakukan presensi.`;
+    }
+
+    const existing = penempatanList.length
+      ? await this.prisma.absensiMagang.findMany({
+          where: { penempatanId: { in: penempatanList.map((p) => p.id) }, tanggal },
+          select: { penempatanId: true, status: true },
+        })
+      : [];
+    const statusMap = new Map(existing.map((a) => [a.penempatanId, a.status]));
+    const belumAbsenUserIds = penempatanList
+      .filter((p) => (statusMap.get(p.id) ?? null) === null)
+      .map((p) => p.siswa.userId)
+      .filter((id): id is string => !!id);
+
+    if (belumAbsenUserIds.length === 0) return { count: 0 };
+
+    await this.notificationService.createMany(belumAbsenUserIds, {
+      title: 'Pengingat Absen Magang',
+      message,
+      type: NotificationType.ABSENSI,
+      link: '/magang/absensi',
+    });
+
+    return { count: belumAbsenUserIds.length };
+  }
+
   private resolveRange(
     mode: 'mingguan' | 'bulanan',
     tanggalMulai?: string,

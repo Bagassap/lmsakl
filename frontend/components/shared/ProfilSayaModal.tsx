@@ -87,7 +87,7 @@ export function ProfilSayaModal({ onClose }: { onClose: () => void }) {
                     type="button"
                     onClick={() => setShowChangeFoto(true)}
                     title="Ganti foto profil"
-                    className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#bfa300] text-white shadow-md transition hover:brightness-90"
+                    className="absolute -bottom-1 -right-1 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-[#1745b0] text-white shadow-md transition hover:brightness-90"
                   >
                     <Camera size={11} />
                   </button>
@@ -106,8 +106,8 @@ export function ProfilSayaModal({ onClose }: { onClose: () => void }) {
             <div className="space-y-3 px-6 py-5">
               {me.email && (
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FFFEF0] dark:bg-[#735F00]/20">
-                    <Mail size={15} className="text-[#FFEB3B]" />
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#EEF3FF] dark:bg-[#1745B0]/20">
+                    <Mail size={15} className="text-[#2962FF]" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Email</p>
@@ -128,8 +128,8 @@ export function ProfilSayaModal({ onClose }: { onClose: () => void }) {
               )}
               {me.guru?.nip && (
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#FFFEF0] dark:bg-[#735F00]/20">
-                    <IdCard size={15} className="text-[#FFEB3B]" />
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#EEF3FF] dark:bg-[#1745B0]/20">
+                    <IdCard size={15} className="text-[#2962FF]" />
                   </div>
                   <div className="min-w-0">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">NIP</p>

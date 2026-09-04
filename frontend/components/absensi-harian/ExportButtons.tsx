@@ -163,7 +163,7 @@ export function ExportButtons({ kelasId, kelasNama, range, siswaList }: {
   }
 
   const PDF_STYLE = { backgroundColor: "#EBC4C4", color: "#D7263D", borderColor: "#D7263D30" };
-  const EXCEL_STYLE = { backgroundColor: "#FFFBD1", color: "#0F9D58", borderColor: "#0F9D5830" };
+  const EXCEL_STYLE = { backgroundColor: "#E3ECFF", color: "#0F9D58", borderColor: "#0F9D5830" };
 
   return (
     <>

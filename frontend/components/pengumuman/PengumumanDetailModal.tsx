@@ -17,7 +17,7 @@ type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 
 const KATEGORI_GRADIENT: Record<string, string> = {
   Umum:     "#300000",
-  Akademik: "#BFA300",
+  Akademik: "#1745B0",
   Magang:   "#D7263D",
   Ujian:    "#B8B84A",
   Lainnya:  "#E8677A",
@@ -268,7 +268,7 @@ export default function PengumumanDetailModal({
 
               <div className="border-b border-gray-100 dark:border-slate-700">
                 <div className="flex items-center gap-2 border-b border-gray-100 px-5 py-3 dark:border-slate-700">
-                  <RotateCcw size={12} className="text-[#bfa300]" />
+                  <RotateCcw size={12} className="text-[#1745b0]" />
                   <span className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-slate-400">Isi Pengumuman</span>
                   <span className="ml-auto text-[10px] font-normal text-gray-400 dark:text-slate-500">{formatDate(pengumuman.createdAt)}</span>
                 </div>

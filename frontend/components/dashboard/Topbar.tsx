@@ -13,6 +13,7 @@ import type { UserPayload } from "@/lib/auth";
 import { timeAgo } from "@/components/dashboard/ActivityList";
 import { Avatar } from "@/components/shared/Avatar";
 import { ProfilSayaModal } from "@/components/shared/ProfilSayaModal";
+import { LiveClock } from "@/components/shared/LiveClock";
 
 
 const PAGE_TITLES: Record<string, [string, string]> = {
@@ -104,7 +105,7 @@ const NOTIF_TYPE_STYLE: Record<ApiNotifType, NotifType> = {
 };
 
 const NOTIF_STYLE: Record<NotifType, { bg: string; color: string }> = {
-  info:    { bg: "#FFFBD1", color: "#BFA300" },
+  info:    { bg: "#E3ECFF", color: "#1745B0" },
   success: { bg: "#FAFAED", color: "#B8B84A" },
   warning: { bg: "#F8D6DA", color: "#D7263D" },
   error:   { bg: "#EBC4C4", color: "#300000" },
@@ -196,6 +197,9 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
   const [unreadCount,    setUnreadCount]    = useState(0);
   const notifRef = useRef<HTMLDivElement>(null);
 
+  // Jumlah permintaan reset password yang masih menunggu — hanya relevan untuk Admin.
+  const [pendingResetCount, setPendingResetCount] = useState(0);
+
   // A 401 here means the session cookie is gone or no longer verifiable (expired,
   // or signed under a JWT_SECRET that's since been rotated) — bounce to /login
   // instead of leaving the badge/dropdown silently and permanently empty with
@@ -225,11 +229,28 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
     } finally { setNotifLoading(false); }
   }
 
+  async function fetchPendingResetCount() {
+    try {
+      const res = await fetch("/api/users/password-reset-requests", { cache: "no-store" });
+      if (!res.ok) return;
+      const data = await res.json();
+      const list: { status: string }[] = Array.isArray(data) ? data : [];
+      setPendingResetCount(list.filter((r) => r.status === "PENDING").length);
+    } catch {  }
+  }
+
   useEffect(() => {
     fetchUnreadCount();
     const interval = setInterval(fetchUnreadCount, 30_000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (user.role !== "ADMIN") return;
+    fetchPendingResetCount();
+    const interval = setInterval(fetchPendingResetCount, 30_000);
+    return () => clearInterval(interval);
+  }, [user.role]);
 
   useEffect(() => {
     if (notifOpen) fetchNotifications();
@@ -299,11 +320,13 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
 
         <div className="flex-1" />
 
+        <LiveClock variant="topbar" />
+
         <div className="flex items-center gap-2">
 
           <button
             onClick={() => setSearchOpen(true)}
-            className="hidden items-center gap-2 rounded-lg bg-slate-100 px-4 py-2 text-left transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 md:flex"
+            className="hidden items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-left transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 md:flex"
           >
             <Search size={14} className="shrink-0 text-slate-500 dark:text-slate-400" />
             <span className="w-32 text-sm text-slate-500 dark:text-slate-400">Cari sesuatu...</span>
@@ -343,6 +366,21 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
               <Moon size={13} />
             </button>
           </div>
+
+          {user.role === "ADMIN" && (
+            <button
+              onClick={() => router.push("/admin/manajemen-password")}
+              title="Permintaan reset password"
+              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white"
+            >
+              <Clock size={16} />
+              {pendingResetCount > 0 && (
+                <span className="absolute -right-0.5 -top-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#8B0000] text-[8px] font-bold text-white ring-2 ring-white dark:ring-slate-900">
+                  {pendingResetCount > 9 ? "9+" : pendingResetCount}
+                </span>
+              )}
+            </button>
+          )}
 
           <div className="relative" ref={notifRef}>
             <button
@@ -439,7 +477,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
           <div className="relative" ref={dropdownRef}>
             <button
               onClick={() => setDropdownOpen((v) => !v)}
-              className="flex items-center gap-2 rounded-full bg-slate-100 py-1.5 pl-1.5 pr-3 transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700"
+              className="flex items-center gap-2 rounded-xl bg-slate-100 py-1.5 pl-1.5 pr-3 transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700"
             >
               <Avatar
                 src={user.fotoProfil}

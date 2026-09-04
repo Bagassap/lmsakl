@@ -2,11 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { TrendingDown, ShieldCheck, Medal, AlertTriangle, Flame, Gauge, X, ArrowRight } from "lucide-react";
+import { TrendingDown, ShieldCheck, Medal, AlertTriangle, Flame, Gauge, X, ArrowRight, ClipboardList } from "lucide-react";
 import { Avatar } from "@/components/shared/Avatar";
 import { avatarColorFor } from "@/components/data-siswa/shared";
 import { formatTgl, CARD_GRADIENTS, DASHBOARD_ACCENT, DASHBOARD_PASTEL } from "./shared";
-import type { LaporanSeringTidakHadir as LaporanData, PeriodeLaporan } from "./types";
+import { BelumAbsenPanel } from "./BelumAbsenPanel";
+import type { LaporanSeringTidakHadir as LaporanData, PeriodeLaporan, SiswaAbsensi } from "./types";
 
 const INLINE_LIMIT = 5;
 
@@ -34,12 +35,12 @@ function RankBadge({ index }: { index: number }) {
   );
 }
 
-// Bar color varies with how bad the attendance actually is — red under 50%,
-// amber under 75%, blue otherwise.
+// Bar color varies with how bad the attendance actually is — dark under 50%,
+// red under 75%, blue otherwise.
 function severityColor(pct: number) {
   if (pct < 50) return "#300000";
   if (pct < 75) return "#9E1B2E";
-  return "#BFA300";
+  return "#1745B0";
 }
 
 function StatPill({
@@ -64,7 +65,7 @@ function StatPill({
   );
 }
 
-export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: string; kelasNama?: string }) {
+export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList }: { kelasId: string; kelasNama?: string; siswaList?: SiswaAbsensi[] }) {
   const [periode, setPeriode] = useState<PeriodeLaporan>("mingguan");
   const [data, setData] = useState<LaporanData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -94,6 +95,22 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
   return (
     <>
       <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        {siswaList && (
+          <>
+            <div className="mb-3 flex items-center gap-2.5">
+              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "#8B0000" }}>
+                <ClipboardList size={18} />
+              </span>
+              <div>
+                <p className="text-sm font-bold text-slate-800 dark:text-white">Belum Absen Hari Ini</p>
+                <p className="text-[11px] text-slate-400 dark:text-slate-500">Hadir & pulang{kelasNama ? ` · ${kelasNama}` : ""}</p>
+              </div>
+            </div>
+            <BelumAbsenPanel siswaList={siswaList} compact />
+            <div className="my-4 border-t border-slate-100 dark:border-slate-700" />
+          </>
+        )}
+
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2.5">
             <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "#300000" }}>
@@ -127,7 +144,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
           </div>
         ) : inlineRows.length === 0 ? (
           <div className="mt-4 flex flex-col items-center gap-2 py-6 text-center">
-            <ShieldCheck size={22} className="text-[#FFEB3B]" />
+            <ShieldCheck size={22} className="text-[#2962FF]" />
             <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
               Tidak ada siswa dengan catatan alpa pada periode ini
             </p>
@@ -209,14 +226,14 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama }: { kelasId: strin
               <div className="flex shrink-0 flex-wrap gap-2 px-5 py-3">
                 <StatPill icon={AlertTriangle} gradient={CARD_GRADIENTS[1]} iconColor="#300000" value={String(totalBermasalah)} label="Bermasalah" />
                 <StatPill icon={Flame} gradient={CARD_GRADIENTS[2]} iconColor="#9E1B2E" value={`${alpaTertinggi}x`} label="Alpa Terbanyak" />
-                <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#BFA300" value={`${rataKehadiran}%`} label="Rata Hadir" />
+                <StatPill icon={Gauge} gradient={CARD_GRADIENTS[0]} iconColor="#1745B0" value={`${rataKehadiran}%`} label="Rata Hadir" />
               </div>
 
               {loading ? (
                 <div className="flex-1 py-10 text-center text-xs font-semibold text-slate-400">Memuat data...</div>
               ) : rows.length === 0 ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10 text-center">
-                  <ShieldCheck size={22} className="text-[#FFEB3B]" />
+                  <ShieldCheck size={22} className="text-[#2962FF]" />
                   <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
                     Tidak ada siswa dengan catatan alpa pada periode ini
                   </p>

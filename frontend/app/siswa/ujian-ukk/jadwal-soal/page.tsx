@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import dynamic from "next/dynamic";
 import {
   CalendarDays, FileText, Send, BookOpen, Loader2,
-  ChevronLeft, ChevronRight, X, Upload, Search,
+  ChevronLeft, ChevronRight, X, Search,
   Clock, CheckCircle, AlertCircle, Link2, ExternalLink,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
@@ -33,11 +33,11 @@ function statusInfo(s: "TERKIRIM"|"DITERIMA"|"REVISI") {
 }
 
 const ROW_PALETTES = [
-  { bg:"#FFFBD1", text:"#BFA300",  bar:"#BFA300",  gradient:"#BFA300" },
-  { bg:"#FAFAED", text:"#B8B84A",  bar:"#B8B84A",  gradient:"#B8B84A" },
-  { bg:"#EBC4C4", text:"#5E0000",  bar:"#5E0000",  gradient:"#300000" },
-  { bg:"#F8D6DA", text:"#D7263D",  bar:"#D7263D",  gradient:"#D7263D" },
-  { bg:"#ECEBE8", text:"#8B0000",  bar:"#8B0000",  gradient:"#5E0000" },
+  { bg:"#F8D6DA", text:"#D7263D",  bar:"#D7263D",  gradient:"#D7263D" }, // merah (brand)
+  { bg:"#E3ECFF", text:"#2962FF",  bar:"#2962FF",  gradient:"#2962FF" }, // biru
+  { bg:"#FFE3D2", text:"#FF5722",  bar:"#FF5722",  gradient:"#FF5722" }, // oren
+  { bg:"#ECFCCB", text:"#4D7C0F",  bar:"#4D7C0F",  gradient:"#C3F84A" }, // lime
+  { bg:"#E3ECFF", text:"#1745B0",  bar:"#1745B0",  gradient:"#1745B0" }, // biru tua
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -80,31 +80,31 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
             className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
             onClick={e=>e.stopPropagation()}>
             <div className="relative px-6 py-5 overflow-hidden"
-              style={{background:"#FFEB3B"}}>
-              <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-black/5"/>
+              style={{background:"#2962FF"}}>
+              <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10"/>
               <div className="relative flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-black/10 flex items-center justify-center">
-                    <Link2 size={18} className="text-black"/>
+                  <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                    <Link2 size={18} className="text-white"/>
                   </div>
                   <div>
-                    <p className="text-[10px] font-bold text-black/60 uppercase tracking-widest">Kirim Project</p>
-                    <p className="text-base font-extrabold text-black leading-tight line-clamp-1">{soal.judul}</p>
+                    <p className="text-[10px] font-bold text-white/60 uppercase tracking-widest">Kirim Project</p>
+                    <p className="text-base font-extrabold text-white leading-tight line-clamp-1">{soal.judul}</p>
                   </div>
                 </div>
-                <button onClick={onClose} className="w-8 h-8 rounded-xl bg-black/10 flex items-center justify-center text-black hover:bg-black/20">
+                <button onClick={onClose} className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center text-white hover:bg-white/25">
                   <X size={15}/>
                 </button>
               </div>
             </div>
             <form onSubmit={submit} className="p-6 space-y-4">
-              <div className="flex items-start gap-3 bg-[#FFFEF0] dark:bg-[#735F00]/20 rounded-xl p-3.5">
+              <div className="flex items-start gap-3 bg-[#EEF3FF] dark:bg-[#1745B0]/20 rounded-xl p-3.5">
                 <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{background:"#4285F4"}}>
                   <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white"><path d="M6.18 15L3.12 9.72 9.24 0h5.51L8.63 9.72 6.18 15zm5.82 0H7.76l2.45-4.28h7.13L14.89 15h-2.89zM12 7.5l2.89-5h2.89L21 7.5h-5.78L12 7.5zM20.88 15l-2.45-4.28h2.01L24 15h-3.12z"/></svg>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-[#BFA300] dark:text-[#FFEF6B]">Pastikan file sudah dishare</p>
-                  <p className="text-[11px] text-[#8A7400] dark:text-[#FFE94B] mt-0.5">Set sharing Google Drive ke "Anyone with the link can view" sebelum kirim link.</p>
+                  <p className="text-xs font-bold text-[#1745B0] dark:text-[#93B4FF]">Pastikan file sudah dishare</p>
+                  <p className="text-[11px] text-[#1745b0] dark:text-[#6B93FF] mt-0.5">Set sharing Google Drive ke "Anyone with the link can view" sebelum kirim link.</p>
                 </div>
               </div>
 
@@ -112,7 +112,7 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
                 <label className="text-xs font-bold text-slate-600 dark:text-slate-300 mb-1.5 block">
                   Link Google Drive <span className="text-[#8B0000]">*</span>
                 </label>
-                <div className={`flex items-center gap-2 rounded-xl border-2 px-3 py-2.5 transition-colors ${urlError ? "border-[#A62E2E] bg-[#F7E8E8] dark:bg-[#300000]/10" : "border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 focus-within:border-[#FFE94B]"}`}>
+                <div className={`flex items-center gap-2 rounded-xl border-2 px-3 py-2.5 transition-colors ${urlError ? "border-[#A62E2E] bg-[#F7E8E8] dark:bg-[#300000]/10" : "border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 focus-within:border-[#6B93FF]"}`}>
                   <Link2 size={15} className="text-slate-400 shrink-0"/>
                   <input
                     type="url"
@@ -122,7 +122,7 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
                     className="flex-1 text-sm bg-transparent text-slate-700 dark:text-slate-200 outline-none placeholder:text-slate-400"
                   />
                   {driveUrl && isValidDriveUrl(driveUrl) && (
-                    <CheckCircle size={15} className="text-[#BFA300] shrink-0"/>
+                    <CheckCircle size={15} className="text-[#1745B0] shrink-0"/>
                   )}
                 </div>
                 {urlError && <p className="mt-1 text-[11px] text-[#8B0000]">{urlError}</p>}
@@ -130,7 +130,7 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
 
               {driveUrl && isValidDriveUrl(driveUrl) && (
                 <a href={driveUrl} target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs font-semibold text-[#E6C700] hover:text-[#BFA300]">
+                  className="flex items-center gap-2 text-xs font-semibold text-[#1745B0] hover:text-[#1745B0]">
                   <ExternalLink size={12}/> Cek link (buka di tab baru)
                 </a>
               )}
@@ -139,7 +139,7 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
                 <label className="text-xs font-semibold text-slate-500 mb-1 block">Catatan (opsional)</label>
                 <textarea value={catatan} onChange={e=>setCatatan(e.target.value)} rows={2}
                   placeholder="Tambahkan keterangan jika diperlukan..."
-                  className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FFE94B] placeholder:text-slate-400"/>
+                  className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#6B93FF] placeholder:text-slate-400"/>
               </div>
 
               <div className="flex gap-3">
@@ -148,8 +148,8 @@ function SubmitModal({ open, onClose, soal, onSubmit }: {
                   Batal
                 </button>
                 <button type="submit" disabled={saving || !driveUrl.trim()}
-                  className="flex-1 py-2.5 rounded-xl text-sm font-bold text-black disabled:opacity-60 flex items-center justify-center gap-2"
-                  style={{background:"#FFEB3B"}}>
+                  className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2"
+                  style={{background:"#2962FF"}}>
                   {saving ? <><Loader2 size={14} className="animate-spin"/> Mengirim...</> : <><Send size={14}/> Kirim Project</>}
                 </button>
               </div>
@@ -234,38 +234,17 @@ export default function SiswaJadwalSoalPage() {
 
         <div className="flex-1 min-w-0 space-y-6">
 
-          <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{background:"#D7263D"}}>
-            <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
-            <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
-            <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
-            <div className="relative flex items-center justify-between gap-4 flex-wrap">
-              <div className="flex items-center gap-4">
-                <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 shadow-lg">
-                  <FileText size={26} className="text-white"/>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Ujian Kompetensi Keahlian</span>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-white/20 text-white/90">Siswa</span>
-                  </div>
-                  <h1 className="text-2xl font-extrabold text-white leading-tight">Jadwal dan Soal</h1>
-                  <p className="text-sm text-white/70 mt-0.5">Lihat jadwal, download soal, dan kirim project</p>
-                </div>
+          <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
+            <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
+            <div className="relative flex items-center gap-3 sm:gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+                <FileText size={22} className="text-white sm:hidden"/>
+                <FileText size={26} className="text-white hidden sm:block"/>
               </div>
-              <div className="flex items-center gap-3 shrink-0">
-                {[
-                  { icon: CalendarDays,  label:"Task",  val: tahapanList.length },
-                  { icon: FileText,      label:"Soal",     val: totalSoal },
-                  { icon: Upload,        label:"Terkirim", val: mySubmisi.length },
-                  { icon: CheckCircle,   label:"Diterima", val: diterima },
-                ].map(({ icon: Icon, label, val }) => (
-                  <div key={label} className="flex flex-col items-center px-4 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm min-w-16">
-                    <Icon size={14} className="text-white/70 mb-1"/>
-                    <p className="text-xl font-extrabold text-white leading-none">{val}</p>
-                    <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
-                  </div>
-                ))}
+              <div>
+                <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Ujian Kompetensi Keahlian</span>
+                <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Jadwal dan Soal</h1>
               </div>
             </div>
           </div>
@@ -511,7 +490,7 @@ export default function SiswaJadwalSoalPage() {
                           ? { label:"Revisi", icon:<AlertCircle size={11}/>, bg:"#F8D6DA", clr:"#D7263D", border:"#D7263D", onClick:()=>setRevisiModal(myS!) }
                           : isTerkirim
                           ? { label:"Terkirim", icon:<CheckCircle size={11}/>, bg:"#EBC4C4", clr:"#5E0000", border:"#5E0000", onClick:()=>setDetailTarget(myS!) }
-                          : { label:"Kirim", icon:<Send size={11}/>, bg:"#FFFBD1", clr:"#BFA300", border:"#BFA300", onClick:()=>globalSoal && setSubmitSoal(globalSoal) };
+                          : { label:"Kirim", icon:<Send size={11}/>, bg:"#E3ECFF", clr:"#1745B0", border:"#1745B0", onClick:()=>globalSoal && setSubmitSoal(globalSoal) };
 
                         return (
                           <tr key={t.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50 dark:border-slate-700/40 dark:hover:bg-slate-700/20">

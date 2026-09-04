@@ -1,45 +1,32 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import dynamic from "next/dynamic";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, Plus, Search, FileText, Download, Pencil, Trash2, Eye,
-  AlertCircle, GraduationCap, Layers, CalendarDays, Loader2,
+  AlertCircle, GraduationCap, CalendarDays,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { MateriFormModal, type MateriItem } from "./MateriFormModal";
-
-// react-pdf touches browser-only Canvas APIs (DOMMatrix) at module-eval time,
-// yang crash saat SSR — muat khusus client, sama seperti di SoalPdfViewer
-// (app/*/ujian-ukk/jadwal-soal/SoalPdfViewer.tsx).
-const MateriPdfViewerModal = dynamic(
-  () => import("./MateriPdfViewerModal").then((m) => m.MateriPdfViewerModal),
-  { ssr: false, loading: () => (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-      <Loader2 size={28} className="animate-spin text-white" />
-    </div>
-  ) },
-);
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Jakarta" });
 }
 
 const ROW_PALETTES = [
-  { gradient: "#FFEB3B" },
+  { gradient: "#2962FF" },
   { gradient: "#B8B84A" },
   { gradient: "#D7263D" },
-  { gradient: "#300000" },
+  { gradient: "#4D7C0F" },
   { gradient: "#E8677A" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
 export function MateriListPage({
-  embedded = false, roleBadge = "Admin", currentUserId, currentUserRole, mapelOptions, canCreate = true,
+  embedded = false, currentUserId, currentUserRole, mapelOptions, canCreate = true,
 }: {
   embedded?: boolean;
-  roleBadge?: string;
   // Bila diisi, tombol Edit/Hapus per baris hanya tampil untuk materi milik
   // sendiri (createdBy.id === currentUserId) — ADMIN tetap bebas ke semua.
   currentUserId?: string;
@@ -51,6 +38,11 @@ export function MateriListPage({
   canCreate?: boolean;
 } = {}) {
   const toast = useToast();
+  const router = useRouter();
+  const pathname = usePathname();
+  // MateriListPage dipakai bareng oleh halaman Admin & Guru — tentukan route
+  // "Lihat materi" berdasarkan prefix path saat ini, bukan prop terpisah.
+  const rolePrefix = pathname?.startsWith("/admin") ? "/admin" : "/guru";
   const canEdit = (m: MateriItem) => !currentUserRole || currentUserRole === "ADMIN" || m.createdBy.id === currentUserId;
   const [list, setList] = useState<MateriItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -58,7 +50,6 @@ export function MateriListPage({
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<MateriItem | null>(null);
-  const [viewerMateri, setViewerMateri] = useState<MateriItem | null>(null);
 
   const fetchList = useCallback(async () => {
     setLoading(true);
@@ -97,48 +88,20 @@ export function MateriListPage({
     );
   }, [list, search]);
 
-  const totalMapel = new Set(list.map((m) => m.mapel)).size;
-
   return (
     <div className="space-y-5">
       {!embedded && (
         <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
-          <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg">
-                <BookOpen size={26} className="text-white" />
-              </div>
-              <div>
-                <div className="mb-1 flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Manajemen Materi</span>
-                  <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">{roleBadge}</span>
-                </div>
-                <h1 className="text-2xl font-extrabold leading-tight text-white">Materi Pembelajaran</h1>
-                <p className="mt-0.5 text-sm text-white/70">Kelola modul pembelajaran per mata pelajaran</p>
-              </div>
+          <div className="relative flex items-center gap-3 sm:gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+              <BookOpen size={22} className="text-white sm:hidden" />
+              <BookOpen size={26} className="hidden text-white sm:block" />
             </div>
-            <div className="flex flex-wrap items-center gap-3">
-              {[
-                { icon: Layers, label: "Total Materi", val: list.length },
-                { icon: GraduationCap, label: "Mata Pelajaran", val: totalMapel },
-              ].map(({ icon: Icon, label, val }) => (
-                <div key={label} className="flex flex-col items-center px-4 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm min-w-15">
-                  <Icon size={13} className="text-white/70 mb-1" />
-                  <p className="text-xl font-extrabold text-white leading-none">{loading ? "—" : val}</p>
-                  <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
-                </div>
-              ))}
-              {canCreate && (
-                <motion.button
-                  onClick={() => { setEditItem(null); setModalOpen(true); }}
-                  whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-primary text-[13px] font-bold shadow-lg shrink-0"
-                >
-                  <Plus size={15} /> Tambah Materi
-                </motion.button>
-              )}
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Manajemen Materi</span>
+              <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Materi Pembelajaran</h1>
             </div>
           </div>
         </div>
@@ -251,7 +214,7 @@ export function MateriListPage({
                       </td>
                       <td className="whitespace-nowrap px-5 py-3.5">
                         <div className="flex items-center justify-end gap-1">
-                          <button onClick={() => setViewerMateri(m)} title="Lihat materi"
+                          <button onClick={() => router.push(`${rolePrefix}/materi/${m.id}`)} title="Lihat materi"
                             className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-primary/10 hover:text-primary">
                             <Eye size={14} />
                           </button>
@@ -296,8 +259,6 @@ export function MateriListPage({
           });
         }}
       />
-
-      {viewerMateri && <MateriPdfViewerModal materi={viewerMateri} onClose={() => setViewerMateri(null)} />}
     </div>
   );
 }

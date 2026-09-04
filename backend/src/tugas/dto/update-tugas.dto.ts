@@ -1,13 +1,33 @@
-import { IsIn, IsOptional, IsString } from 'class-validator';
+import { IsArray, IsIn, IsOptional, IsString } from 'class-validator';
+import { Transform } from 'class-transformer';
+
+function parseKelasIds(value: unknown): string[] | undefined {
+  if (value === undefined || value === null || value === '') return undefined;
+  if (Array.isArray(value)) return value;
+  if (typeof value === 'string') {
+    try {
+      const parsed = JSON.parse(value);
+      return Array.isArray(parsed) ? parsed : undefined;
+    } catch {
+      return undefined;
+    }
+  }
+  return undefined;
+}
 
 export class UpdateTugasDto {
   @IsString()
   @IsOptional()
   mapel?: string;
 
-  @IsString()
+  // undefined = field tidak dikirim (tidak diubah). Array kosong [] dikirim
+  // eksplisit sebagai '[]' saat guru memang ingin mengosongkan jadi "Semua
+  // Kelas" — sama seperti pola di UpdateMateriDto.
   @IsOptional()
-  kelasId?: string;
+  @Transform(({ value }) => parseKelasIds(value))
+  @IsArray()
+  @IsString({ each: true })
+  kelasIds?: string[];
 
   @IsString()
   @IsOptional()

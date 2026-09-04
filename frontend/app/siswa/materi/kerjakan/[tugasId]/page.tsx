@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { PraktikAkuntansiGrid } from "@/components/tugas/PraktikAkuntansiGrid";
 import { useToast } from "@/components/shared/ToastSystem";
-import { LOCKDOWN_TIPE, MAKSIMAL_PERCOBAAN, parsePraktikRows } from "@/components/tugas/types";
+import { LOCKDOWN_TIPE, MAKSIMAL_PERCOBAAN, maksimalPercobaanEfektif, parsePraktikRows } from "@/components/tugas/types";
 import type { TugasItem, TugasSoalItem, PraktikRow } from "@/components/tugas/types";
 
 type Phase = "loading" | "error" | "intro" | "locked" | "diterima" | "active" | "submitted";
@@ -17,11 +17,10 @@ type Phase = "loading" | "error" | "intro" | "locked" | "diterima" | "active" | 
 type JawabanState = Record<string, string>;
 
 // Warna per tipe tugas — turunan dari rotasi 4-warna resmi brand lmsakl
-// (merah/lime/oren/biru): Praktik pakai mustard (variasi kuning brand),
-// Pilihan Ganda pakai lime (teks hitam mengikuti konvensi onLime), Essay
-// pakai biru.
+// (merah/lime/oren/biru): Praktik pakai biru tua, Pilihan Ganda pakai lime
+// (teks hitam mengikuti konvensi onLime), Essay pakai biru.
 const TIPE_STYLE: Record<string, { warna: string; text: string; icon: typeof Calculator }> = {
-  PRAKTIK: { warna: "#BFA300", text: "#FFFFFF", icon: Calculator },
+  PRAKTIK: { warna: "#1745B0", text: "#FFFFFF", icon: Calculator },
   PILIHAN_GANDA: { warna: "#C3F84A", text: "#000000", icon: ListChecks },
   ESSAY: { warna: "#2962FF", text: "#FFFFFF", icon: PenLine },
 };
@@ -42,6 +41,7 @@ export default function KerjakanTugasPage() {
   const [phase, setPhase] = useState<Phase>("loading");
   const [tugas, setTugas] = useState<TugasItem | null>(null);
   const [percobaanKe, setPercobaanKe] = useState(0);
+  const [maksPercobaan, setMaksPercobaan] = useState(MAKSIMAL_PERCOBAAN);
   const [errorMsg, setErrorMsg] = useState("");
   const [starting, setStarting] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -82,6 +82,7 @@ export default function KerjakanTugasPage() {
       }
       setTugas(t);
       const mySubmisi = t.submisi?.[0];
+      setMaksPercobaan(maksimalPercobaanEfektif(mySubmisi));
 
       if (mySubmisi?.status === "DITERIMA") {
         setPhase("diterima");
@@ -217,6 +218,7 @@ export default function KerjakanTugasPage() {
       }
       firedRef.current = false;
       setPercobaanKe(d.percobaanKe);
+      setMaksPercobaan(d.maksimalPercobaan ?? MAKSIMAL_PERCOBAAN);
       setDeadlineTs(d.deadlineWaktu ? new Date(d.deadlineWaktu).getTime() : null);
       setRows(parsePraktikRows(d.tugas.starterPraktik));
       setJawaban({});
@@ -313,7 +315,7 @@ export default function KerjakanTugasPage() {
       <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center gap-4 bg-white p-6 text-center dark:bg-slate-900">
         <Lock size={40} className="text-slate-300" />
         <p className="text-sm font-semibold text-slate-600 dark:text-slate-300">
-          Percobaan kamu untuk tugas ini sudah habis (maksimal {MAKSIMAL_PERCOBAAN}x).
+          Percobaan kamu untuk tugas ini sudah habis (maksimal {maksPercobaan}x).
         </p>
         <p className="text-xs text-slate-400">Hubungi guru mapel jika butuh kesempatan ulang.</p>
         <button onClick={() => router.replace("/siswa/materi?tab=tugas")}
@@ -352,7 +354,7 @@ export default function KerjakanTugasPage() {
         )}
         <div className="flex flex-wrap items-center justify-center gap-2">
           <span className="rounded-lg bg-slate-100 px-3 py-1.5 text-[11px] font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
-            Percobaan ke-{percobaanKe} dari {MAKSIMAL_PERCOBAAN}
+            Percobaan ke-{percobaanKe} dari {maksPercobaan}
           </span>
           {tugas.durasiMenit ? (
             <span className="flex items-center gap-1 rounded-lg bg-slate-100 px-3 py-1.5 text-[11px] font-bold text-slate-500 dark:bg-slate-800 dark:text-slate-400">
@@ -360,10 +362,10 @@ export default function KerjakanTugasPage() {
             </span>
           ) : null}
         </div>
-        <div className="max-w-md rounded-xl border border-amber-200 bg-amber-50/60 p-4 text-left text-[11px] leading-relaxed text-amber-700 dark:border-amber-900/40 dark:bg-amber-900/10 dark:text-amber-400">
+        <div className="max-w-md rounded-xl border border-blue-200 bg-blue-50/60 p-4 text-left text-[11px] leading-relaxed text-blue-700 dark:border-blue-900/40 dark:bg-blue-900/10 dark:text-blue-400">
           Lembar pengerjaan ini <strong>terkunci</strong>: tidak bisa salin-tempel, dan jika kamu meninggalkan halaman ini
           (pindah tab, menutup jendela, atau menekan tombol kembali) kamu akan <strong>otomatis logout</strong> dan jawaban
-          yang sudah terisi <strong>langsung tersimpan</strong> sebagai jawaban akhir. Kesempatan mengerjakan hanya {MAKSIMAL_PERCOBAAN}x.
+          yang sudah terisi <strong>langsung tersimpan</strong> sebagai jawaban akhir. Kesempatan mengerjakan hanya {maksPercobaan}x.
         </div>
         <div className="flex gap-3">
           <button onClick={() => router.replace("/siswa/materi?tab=tugas")}
@@ -393,7 +395,7 @@ export default function KerjakanTugasPage() {
         <div className="min-w-0 flex-1">
           <p className="truncate text-sm font-extrabold">{tugas.judul}</p>
           <p className="flex items-center gap-1.5 text-[11px]" style={{ opacity: 0.75 }}>
-            <Lock size={10} /> Mode terkunci · Percobaan {percobaanKe}/{MAKSIMAL_PERCOBAAN}
+            <Lock size={10} /> Mode terkunci · Percobaan {percobaanKe}/{maksPercobaan}
           </p>
         </div>
         {sisaMs != null && (

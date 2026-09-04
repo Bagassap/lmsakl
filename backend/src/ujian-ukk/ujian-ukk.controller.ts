@@ -1,6 +1,6 @@
 import {
   Controller, Get, Post, Put, Delete, Param, Body,
-  UseGuards, Request, Res, UseInterceptors, UploadedFile,
+  UseGuards, Request, Res, UseInterceptors, UploadedFile, BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -81,10 +81,14 @@ export class UjianUkkController {
   @Roles(Role.ADMIN, Role.GURU)
   @Post('soal')
   @UseInterceptors(FileInterceptor('file', { storage: soalStorage, ...documentUploadOptions }))
-  createSoal(@Body() dto: CreateSoalDto, @UploadedFile() file: Express.Multer.File) {
-    const fileUrl  = `/uploads/ukk-soal/${file.filename}`;
-    const fileName = file.originalname;
-    return this.service.createSoal(dto, fileUrl, fileName);
+  createSoal(@Body() dto: CreateSoalDto, @UploadedFile() file?: Express.Multer.File) {
+    const { driveUrl, ...soalDto } = dto;
+    if (!file && !driveUrl?.trim()) {
+      throw new BadRequestException('File atau link Google Drive wajib diisi');
+    }
+    const fileUrl  = file ? `/uploads/ukk-soal/${file.filename}` : (driveUrl ?? '');
+    const fileName = file ? file.originalname : 'Google Drive';
+    return this.service.createSoal(soalDto, fileUrl, fileName);
   }
 
   @UseGuards(RolesGuard)

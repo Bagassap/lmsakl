@@ -10,4 +10,8 @@ export class CreateSoalDto {
   @IsString()
   @IsOptional()
   deskripsi?: string;
+
+  @IsString()
+  @IsOptional()
+  driveUrl?: string;
 }

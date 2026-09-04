@@ -3,13 +3,13 @@ import type { StatusAbsensi } from "./types";
 
 // Semua warna di file ini diturunkan dari 4 warna resmi palette brand:
 // Tangerine Tango (oren) #D7263D, Charcoal (hitam) #300000,
-// Platinum (krem) #F5F5DC, Powder Blue (biru muda) #FFEF6B — tidak ada
+// Platinum (krem) #F5F5DC, Powder Blue (biru muda) #93B4FF — tidak ada
 // hue baru di luar 4 warna itu, hanya tint/shade (terang/gelap) dari
 // masing-masing supaya tiap status/kartu tetap bisa dibedakan.
 export const STATUS_CFG: Record<StatusAbsensi, {
   label: string; bg: string; clr: string; darkBg: string; icon: React.ElementType;
 }> = {
-  HADIR: { label: "Hadir", bg: "#FFFBD1", clr: "#FFEB3B", darkBg: "#FFEB3B20", icon: CheckCircle2 }, // powder blue
+  HADIR: { label: "Hadir", bg: "#E3ECFF", clr: "#2962FF", darkBg: "#2962FF20", icon: CheckCircle2 }, // powder blue
   IZIN:  { label: "Izin",  bg: "#EBC4C4", clr: "#8B0000", darkBg: "#8B000020", icon: AlertCircle  }, // charcoal muted
   SAKIT: { label: "Sakit", bg: "#FAFAED", clr: "#B8B84A", darkBg: "#B8B84A20", icon: Thermometer  }, // platinum gelap
   ALPA:  { label: "Alpa",  bg: "#F8D6DA", clr: "#D7263D", darkBg: "#D7263D20", icon: MinusCircle  }, // oren (paling perlu diperhatikan)
@@ -23,7 +23,7 @@ export const PULANG_CFG = {
 // toward a lighter tint of the same hue family (light stop) — tetap dalam 4
 // warna palette, tidak memperkenalkan hue baru.
 export const STATUS_GRADIENT: Record<StatusAbsensi, string> = {
-  HADIR: "#FFEB3B",
+  HADIR: "#2962FF",
   IZIN:  "#8B0000",
   SAKIT: "#B8B84A",
   ALPA:  "#D7263D",
@@ -35,7 +35,7 @@ export const BRAND_GRADIENT = "#D7263D";
 export const CARD_GRADIENTS = [
   "#D7263D", // oren
   "#300000", // charcoal
-  "#FFEB3B", // powder blue
+  "#2962FF", // powder blue
   "#B8B84A", // platinum gelap
   "#E8677A", // oren terang
   "#5E0000", // charcoal terang
@@ -44,7 +44,7 @@ export const CARD_GRADIENTS = [
 // Solid dominant hue for each CARD_GRADIENTS entry — used to color an icon
 // sitting on a solid white badge over that gradient, without ever needing
 // an alpha/opacity color.
-export const CARD_ACCENT = ["#D7263D", "#300000", "#FFEB3B", "#B8B84A", "#E8677A", "#5E0000"];
+export const CARD_ACCENT = ["#D7263D", "#300000", "#2962FF", "#B8B84A", "#E8677A", "#5E0000"];
 
 // Same 4-warna palette rotation dipakai di "Akses Cepat" quick-access cards
 // dashboard admin/guru/siswa (oren/charcoal/powder/platinum), supaya card
@@ -126,6 +126,12 @@ export function formatTgl(tgl?: string) {
   return new Date(tgl).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
 }
 
+export function formatTglSlash(tgl: string): string {
+  const [y, m, d] = tgl.split("-");
+  if (!y || !m || !d) return tgl;
+  return `${d}/${m}/${y}`;
+}
+
 export type ExportRangeMode = "harian" | "mingguan" | "bulanan";
 export type ExportRange =
   | { mode: "harian"; tanggal: string }
@@ -158,7 +164,7 @@ export function getInitials(name: string) {
   return name.split(" ").slice(0, 2).map((w) => w[0]).join("").toUpperCase();
 }
 
-const AVATAR_COLORS = ["#300000", "#D7263D", "#FFEB3B", "#B8B84A", "#5E0000", "#E8677A"];
+const AVATAR_COLORS = ["#300000", "#D7263D", "#2962FF", "#B8B84A", "#5E0000", "#E8677A"];
 export function avatarColor(name: string) {
   let h = 0;
   for (const c of name) h = (h * 31 + c.charCodeAt(0)) & 0x7fffffff;

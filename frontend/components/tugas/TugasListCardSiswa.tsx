@@ -4,21 +4,21 @@ import { useState } from "react";
 import {
   ClipboardList, Search, Send, CheckCircle, AlertCircle, CalendarClock, GraduationCap, Calculator, ListChecks, PenLine, Download, Lock,
 } from "lucide-react";
-import { formatTgl, isTugasActive, tipeLabel, LOCKDOWN_TIPE, MAKSIMAL_PERCOBAAN } from "./types";
+import { formatTgl, isTugasActive, tipeLabel, LOCKDOWN_TIPE, maksimalPercobaanEfektif } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
 const TIPE_BADGE: Record<string, { icon: typeof Calculator; cls: string }> = {
-  PRAKTIK: { icon: Calculator, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
+  PRAKTIK: { icon: Calculator, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
   PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/40 dark:text-[#E8677A]" },
-  ESSAY: { icon: PenLine, cls: "bg-[#FFFBD1] text-[#BFA300] dark:bg-[#735F00]/40 dark:text-[#FFE94B]" },
+  ESSAY: { icon: PenLine, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
 };
 
 const ROW_PALETTES = [
-  { bar: "#FFEB3B", gradient: "#FFEB3B" },
-  { bar: "#FFEB3B", gradient: "#FFEB3B" },
+  { bar: "#2962FF", gradient: "#2962FF" },
+  { bar: "#2962FF", gradient: "#2962FF" },
   { bar: "#300000", gradient: "#300000" },
   { bar: "#D7263D", gradient: "#D7263D" },
-  { bar: "#BFA300", gradient: "#BFA300" },
+  { bar: "#1745B0", gradient: "#1745B0" },
 ];
 function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
@@ -55,16 +55,16 @@ export function TugasListCardSiswa({
         </div>
         <div className="flex gap-5 border-b border-slate-100 dark:border-slate-700">
           <button onClick={() => setTab("active")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "active" ? { color: "#FFEB3B" } : {}}>
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "active" ? "border-[#2962FF]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            style={tab === "active" ? { color: "#2962FF" } : {}}>
             Aktif
-            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#FFEB3B" }}>{active.length}</span>}
+            {tab === "active" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#2962FF" }}>{active.length}</span>}
           </button>
           <button onClick={() => setTab("completed")}
-            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#FFEB3B]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
-            style={tab === "completed" ? { color: "#FFEB3B" } : {}}>
+            className={`pb-3 text-sm font-semibold border-b-2 -mb-px transition-all ${tab === "completed" ? "border-[#2962FF]" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            style={tab === "completed" ? { color: "#2962FF" } : {}}>
             Selesai
-            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#FFEB3B" }}>{completed.length}</span>}
+            {tab === "completed" && <span className="ml-2 text-[10px] px-1.5 py-0.5 rounded-lg text-white font-bold" style={{ backgroundColor: "#2962FF" }}>{completed.length}</span>}
           </button>
         </div>
       </div>
@@ -105,10 +105,10 @@ export function TugasListCardSiswa({
                   : isRevisi
                   ? { label: isLockdown ? "Kerjakan Ulang" : "Revisi", icon: <AlertCircle size={11} />, bg: "#D7263D", clr: "#D7263D", border: "#D7263D", onClick: () => (isLockdown ? onKumpulkan(t) : onLihatDetail(mySubmisi!, t)) }
                   : isTerkirim
-                  ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#FFFBD1", clr: "#BFA300", border: "#BFA300", onClick: () => onLihatDetail(mySubmisi!, t) }
+                  ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#E3ECFF", clr: "#1745B0", border: "#1745B0", onClick: () => onLihatDetail(mySubmisi!, t) }
                   : overdue
                   ? { label: "Terlambat", icon: <AlertCircle size={11} />, bg: "#EBC4C4", clr: "#300000", border: "#300000", onClick: () => onKumpulkan(t) }
-                  : { label: t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY" ? "Kerjakan" : t.tipe === "PRAKTIK" ? "Mulai Praktik" : "Kumpulkan", icon: <Send size={11} />, bg: "#FFFBD1", clr: "#FFEB3B", border: "#FFEB3B", onClick: () => onKumpulkan(t) };
+                  : { label: t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY" ? "Kerjakan" : t.tipe === "PRAKTIK" ? "Mulai Praktik" : "Kumpulkan", icon: <Send size={11} />, bg: "#E3ECFF", clr: "#2962FF", border: "#2962FF", onClick: () => onKumpulkan(t) };
 
                 return (
                   <tr key={t.id} className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50 dark:border-slate-700/40 dark:hover:bg-slate-700/20">
@@ -144,12 +144,12 @@ export function TugasListCardSiswa({
                         )}
                         {isLockdown && !!mySubmisi?.jumlahPercobaan && !isDiterima && (
                           <span className="inline-flex items-center rounded-lg bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-500 dark:bg-slate-700 dark:text-slate-400">
-                            Percobaan {mySubmisi.jumlahPercobaan}/{MAKSIMAL_PERCOBAAN}
+                            Percobaan {mySubmisi.jumlahPercobaan}/{maksimalPercobaanEfektif(mySubmisi)}
                           </span>
                         )}
                         {t.fileUrl && (
                           <a href={t.fileUrl} target="_blank" rel="noopener noreferrer" title={`Unduh lampiran${t.fileName ? `: ${t.fileName}` : ""}`}
-                            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFFEF0] hover:text-[#FFEB3B] dark:hover:bg-[#735F00]/20">
+                            className="flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#EEF3FF] hover:text-[#2962FF] dark:hover:bg-[#1745B0]/20">
                             <Download size={14} />
                           </a>
                         )}

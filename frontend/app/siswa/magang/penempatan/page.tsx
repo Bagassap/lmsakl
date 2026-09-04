@@ -29,6 +29,7 @@ export default function SiswaMagangPenempatanPage() {
     <div className="space-y-5 p-1">
       <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
         <div className="relative flex items-center gap-3 sm:gap-4">
           <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
             <Briefcase size={22} className="text-white sm:hidden" />
@@ -37,15 +38,14 @@ export default function SiswaMagangPenempatanPage() {
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">PKL</span>
             <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Penempatan PKL Saya</h1>
-            <p className="mt-0.5 text-sm text-white/70">Lokasi & guru pembimbing selama Praktik Kerja Lapangan</p>
           </div>
         </div>
       </div>
 
       {loading ? (
-        <div className="h-40 animate-pulse rounded-3xl bg-slate-100 dark:bg-slate-800" />
+        <div className="h-40 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />
       ) : !aktif ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-3xl border border-slate-100 bg-white py-16 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-slate-100 bg-white py-16 text-center shadow-sm dark:border-slate-700 dark:bg-slate-800">
           <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-700">
             <Users size={24} className="text-slate-300 dark:text-slate-500" />
           </div>
@@ -53,14 +53,14 @@ export default function SiswaMagangPenempatanPage() {
           <p className="max-w-sm text-xs text-slate-400">Admin akan menempatkan kamu ke tempat magang begitu jadwal PKL dimulai.</p>
         </div>
       ) : (
-        <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
-          <div className="mb-4 flex items-center justify-between">
+        <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <div className="flex items-center justify-between gap-2 bg-primary-light/40 px-5 pb-4 pt-5">
             <div className="flex items-center gap-2.5">
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
-                <Building2 size={18} />
-              </span>
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary">
+                <Building2 size={14} className="text-white" />
+              </div>
               <div>
-                <p className="text-base font-extrabold text-slate-800 dark:text-white">{aktif.tempatMagang.namaTempat}</p>
+                <p className="text-base font-bold text-slate-800 dark:text-slate-100">{aktif.tempatMagang.namaTempat}</p>
                 {aktif.tempatMagang.bidangUsaha && <p className="text-[11px] text-slate-400">{aktif.tempatMagang.bidangUsaha}</p>}
               </div>
             </div>
@@ -69,7 +69,7 @@ export default function SiswaMagangPenempatanPage() {
             </span>
           </div>
 
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2">
             <div className="flex items-start gap-2.5 rounded-2xl bg-slate-50 p-3.5 dark:bg-slate-700/30">
               <MapPin size={15} className="mt-0.5 shrink-0 text-primary" />
               <div>
@@ -107,9 +107,13 @@ export default function SiswaMagangPenempatanPage() {
       )}
 
       {riwayat.length > 0 && (
-        <div className="rounded-3xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
-          <div className="border-b border-slate-100 px-5 py-4 dark:border-slate-700">
-            <p className="text-sm font-bold text-slate-800 dark:text-white">Riwayat Penempatan</p>
+        <div className="flex flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <div className="flex items-center gap-2.5 bg-primary-light/40 px-5 pb-4 pt-5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary">
+              <CalendarDays size={14} className="text-white" />
+            </div>
+            <p className="text-base font-bold text-slate-800 dark:text-slate-100">Riwayat Penempatan</p>
+            <span className="ml-1 rounded-lg bg-primary/10 px-2 py-0.5 text-[10px] font-bold text-primary">{riwayat.length} riwayat</span>
           </div>
           <div className="divide-y divide-slate-50 dark:divide-slate-700/30">
             {riwayat.map((p) => (

@@ -2,13 +2,14 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Award, Briefcase, Building2, CheckCircle2, ClipboardList, Wallet } from "lucide-react";
+import { Briefcase, Building2, ClipboardList, Wallet } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { toTitleCase } from "@/components/data-siswa/shared";
 import type { SiswaCardData } from "@/components/data-siswa/shared";
 import { GradientStatCard } from "@/components/shared/GradientStatCard";
 import { KelolaTempatModal } from "@/components/magang/KelolaTempatModal";
 import { TempatkanSiswaModal } from "@/components/magang/TempatkanSiswaModal";
+import { EditPenempatanModal } from "@/components/magang/EditPenempatanModal";
 import { PenempatanFilterBar, type PenempatanStatusFilter } from "@/components/magang/PenempatanFilterBar";
 import { PenempatanTable } from "@/components/magang/PenempatanTable";
 import type { TempatMagang, PenempatanMagang, StatusPenempatan } from "@/components/magang/types";
@@ -26,6 +27,7 @@ export default function AdminMagangPenempatanPage() {
   const [loading, setLoading] = useState(true);
   const [showKelolaTempat, setShowKelolaTempat] = useState(false);
   const [showTempatkan, setShowTempatkan] = useState(false);
+  const [editTarget, setEditTarget] = useState<PenempatanMagang | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<PenempatanStatusFilter>("");
@@ -101,8 +103,6 @@ export default function AdminMagangPenempatanPage() {
   const jumlahSelesai = penempatanList.filter((p) => p.status === "SELESAI").length;
   const jumlahBatal = penempatanList.filter((p) => p.status === "BATAL").length;
   const totalKuota = tempatList.reduce((sum, t) => sum + t.kuota, 0);
-  const kuotaTerisi = tempatList.reduce((sum, t) => sum + (t._count?.penempatan ?? 0), 0);
-  const tempatFavorit = [...tempatList].sort((a, b) => (b._count?.penempatan ?? 0) - (a._count?.penempatan ?? 0))[0] ?? null;
 
   const displayList = useMemo(() => {
     const q = search.trim().toLowerCase();
@@ -126,12 +126,8 @@ export default function AdminMagangPenempatanPage() {
             <Briefcase size={26} className="hidden text-white sm:block" />
           </div>
           <div>
-            <div className="mb-1 flex items-center gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">PKL</span>
-              <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Admin</span>
-            </div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">PKL</span>
             <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Penempatan PKL</h1>
-            <p className="mt-0.5 text-sm text-white/70">Kelola tempat magang & tempatkan siswa beserta guru pembimbing</p>
           </div>
         </div>
       </div>
@@ -143,10 +139,7 @@ export default function AdminMagangPenempatanPage() {
             tone="navy"
             label="Tempat Magang"
             value={loading ? "—" : tempatList.length}
-            caption={`${kuotaTerisi}/${totalKuota} kuota terisi`}
             icon={Building2}
-            secondaryLabel={tempatFavorit ? `Terbanyak: ${tempatFavorit.namaTempat}` : "Belum ada data"}
-            secondaryIcon={Award}
           />
         </div>
         <div className="lg:col-span-4">
@@ -154,10 +147,7 @@ export default function AdminMagangPenempatanPage() {
             tone="lime"
             label="Siswa PKL Aktif"
             value={loading ? "—" : jumlahAktif}
-            caption={`${jumlahSelesai} sudah selesai`}
             icon={Briefcase}
-            secondaryLabel={`${jumlahBatal} dibatalkan`}
-            secondaryIcon={CheckCircle2}
           />
         </div>
         <div className="lg:col-span-2">
@@ -165,10 +155,7 @@ export default function AdminMagangPenempatanPage() {
             tone="red"
             label="Total Kuota"
             value={loading ? "—" : totalKuota}
-            caption={`${totalKuota > 0 ? Math.round((kuotaTerisi / totalKuota) * 100) : 0}% terisi`}
             icon={Wallet}
-            secondaryLabel={`Sisa ${Math.max(0, totalKuota - kuotaTerisi)} kuota`}
-            secondaryIcon={Award}
           />
         </div>
         <div className="lg:col-span-3">
@@ -176,10 +163,7 @@ export default function AdminMagangPenempatanPage() {
             tone="blue"
             label="Total Riwayat Penempatan"
             value={loading ? "—" : penempatanList.length}
-            caption="Sepanjang periode PKL"
             icon={ClipboardList}
-            secondaryLabel="Aktif, selesai, & batal"
-            secondaryIcon={ClipboardList}
           />
         </div>
       </motion.div>
@@ -198,6 +182,7 @@ export default function AdminMagangPenempatanPage() {
         list={displayList}
         busyId={busyId}
         onUbahStatus={ubahStatus}
+        onEdit={setEditTarget}
         onHapus={hapus}
       />
 
@@ -216,6 +201,15 @@ export default function AdminMagangPenempatanPage() {
             guruList={guruList}
             penempatanList={penempatanList}
             onClose={() => setShowTempatkan(false)}
+            onSaved={() => { loadPenempatan(); loadTempat(); }}
+          />
+        )}
+        {editTarget && (
+          <EditPenempatanModal
+            penempatan={editTarget}
+            tempatList={tempatList}
+            guruList={guruList}
+            onClose={() => setEditTarget(null)}
             onSaved={() => { loadPenempatan(); loadTempat(); }}
           />
         )}

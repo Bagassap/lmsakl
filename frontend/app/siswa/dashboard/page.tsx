@@ -33,7 +33,7 @@ interface DashboardData {
 
 const P = "#D7263D";
 const R = "#300000";
-const G = "#FFEB3B";
+const G = "#2962FF";
 
 function Skeleton({ className = "" }: { className?: string }) {
   return <div className={`animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-700/60 ${className}`} />;
@@ -179,9 +179,7 @@ export default function SiswaDashboardPage() {
     <>
       <div className="space-y-5">
 
-        <motion.div initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-          <GreetingHero nama={user.nama} role={user.role} kelas={data.kelas} />
-        </motion.div>
+        <GreetingHero nama={user.nama} role={user.role} kelas={data.kelas} />
 
         <KartuPelajarBanner description="Cek & cetak kartu pelajarmu lewat portal e-Kartu" />
 

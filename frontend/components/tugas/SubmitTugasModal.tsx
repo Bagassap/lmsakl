@@ -14,8 +14,8 @@ function LampiranGuru({ tugas }: { tugas: TugasItem }) {
   if (!tugas.fileUrl) return null;
   return (
     <a href={tugas.fileUrl} target="_blank" rel="noopener noreferrer"
-      className="mb-4 flex shrink-0 items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#FFEF6B] hover:bg-[#FFFEF0] dark:border-slate-600 dark:bg-slate-700/40 dark:text-slate-200 dark:hover:bg-slate-700">
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#FFFEF0] text-[#FFEB3B] dark:bg-[#735F00]/30 dark:text-[#FFE94B]">
+      className="mb-4 flex shrink-0 items-center gap-2.5 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-[#93B4FF] hover:bg-[#EEF3FF] dark:border-slate-600 dark:bg-slate-700/40 dark:text-slate-200 dark:hover:bg-slate-700">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[#EEF3FF] text-[#2962FF] dark:bg-[#1745B0]/30 dark:text-[#6B93FF]">
         <Download size={14} />
       </span>
       <span className="min-w-0 flex-1 truncate">
@@ -57,19 +57,19 @@ function SubmitPraktikModal({
         transition={{ type: "spring", damping: 24, stiffness: 320 }}
         className="relative flex h-[95dvh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800">
         <div className="relative flex shrink-0 items-center gap-3 overflow-hidden px-6 py-4"
-          style={{ background: "#FFEB3B" }}>
-          <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-black/5" />
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-black/10">
-            <Calculator size={18} className="text-black" />
+          style={{ background: "#2962FF" }}>
+          <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20">
+            <Calculator size={18} className="text-white" />
           </div>
           <div className="min-w-0 flex-1">
-            <h2 className="truncate text-base font-extrabold text-black">{tugas.judul}</h2>
-            <p className="flex items-center gap-1.5 text-xs text-black/70">
+            <h2 className="truncate text-base font-extrabold text-white">{tugas.judul}</h2>
+            <p className="flex items-center gap-1.5 text-xs text-white/70">
               <CalendarClock size={11} /> Deadline {formatTgl(tugas.deadline)}
             </p>
           </div>
           <button onClick={onClose}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-black/10 text-black transition-colors hover:bg-black/20">
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25">
             <X size={16} />
           </button>
         </div>
@@ -89,11 +89,11 @@ function SubmitPraktikModal({
               <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">Catatan (opsional)</label>
               <input value={catatan} onChange={(e) => setCatatan(e.target.value)}
                 placeholder="Tambahkan keterangan jika diperlukan..."
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#FFE94B] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6B93FF] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
             </div>
             <button onClick={submit} disabled={saving}
-              className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-black shadow-sm disabled:opacity-60"
-              style={{ background: "#FFEB3B" }}>
+              className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm disabled:opacity-60"
+              style={{ background: "#2962FF" }}>
               {saving ? <><Loader2 size={14} className="animate-spin" /> Mengirim...</> : <><Send size={14} /> Kirim Tugas</>}
             </button>
           </div>
@@ -135,7 +135,7 @@ function SubmitFileModal({
         transition={{ type: "spring", damping: 26, stiffness: 340 }}
         className="bg-white dark:bg-slate-800 rounded-2xl w-full max-w-md shadow-2xl overflow-hidden"
         onClick={(e) => e.stopPropagation()}>
-        <div className="relative px-6 py-5 overflow-hidden" style={{ background: "#FFEB3B" }}>
+        <div className="relative px-6 py-5 overflow-hidden" style={{ background: "#2962FF" }}>
           <div className="pointer-events-none absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10" />
           <div className="relative flex items-center justify-between">
             <div className="flex items-center gap-3">
@@ -163,22 +163,22 @@ function SubmitFileModal({
             </div>
           )}
           <div onClick={() => fileRef.current?.click()}
-            className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-6 text-center cursor-pointer hover:border-[#FFE94B] transition-colors">
-            <input ref={fileRef} type="file" accept=".pdf,.ppt,.pptx,.zip,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/zip,application/x-zip-compressed" className="hidden"
+            className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-6 text-center cursor-pointer hover:border-[#6B93FF] transition-colors">
+            <input ref={fileRef} type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.zip,.rar,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip,application/x-zip-compressed,application/vnd.rar,application/x-rar-compressed" className="hidden"
               onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
             {file ? (
               <div className="flex items-center justify-center gap-2 text-sm text-slate-700 dark:text-slate-200">
-                <FileIcon size={16} className="text-[#FFEB3B]" /><span className="font-medium">{file.name}</span>
+                <FileIcon size={16} className="text-[#2962FF]" /><span className="font-medium">{file.name}</span>
               </div>
             ) : (
-              <div><Upload size={26} className="mx-auto text-slate-300 mb-2" /><p className="text-sm text-slate-500">Klik untuk upload PDF/PPT/ZIP jawaban</p></div>
+              <div><Upload size={26} className="mx-auto text-slate-300 mb-2" /><p className="text-sm text-slate-500">Klik untuk upload PDF/PPT/DOC/ZIP/RAR jawaban (maks. 100MB)</p></div>
             )}
           </div>
           <div>
             <label className="text-xs font-semibold text-slate-500 mb-1 block">Catatan (opsional)</label>
             <textarea value={catatan} onChange={(e) => setCatatan(e.target.value)} rows={2}
               placeholder="Tambahkan keterangan jika diperlukan..."
-              className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#FFE94B] placeholder:text-slate-400" />
+              className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-[#6B93FF] placeholder:text-slate-400" />
           </div>
           <div className="flex gap-3">
             <button type="button" onClick={onClose}
@@ -187,7 +187,7 @@ function SubmitFileModal({
             </button>
             <button type="submit" disabled={saving || !file}
               className="flex-1 py-2.5 rounded-xl text-sm font-bold text-white disabled:opacity-60 flex items-center justify-center gap-2"
-              style={{ background: "#FFEB3B" }}>
+              style={{ background: "#2962FF" }}>
               {saving ? <><Loader2 size={14} className="animate-spin" /> Mengirim...</> : <><Send size={14} /> Kumpulkan</>}
             </button>
           </div>
@@ -214,7 +214,7 @@ function SubmitSoalModal({
   });
   const [catatan, setCatatan] = useState("");
   const [saving, setSaving] = useState(false);
-  const warna = isPg ? "#D7263D" : "#BFA300";
+  const warna = isPg ? "#D7263D" : "#1745B0";
 
   async function submit() {
     setSaving(true);
@@ -294,7 +294,7 @@ function SubmitSoalModal({
                     <textarea rows={3} value={jawaban[s.id] ?? ""}
                       onChange={(e) => setJawaban((prev) => ({ ...prev, [s.id]: e.target.value }))}
                       placeholder="Tulis jawabanmu..."
-                      className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#FFE94B] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
+                      className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6B93FF] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
                   )}
                 </div>
               ))}
@@ -307,7 +307,7 @@ function SubmitSoalModal({
             <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">Catatan (opsional)</label>
             <input value={catatan} onChange={(e) => setCatatan(e.target.value)}
               placeholder="Tambahkan keterangan jika diperlukan..."
-              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#FFE94B] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6B93FF] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
           </div>
           <button onClick={submit} disabled={saving || soalList.length === 0}
             className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm disabled:opacity-60"

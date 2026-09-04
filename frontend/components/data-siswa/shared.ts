@@ -43,16 +43,26 @@ export function kelasShort(kelas: string): string {
   return kelas.replace("Akuntansi dan Keuangan Lembaga", "AKL");
 }
 
+// Ubah nomor HP Indonesia (format lokal 08xx, +62xx, atau 62xx) jadi link
+// wa.me — wa.me butuh kode negara tanpa "0" di depan (mis. 6281234567890).
+// Null kalau nomornya kosong/tidak punya digit sama sekali.
+export function waLink(noHp: string | null | undefined): string | null {
+  const digits = (noHp ?? "").replace(/\D/g, "");
+  if (!digits) return null;
+  const normalized = digits.startsWith("0") ? `62${digits.slice(1)}` : digits.startsWith("62") ? digits : `62${digits}`;
+  return `https://wa.me/${normalized}`;
+}
+
 export function formatTglShort(iso: string | null): string {
   if (!iso) return "—";
   const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+  return new Date(y, m - 1, d).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Jakarta" });
 }
 
 function formatTglPadded(iso: string | null): string | null {
   if (!iso) return null;
   const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
-  const mon = new Date(y, m - 1, d).toLocaleDateString("id-ID", { month: "short" });
+  const mon = new Date(y, m - 1, d).toLocaleDateString("id-ID", { month: "short", timeZone: "Asia/Jakarta" });
   return `${String(d).padStart(2, "0")} ${mon} ${y}`;
 }
 
@@ -89,11 +99,11 @@ export const AVATAR_PALETTE = [
   "#300000", // charcoal gelap
   "#5e0000", // charcoal
   "#d7263d", // oren
-  "#ffeb3b", // powder blue
-  "#bfa300", // powder blue gelap
+  "#2962ff", // powder blue
+  "#1745b0", // powder blue gelap
   "#9c9776", // platinum gelap
   "#8b0000", // charcoal muted
-  "#ffef6b", // powder blue terang
+  "#93b4ff", // powder blue terang
 ] as const;
 
 export function avatarColorFor(seed: string): string {

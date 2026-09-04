@@ -79,13 +79,22 @@ export type TugasSubmisiItem = {
   dipaksaKeluar?: boolean;
   waktuMulai?: string | null;
   deadlineWaktu?: string | null;
+  // Tambahan percobaan di luar jatah normal (mis. HP siswa mati 2x tanpa
+  // sengaja) — diberikan guru/admin lewat tombol "Tambah 1x Percobaan".
+  // Batas efektif = MAKSIMAL_PERCOBAAN + bonusPercobaan, lihat maksimalPercobaanEfektif().
+  bonusPercobaan?: number;
 };
+
+export function maksimalPercobaanEfektif(s?: { bonusPercobaan?: number } | null) {
+  return MAKSIMAL_PERCOBAAN + (s?.bonusPercobaan ?? 0);
+}
 
 export type TugasItem = {
   id: string;
   mapel: string;
-  kelasId: string | null;
-  kelas: TugasKelasRef | null;
+  // Kelas target tugas ini — kosong berarti "Semua Kelas" (bisa lebih dari 1
+  // kelas sekaligus, sama seperti Materi.kelasList).
+  kelasList: TugasKelasRef[];
   judul: string;
   deskripsi: string | null;
   deadline: string;
@@ -120,7 +129,7 @@ export function isTugasActive(t: { deadline: string }) {
 export function statusInfo(s: StatusTugas) {
   if (s === "DITERIMA") return { bg: "#ECFCCB", color: "#4D7C0F", label: "Diterima" };
   if (s === "REVISI") return { bg: "#F8D6DA", color: "#9E1B2E", label: "Perlu Revisi" };
-  return { bg: "#FFFBD1", color: "#BFA300", label: "Menunggu Review" };
+  return { bg: "#E3ECFF", color: "#1745B0", label: "Menunggu Review" };
 }
 
 export function tipeLabel(tipe: string) {

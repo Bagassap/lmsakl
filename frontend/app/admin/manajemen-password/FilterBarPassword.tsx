@@ -38,14 +38,8 @@ export function FilterBarPassword({
   ];
 
   return (
-    <div className="relative flex h-full flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white p-4 shadow-sm dark:border-slate-700 dark:bg-slate-800 sm:p-5">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.03] dark:opacity-[0.05]"
-        style={{ backgroundImage: "radial-gradient(circle, #D7263D 1px, transparent 1px)", backgroundSize: "18px 18px" }}
-      />
-
-      <div className="relative flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div className="flex flex-col p-4 sm:p-5">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <p className="flex items-center gap-1.5 text-sm font-bold text-slate-700 dark:text-white">
             <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
@@ -106,7 +100,7 @@ export function FilterBarPassword({
             </div>
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <span className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold ${wali.mustChangePassword ? "bg-[#8B0000] text-white" : "bg-[#FFEB3B] text-white"}`}>
+            <span className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-[10px] font-semibold ${wali.mustChangePassword ? "bg-[#8B0000] text-white" : "bg-[#2962FF] text-white"}`}>
               {wali.mustChangePassword ? "Belum Ganti" : "Sudah Ganti"}
             </span>
             <button onClick={onResetWali}
@@ -133,7 +127,7 @@ export function FilterBarPassword({
                 <motion.span
                   layoutId="password-status-pill-active"
                   transition={{ type: "spring", stiffness: 420, damping: 32 }}
-                  className="absolute inset-0 rounded-full bg-[#FFEB3B] shadow-sm"
+                  className="absolute inset-0 rounded-full bg-[#2962FF] shadow-sm"
                 />
               )}
               <span className={`relative flex items-center gap-1.5 transition-colors ${active ? "text-white" : "text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-white"}`}>
@@ -148,7 +142,7 @@ export function FilterBarPassword({
         })}
       </div>
 
-      <p className="relative mt-auto border-t border-slate-100 pt-3 text-[11px] font-medium text-slate-400 dark:border-slate-700/50 dark:text-slate-500">
+      <p className="relative mt-4 border-t border-slate-100 pt-3 text-[11px] font-medium text-slate-400 dark:border-slate-700/50 dark:text-slate-500">
         Menampilkan {displayedCount} dari {total} siswa di kelas ini
       </p>
     </div>

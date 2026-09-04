@@ -99,8 +99,8 @@ export function LupaPasswordForm() {
         animate={{ opacity: 1, y: 0 }}
         className="mt-8 flex flex-col items-center gap-4 rounded-2xl border border-black/8 bg-black/[0.02] px-6 py-8 text-center"
       >
-        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#FFFEF0]">
-          <CheckCircle2 size={28} className="text-[#FFEB3B]" />
+        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-[#EEF3FF]">
+          <CheckCircle2 size={28} className="text-[#2962FF]" />
         </div>
         <p className="text-sm font-semibold text-black/80">
           Permintaan Anda telah dikirim ke Admin.

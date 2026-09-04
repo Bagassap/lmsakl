@@ -12,9 +12,43 @@ const KARTU_PELAJAR_URL = "https://e-kartu.smklimpung.id";
 // jadi elemen sekunder. Dipakai di Data Siswa (Admin/Guru) & Dashboard Siswa.
 export function KartuPelajarBanner({
   description = "Cek & cetak kartu pelajar siswa lewat portal e-Kartu",
+  compact = false,
 }: {
   description?: string;
+  compact?: boolean;
 }) {
+  // Varian ringkas untuk konteks sempit (mis. sidebar Data Siswa) — badge
+  // "Baru", deskripsi, dan label tombol dibuang karena di kolom sempit
+  // layout flex-row (sm:) tetap dipaksa aktif oleh breakpoint viewport,
+  // bukan lebar container, jadi versi lengkap selalu terlihat rumpek di sana.
+  if (compact) {
+    return (
+      <motion.a
+        href={KARTU_PELAJAR_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        whileHover={{ y: -1 }}
+        whileTap={{ scale: 0.995 }}
+        className="group flex items-center justify-between gap-3 rounded-2xl border-2 border-[#FF5722] bg-[#FFF1EA] p-3.5 shadow-sm transition-colors hover:bg-[#FFF1EA]/70 dark:border-[#FF5722]/30 dark:bg-[#FF5722]/10 dark:hover:bg-[#FF5722]/15"
+      >
+        <div className="flex min-w-0 items-center gap-2.5">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl text-white shadow-sm"
+            style={{ background: "#FF5722" }}>
+            <CreditCard size={16} />
+          </div>
+          <p className="truncate text-sm font-extrabold text-[#FF5722] dark:text-[#FF5722]">Kartu Pelajar</p>
+        </div>
+        <span
+          title="Buka e-Kartu"
+          className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-white shadow-sm transition-transform group-hover:translate-x-0.5"
+          style={{ background: "#FF5722" }}
+        >
+          <ArrowUpRight size={14} />
+        </span>
+      </motion.a>
+    );
+  }
+
   return (
     <motion.a
       href={KARTU_PELAJAR_URL}

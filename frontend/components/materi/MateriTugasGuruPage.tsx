@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { BookOpen, ClipboardList, Send } from "lucide-react";
+import { BookOpen, Send } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { MateriListPage } from "./MateriListPage";
 import { TugasFormModal } from "@/components/tugas/TugasFormModal";
@@ -115,42 +115,33 @@ export function MateriTugasGuruPage() {
     }
   }
 
+  async function tambahPercobaan(submisiId: string) {
+    if (!await toast.confirm("Tambah 1x percobaan?", "Siswa akan dapat 1 kesempatan lagi mengerjakan, tanpa menghapus riwayat percobaan sebelumnya. Cocok untuk kasus HP mati/keluar tanpa sengaja.")) return;
+    const res = await fetch(`/api/tugas/submisi/${submisiId}/tambah-percobaan`, { method: "PUT" });
+    if (res.ok) {
+      toast.success("1x percobaan ditambahkan!");
+      loadAll();
+    } else {
+      toast.error("Gagal menambah percobaan");
+    }
+  }
+
   const perluReview = submisiList.filter((s) => s.status === "TERKIRIM").length;
 
   return (
     <div className="space-y-6">
       <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
-        <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8" />
-        <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6" />
+        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
+        <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
 
-        <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 shadow-lg">
-              <BookOpen size={22} className="text-white sm:hidden" />
-              <BookOpen size={26} className="text-white hidden sm:block" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Belajar & Praktik</span>
-                <span className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-white/20 text-white/90">Guru</span>
-              </div>
-              <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Materi & Tugas</h1>
-              <p className="text-xs sm:text-sm text-white/70 mt-0.5 hidden sm:block">Berikan materi dan tugas untuk mata pelajaran yang Anda ampu</p>
-            </div>
+        <div className="relative flex items-center gap-3 sm:gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+            <BookOpen size={22} className="text-white sm:hidden" />
+            <BookOpen size={26} className="text-white hidden sm:block" />
           </div>
-          <div className="flex items-center gap-2 sm:gap-3">
-            {[
-              { icon: BookOpen, label: "Materi", val: materiList.length },
-              { icon: ClipboardList, label: "Tugas", val: tugasList.length },
-              { icon: Send, label: "Kumpul", val: submisiList.length },
-            ].map(({ icon: Icon, label, val }) => (
-              <div key={label} className="flex flex-col items-center px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-white/15 backdrop-blur-sm min-w-[56px] sm:min-w-[64px]">
-                <Icon size={13} className="text-white/70 mb-1" />
-                <p className="text-lg sm:text-xl font-extrabold text-white leading-none">{loading ? "—" : val}</p>
-                <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
-              </div>
-            ))}
+          <div>
+            <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Belajar & Praktik</span>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Materi & Tugas</h1>
           </div>
         </div>
       </div>
@@ -177,20 +168,20 @@ export function MateriTugasGuruPage() {
             </button>
 
             <button type="button" onClick={() => setCategory("tugas")}
-              className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
+              className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-black transition-all hover:scale-[1.01] active:scale-[0.99]"
               style={{
-                background: "#8B0000",
-                boxShadow: category === "tugas" ? "0 8px 24px rgba(139,0,0,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
-                outline: category === "tugas" ? "2px solid #8B0000" : "none",
+                background: "#C3F84A",
+                boxShadow: category === "tugas" ? "0 8px 24px rgba(195,248,74,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
+                outline: category === "tugas" ? "2px solid #C3F84A" : "none",
                 outlineOffset: "3px",
               }}>
-              <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-white/20">
+              <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-black/5" />
+              <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-black/10">
                 <Send size={16} />
               </div>
               <div className="relative">
                 <p className="text-xl font-black leading-tight">Tugas</p>
-                <p className="mt-0.5 text-[11px] font-medium text-white/75">
+                <p className="mt-0.5 text-[11px] font-medium text-black/75">
                   {tugasList.length} tugas · {perluReview > 0 ? `${perluReview} perlu review` : "semua direview"}
                 </p>
               </div>
@@ -201,7 +192,6 @@ export function MateriTugasGuruPage() {
         {category === "materi" ? (
           <MateriListPage
             embedded
-            roleBadge="Guru"
             currentUserId={currentUserId}
             currentUserRole={currentUserRole}
             mapelOptions={mapelOptions}
@@ -231,6 +221,7 @@ export function MateriTugasGuruPage() {
         onRevisi={(s) => setRevisiTarget(s)}
         onSimpanNilai={simpanNilai}
         onResetPercobaan={resetPercobaan}
+        onTambahPercobaan={tambahPercobaan}
       />
 
       <RevisiFormModal target={revisiTarget} onClose={() => setRevisiTarget(null)} onSend={kirimRevisi} />

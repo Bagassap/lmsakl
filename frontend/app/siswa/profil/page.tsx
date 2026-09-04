@@ -6,7 +6,6 @@ import {
   User, Phone, MapPin, BookOpen, Calendar,
   Users, Pencil, Check, X, GraduationCap, Mail, Hash, IdCard, Camera,
 } from "lucide-react";
-import { LiveClock } from "@/components/shared/LiveClock";
 import { createPortal } from "react-dom";
 import { useToast } from "@/components/shared/ToastSystem";
 import { formatAlamatLengkap } from "@/components/data-siswa/shared";
@@ -34,7 +33,6 @@ type SiswaProfil = {
   user: { id: string; nama: string; email: string | null; fotoProfil?: string | null } | null;
 };
 
-const HERO_GRADIENT = "#D7263D";
 const ACCENT_VIOLET = "#5E0000";
 const ACCENT_ORANGE = "#D7263D";
 const PROFILE_CARD_GRADIENT = "#300000";
@@ -53,7 +51,7 @@ function formatTanggal(iso: string | null): string {
 }
 
 const INPUT =
-  "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-[#bfa300] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#bfa300]/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
+  "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 transition-all focus:border-[#1745b0] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#1745b0]/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
 
 function EditProfilModal({
   siswa, kelasGradient, onClose, onSave,
@@ -144,7 +142,7 @@ function EditProfilModal({
             </button>
           </div>
           <div className="max-h-[60vh] space-y-4 overflow-y-auto px-6 py-5">
-            <p className="rounded-xl bg-[#FFFEF0] px-3.5 py-2.5 text-xs text-[#E6C700] dark:bg-[#735F00]/20 dark:text-[#FFEF6B]">
+            <p className="rounded-xl bg-[#EEF3FF] px-3.5 py-2.5 text-xs text-[#1745B0] dark:bg-[#1745B0]/20 dark:text-[#93B4FF]">
               Lengkapi data diri kamu di bawah ini.
             </p>
             <div className="flex flex-col gap-1.5">
@@ -354,44 +352,21 @@ export default function SiswaProfilPage() {
 
   return (
     <div className="space-y-5">
-      <motion.div
-        initial={{ opacity: 0, y: -12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}
-        className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: HERO_GRADIENT }}
-      >
+      <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
 
-        <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg">
-              <User size={26} className="text-white" />
-            </div>
-            <div className="min-w-0">
-              <div className="mb-1 flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Profil Saya</span>
-                <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Siswa</span>
-              </div>
-              <h1 className="text-2xl font-extrabold leading-tight text-white">Profil Saya</h1>
-              <p className="mt-0.5 text-sm text-white/70">Informasi data diri kamu</p>
-            </div>
+        <div className="relative flex items-center gap-3 sm:gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+            <User size={22} className="text-white sm:hidden" />
+            <User size={26} className="hidden text-white sm:block" />
           </div>
-          <LiveClock />
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Profil Saya</span>
+            <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Profil Saya</h1>
+          </div>
         </div>
-
-        <div className="relative mt-5 flex flex-wrap gap-2">
-          {[
-            { label: kelasShort(profil.kelas.nama), bg: "bg-white/15" },
-            { label: profil.jurusan ?? "—", bg: "bg-white/10" },
-            { label: `Angkatan ${profil.angkatan}`, bg: "bg-white/10" },
-            { label: profil.jenisKelamin ?? "—", bg: isP ? "bg-[#A62E2E]/30" : "bg-[#FFE94B]/20" },
-          ].map(({ label, bg }, i) => (
-            <span key={i} className={`rounded-lg px-3.5 py-1.5 text-xs font-semibold text-white backdrop-blur-sm ${bg}`}>
-              {label}
-            </span>
-          ))}
-        </div>
-      </motion.div>
+      </div>
 
       <motion.div
         initial={{ opacity: 0, y: 16 }}
@@ -431,9 +406,9 @@ export default function SiswaProfilPage() {
             </div>
 
             <h2 className="text-center text-lg font-extrabold text-slate-800 dark:text-white">{nama}</h2>
-            <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[#E6C700]/10 px-3.5 py-1.5 dark:bg-[#FFE94B]/15">
-              <IdCard size={14} className="text-[#E6C700] dark:text-[#FFEF6B]" />
-              <span className="font-mono text-sm font-extrabold tracking-wide text-[#E6C700] dark:text-[#FFEF6B]">
+            <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-[#1745B0]/10 px-3.5 py-1.5 dark:bg-[#6B93FF]/15">
+              <IdCard size={14} className="text-[#1745B0] dark:text-[#93B4FF]" />
+              <span className="font-mono text-sm font-extrabold tracking-wide text-[#1745B0] dark:text-[#93B4FF]">
                 NIS {profil.nis}
               </span>
             </div>
@@ -448,7 +423,7 @@ export default function SiswaProfilPage() {
               <span className={`mt-3 rounded-lg px-3.5 py-1.5 text-[11px] font-bold ${
                 isP
                   ? "bg-[#F7E8E8] text-[#750000] dark:bg-[#300000]/20 dark:text-[#A62E2E]"
-                  : "bg-[#FFFEF0] text-[#E6C700] dark:bg-[#735F00]/20 dark:text-[#FFE94B]"
+                  : "bg-[#EEF3FF] text-[#1745B0] dark:bg-[#1745B0]/20 dark:text-[#6B93FF]"
               }`}>
                 {profil.jenisKelamin}
               </span>
@@ -484,7 +459,7 @@ export default function SiswaProfilPage() {
           >
             <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
               <InfoField icon={Users} label="Jenis Kelamin" value={profil.jenisKelamin}
-                iconBg={isP ? "#EBC4C4" : "#fffbd1"} iconColor={isP ? "#300000" : "#bfa300"} />
+                iconBg={isP ? "#EBC4C4" : "#e3ecff"} iconColor={isP ? "#300000" : "#1745b0"} />
               <InfoField icon={Calendar} label="Tempat, Tgl Lahir" value={tglLahir}
                 iconBg="#D7263D" iconColor="#D7263D" />
               <InfoField icon={GraduationCap} label="Kelas" value={profil.kelas.nama}
@@ -492,9 +467,9 @@ export default function SiswaProfilPage() {
               <InfoField icon={BookOpen} label="Jurusan" value={profil.jurusan}
                 iconBg="#EBC4C4" iconColor="#5E0000" />
               <InfoField icon={Users} label="Nama Orang Tua" value={profil.namaOrtu}
-                iconBg="#fffbd1" iconColor="#bfa300" />
+                iconBg="#e3ecff" iconColor="#1745b0" />
               <InfoField icon={Hash} label="NIS" value={profil.nis}
-                iconBg="#FFFBD1" iconColor="#BFA300" />
+                iconBg="#E3ECFF" iconColor="#1745B0" />
             </div>
           </SectionCard>
 
@@ -514,7 +489,7 @@ export default function SiswaProfilPage() {
           >
             <div className="grid gap-x-6 gap-y-4 sm:grid-cols-2">
               <InfoField icon={Phone} label="No. HP" value={profil.noHp}
-                iconBg="#fffbd1" iconColor="#bfa300" />
+                iconBg="#e3ecff" iconColor="#1745b0" />
               <InfoField icon={MapPin} label="Alamat Lengkap" value={formatAlamatLengkap(profil)}
                 iconBg="#D7263D" iconColor="#D7263D" />
             </div>

@@ -1,42 +1,36 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { FileText, Download, Users, School, BookOpen } from "lucide-react";
+import { FileText, Download, Users, School } from "lucide-react";
 import { kelasShort } from "./shared";
+import { reportCardFg } from "@/components/absensi-harian/shared";
 import { DataSiswaExportButtons } from "./DataSiswaExportButtons";
 
-type Scope = "semua" | "kelas" | "jurusan";
+type Scope = "semua" | "kelas";
 
-const SCOPE_CARDS: { key: Scope; label: string; caption: string; icon: React.ElementType; gradient: string; onLime?: boolean }[] = [
+const SCOPE_CARDS: { key: Scope; label: string; caption: string; icon: React.ElementType; gradient: string }[] = [
   { key: "semua", label: "Semua Siswa", caption: "Seluruh data", icon: Users, gradient: "#8B0000" },
-  { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "#C3F84A", onLime: true },
-  { key: "jurusan", label: "Jurusan Ini", caption: "Satu jurusan", icon: BookOpen, gradient: "#D32F2F" },
+  { key: "kelas", label: "Kelas Ini", caption: "Kelas terpilih", icon: School, gradient: "#C3F84A" },
 ];
 
 export function UnduhDataSiswaCard({
-  kelasId, kelasNama, jurusan,
+  kelasId, kelasNama,
 }: {
-  kelasId?: string; kelasNama?: string; jurusan?: string;
+  kelasId?: string; kelasNama?: string;
 }) {
   const [scope, setScope] = useState<Scope>("semua");
 
-  // Kalau filter kelas/jurusan yang jadi acuan scope aktif dikosongkan dari
+  // Kalau filter kelas yang jadi acuan scope aktif dikosongkan dari
   // FilterBar, scope ini otomatis jatuh balik ke "semua" - mencegah tombol
   // ekspor diam-diam mengunduh berdasarkan cakupan yang sudah tidak ada.
   useEffect(() => {
     if (scope === "kelas" && !kelasId) setScope("semua");
-    if (scope === "jurusan" && !jurusan) setScope("semua");
-  }, [kelasId, jurusan, scope]);
+  }, [kelasId, scope]);
 
-  const caption =
-    scope === "kelas" && kelasNama
-      ? kelasShort(kelasNama)
-      : scope === "jurusan" && jurusan
-        ? jurusan
-        : "Semua kelas";
+  const caption = scope === "kelas" && kelasNama ? kelasShort(kelasNama) : "Semua kelas";
 
   return (
-    <div className="flex h-full flex-col rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+    <div className="flex flex-1 flex-col">
       <div className="mb-3 flex items-center gap-2.5">
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: "#5E0000" }}>
           <FileText size={18} />
@@ -47,28 +41,30 @@ export function UnduhDataSiswaCard({
         </div>
       </div>
 
-      <div className="grid flex-1 grid-cols-3 content-center gap-3">
+      <div className="grid flex-1 grid-cols-2 content-center gap-3">
         {SCOPE_CARDS.map((opt) => {
-          const disabled = (opt.key === "kelas" && !kelasId) || (opt.key === "jurusan" && !jurusan);
+          const disabled = opt.key === "kelas" && !kelasId;
           const active = scope === opt.key;
+          const fg = reportCardFg(opt.gradient);
           return (
             <button
               key={opt.key}
               type="button"
               disabled={disabled}
               onClick={() => setScope(opt.key)}
-              title={disabled ? "Pilih kelas/jurusan di filter dahulu" : undefined}
-              className={`flex flex-col items-center justify-center gap-1.5 rounded-2xl px-2 py-5 text-center shadow-sm transition-all disabled:cursor-not-allowed ${opt.onLime ? "text-black" : "text-white"}`}
+              title={disabled ? "Pilih kelas di filter dahulu" : undefined}
+              className="flex flex-col items-center justify-center gap-1.5 rounded-2xl px-2 py-5 text-center shadow-sm transition-all disabled:cursor-not-allowed"
               style={{
                 background: opt.gradient,
+                color: fg,
                 opacity: disabled ? 0.25 : active ? 1 : 0.55,
-                outline: active ? "2px solid white" : "2px solid transparent",
+                outline: active ? `2px solid ${fg}` : "2px solid transparent",
                 outlineOffset: active ? "2px" : "0",
               }}
             >
               <opt.icon size={20} />
               <span className="text-xs font-bold">{opt.label}</span>
-              <span className={`text-[10px] leading-tight ${opt.onLime ? "text-black/70" : "text-white/75"}`}>{opt.caption}</span>
+              <span className="text-[10px] leading-tight" style={{ color: `${fg}BF` }}>{opt.caption}</span>
             </button>
           );
         })}
@@ -83,7 +79,6 @@ export function UnduhDataSiswaCard({
         <DataSiswaExportButtons
           kelasId={scope === "kelas" ? kelasId : undefined}
           kelasNama={scope === "kelas" ? kelasNama : undefined}
-          jurusan={scope === "jurusan" ? jurusan : undefined}
         />
       </div>
 

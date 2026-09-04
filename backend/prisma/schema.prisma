@@ -34,6 +34,7 @@ enum StatusIzin {
 enum StatusSiswa {
   AKTIF
   LULUS
+  KELUAR
 }
 
 enum NotificationType {
@@ -152,10 +153,11 @@ model Siswa {
   tanggalLahir DateTime?
   namaOrtu     String?
 
-  // AKTIF = siswa berjalan biasa. LULUS = sudah lulus (kelas XII naik jadi
-  // alumni) — otomatis disembunyikan dari Data Siswa aktif, dan akun
-  // login-nya (jika ada) dinonaktifkan. Riwayat (absensi/nilai/tugas dst)
-  // tetap disimpan, tidak dihapus.
+  // AKTIF = siswa berjalan biasa. LULUS/KELUAR ditulis sesaat sebelum baris
+  // Siswa ini dihapus permanen (lihat SiswaService.hardDeleteSatuSiswa) —
+  // kelulusan dan siswa keluar/pindah sekolah TIDAK lagi soft-delete,
+  // seluruh riwayatnya (absensi/nilai/tugas/PKL/UKK) dan akun login-nya
+  // ikut terhapus permanen, tidak bisa dibatalkan.
   status    StatusSiswa @default(AKTIF)
   lulusPada DateTime?
 
@@ -226,7 +228,7 @@ model Kelas {
   siswa         Siswa[]
   absensiHarian AbsensiHarian[]
   materiList    Materi[]
-  tugas         Tugas[]
+  tugasList     Tugas[]
 
   @@map("kelas")
 }
@@ -285,8 +287,10 @@ enum StatusTugas {
 model Tugas {
   id             String   @id @default(cuid())
   mapel          String
-  kelasId        String?
-  kelas          Kelas?   @relation(fields: [kelasId], references: [id])
+  // Kelas target tugas ini — kosong (tidak ada relasi) berarti "Semua
+  // Kelas". Dulu relasi 1 kelas per tugas (kelasId), sekarang bisa banyak
+  // kelas sekaligus — sama seperti Materi.kelasList.
+  kelasList      Kelas[]
   judul          String
   deskripsi      String?  @db.Text
   deadline       DateTime
@@ -353,8 +357,11 @@ model TugasSubmisi {
   submittedAt      DateTime    @default(now())
   updatedAt        DateTime    @updatedAt
 
-  // Lockdown/exam-mode (PRAKTIK/PILIHAN_GANDA/ESSAY) — maksimal 2 percobaan.
+  // Lockdown/exam-mode (PRAKTIK/PILIHAN_GANDA/ESSAY) — maksimal 2 percobaan
+  // + bonusPercobaan (ditambah guru/admin per submisi, mis. kalau HP siswa
+  // mati saat mengerjakan) — lihat TugasService.tambahPercobaan.
   jumlahPercobaan Int       @default(0)
+  bonusPercobaan  Int       @default(0)
   terkunci        Boolean   @default(false)
   dipaksaKeluar   Boolean   @default(false)
   waktuMulai      DateTime?
@@ -796,4 +803,17 @@ model NilaiUKK {
 
   @@unique([jadwalId, siswaId])
   @@map("nilai_ukk")
+}
+
+// Saklar admin untuk buka/tutup menu PKL & UKK bagi siswa kelas XII. Periode
+// PKL/UKK beda tiap tahun ajaran & tidak berdasarkan tanggal tetap, jadi
+// bukan dihitung otomatis — admin nyalakan manual dari menu Pengaturan.
+// Singleton (satu baris, id tetap "singleton").
+model PengaturanSistem {
+  id          String   @id
+  magangAktif Boolean  @default(false)
+  ukkAktif    Boolean  @default(false)
+  updatedAt   DateTime @updatedAt
+
+  @@map("pengaturan_sistem")
 }

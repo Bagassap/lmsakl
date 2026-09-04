@@ -6,7 +6,7 @@ import { avatarColorFor, toTitleCase } from "@/components/data-siswa/shared";
 import type { LaporanAkhirRow } from "./laporan-akhir-types";
 
 const STATUS_CFG: Record<string, { label: string; bg: string; clr: string; icon: typeof Clock }> = {
-  TERKIRIM: { label: "Menunggu Review", bg: "#FFFBD1", clr: "#BFA300", icon: Clock },
+  TERKIRIM: { label: "Menunggu Review", bg: "#E3ECFF", clr: "#1745B0", icon: Clock },
   DITERIMA: { label: "Diterima", bg: "#ECFCCB", clr: "#4D7C0F", icon: CheckCircle2 },
   REVISI: { label: "Perlu Revisi", bg: "#F8D6DA", clr: "#9E1B2E", icon: AlertTriangle },
 };

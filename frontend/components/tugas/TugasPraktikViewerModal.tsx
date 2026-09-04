@@ -29,7 +29,7 @@ export function TugasPraktikViewerModal({
             className="relative flex max-h-[90dvh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800"
           >
             <div className="relative flex shrink-0 items-center gap-3 overflow-hidden px-6 py-4"
-              style={{ background: "#BFA300" }}>
+              style={{ background: "#1745B0" }}>
               <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15">
                 <Calculator size={18} className="text-white" />

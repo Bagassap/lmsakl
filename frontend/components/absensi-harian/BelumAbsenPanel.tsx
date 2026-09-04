@@ -58,6 +58,36 @@ function StatTrigger({
   );
 }
 
+// Baris ringkas — dipakai saat BelumAbsenPanel ditanam di dalam card lain
+// (mis. "Siswa Bermasalah") supaya gayanya menyatu dengan baris ranking di
+// card itu (badge bulat + nama/keterangan + angka berwarna di kanan),
+// bukan kartu putih melayang dengan bayangannya sendiri seperti StatTrigger.
+function CompactTrigger({
+  title, icon: Icon, accent, items, total, onOpen,
+}: {
+  title: string;
+  icon: React.ElementType;
+  accent: string;
+  items: SiswaAbsensi[];
+  total: number;
+  onOpen: () => void;
+}) {
+  const pct = total > 0 ? Math.round((items.length / total) * 100) : 0;
+  return (
+    <button type="button" onClick={onOpen}
+      className="flex w-full items-center gap-3 rounded-xl bg-slate-50 px-3 py-2.5 text-left transition-colors hover:bg-slate-100 dark:bg-slate-700/40 dark:hover:bg-slate-700/60">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white" style={{ background: accent }}>
+        <Icon size={14} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-semibold text-slate-700 dark:text-slate-200">{title}</p>
+        <p className="truncate text-[10px] text-slate-400">{items.length} dari {total} siswa</p>
+      </div>
+      <span className="shrink-0 text-xs font-bold" style={{ color: accent }}>{pct}%</span>
+    </button>
+  );
+}
+
 function DetailModal({
   title, icon: Icon, headerBg, iconColor, emptyMessage, items, mode, onClose,
 }: {
@@ -186,7 +216,7 @@ function DetailModal({
   );
 }
 
-export function BelumAbsenPanel({ siswaList }: { siswaList: SiswaAbsensi[] }) {
+export function BelumAbsenPanel({ siswaList, bottomAlign = false, compact = false }: { siswaList: SiswaAbsensi[]; bottomAlign?: boolean; compact?: boolean }) {
   const [activeModal, setActiveModal] = useState<"hadir" | "pulang" | null>(null);
 
   const belumHadir = siswaList.filter((s) => !s.status || s.status === "ALPA");
@@ -196,27 +226,50 @@ export function BelumAbsenPanel({ siswaList }: { siswaList: SiswaAbsensi[] }) {
 
   return (
     <>
-      <div className="flex h-full flex-col justify-center gap-3">
-        <StatTrigger
-          title="Belum Absen Hadir"
-          icon={Clock}
-          gradient={DASHBOARD_GRADIENTS[hadirIdx]}
-          accent={DASHBOARD_ACCENT[hadirIdx]}
-          items={belumHadir}
-          total={siswaList.length}
-          hint="Perlu tindak lanjut segera →"
-          onOpen={() => setActiveModal("hadir")}
-        />
-        <StatTrigger
-          title="Belum Absen Pulang"
-          icon={PULANG_CFG.icon}
-          gradient={DASHBOARD_GRADIENTS[pulangIdx]}
-          accent={DASHBOARD_ACCENT[pulangIdx]}
-          items={belumPulang}
-          total={siswaList.length}
-          hint="Klik untuk kirim pengingat →"
-          onOpen={() => setActiveModal("pulang")}
-        />
+      <div className={compact ? "flex flex-col gap-2" : `flex h-full flex-col gap-3 ${bottomAlign ? "justify-end" : "justify-center"}`}>
+        {compact ? (
+          <>
+            <CompactTrigger
+              title="Belum Absen Hadir"
+              icon={Clock}
+              accent={DASHBOARD_ACCENT[hadirIdx]}
+              items={belumHadir}
+              total={siswaList.length}
+              onOpen={() => setActiveModal("hadir")}
+            />
+            <CompactTrigger
+              title="Belum Absen Pulang"
+              icon={PULANG_CFG.icon}
+              accent={DASHBOARD_ACCENT[pulangIdx]}
+              items={belumPulang}
+              total={siswaList.length}
+              onOpen={() => setActiveModal("pulang")}
+            />
+          </>
+        ) : (
+          <>
+            <StatTrigger
+              title="Belum Absen Hadir"
+              icon={Clock}
+              gradient={DASHBOARD_GRADIENTS[hadirIdx]}
+              accent={DASHBOARD_ACCENT[hadirIdx]}
+              items={belumHadir}
+              total={siswaList.length}
+              hint="Perlu tindak lanjut segera →"
+              onOpen={() => setActiveModal("hadir")}
+            />
+            <StatTrigger
+              title="Belum Absen Pulang"
+              icon={PULANG_CFG.icon}
+              gradient={DASHBOARD_GRADIENTS[pulangIdx]}
+              accent={DASHBOARD_ACCENT[pulangIdx]}
+              items={belumPulang}
+              total={siswaList.length}
+              hint="Klik untuk kirim pengingat →"
+              onOpen={() => setActiveModal("pulang")}
+            />
+          </>
+        )}
       </div>
 
       <AnimatePresence>

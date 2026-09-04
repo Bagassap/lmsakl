@@ -158,7 +158,7 @@ export function JadwalAbsenCard() {
         <div className="grid grid-cols-2 gap-2.5">
           <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              <LogIn size={11} className="text-[#FFEB3B]" /> Absen Datang
+              <LogIn size={11} className="text-[#2962FF]" /> Absen Datang
             </p>
             <p className="mt-1 text-sm font-bold text-slate-800 dark:text-white">
               {hariIni.isWeekend ? "Libur" : `${fmtMinutes(hariIni.hadirStartMinutes)} - ${fmtMinutes(hariIni.hadirEndMinutes)}`}
@@ -166,7 +166,7 @@ export function JadwalAbsenCard() {
           </div>
           <div className="rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
             <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-slate-400 dark:text-slate-500">
-              <LogOut size={11} className="text-[#FFEB3B]" /> Absen Pulang
+              <LogOut size={11} className="text-[#2962FF]" /> Absen Pulang
             </p>
             <p className="mt-1 text-sm font-bold text-slate-800 dark:text-white">
               {hariIni.isWeekend ? "Libur" : `${fmtMinutes(hariIni.pulangStartMinutes)} - ${fmtMinutes(hariIni.pulangEndMinutes)}`}
@@ -232,8 +232,8 @@ export function JadwalAbsenCard() {
                   <input type="date" required value={form.tanggal} onChange={(e) => setForm((f) => ({ ...f, tanggal: e.target.value }))} className={INPUT} />
                 </div>
 
-                <div className="rounded-2xl border border-[#FFFBD1] bg-[#FFFEF0]/50 p-3 dark:border-[#735F00]/30 dark:bg-[#735F00]/10">
-                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#E6C700] dark:text-[#FFE94B]">
+                <div className="rounded-2xl border border-[#E3ECFF] bg-[#EEF3FF]/50 p-3 dark:border-[#1745B0]/30 dark:bg-[#1745B0]/10">
+                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#1745B0] dark:text-[#6B93FF]">
                     <LogIn size={12} /> Absen Datang
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">
@@ -248,8 +248,8 @@ export function JadwalAbsenCard() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-[#FFFBD1] bg-[#FFFEF0]/50 p-3 dark:border-[#735F00]/30 dark:bg-[#735F00]/10">
-                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#E6C700] dark:text-[#FFE94B]">
+                <div className="rounded-2xl border border-[#E3ECFF] bg-[#EEF3FF]/50 p-3 dark:border-[#1745B0]/30 dark:bg-[#1745B0]/10">
+                  <p className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wide text-[#1745B0] dark:text-[#6B93FF]">
                     <LogOut size={12} /> Absen Pulang
                   </p>
                   <div className="grid grid-cols-2 gap-2.5">

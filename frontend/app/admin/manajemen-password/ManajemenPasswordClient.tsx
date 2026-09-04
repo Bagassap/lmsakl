@@ -1,12 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { KeyRound, Users, CheckCircle2, AlertTriangle, Clock } from "lucide-react";
+import { motion } from "framer-motion";
+import { KeyRound, GraduationCap, FileSpreadsheet, UserPlus } from "lucide-react";
 import { ResetPasswordModal } from "@/components/shared/ResetPasswordModal";
 import { useToast } from "@/components/shared/ToastSystem";
 import { FilterBarPassword, type StatusFilter } from "./FilterBarPassword";
 import { PermintaanPasswordCard, type PasswordResetRequest } from "./PermintaanPasswordCard";
 import { SiswaPasswordTable, type SiswaPasswordItem } from "./SiswaPasswordTable";
+import { CreateAccountModal } from "./CreateAccountModal";
+import { ImportSiswaModal } from "./ImportSiswaModal";
+import { KelolaGuruModal } from "./KelolaGuruModal";
 
 type KelasWithWali = {
   id: string;
@@ -29,7 +33,7 @@ type AccountStatus = {
 
 type SiswaPageResponse = { items: SiswaPasswordItem[]; total: number };
 
-type ResetTarget = { id: string; nama: string; nis?: string; mustChangePassword: boolean; sourceRequestId?: string };
+type ResetTarget = { id: string; nama: string; nis?: string; loginId?: string; mustChangePassword: boolean; sourceRequestId?: string };
 
 function toTitleCase(str: string): string {
   return str.toLowerCase().split(" ").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
@@ -39,7 +43,7 @@ export default function ManajemenPasswordClient() {
   const toast = useToast();
   const [kelasList, setKelasList] = useState<KelasWithWali[]>([]);
   const [accountList, setAccountList] = useState<AccountStatus[]>([]);
-  const [loadingHeader, setLoadingHeader] = useState(true);
+  const [, setLoadingHeader] = useState(true);
 
   const [selectedKelasId, setSelectedKelasId] = useState<string>("");
   const [siswaPage, setSiswaPage] = useState<SiswaPageResponse | null>(null);
@@ -53,6 +57,9 @@ export default function ManajemenPasswordClient() {
   const [busyId, setBusyId] = useState<string | null>(null);
 
   const [resetTarget, setResetTarget] = useState<ResetTarget | null>(null);
+  const [createAccountOpen, setCreateAccountOpen] = useState(false);
+  const [importSiswaOpen, setImportSiswaOpen] = useState(false);
+  const [kelolaGuruOpen, setKelolaGuruOpen] = useState(false);
 
   const fetchHeader = useCallback(async () => {
     setLoadingHeader(true);
@@ -124,10 +131,6 @@ export default function ManajemenPasswordClient() {
     }
   }
 
-  const totalCount = accountList.length;
-  const sudahGantiCount = accountList.filter((u) => !u.mustChangePassword).length;
-  const belumGantiCount = accountList.filter((u) => u.mustChangePassword).length;
-
   const accountById = useMemo(() => {
     const map: Record<string, AccountStatus> = {};
     for (const a of accountList) map[a.id] = a;
@@ -157,90 +160,87 @@ export default function ManajemenPasswordClient() {
       <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
-        <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
-              <KeyRound size={22} className="text-white sm:hidden" />
-              <KeyRound size={26} className="hidden text-white sm:block" />
-            </div>
-            <div>
-              <div className="mb-1 flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Manajemen Password</span>
-                <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Superadmin</span>
-              </div>
-              <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Manajemen Password</h1>
-              <p className="mt-0.5 text-sm text-white/70">Kelola status password & permintaan reset</p>
-            </div>
+        <div className="relative flex items-center gap-3 sm:gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+            <KeyRound size={22} className="text-white sm:hidden" />
+            <KeyRound size={26} className="hidden text-white sm:block" />
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="flex items-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 backdrop-blur-sm">
-              <Users size={14} className="text-white/70" />
-              <div className="leading-tight">
-                <p className="text-sm font-extrabold text-white">{loadingHeader ? "—" : totalCount}</p>
-                <p className="text-[9px] font-semibold uppercase tracking-wide text-white/60">Total Akun</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 backdrop-blur-sm">
-              <CheckCircle2 size={14} className="text-[#FFEF6B]" />
-              <div className="leading-tight">
-                <p className="text-sm font-extrabold text-white">{loadingHeader ? "—" : sudahGantiCount}</p>
-                <p className="text-[9px] font-semibold uppercase tracking-wide text-white/60">Sudah Ganti</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 backdrop-blur-sm">
-              <AlertTriangle size={14} className="text-[#E8828C]" />
-              <div className="leading-tight">
-                <p className="text-sm font-extrabold text-white">{loadingHeader ? "—" : belumGantiCount}</p>
-                <p className="text-[9px] font-semibold uppercase tracking-wide text-white/60">Belum Ganti</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2 rounded-xl bg-white/15 px-3.5 py-2 backdrop-blur-sm">
-              <Clock size={14} className="text-white/70" />
-              <div className="leading-tight">
-                <p className="text-sm font-extrabold text-white">{loadingPermintaan ? "—" : pending.length}</p>
-                <p className="text-[9px] font-semibold uppercase tracking-wide text-white/60">Permintaan Pending</p>
-              </div>
-            </div>
+          <div>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Superadmin</span>
+            <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Manajemen Password</h1>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <div className="lg:col-span-2">
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
+        <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:col-span-2">
           <FilterBarPassword
             kelasList={kelasList}
             selectedKelasId={selectedKelasId}
             onSelectKelas={setSelectedKelasId}
             kelasNama={selectedKelas?.nama}
             wali={waliAccount ? { id: waliAccount.id, nama: toTitleCase(waliAccount.nama), fotoProfil: waliAccount.fotoProfil, mustChangePassword: waliAccount.mustChangePassword } : null}
-            onResetWali={() => waliAccount && setResetTarget({ id: waliAccount.id, nama: toTitleCase(waliAccount.nama), mustChangePassword: waliAccount.mustChangePassword })}
+            onResetWali={() => waliAccount && setResetTarget({ id: waliAccount.id, nama: toTitleCase(waliAccount.nama), loginId: waliAccount.loginId ?? undefined, mustChangePassword: waliAccount.mustChangePassword })}
             search={search} onSearch={setSearch}
             statusFilter={statusFilter} onStatusFilter={setStatusFilter}
             total={siswaItems.length} sudahCount={sudahCount} belumCount={belumCount} displayedCount={displayed.length}
           />
+          <div className="border-t border-slate-100 dark:border-slate-700/50">
+            <SiswaPasswordTable
+              loading={loadingSiswa}
+              siswas={displayed}
+              onReset={(s) => s.user && setResetTarget({ id: s.user.id, nama: toTitleCase(s.nama), nis: s.nis, mustChangePassword: s.user.mustChangePassword })}
+            />
+          </div>
         </div>
 
-        <PermintaanPasswordCard
-          pending={pending}
-          riwayat={riwayat}
-          loading={loadingPermintaan}
-          busyId={busyId}
-          onProcess={(r) => r.user && setResetTarget({ id: r.user.id, nama: r.namaPengaju, nis: r.user.siswa?.nis, mustChangePassword: true, sourceRequestId: r.id })}
-          onAbaikan={handleAbaikan}
-        />
-      </div>
+        <div className="flex flex-col rounded-3xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
+          <div className="grid grid-cols-3 gap-2 p-5">
+            <motion.button
+              onClick={() => setKelolaGuruOpen(true)}
+              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+              title="Kelola Guru"
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-primary px-2 py-3 text-white shadow-sm transition-all hover:brightness-105">
+              <GraduationCap size={18} />
+              <span className="text-[10px] font-bold leading-tight">Kelola Guru</span>
+            </motion.button>
+            <motion.button
+              onClick={() => setImportSiswaOpen(true)}
+              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+              title="Impor Massal"
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-primary px-2 py-3 text-white shadow-sm transition-all hover:brightness-105">
+              <FileSpreadsheet size={18} />
+              <span className="text-[10px] font-bold leading-tight">Impor Massal</span>
+            </motion.button>
+            <motion.button
+              onClick={() => setCreateAccountOpen(true)}
+              whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
+              title="Buat Akun"
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-primary px-2 py-3 text-white shadow-sm transition-all hover:brightness-105">
+              <UserPlus size={18} />
+              <span className="text-[10px] font-bold leading-tight">Buat Akun</span>
+            </motion.button>
+          </div>
 
-      <SiswaPasswordTable
-        loading={loadingSiswa}
-        siswas={displayed}
-        onReset={(s) => s.user && setResetTarget({ id: s.user.id, nama: toTitleCase(s.nama), nis: s.nis, mustChangePassword: s.user.mustChangePassword })}
-      />
+          <div className="border-t border-slate-100 dark:border-slate-700/50">
+            <PermintaanPasswordCard
+              pending={pending}
+              riwayat={riwayat}
+              loading={loadingPermintaan}
+              busyId={busyId}
+              onProcess={(r) => r.user && setResetTarget({ id: r.user.id, nama: r.namaPengaju, nis: r.user.siswa?.nis, mustChangePassword: true, sourceRequestId: r.id })}
+              onAbaikan={handleAbaikan}
+            />
+          </div>
+        </div>
+      </div>
 
       {resetTarget && (
         <ResetPasswordModal
           userId={resetTarget.id}
           userName={resetTarget.nama}
           nis={resetTarget.nis}
+          loginId={resetTarget.loginId}
           mustChangePassword={resetTarget.mustChangePassword}
           onClose={() => setResetTarget(null)}
           onSuccess={async () => {
@@ -249,6 +249,27 @@ export default function ManajemenPasswordClient() {
           }}
         />
       )}
+
+      <CreateAccountModal
+        open={createAccountOpen}
+        kelasList={kelasList.map((k) => ({ id: k.id, nama: k.nama }))}
+        onClose={() => setCreateAccountOpen(false)}
+        onCreated={refetchAll}
+      />
+
+      <ImportSiswaModal
+        open={importSiswaOpen}
+        onClose={() => setImportSiswaOpen(false)}
+        onImported={refetchAll}
+      />
+
+      <KelolaGuruModal
+        open={kelolaGuruOpen}
+        kelasList={kelasList}
+        onClose={() => setKelolaGuruOpen(false)}
+        onResetPassword={(t) => setResetTarget(t)}
+        onChanged={refetchAll}
+      />
     </div>
   );
 }

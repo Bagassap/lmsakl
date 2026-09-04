@@ -97,7 +97,7 @@ export class UjianUkkService {
     });
   }
 
-  async createSoal(dto: CreateSoalDto, fileUrl: string, fileName: string) {
+  async createSoal(dto: Omit<CreateSoalDto, 'driveUrl'>, fileUrl: string, fileName: string) {
     return this.prisma.soalTahapanUKK.create({
       data: { ...dto, fileUrl, fileName },
       include: { tahapan: { select: { id: true, judul: true } } },

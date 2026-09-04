@@ -144,9 +144,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
       {bypassIdentityVerification ? (
         <motion.div
           variants={item}
-          className="flex items-start gap-2.5 rounded-xl border border-[#FFEB3B]/20 bg-[#FFEB3B]/5 px-3.5 py-3"
+          className="flex items-start gap-2.5 rounded-xl border border-[#2962FF]/20 bg-[#2962FF]/5 px-3.5 py-3"
         >
-          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#E6C700]" />
+          <ShieldCheck size={16} className="mt-0.5 shrink-0 text-[#1745B0]" />
           <p className="text-xs leading-relaxed text-black/65">
             Identitas Anda sudah diverifikasi oleh admin — langsung buat password baru di bawah ini.
           </p>

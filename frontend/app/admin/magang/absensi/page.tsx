@@ -5,18 +5,70 @@ import { AnimatePresence } from "framer-motion";
 import {
   ClipboardCheck, CalendarDays, Briefcase,
   ArrowRight, ChevronLeft, ChevronRight,
-  Users, TrendingUp, LogOut, FileText, Download,
+  Users, TrendingUp, LogOut, FileText, Download, Bell, Check,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
-import { LiveClock } from "@/components/shared/LiveClock";
 import { DokumenModal } from "@/components/absensi-harian/DokumenModal";
 import { BelumAbsenPanel } from "@/components/absensi-harian/BelumAbsenPanel";
 import { AbsensiMagangTable } from "@/components/absensi-magang/AbsensiMagangTable";
 import { ExportButtons } from "@/components/absensi-magang/ExportButtons";
 import { useExportRange } from "@/components/absensi-harian/useExportRange";
 import { paginate } from "@/components/shared/PageSizeToggle";
-import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, WALLET_ON_TEXT, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, WALLET_ON_LIME, WALLET_ON_TEXT, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl, formatTglSlash } from "@/components/absensi-harian/shared";
 import type { SiswaAbsensi, FilterAbsensi, RekapTempat, TempatMagang } from "@/components/absensi-magang/types";
+
+// Khusus admin, tombol ini SENGAJA menjangkau SEMUA tempat PKL sekaligus
+// (bukan cuma tempat yang sedang dipilih di grid kartu) — tempatMagangId
+// tidak dikirim sama sekali, backend menganggap request tanpa tempatMagangId
+// dari role ADMIN sebagai "semua tempat". Guru tetap dibatasi ke tempat
+// magang siswa bimbingannya (lihat versi KirimPengingatCard di halaman
+// Guru, yang masih mengirim tempatMagangId).
+function KirimPengingatCard({ tanggal, siswaList }: { tanggal: string; siswaList: SiswaAbsensi[] }) {
+  const toast = useToast();
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const belum = siswaList.filter((s) => !s.status || s.status === "ALPA");
+
+  async function kirim() {
+    if (belum.length === 0 || sending) return;
+    setSending(true);
+    try {
+      const res = await fetch("/api/magang/absensi/kirim-pengingat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tanggal }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) { toast.error("Gagal mengirim pengingat", data?.message ?? ""); return; }
+
+      const text = belum.map((s, i) => `${i + 1}. ${s.nama}${s.nis ? ` (${s.nis})` : ""}`).join("\n");
+      try { await navigator.clipboard.writeText(text); } catch { /* clipboard opsional, notifikasi tetap terkirim */ }
+
+      setSent(true);
+      toast.success("Pengingat terkirim!", `Notifikasi masuk ke ${data.count} siswa di seluruh tempat PKL · daftar nama juga disalin untuk WA`);
+      setTimeout(() => setSent(false), 2000);
+    } catch {
+      toast.error("Server tidak dapat dijangkau", "");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <button type="button" onClick={kirim} disabled={belum.length === 0 || sending}
+      className="flex w-full items-center gap-2.5 rounded-2xl border-2 border-transparent bg-[#FCF0F1] px-4 py-3 text-left transition-all hover:border-[#F8D6DA] disabled:cursor-default disabled:opacity-50 dark:bg-[#5C1420]/15 dark:hover:border-[#5C1420]/60">
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
+        {sent ? <Check size={15} /> : <Bell size={15} />}
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-bold text-[#9E1B2E] dark:text-[#E8677A]">{sent ? "Terkirim!" : "Kirim Pengingat Absen PKL (Semua Tempat)"}</p>
+        <p className="truncate text-[11px] font-semibold text-[#C22540] dark:text-[#E8677A]/80">
+          {belum.length > 0 ? `${belum.length} siswa belum absen di seluruh tempat PKL` : "Semua siswa PKL sudah absen"}
+        </p>
+      </div>
+    </button>
+  );
+}
 
 export default function AdminMagangAbsensiPage() {
   const toast = useToast();
@@ -112,22 +164,15 @@ export default function AdminMagangAbsensiPage() {
         <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
-          <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
-                <ClipboardCheck size={22} className="text-white sm:hidden" />
-                <ClipboardCheck size={26} className="hidden text-white sm:block" />
-              </div>
-              <div>
-                <div className="mb-1 flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
-                  <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Admin</span>
-                </div>
-                <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
-                <p className="mt-0.5 text-sm text-white/70">Pantau kehadiran siswa di setiap tempat PKL</p>
-              </div>
+          <div className="relative flex items-center gap-3 sm:gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+              <ClipboardCheck size={22} className="text-white sm:hidden" />
+              <ClipboardCheck size={26} className="hidden text-white sm:block" />
             </div>
-            <LiveClock />
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
+              <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
+            </div>
           </div>
         </div>
 
@@ -154,7 +199,7 @@ export default function AdminMagangAbsensiPage() {
               {tempatList.length === 0 ? (
                 <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                   {Array.from({ length: 4 }).map((_, i) => (
-                    <div key={i} className="h-52 animate-pulse rounded-3xl bg-slate-100 dark:bg-slate-800" />
+                    <div key={i} className="h-40 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-800" />
                   ))}
                 </div>
               ) : (
@@ -163,41 +208,45 @@ export default function AdminMagangAbsensiPage() {
                     const s = tempatStat(t);
                     const isSelected = t.id === selectedId;
                     const idx = s.idx % WALLET_GRADIENTS.length;
-                    const bg = WALLET_GRADIENTS[idx];
+                    const gradient = WALLET_GRADIENTS[idx];
+                    const onLime = WALLET_ON_LIME[idx];
                     const onText = WALLET_ON_TEXT[idx];
                     return (
                       <button type="button" key={t.id} onClick={() => setSelectedId(t.id)}
-                        className="relative flex h-52 flex-col justify-between overflow-hidden rounded-3xl p-4 text-left transition-all"
+                        className={`relative flex h-40 flex-col justify-between overflow-hidden rounded-2xl p-5 text-left transition-all hover:scale-[1.01] active:scale-[0.99] ${onLime ? "text-black" : "text-white"}`}
                         style={{
-                          background: bg,
-                          color: onText,
-                          boxShadow: "0 10px 24px rgba(0,0,0,0.18)",
-                          outline: isSelected ? `3px solid ${onText}` : "3px solid transparent",
-                          outlineOffset: isSelected ? "2px" : "0",
+                          background: gradient,
+                          boxShadow: isSelected ? `0 8px 24px ${gradient}59` : "0 8px 24px rgba(0,0,0,0.15)",
+                          outline: isSelected ? `2px solid ${onText}` : "2px solid transparent",
+                          outlineOffset: "3px",
                         }}>
-                        <div className="relative flex items-center gap-2">
-                          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: `${onText}40` }}>
-                            <Briefcase size={14} />
+                        <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full" style={{ backgroundColor: `${onText}1a` }} />
+
+                        <div className="relative flex items-center justify-between">
+                          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl ${onLime ? "bg-black/15" : "bg-white/20"}`}>
+                            <Briefcase size={16} />
                           </span>
-                          <p className="truncate text-sm font-bold">{t.namaTempat}</p>
+                          <span className="text-[11px] font-bold tabular-nums" style={{ color: `${onText}CC` }}>{s.pct}%</span>
                         </div>
 
                         <div className="relative">
-                          <p className="text-2xl font-extrabold tabular-nums">
-                            {s.hd}<span className="text-sm font-semibold" style={{ color: `${onText}B3` }}>/{s.tt}</span>
+                          <p className="truncate text-lg font-black leading-tight">{t.namaTempat}</p>
+                          <p className={`mt-0.5 truncate text-[11px] font-medium ${onLime ? "text-black/70" : "text-white/75"}`}>
+                            {s.hd}/{s.tt} hadir · Izin {s.iz} · Sakit {s.sk} · Alpa {s.al}
                           </p>
-                          <p className="text-[11px] font-semibold" style={{ color: `${onText}CC` }}>Hadir · {s.pct}%</p>
-                          <div className="mt-2 h-1.5 w-full rounded-full" style={{ backgroundColor: `${onText}40` }}>
+                          <div className="mt-2 h-1.5 w-full rounded-full" style={{ backgroundColor: `${onText}33` }}>
                             <div className="h-1.5 rounded-full transition-all" style={{ width: `${s.pct}%`, backgroundColor: onText }} />
                           </div>
                         </div>
-
-                        <p className="relative text-[10px] font-medium" style={{ color: `${onText}B3` }}>
-                          Izin {s.iz} · Sakit {s.sk} · Alpa {s.al}
-                        </p>
                       </button>
                     );
                   })}
+                </div>
+              )}
+
+              {rekapAll.length > 0 && (
+                <div className="mt-4">
+                  <KirimPengingatCard tanggal={tanggal} siswaList={rekapAll.flatMap((r) => r.siswa)} />
                 </div>
               )}
             </div>
@@ -222,28 +271,32 @@ export default function AdminMagangAbsensiPage() {
                 <p className="text-sm font-bold text-slate-800 dark:text-white">
                   Status Kehadiran Hari Ini <span className="font-medium text-slate-400">({total})</span>
                 </p>
-                <p className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">{formatTgl(tanggal)}</p>
               </div>
-              <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-600 dark:bg-slate-700/50 sm:w-full sm:max-w-xs">
+              <div className="relative flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-600 dark:bg-slate-700/50 sm:w-full sm:max-w-xs">
                 <CalendarDays size={14} className="shrink-0 text-slate-400" />
+                <span className="pointer-events-none w-full min-w-0 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                  {formatTglSlash(tanggal)}
+                </span>
                 <input type="date" value={tanggal} onChange={(e) => setTanggal(e.target.value)}
-                  className="w-full min-w-0 bg-transparent text-sm font-semibold text-slate-700 focus:outline-none dark:text-slate-200" />
+                  aria-label="Pilih tanggal"
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0" />
               </div>
             </div>
 
-            <div className="mt-6 mb-2 flex flex-wrap items-center gap-2.5 border-t border-slate-100 pt-6 pb-2 dark:border-slate-700">
+            <div className="mt-6 mb-2 flex flex-wrap items-center gap-1.5 border-t border-slate-100 pt-6 pb-2 dark:border-slate-700 sm:gap-2.5">
               <span className="mr-1 text-xs font-semibold text-slate-400">Status:</span>
               {filterOptions.map((opt) => {
                 const active = activeFilter === opt.key;
                 return (
                   <button key={String(opt.key)} type="button"
                     onClick={() => (opt.key === null ? setActiveFilter(null) : toggleFilter(opt.key))}
-                    className="rounded-lg px-5 py-2.5 text-sm font-semibold transition-colors"
+                    className="rounded-lg px-2.5 py-1.5 text-xs font-semibold transition-colors sm:px-5 sm:py-2.5 sm:text-sm"
                     style={active ? { backgroundColor: opt.color, color: "#fff" } : {}}>
-                    <span className={`flex items-center gap-2 ${active ? "text-white" : "text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white"}`}>
-                      <opt.icon size={16} />
+                    <span className={`flex items-center gap-1 sm:gap-2 ${active ? "text-white" : "text-slate-500 hover:text-slate-700 dark:text-slate-300 dark:hover:text-white"}`}>
+                      <opt.icon size={13} className="sm:hidden" />
+                      <opt.icon size={16} className="hidden sm:block" />
                       {opt.label}
-                      <span className={`rounded-md px-2 py-0.5 text-xs ${active ? "bg-white/20" : "bg-slate-100 dark:bg-slate-700"}`}>
+                      <span className={`rounded-md px-1.5 py-0.5 text-[10px] sm:px-2 sm:text-xs ${active ? "bg-white/20" : "bg-slate-100 dark:bg-slate-700"}`}>
                         {opt.count}
                       </span>
                     </span>

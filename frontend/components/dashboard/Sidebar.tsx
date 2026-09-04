@@ -10,7 +10,7 @@ import {
   FileText, UserCircle, ChevronDown,
   PanelLeftClose, PanelLeftOpen, Lock, KeyRound,
   Building2, ClipboardCheck, FileBarChart,
-  CalendarDays, Trophy, ShieldCheck, BookOpen, NotebookPen,
+  CalendarDays, Trophy, ShieldCheck, BookOpen, NotebookPen, Settings,
 } from "lucide-react";
 import type { UserPayload } from "@/lib/auth";
 import { SUPER_ADMIN_LOGIN_ID } from "@/lib/constants";
@@ -43,7 +43,8 @@ const MENUS: Record<string, MenuItem[]> = {
         { href: "/admin/magang/rekap",      label: "Rekap & Laporan", icon: FileBarChart },
       ],
     },
-    { key: "ujian-ukk", href: "/admin/ujian-ukk/jadwal-soal", label: "Jadwal & Soal UKK", icon: FileText },
+    { key: "ujian-ukk", href: "/admin/ujian-ukk/jadwal-soal", label: "UKK", icon: FileText },
+    { key: "pengaturan", href: "/admin/pengaturan", label: "Pengaturan", icon: Settings },
   ],
   GURU: [
     { key: "dashboard",    href: "/guru/dashboard",    label: "Dashboard",   icon: LayoutDashboard },
@@ -53,14 +54,14 @@ const MENUS: Record<string, MenuItem[]> = {
     { key: "data-siswa",   href: "/guru/data-siswa",   label: "Data Siswa",  icon: Users },
     { key: "catatan-siswa", href: "/guru/catatan-siswa", label: "Catatan Siswa", icon: NotebookPen },
     {
-      key: "magang", href: "/guru/magang", label: "PKL", icon: Briefcase, locked: true,
+      key: "magang", label: "PKL", icon: Briefcase,
       submenu: [
         { href: "/guru/magang/penempatan", label: "Penempatan",     icon: Building2 },
         { href: "/guru/magang/absensi",    label: "Absensi",        icon: ClipboardCheck },
         { href: "/guru/magang/rekap",      label: "Rekap & Laporan",icon: FileBarChart },
       ],
     },
-    { key: "ujian-ukk", href: "/guru/ujian-ukk/jadwal-soal", label: "Jadwal & Soal UKK", icon: FileText },
+    { key: "ujian-ukk", href: "/guru/ujian-ukk/jadwal-soal", label: "UKK", icon: FileText },
   ],
   SISWA: [
     { key: "dashboard",    href: "/siswa/dashboard",    label: "Dashboard",   icon: LayoutDashboard },
@@ -107,9 +108,56 @@ export function Sidebar({
 }) {
   const pathname = usePathname();
   const isSuperAdmin = user.loginId === SUPER_ADMIN_LOGIN_ID;
-  const items = (MENUS[user.role] ?? []).filter(
-    (item) => item.key !== "manajemen-password" || isSuperAdmin,
-  );
+  const isSiswa = user.role === "SISWA";
+
+  // PKL & UKK cuma relevan buat siswa kelas XII — kelas X/XI tetap lihat menu
+  // ini (biar tahu fiturnya ada) tapi terkunci ke halaman "Coming Soon", lalu
+  // otomatis kebuka sendiri begitu siswa naik ke XII (kenaikan kelas ganti
+  // kelasId-nya, tidak perlu toggle manual apa pun). Default false (terkunci)
+  // selama status kelas belum dikonfirmasi, supaya X/XI tidak sempat kelihatan
+  // submenu asli walau sekejap. Tidak berlaku untuk guru/admin.
+  const [siswaKelasXII, setSiswaKelasXII] = useState(false);
+  useEffect(() => {
+    if (!isSiswa) return;
+    let cancelled = false;
+    fetch("/api/auth/me", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((me: { siswa?: { kelas?: { nama?: string } } } | null) => {
+        if (cancelled) return;
+        const namaKelas = me?.siswa?.kelas?.nama?.trim().toUpperCase() ?? "";
+        setSiswaKelasXII(namaKelas.startsWith("XII"));
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [isSiswa]);
+
+  // Selain kelas XII, menu PKL/UKK juga butuh saklar admin menyala (menu
+  // Pengaturan) — periode PKL/UKK beda tiap tahun ajaran & tidak berdasarkan
+  // tanggal tetap, jadi kelas XII saja tidak cukup untuk membuka menunya.
+  // Default false (terkunci) selama belum dikonfirmasi, sama seperti
+  // siswaKelasXII di atas.
+  const [pengaturan, setPengaturan] = useState({ magangAktif: false, ukkAktif: false });
+  useEffect(() => {
+    if (!isSiswa) return;
+    let cancelled = false;
+    fetch("/api/pengaturan", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d: { magangAktif?: boolean; ukkAktif?: boolean } | null) => {
+        if (cancelled || !d) return;
+        setPengaturan({ magangAktif: !!d.magangAktif, ukkAktif: !!d.ukkAktif });
+      })
+      .catch(() => {});
+    return () => { cancelled = true; };
+  }, [isSiswa]);
+
+  const items = (MENUS[user.role] ?? [])
+    .filter((item) => item.key !== "manajemen-password" || isSuperAdmin)
+    .map((item) => {
+      if (!isSiswa || (item.key !== "magang" && item.key !== "ujian-ukk")) return item;
+      const fiturAktif = item.key === "magang" ? pengaturan.magangAktif : pengaturan.ukkAktif;
+      if (siswaKelasXII && fiturAktif) return { ...item, locked: false, href: undefined };
+      return { ...item, locked: true, href: item.key === "magang" ? "/siswa/magang" : "/siswa/ujian-ukk" };
+    });
 
   const [pendingResetCount, setPendingResetCount] = useState(0);
   useEffect(() => {
@@ -365,7 +413,7 @@ export function Sidebar({
                     <motion.span
                       animate={{ opacity: [1, 0.4, 1] }}
                       transition={{ duration: 1.6, repeat: Infinity }}
-                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#FFE94B] ring-2 ring-white dark:ring-slate-800"
+                      className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-[#6B93FF] ring-2 ring-white dark:ring-slate-800"
                     />
                   </span>
                   {!collapsed && (

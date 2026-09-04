@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   ForbiddenException,
   Injectable,
   NotFoundException,
@@ -7,6 +8,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import { ResetPasswordDto } from './dto/reset-password.dto';
+import { CreateUserDto } from './dto/create-user.dto';
 import { Role, StatusPasswordReset } from '../../generated/prisma/client';
 import { SUPER_ADMIN_LOGIN_ID } from '../auth/guards/super-admin.guard';
 import * as bcrypt from 'bcrypt';
@@ -70,6 +72,57 @@ export class UsersService {
     };
   }
 
+  async createAccount(dto: CreateUserDto) {
+    try {
+      if (dto.role === Role.SISWA) {
+        const hashed = await bcrypt.hash(dto.nis!, SALT_ROUNDS);
+        const user = await this.prisma.user.create({
+          data: {
+            nama: dto.nama,
+            password: hashed,
+            role: Role.SISWA,
+            mustChangePassword: true,
+            siswa: {
+              create: {
+                nis: dto.nis!,
+                nama: dto.nama,
+                kelasId: dto.kelasId!,
+                jurusan: dto.jurusan!,
+                angkatan: dto.angkatan!,
+                jenisKelamin: dto.jenisKelamin,
+              },
+            },
+          },
+          select: { id: true, nama: true, role: true, siswa: { select: { nis: true } } },
+        });
+        return { message: `Akun siswa ${user.nama} berhasil dibuat`, id: user.id, loginId: user.siswa?.nis };
+      }
+
+      const existing = await this.prisma.user.findFirst({ where: { loginId: dto.loginId } });
+      if (existing) throw new ConflictException('Login ID sudah digunakan akun lain');
+
+      const hashed = await bcrypt.hash(dto.password!, SALT_ROUNDS);
+      const user = await this.prisma.user.create({
+        data: {
+          nama: dto.nama,
+          loginId: dto.loginId,
+          password: hashed,
+          role: dto.role === 'GURU' ? Role.GURU : Role.ADMIN,
+          mustChangePassword: true,
+          ...(dto.role === 'GURU' ? { guru: { create: { nip: dto.nip || undefined, noWa: dto.noWa } } } : {}),
+        },
+        select: { id: true, nama: true, role: true, loginId: true },
+      });
+      return { message: `Akun ${dto.role === 'GURU' ? 'guru' : 'admin'} ${user.nama} berhasil dibuat`, id: user.id, loginId: user.loginId };
+    } catch (err) {
+      if (err instanceof ConflictException) throw err;
+      if ((err as { code?: string }).code === 'P2002') {
+        throw new ConflictException('NIS/Login ID sudah digunakan akun lain');
+      }
+      throw err;
+    }
+  }
+
   async findPasswordStatus() {
     return this.prisma.user.findMany({
       where: {
@@ -119,6 +172,61 @@ export class UsersService {
       limit: safeLimit,
       totalPages: Math.max(1, Math.ceil(total / safeLimit)),
     };
+  }
+
+  async findGuruList() {
+    return this.prisma.user.findMany({
+      where: { role: Role.GURU },
+      select: {
+        id: true,
+        nama: true,
+        loginId: true,
+        isActive: true,
+        mustChangePassword: true,
+        fotoProfil: true,
+        updatedAt: true,
+        guru: {
+          select: {
+            id: true,
+            nip: true,
+            noWa: true,
+            mapelDiampu: { select: { id: true, nama: true }, orderBy: { nama: 'asc' } },
+            kelasWali: { select: { id: true, nama: true }, orderBy: { nama: 'asc' } },
+          },
+        },
+      },
+      orderBy: { nama: 'asc' },
+    });
+  }
+
+  // Nonaktifkan bukan hard-delete — pola yang sama dipakai untuk siswa yang
+  // sudah lulus (lihat SiswaService.luluskanKelas): akun dinonaktifkan
+  // (tidak bisa login lagi) tapi seluruh riwayat data (materi, nilai UKK,
+  // bimbingan magang, dll) tetap tersimpan karena banyak tabel punya FK
+  // wajib ke Guru yang tidak boleh diputus begitu saja.
+  async deactivateGuru(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+      include: { guru: { include: { kelasWali: true } } },
+    });
+    if (!user || user.role !== Role.GURU || !user.guru) {
+      throw new NotFoundException('Guru tidak ditemukan');
+    }
+    if (user.guru.kelasWali.length > 0) {
+      const namaKelas = user.guru.kelasWali.map((k) => k.nama).join(', ');
+      throw new BadRequestException(
+        `Guru ini masih menjadi wali kelas ${namaKelas}. Pindahkan wali kelas terlebih dahulu.`,
+      );
+    }
+    await this.prisma.user.update({ where: { id: userId }, data: { isActive: false } });
+    return { message: `Akun ${user.nama} dinonaktifkan` };
+  }
+
+  async activateGuru(userId: string) {
+    const user = await this.prisma.user.findUnique({ where: { id: userId } });
+    if (!user || user.role !== Role.GURU) throw new NotFoundException('Guru tidak ditemukan');
+    await this.prisma.user.update({ where: { id: userId }, data: { isActive: true } });
+    return { message: `Akun ${user.nama} diaktifkan kembali` };
   }
 
   async findPasswordResetRequests() {

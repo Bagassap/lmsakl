@@ -202,6 +202,36 @@ export class AbsensiHarianService {
     return this.getAllRekap(tanggal, userId, role);
   }
 
+  // Kirim notifikasi in-app ke siswa yang belum absen hadir hari ini di satu
+  // kelas — hanya menyasar status null (murni belum absen), bukan yang sudah
+  // ditandai ALPA (itu sudah final, pengingat tidak relevan lagi buat mereka).
+  async kirimPengingatAbsen(kelasId: string, tanggal: string, userId: string, role: string) {
+    if (role === 'GURU') {
+      const myKelasIds = await this.kelasService.getGuruKelasIds(userId);
+      if (!myKelasIds.includes(kelasId)) {
+        throw new ForbiddenException('Anda bukan wali kelas untuk kelas ini');
+      }
+    }
+
+    const rekap = await this.getRekapKelas(kelasId, tanggal);
+    const belumAbsen = rekap.siswa.filter((s) => s.status === null && s.userId != null);
+    if (belumAbsen.length === 0) {
+      return { count: 0 };
+    }
+
+    await this.notificationService.createMany(
+      belumAbsen.map((s) => s.userId as string),
+      {
+        title: 'Pengingat Absensi',
+        message: `Anda belum melakukan absensi hari ini di kelas ${rekap.kelas?.nama ?? ''}. Segera lakukan absensi sebelum jendela absen ditutup.`,
+        type: NotificationType.ABSENSI,
+        link: '/siswa/absensi-harian',
+      },
+    );
+
+    return { count: belumAbsen.length };
+  }
+
   // "Sering tidak hadir" = siswa dengan minimal satu catatan Alpa dalam
   // rolling window 7 hari (mingguan) atau 30 hari (bulanan) terakhir
   // (hari ini inklusif), bukan minggu/bulan kalender — supaya laporan tetap

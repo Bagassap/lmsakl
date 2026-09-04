@@ -18,7 +18,7 @@ type PengumumanDetail = PengumumanItem & { komentar: KomentarItem[] };
 
 const KATEGORI_GRADIENT: Record<string, string> = {
   Umum:     "#300000",
-  Akademik: "#BFA300",
+  Akademik: "#1745B0",
   Magang:   "#D7263D",
   Ujian:    "#B8B84A",
   Lainnya:  "#E8677A",
@@ -51,7 +51,7 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
   }
 
   const CALENDAR_GRADIENT = "#300000";
-  const DOT_COLOR = "#bfa300";
+  const DOT_COLOR = "#1745b0";
   function dotColor(_d: number) { return DOT_COLOR; }
 
   return (
@@ -82,7 +82,7 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
         <div className="grid grid-cols-7 mb-2">
           {DAY_ID.map((d, i) => (
             <div key={d} className="text-center text-[10px] font-bold"
-              style={{ color: i >= 5 ? "#bfa300" : "#94a3b8" }}>{d}</div>
+              style={{ color: i >= 5 ? "#1745b0" : "#94a3b8" }}>{d}</div>
           ))}
         </div>
 
@@ -95,7 +95,7 @@ function MiniCalendar({ announcementDates }: { announcementDates: Set<string> })
             return (
               <div key={i} className="flex flex-col items-center py-0.5">
                 <div className={`relative w-7 h-7 flex items-center justify-center rounded-full text-[12px] font-medium transition-all
-                  ${todayFlag ? "text-white font-bold shadow-md" : weekend ? "text-[#FFEB3B] dark:text-[#FFE94B]" : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10"}`}
+                  ${todayFlag ? "text-white font-bold shadow-md" : weekend ? "text-[#2962FF] dark:text-[#6B93FF]" : "text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10"}`}
                   style={todayFlag ? { background: CALENDAR_GRADIENT } : {}}>
                   {d}
                   {hasAnn && !todayFlag && (
@@ -262,7 +262,7 @@ function AccordionCard({
                       textClassName="text-[11px] font-extrabold"
                       className="shadow-lg ring-2 ring-white dark:ring-slate-700"
                     />
-                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#FFE94B] ring-1 ring-white dark:ring-[#1c2434]">
+                    <span className="absolute -bottom-0.5 -right-0.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#6B93FF] ring-1 ring-white dark:ring-[#1c2434]">
                       <span className="h-1.5 w-1.5 rounded-full bg-white" />
                     </span>
                   </div>
@@ -283,7 +283,7 @@ function AccordionCard({
                             : "text-slate-400 hover:bg-[#FCF0F1] hover:text-[#D7263D] dark:hover:bg-[#5C1420]/20"
                         }`}><Pin size={13} /></button>
                       <button onClick={onEdit} title="Edit"
-                        className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#FFFEF0] hover:text-[#FFEB3B] dark:hover:bg-[#735F00]/20">
+                        className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#EEF3FF] hover:text-[#2962FF] dark:hover:bg-[#1745B0]/20">
                         <BookOpen size={13} /></button>
                       <button onClick={onDelete} title="Hapus"
                         className="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-all hover:bg-[#F7E8E8] hover:text-[#8B0000] dark:hover:bg-[#300000]/20">
@@ -454,57 +454,21 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
   });
 
   const announcementDates = new Set(list.map((p) => p.createdAt.split("T")[0]));
-  const pinnedCount  = list.filter((p) => p.isPinned).length;
-  const todayCount   = list.filter((p) => {
-    const d = new Date(p.createdAt); const t = new Date();
-    return d.getDate() === t.getDate() && d.getMonth() === t.getMonth() && d.getFullYear() === t.getFullYear();
-  }).length;
-  const totalKomentar = list.reduce((s, p) => s + p._count.komentar, 0);
 
   return (
     <div className="space-y-5">
 
-      <div className="relative overflow-hidden rounded-2xl p-6"
-        style={{ background: "#D7263D" }}>
-        <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
-        <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
-        <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
-        <div className="relative flex items-center justify-between gap-4 flex-wrap">
-          <div className="flex items-center gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 shadow-lg">
-              <Megaphone size={26} className="text-white"/>
-            </div>
-            <div>
-              <div className="flex items-center gap-2 mb-1">
-                <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Papan Informasi</span>
-                {canManage && <span className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-white/20 text-white/90">Admin</span>}
-              </div>
-              <h1 className="text-2xl font-extrabold text-white leading-tight">Pengumuman</h1>
-              <p className="text-sm text-white/70 mt-0.5">Kelola dan pantau semua pengumuman sekolah</p>
-            </div>
+      <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
+        <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
+        <div className="relative flex items-center gap-3 sm:gap-4">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+            <Megaphone size={22} className="text-white sm:hidden"/>
+            <Megaphone size={26} className="hidden text-white sm:block"/>
           </div>
-          <div className="flex items-center gap-3 shrink-0 flex-wrap">
-            {[
-              { icon: Megaphone,      label: "Total",      val: list.length },
-              { icon: Pin,            label: "Disematkan", val: pinnedCount },
-              { icon: MessageCircle,  label: "Komentar",   val: totalKomentar },
-              { icon: Bell,           label: "Hari Ini",   val: todayCount },
-            ].map(({ icon: Icon, label, val }) => (
-              <div key={label} className="flex flex-col items-center px-4 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm min-w-15">
-                <Icon size={13} className="text-white/70 mb-1"/>
-                <p className="text-xl font-extrabold text-white leading-none">{loading ? "—" : val}</p>
-                <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
-              </div>
-            ))}
-            {canManage && (
-              <motion.button
-                onClick={() => { setEditItem(null); setModalOpen(true); }}
-                whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
-                className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white text-[13px] font-bold shadow-lg shrink-0"
-                style={{ color: "#5E0000" }}>
-                <Plus size={15}/> Buat Pengumuman
-              </motion.button>
-            )}
+          <div>
+            <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Papan Informasi</span>
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Pengumuman</h1>
           </div>
         </div>
       </div>

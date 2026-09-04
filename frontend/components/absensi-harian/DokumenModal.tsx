@@ -193,14 +193,14 @@ export function DokumenModal({ siswa, tanggal, kelas, onClose, source = "hadir" 
                         <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">Lokasi Absensi</span>
                       </div>
                       <a href={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}`} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-bold hover:opacity-80" style={{ background: "#FFFBD1", color: "#D7263D" }}>
+                        className="flex items-center gap-1.5 rounded-lg px-2.5 py-1 text-[10px] font-bold hover:opacity-80" style={{ background: "#E3ECFF", color: "#D7263D" }}>
                         <ExternalLink size={10} /> Maps
                       </a>
                     </div>
                     <iframe src={`https://maps.google.com/maps?q=${lokasi.lat},${lokasi.lng}&output=embed`}
                       className="h-24 w-full border-0 sm:h-40" loading="lazy" title="Lokasi" />
                     <div className="flex items-center gap-2 px-4 py-2 sm:py-2.5">
-                      <MapPin size={11} className="shrink-0" style={{ color: "#FFEB3B" }} />
+                      <MapPin size={11} className="shrink-0" style={{ color: "#2962FF" }} />
                       <span className="font-mono text-[11px] text-slate-500 dark:text-slate-400">{lokasi.lat}, {lokasi.lng}</span>
                     </div>
                   </div>

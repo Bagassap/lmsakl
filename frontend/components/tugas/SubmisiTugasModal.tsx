@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ClipboardList, CalendarClock, AlertCircle, CheckCircle, Download, Calculator, ListChecks, PenLine, UserX, RotateCcw, LogOut } from "lucide-react";
+import { X, ClipboardList, CalendarClock, AlertCircle, CheckCircle, Download, Calculator, ListChecks, PenLine, UserX, RotateCcw, LogOut, PlusCircle } from "lucide-react";
 import type { TugasItem, TugasSubmisiItem } from "./types";
-import { formatTgl, formatTglJam, statusInfo, LOCKDOWN_TIPE, MAKSIMAL_PERCOBAAN } from "./types";
+import { formatTgl, formatTglJam, statusInfo, LOCKDOWN_TIPE, maksimalPercobaanEfektif } from "./types";
 import { TugasPraktikViewerModal } from "./TugasPraktikViewerModal";
 import { TugasJawabanViewerModal } from "./TugasJawabanViewerModal";
 
@@ -16,7 +16,7 @@ type BelumSiswa = {
 };
 
 export function SubmisiTugasModal({
-  tugas, submisi, onClose, onTerima, onRevisi, onSimpanNilai, onResetPercobaan,
+  tugas, submisi, onClose, onTerima, onRevisi, onSimpanNilai, onResetPercobaan, onTambahPercobaan,
 }: {
   tugas: TugasItem | null;
   submisi: TugasSubmisiItem[];
@@ -25,6 +25,7 @@ export function SubmisiTugasModal({
   onRevisi: (s: TugasSubmisiItem) => void;
   onSimpanNilai: (submisiId: string, nilai: number) => Promise<void>;
   onResetPercobaan?: (submisiId: string) => Promise<void>;
+  onTambahPercobaan?: (submisiId: string) => Promise<void>;
 }) {
   const [viewPraktikTarget, setViewPraktikTarget] = useState<TugasSubmisiItem | null>(null);
   const [viewJawabanTarget, setViewJawabanTarget] = useState<TugasSubmisiItem | null>(null);
@@ -81,7 +82,7 @@ export function SubmisiTugasModal({
                     {tugas.mapel}
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-white/20 text-xs font-semibold text-white">
-                    Kelas: {tugas.kelas?.nama ?? "Semua Kelas"}
+                    Kelas: {tugas.kelasList.length ? tugas.kelasList.map((k) => k.nama).join(", ") : "Semua Kelas"}
                   </span>
                   <span className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/20 text-xs font-semibold text-white">
                     <CalendarClock size={10} /> Deadline {formatTgl(tugas.deadline)}
@@ -127,7 +128,7 @@ export function SubmisiTugasModal({
                     </div>
                   ) : belumList.length === 0 ? (
                     <div className="py-16 text-center">
-                      <CheckCircle size={36} className="mx-auto mb-3 text-[#FFF69D]" />
+                      <CheckCircle size={36} className="mx-auto mb-3 text-[#93B4FF]" />
                       <p className="text-sm font-semibold text-slate-400">Semua siswa sudah mengumpulkan tugas ini</p>
                     </div>
                   ) : belumList.map((s) => {
@@ -175,17 +176,23 @@ export function SubmisiTugasModal({
                         <span className={`shrink-0 rounded-lg px-2 py-1 text-[10px] font-bold ${
                           s.terkunci ? "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/20" : "bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-400"
                         }`}>
-                          Percobaan {s.jumlahPercobaan}/{MAKSIMAL_PERCOBAAN}
+                          Percobaan {s.jumlahPercobaan}/{maksimalPercobaanEfektif(s)}
                         </span>
                       )}
                       {s.dipaksaKeluar && (
-                        <span className="flex shrink-0 items-center gap-1 rounded-lg bg-[#FFFBD1] px-2 py-1 text-[10px] font-bold text-[#BFA300] dark:bg-[#735F00]/20">
+                        <span className="flex shrink-0 items-center gap-1 rounded-lg bg-[#E3ECFF] px-2 py-1 text-[10px] font-bold text-[#1745B0] dark:bg-[#1745B0]/20">
                           <LogOut size={10} /> Dipaksa keluar
                         </span>
                       )}
                       <span className="text-[11px] font-bold px-2.5 py-1 rounded-lg shrink-0" style={{ backgroundColor: sc.bg, color: sc.color }}>
                         {isDone ? "✓ Diterima" : s.status === "REVISI" ? "⚠ Perlu Revisi" : "⏳ Menunggu Review"}
                       </span>
+                      {isLockdown && !!s.jumlahPercobaan && onTambahPercobaan && (
+                        <button onClick={() => onTambahPercobaan(s.id)} title="Tambah 1x percobaan tanpa reset riwayat"
+                          className="flex shrink-0 items-center gap-1 rounded-xl bg-primary-light/40 px-2.5 py-1.5 text-[11px] font-semibold text-primary transition-colors hover:bg-primary-light/60 dark:bg-primary/10 dark:hover:bg-primary/20">
+                          <PlusCircle size={11} /> +1 Percobaan
+                        </button>
+                      )}
                       {isLockdown && !!s.jumlahPercobaan && onResetPercobaan && (
                         <button onClick={() => onResetPercobaan(s.id)} title="Reset jatah percobaan siswa"
                           className="flex shrink-0 items-center gap-1 rounded-xl bg-slate-100 px-2.5 py-1.5 text-[11px] font-semibold text-slate-500 transition-colors hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-400 dark:hover:bg-slate-600">

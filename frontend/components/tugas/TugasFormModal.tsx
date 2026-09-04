@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   X, ClipboardList, Loader2, Upload, File as FileIcon, CalendarClock, Send, Calculator,
-  ListChecks, PenLine, Plus, Trash2, CheckCircle2, Timer, ShieldAlert,
+  ListChecks, PenLine, Plus, Trash2, CheckCircle2, Timer, ShieldAlert, Check,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { PraktikAkuntansiGrid } from "./PraktikAkuntansiGrid";
@@ -53,7 +53,7 @@ function wibInputToIso(value: string) {
 
 const TIPE_OPTIONS: { value: TugasTipe; label: string; icon: typeof Send; gradient: string; onLight?: boolean; desc: string }[] = [
   { value: "SUBMIT", label: "Kirim File", icon: Send, gradient: "#D7263D", desc: "Siswa mengunggah file jawaban (PDF/PPT/ZIP), tanpa mode pengerjaan di LMS." },
-  { value: "PRAKTIK", label: "Praktik Akuntansi", icon: Calculator, gradient: "#FFEB3B", onLight: true, desc: "Siswa mengisi jurnal umum lengkap (No. Bukti, tanggal, kode & nama akun, keterangan, debit/kredit) langsung di LMS." },
+  { value: "PRAKTIK", label: "Praktik Akuntansi", icon: Calculator, gradient: "#2962FF", desc: "Siswa mengisi jurnal umum lengkap (No. Bukti, tanggal, kode & nama akun, keterangan, debit/kredit) langsung di LMS." },
   { value: "PILIHAN_GANDA", label: "Pilihan Ganda", icon: ListChecks, gradient: "#300000", desc: "Siswa memilih jawaban A–D untuk tiap soal." },
   { value: "ESSAY", label: "Essay", icon: PenLine, gradient: "#B8B84A", desc: "Siswa mengetik jawaban esai untuk tiap soal." },
 ];
@@ -85,8 +85,8 @@ export function TugasFormModal({
   }
 
   const [mapel, setMapel] = useState("");
-  const [kelasId, setKelasId] = useState("");
-  const [kelasList, setKelasList] = useState<KelasOption[]>([]);
+  const [selectedKelasIds, setSelectedKelasIds] = useState<string[]>([]);
+  const [kelasOptions, setKelasOptions] = useState<KelasOption[]>([]);
   const [judul, setJudul] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [deadline, setDeadline] = useState(toLocalInputValue());
@@ -103,7 +103,7 @@ export function TugasFormModal({
   useEffect(() => {
     if (open) {
       setMapel(tugas?.mapel ?? "");
-      setKelasId(tugas?.kelasId ?? "");
+      setSelectedKelasIds(tugas?.kelasList?.map((k) => k.id) ?? []);
       setJudul(tugas?.judul ?? "");
       setDeskripsi(tugas?.deskripsi ?? "");
       setDeadline(toLocalInputValue(tugas?.deadline));
@@ -125,9 +125,13 @@ export function TugasFormModal({
       );
       setError("");
       if (fileInputRef.current) fileInputRef.current.value = "";
-      fetch("/api/kelas").then((r) => r.json()).then((d) => setKelasList(Array.isArray(d) ? d : [])).catch(() => {});
+      fetch("/api/kelas").then((r) => r.json()).then((d) => setKelasOptions(Array.isArray(d) ? d : [])).catch(() => {});
     }
   }, [open, tugas]);
+
+  function toggleKelas(id: string) {
+    setSelectedKelasIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  }
 
   function updateSoal(idx: number, patch: Partial<SoalDraft>) {
     setSoalList((prev) => prev.map((s, i) => (i === idx ? { ...s, ...patch } : s)));
@@ -170,7 +174,7 @@ export function TugasFormModal({
     try {
       const fd = new FormData();
       fd.append("mapel", mapel);
-      fd.append("kelasId", kelasId);
+      fd.append("kelasIds", JSON.stringify(selectedKelasIds));
       fd.append("judul", judul);
       fd.append("deskripsi", deskripsi);
       fd.append("deadline", wibInputToIso(deadline));
@@ -244,29 +248,53 @@ export function TugasFormModal({
             </div>
 
             <form onSubmit={handleSubmit} className="flex-1 space-y-4 overflow-y-auto p-6">
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-                <div>
-                  <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
-                    Mata Pelajaran <span className="text-[#8B0000]">*</span>
-                  </label>
-                  {mapelOptions ? (
-                    <select value={mapel} onChange={(e) => setMapel(e.target.value)} className={INPUT_CLS}>
-                      <option value="">Pilih mata pelajaran…</option>
-                      {(mapel && !mapelOptions.includes(mapel) ? [mapel, ...mapelOptions] : mapelOptions).map((m) => (
-                        <option key={m} value={m}>{m}</option>
-                      ))}
-                    </select>
-                  ) : (
-                    <input type="text" value={mapel} onChange={(e) => setMapel(e.target.value)}
-                      placeholder="Contoh: Pemrograman Web" className={INPUT_CLS} />
-                  )}
-                </div>
-                <div>
-                  <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">Kelas Target</label>
-                  <select value={kelasId} onChange={(e) => setKelasId(e.target.value)} className={INPUT_CLS}>
-                    <option value="">Semua Kelas</option>
-                    {kelasList.map((k) => <option key={k.id} value={k.id}>{k.nama}</option>)}
+              <div>
+                <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
+                  Mata Pelajaran <span className="text-[#8B0000]">*</span>
+                </label>
+                {mapelOptions ? (
+                  <select value={mapel} onChange={(e) => setMapel(e.target.value)} className={INPUT_CLS}>
+                    <option value="">Pilih mata pelajaran…</option>
+                    {(mapel && !mapelOptions.includes(mapel) ? [mapel, ...mapelOptions] : mapelOptions).map((m) => (
+                      <option key={m} value={m}>{m}</option>
+                    ))}
                   </select>
+                ) : (
+                  <input type="text" value={mapel} onChange={(e) => setMapel(e.target.value)}
+                    placeholder="Contoh: Pemrograman Web" className={INPUT_CLS} />
+                )}
+              </div>
+
+              <div>
+                <label className="mb-1.5 block text-xs font-bold text-gray-700 dark:text-slate-300">
+                  Kelas Target
+                  <span className="ml-1.5 font-normal text-gray-400">
+                    {selectedKelasIds.length === 0 ? "(Semua Kelas)" : `(${selectedKelasIds.length} kelas dipilih)`}
+                  </span>
+                </label>
+                <div className="flex flex-wrap gap-2 rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-slate-600 dark:bg-slate-700/40">
+                  {kelasOptions.length === 0 && (
+                    <p className="text-sm text-gray-400 dark:text-slate-500">Memuat daftar kelas…</p>
+                  )}
+                  {kelasOptions.map((k) => {
+                    const active = selectedKelasIds.includes(k.id);
+                    return (
+                      <button
+                        key={k.id}
+                        type="button"
+                        onClick={() => toggleKelas(k.id)}
+                        className={
+                          "flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-colors " +
+                          (active
+                            ? "border-primary bg-primary text-white"
+                            : "border-gray-200 bg-white text-gray-600 hover:border-primary/40 dark:border-slate-600 dark:bg-slate-700 dark:text-slate-300")
+                        }
+                      >
+                        {active && <Check size={12} />}
+                        {k.nama}
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -318,10 +346,10 @@ export function TugasFormModal({
               </div>
 
               {tipe !== "SUBMIT" && (
-                <div className="rounded-xl border border-amber-200 bg-amber-50/60 p-3.5 dark:border-amber-900/40 dark:bg-amber-900/10">
+                <div className="rounded-xl border border-blue-200 bg-blue-50/60 p-3.5 dark:border-blue-900/40 dark:bg-blue-900/10">
                   <div className="mb-2 flex items-start gap-2">
-                    <ShieldAlert size={14} className="mt-0.5 shrink-0 text-amber-500" />
-                    <p className="text-[11px] leading-relaxed text-amber-700 dark:text-amber-400">
+                    <ShieldAlert size={14} className="mt-0.5 shrink-0 text-blue-500" />
+                    <p className="text-[11px] leading-relaxed text-blue-700 dark:text-blue-400">
                       Tugas jenis ini dikerjakan siswa di <strong>lembar pengerjaan terkunci</strong> (halaman penuh, anti salin-tempel, siswa otomatis keluar &amp; jawaban tersimpan bila meninggalkan halaman) — maksimal 2 percobaan.
                     </p>
                   </div>
@@ -356,10 +384,10 @@ export function TugasFormModal({
                     ) : tugas?.fileName ? (
                       <p className="truncate text-sm font-semibold text-gray-800 dark:text-slate-200">{tugas.fileName} <span className="font-normal text-gray-400">(saat ini, pilih untuk ganti)</span></p>
                     ) : (
-                      <p className="text-sm font-semibold text-gray-500 dark:text-slate-400">Klik untuk unggah PDF/PPT/ZIP (maks. 20MB)</p>
+                      <p className="text-sm font-semibold text-gray-500 dark:text-slate-400">Klik untuk unggah PDF/PPT/DOC/ZIP/RAR (maks. 100MB)</p>
                     )}
                   </div>
-                  <input ref={fileInputRef} type="file" accept=".pdf,.ppt,.pptx,.zip,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/zip,application/x-zip-compressed"
+                  <input ref={fileInputRef} type="file" accept=".pdf,.ppt,.pptx,.doc,.docx,.zip,.rar,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/zip,application/x-zip-compressed,application/vnd.rar,application/x-rar-compressed"
                     onChange={(e) => setFile(e.target.files?.[0] ?? null)} className="hidden" />
                 </label>
               </div>
@@ -412,7 +440,7 @@ export function TugasFormModal({
                                     <button type="button" onClick={() => updateSoal(idx, { jawabanBenar: huruf })}
                                       title="Tandai sebagai jawaban benar"
                                       className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 text-xs font-bold transition-all ${
-                                        isKey ? "border-[#FFEB3B] bg-[#FFEB3B] text-white" : "border-gray-300 bg-white text-gray-400 hover:border-[#FFE94B] dark:bg-slate-700 dark:border-slate-600"
+                                        isKey ? "border-[#2962FF] bg-[#2962FF] text-white" : "border-gray-300 bg-white text-gray-400 hover:border-[#6B93FF] dark:bg-slate-700 dark:border-slate-600"
                                       }`}>
                                       {isKey ? <CheckCircle2 size={15} /> : huruf}
                                     </button>
@@ -420,9 +448,9 @@ export function TugasFormModal({
                                       onChange={(e) => updateSoal(idx, { [`pilihan${huruf}`]: e.target.value } as Partial<SoalDraft>)}
                                       placeholder={`Pilihan ${huruf}`}
                                       className={`w-full rounded-lg border bg-white px-3 py-1.5 text-xs text-gray-800 outline-none focus:border-primary dark:bg-slate-800 dark:text-slate-100 ${
-                                        isKey ? "border-[#FFEF6B] dark:border-[#BFA300]" : "border-gray-200 dark:border-slate-600"
+                                        isKey ? "border-[#93B4FF] dark:border-[#1745B0]" : "border-gray-200 dark:border-slate-600"
                                       }`} />
-                                    {isKey && <span className="shrink-0 text-[10px] font-bold text-[#FFEB3B]">Jawaban Benar</span>}
+                                    {isKey && <span className="shrink-0 text-[10px] font-bold text-[#2962FF]">Jawaban Benar</span>}
                                   </div>
                                 );
                               })}
@@ -442,8 +470,8 @@ export function TugasFormModal({
                             </label>
                             <textarea rows={2} value={s.jawabanBenar} onChange={(e) => updateSoal(idx, { jawabanBenar: e.target.value })}
                               placeholder="Tulis jawaban ideal / poin kunci yang harus ada..."
-                              className={`w-full resize-none rounded-lg border bg-[#FFFEF0]/50 px-3 py-1.5 text-xs text-gray-800 outline-none focus:border-[#FFE94B] dark:bg-[#735F00]/10 dark:text-slate-100 ${
-                                s.pertanyaan.trim() && !s.jawabanBenar.trim() ? "border-[#C25858] dark:border-[#470000]" : "border-[#FFF69D] dark:border-[#998200]"
+                              className={`w-full resize-none rounded-lg border bg-[#EEF3FF]/50 px-3 py-1.5 text-xs text-gray-800 outline-none focus:border-[#6B93FF] dark:bg-[#1745B0]/10 dark:text-slate-100 ${
+                                s.pertanyaan.trim() && !s.jawabanBenar.trim() ? "border-[#C25858] dark:border-[#470000]" : "border-[#93B4FF] dark:border-[#1745B0]"
                               }`} />
                             {s.pertanyaan.trim() && !s.jawabanBenar.trim() && (
                               <p className="mt-1.5 text-[10px] font-bold text-[#8B0000]">⚠ Belum ada kunci jawaban untuk soal ini</p>

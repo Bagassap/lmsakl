@@ -223,7 +223,7 @@ export function MateriFormModal({
                     ) : materi?.fileName ? (
                       <p className="truncate text-sm font-semibold text-gray-800 dark:text-slate-200">{materi.fileName} <span className="font-normal text-gray-400">(file saat ini, pilih untuk ganti)</span></p>
                     ) : (
-                      <p className="text-sm font-semibold text-gray-500 dark:text-slate-400">Klik untuk unggah PDF, PPT, atau ZIP (maks. 20MB)</p>
+                      <p className="text-sm font-semibold text-gray-500 dark:text-slate-400">Klik untuk unggah PDF, PPT, DOC, ZIP, atau RAR (maks. 100MB)</p>
                     )}
                   </div>
                   <input ref={fileInputRef} type="file" accept=".pdf,.ppt,.pptx,.zip,application/pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/zip,application/x-zip-compressed"

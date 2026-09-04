@@ -1,14 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Eye, Camera, PenTool, ChevronLeft, ChevronRight } from "lucide-react";
+import { Users, Eye, Camera, PenTool, ChevronLeft, ChevronRight, Pencil, X } from "lucide-react";
 import { PageSizeToggle } from "@/components/shared/PageSizeToggle";
 import { Avatar } from "@/components/shared/Avatar";
+import { useToast } from "@/components/shared/ToastSystem";
 import { StatusBadge } from "./StatusBadge";
 import { STATUS_CFG, PULANG_CFG, avatarColor, parseLokasi } from "./shared";
 import type { SiswaAbsensi, StatusAbsensi, FilterAbsensi } from "./types";
 
-const GRID_COLS = "28px 40px 2.4fr 1.4fr 1fr 1fr 1.4fr 60px 60px 96px";
+const GRID_COLS = "28px 40px 2.2fr 1.3fr 1fr 1fr 1.3fr 60px 60px 116px";
 
 type Props = {
   loading: boolean;
@@ -24,16 +26,47 @@ type Props = {
   tablePageSize: number;
   setTablePageSize: (n: number) => void;
   onOpenDokumen: (siswa: SiswaAbsensi, source: "hadir" | "pulang") => void;
-  editable?: boolean;
-  draft?: Record<string, StatusAbsensi>;
-  onStatusChange?: (siswaId: string, status: StatusAbsensi) => void;
+  /** Kelas & tanggal yang sedang ditampilkan — dipakai untuk memanggil endpoint
+   * update saat admin/guru mengedit status kehadiran langsung dari tabel ini. */
+  kelasId?: string;
+  tanggal?: string;
+  onStatusUpdated?: () => void;
 };
 
 export function AbsensiHarianTable({
   loading, hasSiswa, filteredSiswa, pagedSiswa, tableStart, tableEnd, activeFilter,
   tablePage, setTablePage, tablePageCount, tablePageSize, setTablePageSize,
-  onOpenDokumen, editable = false, draft, onStatusChange,
+  onOpenDokumen, kelasId, tanggal, onStatusUpdated,
 }: Props) {
+  const toast = useToast();
+  const [editingSiswaId, setEditingSiswaId] = useState<string | null>(null);
+  const [savingSiswaId, setSavingSiswaId] = useState<string | null>(null);
+  const canEdit = !!kelasId && !!tanggal;
+
+  async function saveStatus(siswaId: string, status: StatusAbsensi) {
+    if (!kelasId || !tanggal) return;
+    setSavingSiswaId(siswaId);
+    try {
+      const res = await fetch("/api/absensi-harian", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ kelasId, tanggal, absensi: [{ siswaId, status }] }),
+      });
+      if (res.ok) {
+        toast.success("Status kehadiran diperbarui", "");
+        onStatusUpdated?.();
+      } else {
+        const d = await res.json().catch(() => null);
+        toast.error(d?.message ?? "Gagal memperbarui status", "");
+      }
+    } catch {
+      toast.error("Server tidak dapat dijangkau", "");
+    } finally {
+      setSavingSiswaId(null);
+      setEditingSiswaId(null);
+    }
+  }
+
   if (loading) {
     return (
       <div className="flex-1 space-y-3 p-6">
@@ -96,7 +129,8 @@ export function AbsensiHarianTable({
               const ttdRaw = isPulangView ? s.ttdPulang : s.ttd;
               const hasDok = !!(ttdRaw || lokasiRaw || fotoRaw);
               const lokasiParsed = parseLokasi(lokasiRaw);
-              const cur = editable ? (draft?.[s.siswaId] ?? s.status) : s.status;
+              const isEditingRow = editingSiswaId === s.siswaId;
+              const isSavingRow = savingSiswaId === s.siswaId;
               const openDokumen = () => onOpenDokumen(s, isPulangView ? "pulang" : "hadir");
               return (
                 <motion.div key={s.siswaId}
@@ -111,21 +145,22 @@ export function AbsensiHarianTable({
                     fallbackBg={ac}
                     textClassName="text-[10px] font-extrabold"
                   />
-                  <p className="truncate text-sm font-semibold text-slate-800 dark:text-slate-100">{s.nama}</p>
-                  <p className="truncate text-sm font-semibold text-slate-600 dark:text-slate-300">{s.nis ?? "—"}</p>
+                  <p className="truncate text-sm font-bold text-slate-800 dark:text-slate-100">{s.nama}</p>
+                  <p className="truncate text-xs font-medium tabular-nums text-slate-400 dark:text-slate-500">{s.nis ?? "—"}</p>
                   {isPulangView ? (
                     <span className="inline-flex w-fit items-center gap-1 rounded-lg px-2.5 py-1 text-[11px] font-bold"
                       style={{ backgroundColor: PULANG_CFG.bg, color: PULANG_CFG.clr }}>
                       <PULANG_CFG.icon size={10} /> Pulang
                     </span>
-                  ) : editable ? (
-                    <div className="flex gap-1">
+                  ) : isEditingRow ? (
+                    <div className="flex flex-wrap items-center gap-1">
                       {(["HADIR", "IZIN", "SAKIT", "ALPA"] as StatusAbsensi[]).map((st) => {
                         const cfg = STATUS_CFG[st];
-                        const active = cur === st;
+                        const active = s.status === st;
                         return (
-                          <button key={st} onClick={() => onStatusChange?.(s.siswaId, st)}
-                            className="text-[10px] font-bold px-2 py-1 rounded-lg border transition-all hover:scale-105"
+                          <button key={st} type="button" disabled={isSavingRow}
+                            onClick={() => saveStatus(s.siswaId, st)}
+                            className="rounded-lg border px-2 py-1 text-[10px] font-bold transition-all hover:scale-105 disabled:cursor-wait disabled:opacity-50"
                             style={{
                               backgroundColor: active ? cfg.bg : "transparent",
                               color: active ? cfg.clr : "#94a3b8",
@@ -135,11 +170,15 @@ export function AbsensiHarianTable({
                           </button>
                         );
                       })}
+                      <button type="button" onClick={() => setEditingSiswaId(null)} title="Batal"
+                        className="flex h-6 w-6 items-center justify-center rounded-lg text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700">
+                        <X size={12} />
+                      </button>
                     </div>
                   ) : (
                     <StatusBadge status={s.status} />
                   )}
-                  <span className="text-center text-sm text-slate-500 dark:text-slate-400">{waktu ?? "—"}</span>
+                  <span className="text-center text-sm font-semibold tabular-nums text-slate-500 dark:text-slate-400">{waktu ?? "—"}</span>
                   <div className="min-w-0">
                     {lokasiParsed ? (
                       <button onClick={openDokumen} title="Lihat lokasi absen"
@@ -153,8 +192,8 @@ export function AbsensiHarianTable({
                   <div className="flex justify-center">
                     {fotoRaw ? (
                       <button onClick={openDokumen} title="Lihat foto selfie"
-                        className="flex h-6 w-6 items-center justify-center rounded-lg hover:bg-[#FFFEF0] dark:hover:bg-[#735F00]/20">
-                        <Camera size={13} className="text-[#FFEB3B]" />
+                        className="flex h-6 w-6 items-center justify-center rounded-lg hover:bg-[#EEF3FF] dark:hover:bg-[#1745B0]/20">
+                        <Camera size={13} className="text-[#2962FF]" />
                       </button>
                     ) : <Camera size={13} className="text-slate-200 dark:text-slate-700" />}
                   </div>
@@ -166,14 +205,21 @@ export function AbsensiHarianTable({
                       </button>
                     ) : <PenTool size={13} className="text-slate-200 dark:text-slate-700" />}
                   </div>
-                  <div className="flex justify-end">
-                    {hasDok ? (
+                  <div className="flex items-center justify-end gap-1.5">
+                    {!isPulangView && canEdit && (
+                      <button type="button" onClick={() => setEditingSiswaId(isEditingRow ? null : s.siswaId)}
+                        title="Edit status kehadiran"
+                        className="flex h-7 w-7 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-all hover:bg-slate-200 dark:bg-slate-700 dark:text-slate-300 dark:hover:bg-slate-600">
+                        <Pencil size={12} />
+                      </button>
+                    )}
+                    {hasDok && (
                       <button onClick={openDokumen}
                         className="group flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[11px] font-bold text-white shadow-sm transition-all hover:shadow-md hover:scale-105 active:scale-95"
                         style={{ background: "#5E0000" }}>
                         <Eye size={11} /> Lihat
                       </button>
-                    ) : <span />}
+                    )}
                   </div>
                 </motion.div>
               );

@@ -6,12 +6,11 @@ import {
   CalendarDays, FileText, Download, Trash2, Plus, Clock,
   MapPin, User, ChevronDown, ChevronUp, Send, CheckCircle,
   AlertCircle, X, Pencil, Upload, BookOpen, ChevronLeft,
-  ChevronRight, CloudUpload, Loader2, FileSpreadsheet, Search,
+  ChevronRight, CloudUpload, Loader2, Search, Link2,
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useToast } from "@/components/shared/ToastSystem";
 import { todayJakarta } from "@/components/absensi-harian/shared";
-import { downloadUjianUkkSubmisiExcel } from "@/lib/downloadUjianUkkExcel";
 
 const SoalPdfViewer = dynamic(() => import("./SoalPdfViewer"), { ssr: false, loading: () => (
   <div className="flex-1 flex items-center justify-center py-20">
@@ -23,10 +22,10 @@ const PRIMARY = "#D7263D";
 
 const PALETTE = [
   { bg: "#F8D6DA", text: "#D7263D",  bar: "#D7263D",  gradient: "#D7263D" }, // merah (brand)
-  { bg: "#EBC4C4", text: "#8B0000",  bar: "#8B0000",  gradient: "#8B0000" }, // dark red
+  { bg: "#E3ECFF", text: "#2962FF",  bar: "#2962FF",  gradient: "#2962FF" }, // biru — dulu dark red, diganti karena rotasi kebanyakan merah
   { bg: "#FFE3D2", text: "#FF5722",  bar: "#FF5722",  gradient: "#FF5722" }, // oren — dulu tomato red, diganti karena kembar dengan brand yg sekarang merah
   { bg: "#ECFCCB", text: "#4D7C0F",  bar: "#4D7C0F",  gradient: "#C3F84A" }, // lime — text/bar dipakaikan varian gelap supaya kontras
-  { bg: "#FFFBD1", text: "#BFA300",  bar: "#BFA300",  gradient: "#FFEB3B" },
+  { bg: "#E3ECFF", text: "#1745B0",  bar: "#1745B0",  gradient: "#1745B0" },
 ];
 function rowPalette(idx: number) { return PALETTE[idx % PALETTE.length]; }
 
@@ -37,10 +36,13 @@ interface Tahapan { id: string; hariKe: number; judul: string; tanggal: string; 
 interface Submisi { id: string; fileUrl: string; fileName: string; catatan?: string; pesanRevisi?: string; status: StatusSubmisi; submittedAt: string; soal: { id: string; judul: string }; siswa: { id: string; nama: string; user: { id: string; nama: string } }; }
 
 function formatTgl(s: string) { return new Date(s).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" }); }
+function isValidDriveUrl(url: string) {
+  return url.startsWith("https://drive.google.com/") || url.startsWith("https://docs.google.com/");
+}
 function statusBadge(s: StatusSubmisi) {
   if (s === "DITERIMA") return { bg: "#ECFCCB", text: "#4D7C0F", icon: <CheckCircle size={10} /> };
   if (s === "REVISI")   return { bg: "#F8D6DA", text: "#D7263D", icon: <AlertCircle size={10} /> };
-  return { bg: "#FFFBD1", text: "#BFA300", icon: <Clock size={10} /> };
+  return { bg: "#E3ECFF", text: "#1745B0", icon: <Clock size={10} /> };
 }
 function roleAvatar(role: string) { const m: Record<string, string> = { ADMIN: "#8B0000", GURU: "#D7263D", SISWA: "#4D7C0F" }; return m[role] ?? "#64748b"; }
 
@@ -290,23 +292,30 @@ function TambahFileModal({ open, onClose, onUpload, tahapanList, title, gradient
   const [keterangan, setKeterangan] = useState("");
   const [tahapanId, setTahapanId]   = useState("");
   const [file, setFile]             = useState<File | null>(null);
+  const [mode, setMode]             = useState<"file" | "link">("file");
+  const [driveUrl, setDriveUrl]     = useState("");
   const [saving, setSaving]         = useState(false);
   const fileRef                     = useRef<HTMLInputElement>(null);
+  const onLime                      = gradient === "#C3F84A";
 
   useEffect(() => {
-    if (open) { setJudul(""); setKeterangan(""); setFile(null); setTahapanId(tahapanList[0]?.id ?? ""); }
+    if (open) { setJudul(""); setKeterangan(""); setFile(null); setMode("file"); setDriveUrl(""); setTahapanId(tahapanList[0]?.id ?? ""); }
   }, [open, tahapanList]);
+
+  const linkValid = driveUrl.trim() !== "" && isValidDriveUrl(driveUrl.trim());
+  const canSubmit = mode === "file" ? !!file : linkValid;
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
     const tid = showTahapan ? tahapanId : (tahapanList[0]?.id ?? "");
-    if (!file || !tid) return;
+    if (!canSubmit || !tid) return;
     setSaving(true);
     const fd = new FormData();
     fd.append("tahapanId", tid);
     fd.append("judul", judul);
     fd.append("deskripsi", keterangan);
-    fd.append("file", file);
+    if (mode === "file" && file) fd.append("file", file);
+    else fd.append("driveUrl", driveUrl.trim());
     await onUpload(fd);
     setSaving(false);
   }
@@ -322,10 +331,10 @@ function TambahFileModal({ open, onClose, onUpload, tahapanList, title, gradient
             onClick={(e)=>e.stopPropagation()}>
 
             <div className="relative px-6 py-5 overflow-hidden" style={{background: gradient}}>
-              <div className="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-white/10 pointer-events-none"/>
+              <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full pointer-events-none ${onLime ? "bg-black/5" : "bg-white/10"}`}/>
               <div className="flex items-center justify-between">
-                <h2 className="text-base font-extrabold text-white">{title}</h2>
-                <button onClick={onClose} className="w-7 h-7 rounded-lg bg-white/15 flex items-center justify-center text-white hover:bg-white/25">
+                <h2 className={`text-base font-extrabold ${onLime ? "text-black" : "text-white"}`}>{title}</h2>
+                <button onClick={onClose} className={`w-7 h-7 rounded-lg flex items-center justify-center ${onLime ? "bg-black/10 text-black hover:bg-black/20" : "bg-white/15 text-white hover:bg-white/25"}`}>
                   <X size={14}/>
                 </button>
               </div>
@@ -354,29 +363,55 @@ function TambahFileModal({ open, onClose, onUpload, tahapanList, title, gradient
                   placeholder="Keterangan tambahan (opsional)..."
                   className="w-full text-sm px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-700 text-slate-700 dark:text-slate-200 outline-none resize-none focus:border-primary"/>
               </div>
-              <div onClick={()=>fileRef.current?.click()}
-                className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-5 text-center cursor-pointer hover:border-primary transition-colors">
-                <input ref={fileRef} type="file" accept=".pdf" className="hidden"
-                  onChange={(e)=>setFile(e.target.files?.[0]??null)}/>
-                {file ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <FileText size={16} style={{color:PRIMARY}}/>
-                    <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{file.name}</span>
-                  </div>
-                ) : (
-                  <>
-                    <CloudUpload size={26} className="mx-auto text-slate-300 mb-1.5"/>
-                    <p className="text-sm text-slate-500">Klik untuk upload <span className="font-semibold">PDF</span></p>
-                  </>
-                )}
+              <div className="flex rounded-xl bg-slate-100 p-1 dark:bg-slate-700/50">
+                <button type="button" onClick={()=>setMode("file")}
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-bold transition-colors ${mode==="file" ? "bg-white text-slate-800 shadow-sm dark:bg-slate-800 dark:text-white" : "text-slate-500 dark:text-slate-400"}`}>
+                  <Upload size={12}/> Upload File
+                </button>
+                <button type="button" onClick={()=>setMode("link")}
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg py-1.5 text-xs font-bold transition-colors ${mode==="link" ? "bg-white text-slate-800 shadow-sm dark:bg-slate-800 dark:text-white" : "text-slate-500 dark:text-slate-400"}`}>
+                  <Link2 size={12}/> Link Google Drive
+                </button>
               </div>
+
+              {mode === "file" ? (
+                <div onClick={()=>fileRef.current?.click()}
+                  className="border-2 border-dashed border-slate-200 dark:border-slate-600 rounded-xl p-5 text-center cursor-pointer hover:border-primary transition-colors">
+                  <input ref={fileRef} type="file" accept=".pdf" className="hidden"
+                    onChange={(e)=>setFile(e.target.files?.[0]??null)}/>
+                  {file ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <FileText size={16} style={{color:PRIMARY}}/>
+                      <span className="text-sm font-medium text-slate-700 dark:text-slate-200">{file.name}</span>
+                    </div>
+                  ) : (
+                    <>
+                      <CloudUpload size={26} className="mx-auto text-slate-300 mb-1.5"/>
+                      <p className="text-sm text-slate-500">Klik untuk upload <span className="font-semibold">PDF</span></p>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div>
+                  <label className="text-xs font-semibold text-slate-500 mb-1 block">Link Google Drive</label>
+                  <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-600 dark:bg-slate-700">
+                    <Link2 size={15} className="shrink-0 text-slate-400"/>
+                    <input value={driveUrl} onChange={(e)=>setDriveUrl(e.target.value)}
+                      placeholder="https://drive.google.com/..."
+                      className="w-full bg-transparent text-sm text-slate-700 outline-none dark:text-slate-200"/>
+                  </div>
+                  {driveUrl.trim() !== "" && !linkValid && (
+                    <p className="mt-1 text-[11px] font-semibold text-[#D7263D]">Link harus dari Google Drive (drive.google.com atau docs.google.com)</p>
+                  )}
+                </div>
+              )}
               <div className="flex gap-3 pt-1">
                 <button type="button" onClick={onClose}
                   className="flex-1 py-2.5 rounded-xl border border-slate-200 dark:border-slate-600 text-sm font-semibold text-slate-600 dark:text-slate-300">
                   Batal
                 </button>
-                <button type="submit" disabled={saving || !file || (showTahapan ? !tahapanId : false)}
-                  className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white disabled:opacity-60"
+                <button type="submit" disabled={saving || !canSubmit || (showTahapan ? !tahapanId : false)}
+                  className={`flex-1 py-2.5 rounded-xl text-sm font-semibold disabled:opacity-60 ${onLime ? "text-black" : "text-white"}`}
                   style={{background: gradient}}>
                   {saving ? "Mengupload..." : "Upload"}
                 </button>
@@ -482,15 +517,7 @@ export default function AdminJadwalSoalPage() {
   const [soalSoalIdx,   setSoalSoalIdx]             = useState(0);
   const [revisiTarget,  setRevisiTarget]            = useState<Submisi | null>(null);
   const [pesanRevisi,   setPesanRevisi]             = useState("");
-  const [downloadingExcel, setDownloadingExcel]     = useState(false);
   const toast = useToast();
-
-  async function handleDownloadExcel() {
-    setDownloadingExcel(true);
-    const result = await downloadUjianUkkSubmisiExcel();
-    if (!result.ok) toast.error(result.message, "");
-    setDownloadingExcel(false);
-  }
 
   const loadAll = useCallback(async () => {
     setLoading(true);
@@ -603,45 +630,18 @@ export default function AdminJadwalSoalPage() {
 
         <div className="flex-1 min-w-0 space-y-6">
 
-          <div className="relative overflow-hidden rounded-2xl p-6"
-            style={{ background: "#D7263D" }}>
-            <div className="pointer-events-none absolute -right-10 -top-10 w-52 h-52 rounded-full bg-white/10"/>
-            <div className="pointer-events-none absolute -bottom-8 right-32 w-36 h-36 rounded-full bg-white/8"/>
-            <div className="pointer-events-none absolute bottom-4 -left-6 w-24 h-24 rounded-full bg-white/6"/>
+          <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+            <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10"/>
+            <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8"/>
 
-            <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-              <div className="flex items-center gap-3 sm:gap-4">
-                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0 shadow-lg">
-                  <FileText size={22} className="text-white sm:hidden"/>
-                  <FileText size={26} className="text-white hidden sm:block"/>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Ujian Kompetensi Keahlian</span>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded-lg bg-white/20 text-white/90">Admin</span>
-                  </div>
-                  <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Jadwal dan Soal</h1>
-                  <p className="text-xs sm:text-sm text-white/70 mt-0.5 hidden sm:block">Kelola jadwal, soal, dan pantau pengumpulan siswa</p>
-                </div>
+            <div className="relative flex items-center gap-3 sm:gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+                <FileText size={22} className="text-white sm:hidden"/>
+                <FileText size={26} className="text-white hidden sm:block"/>
               </div>
-
-              <div className="flex items-center gap-2 sm:gap-3">
-                {[
-                  { icon: CalendarDays, label: "Task",  val: tahapanList.length },
-                  { icon: FileText,     label: "Soal",  val: totalSoal },
-                  { icon: Send,         label: "Kumpul",val: submisiList.length },
-                ].map(({ icon: Icon, label, val }) => (
-                  <div key={label} className="flex flex-col items-center px-3 py-2 sm:px-4 sm:py-2.5 rounded-xl bg-white/15 backdrop-blur-sm min-w-[56px] sm:min-w-[64px]">
-                    <Icon size={13} className="text-white/70 mb-1"/>
-                    <p className="text-lg sm:text-xl font-extrabold text-white leading-none">{val}</p>
-                    <p className="text-[10px] text-white/60 font-semibold mt-0.5">{label}</p>
-                  </div>
-                ))}
-                <button type="button" onClick={handleDownloadExcel} disabled={downloadingExcel}
-                  className="flex items-center gap-1.5 px-3 py-2.5 rounded-xl bg-white/15 backdrop-blur-sm text-xs font-bold text-white shrink-0 hover:bg-white/25 transition-colors disabled:opacity-60">
-                  {downloadingExcel ? <Loader2 size={14} className="animate-spin"/> : <FileSpreadsheet size={14}/>}
-                  <span className="hidden sm:inline">Unduh Excel</span>
-                </button>
+              <div>
+                <span className="text-[10px] font-bold tracking-widest text-white/60 uppercase">Ujian Kompetensi Keahlian</span>
+                <h1 className="text-xl sm:text-2xl font-extrabold text-white leading-tight">Jadwal dan Soal</h1>
               </div>
             </div>
           </div>
@@ -740,31 +740,31 @@ export default function AdminJadwalSoalPage() {
                     return (
                       <>
                         <div className="relative flex items-start gap-4 px-6 py-5 overflow-hidden shrink-0"
-                          style={{background:"#5E0000"}}>
-                          <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-white/10 pointer-events-none"/>
-                          <div className="absolute -bottom-6 right-24 w-24 h-24 rounded-full bg-white/8 pointer-events-none"/>
-                          <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center shrink-0 shadow-sm">
-                            <FileText size={22} className="text-white"/>
+                          style={{background:"#C3F84A"}}>
+                          <div className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-black/5 pointer-events-none"/>
+                          <div className="absolute -bottom-6 right-24 w-24 h-24 rounded-full bg-black/5 pointer-events-none"/>
+                          <div className="w-12 h-12 rounded-xl bg-black/10 flex items-center justify-center shrink-0 shadow-sm">
+                            <FileText size={22} className="text-black"/>
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <span className="rounded-lg bg-white/20 px-2.5 py-0.5 text-[10px] font-bold tracking-wide text-white/95">Soal UKK</span>
-                              {allSoal.length > 1 && <span className="text-[10px] text-white/60">{soalSoalIdx+1} / {allSoal.length}</span>}
+                              <span className="rounded-lg bg-black/10 px-2.5 py-0.5 text-[10px] font-bold tracking-wide text-black/80">Soal UKK</span>
+                              {allSoal.length > 1 && <span className="text-[10px] text-black/60">{soalSoalIdx+1} / {allSoal.length}</span>}
                             </div>
-                            <h2 className="mt-1 text-lg font-extrabold text-white leading-snug line-clamp-2">
+                            <h2 className="mt-1 text-lg font-extrabold text-black leading-snug line-clamp-2">
                               {curSoal ? curSoal.judul : "Soal UKK"}
                             </h2>
-                            <p className="mt-0.5 text-[11px] text-white/70">{curSoal?.fileName ?? `${totalSoal} soal tersedia`}</p>
+                            <p className="mt-0.5 text-[11px] text-black/70">{curSoal?.fileName ?? `${totalSoal} soal tersedia`}</p>
                           </div>
                           <div className="flex items-center gap-2 shrink-0">
                             {allSoal.length > 1 && (
                               <>
                                 <button onClick={()=>setSoalSoalIdx(i=>Math.max(0,i-1))} disabled={soalSoalIdx===0}
-                                  className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center text-white/80 hover:bg-white/30 disabled:opacity-40 transition-colors">
+                                  className="w-8 h-8 rounded-xl bg-black/10 flex items-center justify-center text-black/70 hover:bg-black/20 disabled:opacity-40 transition-colors">
                                   <ChevronLeft size={16}/>
                                 </button>
                                 <button onClick={()=>setSoalSoalIdx(i=>Math.min(allSoal.length-1,i+1))} disabled={soalSoalIdx===allSoal.length-1}
-                                  className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center text-white/80 hover:bg-white/30 disabled:opacity-40 transition-colors">
+                                  className="w-8 h-8 rounded-xl bg-black/10 flex items-center justify-center text-black/70 hover:bg-black/20 disabled:opacity-40 transition-colors">
                                   <ChevronRight size={16}/>
                                 </button>
                               </>
@@ -776,11 +776,11 @@ export default function AdminJadwalSoalPage() {
                               </button>
                             )}
                             <button onClick={()=>{ setOpenSoalModal(false); setOpenTambahSoal(true); }}
-                              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/20 text-white hover:bg-white/30 transition-colors">
+                              className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl bg-black/10 text-black hover:bg-black/20 transition-colors">
                               <CloudUpload size={13}/> Tambah
                             </button>
                             <button onClick={()=>setOpenSoalModal(false)}
-                              className="w-8 h-8 rounded-xl bg-white/15 flex items-center justify-center text-white/80 hover:bg-white/30 transition-colors">
+                              className="w-8 h-8 rounded-xl bg-black/10 flex items-center justify-center text-black/70 hover:bg-black/20 transition-colors">
                               <X size={16}/>
                             </button>
                           </div>
@@ -790,8 +790,8 @@ export default function AdminJadwalSoalPage() {
                           <SoalPdfViewer soal={curSoal} onClose={()=>setOpenSoalModal(false)}/>
                         ) : (
                           <div className="flex flex-col items-center justify-center gap-4 py-20 text-center">
-                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"#5E000022"}}>
-                              <FileText size={30} className="text-[#A62E2E]"/>
+                            <div className="w-16 h-16 rounded-2xl flex items-center justify-center" style={{background:"#C3F84A22"}}>
+                              <FileText size={30} className="text-[#4D7C0F]"/>
                             </div>
                             <div>
                               <p className="font-bold text-slate-700 dark:text-slate-200">Belum ada soal</p>
@@ -825,15 +825,15 @@ export default function AdminJadwalSoalPage() {
                 </button>
 
                 <button type="button" onClick={() => { setSoalSoalIdx(0); setOpenSoalModal(true); }}
-                  className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
-                  style={{ background: "#8B0000", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
-                  <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
-                  <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-white/20">
+                  className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-black transition-all hover:scale-[1.01] active:scale-[0.99]"
+                  style={{ background: "#C3F84A", boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}>
+                  <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-black/5" />
+                  <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-black/10">
                     <FileText size={16} />
                   </div>
                   <div className="relative">
-                    <p className="text-xl font-black leading-tight">Soal<span className="text-white/70"> UKK</span></p>
-                    <p className="mt-0.5 text-[11px] font-medium text-white/75">{totalSoal} soal diunggah · TA 2026/2027</p>
+                    <p className="text-xl font-black leading-tight">Soal<span className="text-black/70"> UKK</span></p>
+                    <p className="mt-0.5 text-[11px] font-medium text-black/75">{totalSoal} soal diunggah · TA 2026/2027</p>
                   </div>
                 </button>
               </div>
@@ -1048,7 +1048,7 @@ export default function AdminJadwalSoalPage() {
                         <a href={s.fileUrl.startsWith("http") ? s.fileUrl : `http://localhost:3001${s.fileUrl}`}
                           target="_blank" rel="noopener noreferrer"
                           className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl shrink-0"
-                          style={{color:"#4285F4", backgroundColor:"#FFFBD1"}}>
+                          style={{color:"#4285F4", backgroundColor:"#E3ECFF"}}>
                           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current shrink-0">
                             <path d="M6.18 15L3.12 9.72 9.24 0h5.51L8.63 9.72 6.18 15zm5.82 0H7.76l2.45-4.28h7.13L14.89 15h-2.89zM12 7.5l2.89-5h2.89L21 7.5h-5.78L12 7.5zM20.88 15l-2.45-4.28h2.01L24 15h-3.12z"/>
                           </svg>
@@ -1122,7 +1122,7 @@ export default function AdminJadwalSoalPage() {
         }}
         tahapanList={filePool ? [filePool] : []}
         title="Upload Soal"
-        gradient="#5E0000"
+        gradient="#C3F84A"
         showTahapan={false}
       />
 

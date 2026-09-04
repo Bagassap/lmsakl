@@ -1,37 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Eye, ScanEye, KeyRound, Pencil, CheckCircle2, XCircle, GraduationCap } from "lucide-react";
+import { Eye, ScanEye, KeyRound, Pencil, Trash2 } from "lucide-react";
 import {
-  type SiswaCardData, toTitleCase, getNama, avatarColorFor, formatTempatTanggalLahir, completeness,
+  type SiswaCardData, toTitleCase, getNama, avatarColorFor, formatTempatTanggalLahir, completeness, waLink,
 } from "./shared";
 import { Avatar } from "@/components/shared/Avatar";
 import { ProgressRing } from "./ProgressRing";
 
-const TH = "whitespace-nowrap px-4 py-3 text-xs font-bold tracking-wide text-slate-400 uppercase dark:text-slate-500";
-const TD = "whitespace-nowrap px-4 py-3";
-const TEXT = "text-sm font-medium text-slate-800 dark:text-white";
-
 // Warna persis dari referensi Nasabah - lihat catatan yang sama di FilterBar.tsx.
 const REF_PRIMARY = "#D7263D";
-const REF_SUCCESS = "#ffeb3b";
 const REF_DANGER = "#5e0000";
+
+export const GRID_COLS = "28px 40px 2.0fr 1.8fr 1.1fr 1.1fr 1.8fr";
 
 export function SiswaTableHead() {
   return (
-    <tr>
-      <th className={TH}>Nama Siswa</th>
-      <th className={TH}>Status Password</th>
-      <th className={TH}>Tempat & Tgl Lahir</th>
-      <th className={TH}>No. HP</th>
-      <th className={TH}>Kelengkapan Data</th>
-      <th className={TH}>Aksi</th>
-    </tr>
+    <div className="grid items-center gap-3 px-5 py-3" style={{ gridTemplateColumns: GRID_COLS, backgroundColor: "#300000" }}>
+      <span />
+      <span />
+      <span className="text-[10px] font-bold uppercase tracking-wider text-white">Nama Siswa</span>
+      <span className="text-[10px] font-bold uppercase tracking-wider text-white">Tempat &amp; Tgl Lahir</span>
+      <span className="text-[10px] font-bold uppercase tracking-wider text-white">No. HP</span>
+      <span className="text-[10px] font-bold uppercase tracking-wider text-white">Kelengkapan Data</span>
+      <span className="text-right text-[10px] font-bold uppercase tracking-wider text-white">Aksi</span>
+    </div>
   );
 }
 
 export function SiswaTableRow({
-  siswa, index, onEdit, onResetPassword, onImpersonate, onViewDetail,
+  siswa, index, onEdit, onResetPassword, onImpersonate, onViewDetail, onKeluarkan,
 }: {
   siswa: SiswaCardData;
   index: number;
@@ -39,114 +37,112 @@ export function SiswaTableRow({
   onResetPassword?: (s: SiswaCardData) => void;
   onImpersonate?: (s: SiswaCardData) => void;
   onViewDetail: (s: SiswaCardData) => void;
+  onKeluarkan?: (s: SiswaCardData) => void;
 }) {
   const displayNama = toTitleCase(getNama(siswa));
   const accent = avatarColorFor(siswa.id || displayNama);
   const tempatTanggal = formatTempatTanggalLahir(siswa.tempatLahir, siswa.tanggalLahir);
   const pct = completeness(siswa);
-  const sudahGanti = siswa.user ? siswa.user.mustChangePassword === false : null;
 
   return (
-    <motion.tr
+    <motion.div
       initial={{ opacity: 0, x: -6 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ delay: (index % 15) * 0.02 }}
-      className="border-b border-slate-100 transition-colors last:border-0 hover:bg-slate-50 dark:border-slate-700/40 dark:hover:bg-slate-700/20"
+      className="grid items-center gap-3 px-5 py-3 transition-colors hover:bg-slate-50 dark:hover:bg-slate-700/20"
+      style={{ gridTemplateColumns: GRID_COLS }}
     >
-      <td className={TD}>
-        <div className="flex items-center gap-2.5">
-          <div className="relative shrink-0">
-            <Avatar src={siswa.user?.fotoProfil} nama={displayNama} sizePx={36} fallbackBg={accent} textClassName="text-[10px] font-extrabold" />
-          </div>
-          <div className="min-w-0">
-            <p className={TEXT} title={displayNama}>{displayNama}</p>
-            <p className="flex items-center gap-1 text-xs text-slate-400 dark:text-slate-500">
-              <GraduationCap size={11} />
-              Siswa &middot; <span className="font-mono">{siswa.nis}</span>
-            </p>
-          </div>
-        </div>
-      </td>
+      <span className="text-center text-[11px] font-bold text-slate-300 dark:text-slate-600">{index + 1}</span>
 
-      <td className={TD}>
-        {sudahGanti === null ? (
-          <span className="text-xs text-slate-300 dark:text-slate-600">—</span>
-        ) : sudahGanti ? (
-          <span
-            className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium"
-            style={{ backgroundColor: `${REF_SUCCESS}26`, color: REF_SUCCESS }}
+      <Avatar src={siswa.user?.fotoProfil} nama={displayNama} sizePx={36} fallbackBg={accent} textClassName="text-[10px] font-extrabold" />
+
+      <div className="min-w-0">
+        <p className="truncate text-sm font-bold text-slate-800 dark:text-slate-100" title={displayNama}>{displayNama}</p>
+        <p className="truncate text-xs text-slate-400 dark:text-slate-500">
+          Siswa &middot; <span className="font-mono">{siswa.nis}</span>
+        </p>
+      </div>
+
+      <p className="truncate text-sm font-medium text-slate-800 dark:text-white" title={tempatTanggal}>{tempatTanggal}</p>
+
+      <div>
+        {siswa.noHp ? (
+          <a
+            href={waLink(siswa.noHp)!}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={(e) => e.stopPropagation()}
+            title="Kirim pesan WhatsApp"
+            className="block truncate text-sm font-medium text-emerald-600 transition-colors hover:text-emerald-700 hover:underline dark:text-emerald-400 dark:hover:text-emerald-300"
           >
-            <CheckCircle2 size={12} />
-            Sudah Ganti
-          </span>
+            {siswa.noHp}
+          </a>
         ) : (
-          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-500 dark:bg-slate-700 dark:text-slate-400">
-            <XCircle size={12} />
-            Masih NIS
-          </span>
+          <span className="text-sm font-medium text-slate-800 dark:text-white">—</span>
         )}
-      </td>
+      </div>
 
-      <td className={`${TD} ${TEXT}`} title={tempatTanggal}>{tempatTanggal}</td>
+      <div className="flex items-center gap-2">
+        <ProgressRing percent={pct} />
+        <span className="text-xs text-slate-400 dark:text-slate-500">{pct}%</span>
+        <button
+          onClick={() => onViewDetail(siswa)}
+          title="Lihat data lengkap"
+          className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg transition-colors hover:brightness-95"
+          style={{ backgroundColor: `${REF_PRIMARY}1a`, color: REF_PRIMARY }}
+        >
+          <Eye size={13} />
+        </button>
+      </div>
 
-      <td className={`${TD} ${TEXT}`}>{siswa.noHp || "—"}</td>
-
-      <td className={TD}>
-        <div className="flex items-center gap-2.5">
-          <div className="flex items-center gap-2">
-            <ProgressRing percent={pct} />
-            <span className="text-xs text-slate-400 dark:text-slate-500">{pct}%</span>
-          </div>
-          <button
-            onClick={() => onViewDetail(siswa)}
-            className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors hover:brightness-95"
-            style={{ backgroundColor: `${REF_PRIMARY}1a`, color: REF_PRIMARY }}
+      <div className="flex flex-wrap items-center justify-end gap-1.5">
+        {onEdit && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => onEdit(siswa)}
+            title="Edit data siswa"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white shadow-sm transition-colors hover:brightness-95"
+            style={{ backgroundColor: REF_PRIMARY }}
           >
-            <Eye size={12} />
-            Lihat Data
-          </button>
-        </div>
-      </td>
-
-      <td className={TD}>
-        <div className="flex gap-2">
-          {onEdit && (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={() => onEdit(siswa)}
-              className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white shadow-sm transition-colors hover:brightness-95"
-              style={{ backgroundColor: REF_PRIMARY }}
-            >
-              <Pencil size={12} />
-              Edit
-            </motion.button>
-          )}
-          {onImpersonate && siswa.user && (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={() => onImpersonate(siswa)}
-              className="flex items-center gap-1 rounded-lg bg-[#D7263D] px-2.5 py-1.5 text-xs font-bold text-white shadow-sm transition-colors hover:brightness-95"
-            >
-              <ScanEye size={12} />
-              Pantau
-            </motion.button>
-          )}
-          {onResetPassword && siswa.user && (
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.92 }}
-              onClick={() => onResetPassword(siswa)}
-              className="flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-bold text-white shadow-sm transition-colors hover:brightness-95"
-              style={{ backgroundColor: REF_DANGER }}
-            >
-              <KeyRound size={12} />
-              Reset
-            </motion.button>
-          )}
-        </div>
-      </td>
-    </motion.tr>
+            <Pencil size={13} />
+          </motion.button>
+        )}
+        {onImpersonate && siswa.user && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => onImpersonate(siswa)}
+            title="Pantau akun siswa"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#C3F84A] text-black shadow-sm transition-colors hover:brightness-95"
+          >
+            <ScanEye size={13} />
+          </motion.button>
+        )}
+        {onResetPassword && siswa.user && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => onResetPassword(siswa)}
+            title="Reset password"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-white shadow-sm transition-colors hover:brightness-95"
+            style={{ backgroundColor: REF_DANGER }}
+          >
+            <KeyRound size={13} />
+          </motion.button>
+        )}
+        {onKeluarkan && (
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.92 }}
+            onClick={() => onKeluarkan(siswa)}
+            title="Hapus permanen (siswa keluar/pindah sekolah)"
+            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-500 shadow-sm transition-colors hover:bg-red-100 dark:bg-red-900/20"
+          >
+            <Trash2 size={13} />
+          </motion.button>
+        )}
+      </div>
+    </motion.div>
   );
 }

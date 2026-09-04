@@ -5,17 +5,16 @@ import { AnimatePresence } from "framer-motion";
 import {
   ClipboardCheck, CalendarDays, Briefcase,
   ArrowRight,
-  Users, TrendingUp, LogOut, PieChart, FileText, Download,
+  Users, TrendingUp, LogOut, PieChart, FileText, Download, Bell, Check,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
-import { LiveClock } from "@/components/shared/LiveClock";
 import { DokumenModal } from "@/components/absensi-harian/DokumenModal";
 import { BelumAbsenPanel } from "@/components/absensi-harian/BelumAbsenPanel";
 import { AbsensiMagangTable } from "@/components/absensi-magang/AbsensiMagangTable";
 import { ExportButtons } from "@/components/absensi-magang/ExportButtons";
 import { useExportRange } from "@/components/absensi-harian/useExportRange";
 import { paginate } from "@/components/shared/PageSizeToggle";
-import { STATUS_CFG, PULANG_CFG, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl, formatTglSlash } from "@/components/absensi-harian/shared";
 import type { SiswaAbsensi, FilterAbsensi, RekapTempat, TempatMagang } from "@/components/absensi-magang/types";
 
 // Same shape/size as the clickable tempat pill (icon badge + 2-line text),
@@ -35,12 +34,65 @@ function MiniStat({ icon: Icon, value, label }: { icon: React.ElementType; value
   );
 }
 
+// Klik ini benar-benar mengirim notifikasi in-app (lonceng Topbar) ke tiap
+// siswa bimbingan yang belum tercatat absen — lewat endpoint backend
+// /magang/absensi/kirim-pengingat, sekaligus menyalin nama-nama itu ke
+// clipboard (pola yang sama dengan BelumAbsenPanel) untuk ditempel manual
+// sebagai pengingat WA. Guru wajib menyertakan tempatMagangId — dibatasi ke
+// tempat yang sedang dipilih, tidak seperti admin yang menjangkau semua tempat.
+function KirimPengingatCard({ tempatMagangId, tanggal, siswaList }: { tempatMagangId: string; tanggal: string; siswaList: SiswaAbsensi[] }) {
+  const toast = useToast();
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const belum = siswaList.filter((s) => !s.status || s.status === "ALPA");
+
+  async function kirim() {
+    if (belum.length === 0 || sending || !tempatMagangId) return;
+    setSending(true);
+    try {
+      const res = await fetch("/api/magang/absensi/kirim-pengingat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tempatMagangId, tanggal }),
+      });
+      const data = await res.json().catch(() => null);
+      if (!res.ok) { toast.error("Gagal mengirim pengingat", data?.message ?? ""); return; }
+
+      const text = belum.map((s, i) => `${i + 1}. ${s.nama}${s.nis ? ` (${s.nis})` : ""}`).join("\n");
+      try { await navigator.clipboard.writeText(text); } catch { /* clipboard opsional, notifikasi tetap terkirim */ }
+
+      setSent(true);
+      toast.success("Pengingat terkirim!", `Notifikasi masuk ke ${data.count} siswa · daftar nama juga disalin untuk WA`);
+      setTimeout(() => setSent(false), 2000);
+    } catch {
+      toast.error("Server tidak dapat dijangkau", "");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <button type="button" onClick={kirim} disabled={belum.length === 0 || sending}
+      className="flex h-full w-full items-center gap-2 rounded-2xl border-2 border-transparent bg-red-50 px-3 py-2.5 text-left transition-all hover:border-red-200 disabled:cursor-default disabled:opacity-50 dark:bg-red-900/15 dark:hover:border-red-800/60">
+      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#8B0000] text-white">
+        {sent ? <Check size={14} /> : <Bell size={14} />}
+      </span>
+      <div className="min-w-0">
+        <p className="truncate text-sm font-bold text-red-700 dark:text-red-400">{sent ? "Terkirim!" : "Kirim Pengingat"}</p>
+        <p className="truncate text-[10px] font-semibold text-red-400 dark:text-red-500/80">
+          {belum.length > 0 ? `${belum.length} siswa belum absen` : "Semua sudah absen"}
+        </p>
+      </div>
+    </button>
+  );
+}
+
 function RingkasanKehadiranCard({
-  tempatList, selectedId, onSelectTempat, tempatStat, siswaList, rekap, hadirPct, total, pulangCount, belumAbsen, tempatNama,
+  tempatList, selectedId, onSelectTempat, tempatStat, siswaList, tanggal, rekap, hadirPct, total, pulangCount, belumAbsen, tempatNama,
 }: {
   tempatList: TempatMagang[]; selectedId: string; onSelectTempat: (id: string) => void;
   tempatStat: (t: TempatMagang) => { hd: number; tt: number; pct: number };
-  siswaList: SiswaAbsensi[];
+  siswaList: SiswaAbsensi[]; tanggal: string;
   rekap: RekapTempat["rekap"]; hadirPct: number; total: number; pulangCount: number; belumAbsen: number; tempatNama?: string;
 }) {
   const segments = [
@@ -107,6 +159,10 @@ function RingkasanKehadiranCard({
 
             <MiniStat icon={ClipboardCheck} value={`${sudahAbsen}/${total}`} label={`Progres absen · ${progresPct}%`} />
             <MiniStat icon={LogOut} value={pulangCount} label="Sudah pulang" />
+          </div>
+
+          <div className="grid grid-cols-[repeat(auto-fit,140px)] justify-start gap-2.5">
+            <KirimPengingatCard tempatMagangId={selectedId} tanggal={tanggal} siswaList={siswaList} />
           </div>
         </div>
 
@@ -228,14 +284,16 @@ export default function GuruMagangAbsensiPage() {
     return (
       <div className="space-y-5 p-1">
         <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
+          <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
           <div className="relative flex items-center gap-3 sm:gap-4">
             <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
               <ClipboardCheck size={22} className="text-white sm:hidden" />
               <ClipboardCheck size={26} className="hidden text-white sm:block" />
             </div>
             <div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
               <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
-              <p className="mt-0.5 text-sm text-white/70">Presensi kehadiran siswa PKL bimbingan Anda</p>
             </div>
           </div>
         </div>
@@ -256,22 +314,15 @@ export default function GuruMagangAbsensiPage() {
         <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
           <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
-          <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex items-center gap-3 sm:gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
-                <ClipboardCheck size={22} className="text-white sm:hidden" />
-                <ClipboardCheck size={26} className="hidden text-white sm:block" />
-              </div>
-              <div>
-                <div className="mb-1 flex items-center gap-2">
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
-                  <span className="rounded-lg bg-white/20 px-2 py-0.5 text-[9px] font-bold text-white/90">Guru Pembimbing</span>
-                </div>
-                <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
-                <p className="mt-0.5 text-sm text-white/70">Catat kehadiran siswa PKL yang Anda bimbing</p>
-              </div>
+          <div className="relative flex items-center gap-3 sm:gap-4">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+              <ClipboardCheck size={22} className="text-white sm:hidden" />
+              <ClipboardCheck size={26} className="hidden text-white sm:block" />
             </div>
-            <LiveClock />
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi PKL</span>
+              <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi PKL</h1>
+            </div>
           </div>
         </div>
 
@@ -280,7 +331,7 @@ export default function GuruMagangAbsensiPage() {
             <div className="lg:col-span-2">
               <RingkasanKehadiranCard
                 tempatList={tempatList} selectedId={selectedId} onSelectTempat={setSelectedId} tempatStat={tempatStat}
-                siswaList={siswaList} rekap={rekap} hadirPct={hadirPct} total={total}
+                siswaList={siswaList} tanggal={tanggal} rekap={rekap} hadirPct={hadirPct} total={total}
                 pulangCount={pulangCount} belumAbsen={total - sudahAbsen} tempatNama={selectedTempat?.namaTempat} />
             </div>
 
@@ -306,10 +357,14 @@ export default function GuruMagangAbsensiPage() {
                 </p>
                 <p className="mt-0.5 text-xs text-slate-400 dark:text-slate-500">{formatTgl(tanggal)}</p>
               </div>
-              <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-600 dark:bg-slate-700/50 sm:w-full sm:max-w-xs">
+              <div className="relative flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-600 dark:bg-slate-700/50 sm:w-full sm:max-w-xs">
                 <CalendarDays size={14} className="shrink-0 text-slate-400" />
+                <span className="pointer-events-none w-full min-w-0 text-sm font-semibold text-slate-700 dark:text-slate-200">
+                  {formatTglSlash(tanggal)}
+                </span>
                 <input type="date" value={tanggal} onChange={(e) => setTanggal(e.target.value)}
-                  className="w-full min-w-0 bg-transparent text-sm font-semibold text-slate-700 focus:outline-none dark:text-slate-200" />
+                  aria-label="Pilih tanggal"
+                  className="absolute inset-0 h-full w-full cursor-pointer opacity-0" />
               </div>
             </div>
 

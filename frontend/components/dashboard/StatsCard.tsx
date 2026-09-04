@@ -56,34 +56,34 @@ export default function StatsCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4, boxShadow: "0 12px 32px rgba(0,0,0,0.10)" }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="relative overflow-hidden rounded-3xl bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]"
+      className="relative flex items-center gap-4 overflow-hidden rounded-3xl bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]"
     >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-[0.03] bg-[radial-gradient(circle,rgba(0,0,0,0.9)_1px,transparent_1px)] bg-size-[16px_16px]"
       />
 
-      <div className="relative mb-4 flex items-start justify-between">
-        <motion.span
-          initial={{ scale: 0.6, opacity: 0, rotate: -15 }}
-          animate={{ scale: 1, opacity: 1, rotate: 0 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          whileHover={{ scale: 1.1, rotate: 8 }}
-          className={`flex h-11 w-11 items-center justify-center rounded-2xl shadow-sm ${theme.onLime ? "text-black" : "text-white"}`}
-          style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
-        >
-          <Icon size={19} />
-        </motion.span>
-      </div>
+      <motion.span
+        initial={{ scale: 0.6, opacity: 0, rotate: -15 }}
+        animate={{ scale: 1, opacity: 1, rotate: 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        whileHover={{ scale: 1.1, rotate: 8 }}
+        className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm ${theme.onLime ? "text-black" : "text-white"}`}
+        style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
+      >
+        <Icon size={24} />
+      </motion.span>
 
-      <p className="relative text-sm text-slate-500 dark:text-slate-400">{label}</p>
-      <div className="relative mt-1 flex items-baseline gap-1">
-        <motion.span className="text-2xl font-bold text-slate-800 tabular-nums dark:text-white">
-          {count}
-        </motion.span>
-        {suffix && <span className="text-sm font-semibold text-slate-400">{suffix}</span>}
+      <div className="relative min-w-0 flex-1">
+        <div className="flex items-baseline gap-1">
+          <motion.span className="text-2xl font-bold text-slate-800 tabular-nums dark:text-white">
+            {count}
+          </motion.span>
+          {suffix && <span className="text-sm font-semibold text-slate-400">{suffix}</span>}
+        </div>
+        <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{label}</p>
+        {sub && <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{sub}</p>}
       </div>
-      {sub && <p className="relative mt-1 text-xs text-slate-400 dark:text-slate-500">{sub}</p>}
     </motion.div>
   );
 }
