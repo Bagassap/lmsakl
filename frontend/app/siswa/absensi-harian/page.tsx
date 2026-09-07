@@ -386,7 +386,7 @@ export default function SiswaAbsensiHarianPage() {
             )}
           </div>
 
-          <div className="space-y-4 lg:hidden">
+          <div className="relative isolate -m-4 space-y-4 overflow-hidden bg-surface p-4 dark:bg-[#1c2434] lg:hidden">
             <div className="rounded-3xl bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
               <div className="relative grid grid-cols-2 divide-x divide-white/20 overflow-hidden rounded-2xl" style={{ background: BRAND_GRADIENT }}>
                 <div className="pointer-events-none absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10" />

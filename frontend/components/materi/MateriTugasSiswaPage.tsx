@@ -134,30 +134,32 @@ export function MateriTugasSiswaPage() {
             </div>
           </div>
 
-          <div className="isolate flex gap-1.5 rounded-2xl bg-slate-100 p-1.5 dark:bg-slate-800/60 lg:hidden">
-            <button type="button" onClick={() => setCategory("materi")}
-              className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold transition-colors"
-              style={{ color: category === "materi" ? "#fff" : "#94a3b8" }}>
-              {category === "materi" && (
-                <motion.span layoutId="materiTugasTabPill" className="absolute inset-0 rounded-xl bg-primary"
-                  transition={{ type: "spring", stiffness: 500, damping: 35 }} />
-              )}
-              <span className="relative z-10 flex items-center gap-1.5"><BookOpen size={15} /> Materi</span>
-            </button>
-            <button type="button" onClick={() => setCategory("tugas")}
-              className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold transition-colors"
-              style={{ color: category === "tugas" ? "#000" : "#94a3b8" }}>
-              {category === "tugas" && (
-                <motion.span layoutId="materiTugasTabPill" className="absolute inset-0 rounded-xl"
-                  style={{ background: "#C3F84A" }} transition={{ type: "spring", stiffness: 500, damping: 35 }} />
-              )}
-              <span className="relative z-10 flex items-center gap-1.5"><Send size={15} /> Tugas</span>
-              {perluDikerjakan > 0 && (
-                <span className="absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8B0000] px-1 text-[9px] font-bold text-white">
-                  {perluDikerjakan}
-                </span>
-              )}
-            </button>
+          <div className="relative -mx-4 overflow-hidden bg-surface px-4 py-3 dark:bg-[#1c2434] lg:hidden">
+            <div className="isolate flex gap-1.5 rounded-2xl bg-slate-100 p-1.5 dark:bg-slate-800/60">
+              <button type="button" onClick={() => setCategory("materi")}
+                className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold transition-colors"
+                style={{ color: category === "materi" ? "#fff" : "#94a3b8" }}>
+                {category === "materi" && (
+                  <motion.span layoutId="materiTugasTabPill" className="absolute inset-0 rounded-xl bg-primary"
+                    transition={{ type: "spring", stiffness: 500, damping: 35 }} />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5"><BookOpen size={15} /> Materi</span>
+              </button>
+              <button type="button" onClick={() => setCategory("tugas")}
+                className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold transition-colors"
+                style={{ color: category === "tugas" ? "#000" : "#94a3b8" }}>
+                {category === "tugas" && (
+                  <motion.span layoutId="materiTugasTabPill" className="absolute inset-0 rounded-xl"
+                    style={{ background: "#C3F84A" }} transition={{ type: "spring", stiffness: 500, damping: 35 }} />
+                )}
+                <span className="relative z-10 flex items-center gap-1.5"><Send size={15} /> Tugas</span>
+                {perluDikerjakan > 0 && (
+                  <span className="absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8B0000] px-1 text-[9px] font-bold text-white">
+                    {perluDikerjakan}
+                  </span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
 

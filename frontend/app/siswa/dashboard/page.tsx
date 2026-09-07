@@ -195,10 +195,7 @@ export default function SiswaDashboardPage() {
 
   return (
     <>
-      <div className="relative isolate -m-4 space-y-5 overflow-hidden bg-[linear-gradient(180deg,#FCEEF0_0%,#FAFAED_55%)] p-4 dark:bg-[linear-gradient(180deg,#171f2b_0%,#1c2434_55%)] lg:hidden">
-        <div className="pointer-events-none absolute -right-16 -top-16 -z-10 h-64 w-64 rounded-full bg-[#D7263D]/25 blur-3xl dark:bg-[#D7263D]/25" />
-        <div className="pointer-events-none absolute -left-16 top-64 -z-10 h-48 w-48 rounded-full bg-[#C3F84A]/25 blur-3xl dark:bg-[#C3F84A]/15" />
-        <div className="pointer-events-none absolute -right-10 bottom-10 -z-10 h-40 w-40 rounded-full bg-[#9E1B2E]/20 blur-3xl dark:bg-[#9E1B2E]/25" />
+      <div className="relative isolate -m-4 space-y-5 overflow-hidden bg-surface p-4 dark:bg-[#1c2434] lg:hidden">
 
         <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
           {data.kelas} · Wali: {data.waliKelas ?? "—"}
