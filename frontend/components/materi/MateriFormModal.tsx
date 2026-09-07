@@ -29,9 +29,6 @@ export function MateriFormModal({
   materi?: MateriItem | null;
   onClose: () => void;
   onSaved: (m: MateriItem) => void;
-  // Bila diisi, field Mata Pelajaran jadi dropdown terbatas pada daftar ini
-  // (dipakai di halaman Guru — mapel yang benar-benar diampu, dari GuruMapel).
-  // Kosongkan/undefined untuk tetap pakai input teks bebas (halaman Admin).
   mapelOptions?: string[];
 }) {
   const isEdit = !!materi;

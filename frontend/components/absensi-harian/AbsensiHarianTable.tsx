@@ -26,8 +26,6 @@ type Props = {
   tablePageSize: number;
   setTablePageSize: (n: number) => void;
   onOpenDokumen: (siswa: SiswaAbsensi, source: "hadir" | "pulang") => void;
-  /** Kelas & tanggal yang sedang ditampilkan — dipakai untuk memanggil endpoint
-   * update saat admin/guru mengedit status kehadiran langsung dari tabel ini. */
   kelasId?: string;
   tanggal?: string;
   onStatusUpdated?: () => void;

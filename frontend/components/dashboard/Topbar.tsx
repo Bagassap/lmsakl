@@ -2,18 +2,20 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Menu, Search, Sun, Moon, Bell, ChevronDown, LogOut, X,
+  Search, Sun, Moon, Bell, ChevronDown, LogOut, X,
   LayoutDashboard, Calendar, Users, FileText, Briefcase,
   MessageSquare, UserCircle, CheckCircle2, Info, AlertTriangle,
-  CheckCheck, Clock,
+  CheckCheck, Clock, CreditCard,
 } from "lucide-react";
 import type { UserPayload } from "@/lib/auth";
 import { timeAgo } from "@/components/dashboard/ActivityList";
 import { Avatar } from "@/components/shared/Avatar";
 import { ProfilSayaModal } from "@/components/shared/ProfilSayaModal";
 import { LiveClock } from "@/components/shared/LiveClock";
+import { KARTU_PELAJAR_URL } from "@/components/shared/KartuPelajarBanner";
 
 
 const PAGE_TITLES: Record<string, [string, string]> = {
@@ -34,6 +36,14 @@ const PAGE_TITLES: Record<string, [string, string]> = {
   "ujian-ukk":    ["Ujian UKK",         "Ujian Kompetensi Keahlian"],
   "jadwal-soal":  ["Jadwal dan Soal",   "Kelola jadwal, soal, dan pantau pengumpulan siswa"],
 };
+
+function jakartaGreetingWord(): string {
+  const h = Number(new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Jakarta", hour: "2-digit", hourCycle: "h23" }).format(new Date()));
+  if (h < 11) return "Selamat Pagi";
+  if (h < 15) return "Selamat Siang";
+  if (h < 18) return "Selamat Sore";
+  return "Selamat Malam";
+}
 
 function getPageInfo(pathname: string) {
   const segments = pathname.split("/").filter(Boolean);
@@ -121,7 +131,7 @@ const NOTIF_ICON: Record<NotifType, React.ComponentType<{ size?: number; style?:
 const ROLE_LABEL: Record<string, string> = { ADMIN: "Administrator", GURU: "Guru", SISWA: "Siswa" };
 
 
-export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: () => void }) {
+export function Topbar({ user }: { user: UserPayload }) {
   const router   = useRouter();
   const pathname = usePathname();
   const { title, subtitle } = getPageInfo(pathname);
@@ -197,13 +207,8 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
   const [unreadCount,    setUnreadCount]    = useState(0);
   const notifRef = useRef<HTMLDivElement>(null);
 
-  // Jumlah permintaan reset password yang masih menunggu — hanya relevan untuk Admin.
   const [pendingResetCount, setPendingResetCount] = useState(0);
 
-  // A 401 here means the session cookie is gone or no longer verifiable (expired,
-  // or signed under a JWT_SECRET that's since been rotated) — bounce to /login
-  // instead of leaving the badge/dropdown silently and permanently empty with
-  // nothing in the UI to explain why.
   function handleSessionExpired() {
     window.location.href = "/login";
   }
@@ -303,13 +308,23 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
 
   return (
     <>
-      <header className="sticky top-0 z-30 flex items-center gap-3 bg-white px-4 py-5 shadow-[0_1px_4px_rgba(0,0,0,0.08)] transition-colors duration-200 dark:bg-[#1c2434] md:px-5 2xl:px-10">
-        <button
-          onClick={onMenuClick}
-          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 lg:hidden"
-        >
-          <Menu size={20} />
-        </button>
+      <header className={`sticky top-0 z-30 flex items-center gap-3 px-4 py-4 transition-colors duration-200 dark:bg-[#1c2434] lg:bg-white lg:px-5 lg:py-5 lg:shadow-[0_1px_4px_rgba(0,0,0,0.08)] 2xl:px-10 ${pathname === "/siswa/dashboard" ? "bg-[#F7E8E8]" : "bg-surface"}`}>
+        <div className="flex min-w-0 items-center gap-2 lg:hidden">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-primary shadow-sm">
+            <Image src="/AKL.png" alt="LMS AKL" width={16} height={20} className="h-4 w-auto object-contain" />
+          </div>
+          <div className="min-w-0">
+            <span className="flex items-baseline gap-1">
+              <span className="text-[15px] font-black tracking-tight text-slate-800 dark:text-white">LMS</span>
+              <span className="text-[9px] font-bold tracking-[0.15em] text-primary">AKL</span>
+            </span>
+            {pathname === "/siswa/dashboard" && (
+              <p className="truncate text-[10px] font-semibold leading-tight text-slate-500 dark:text-slate-400">
+                {jakartaGreetingWord()}, {user.nama.split(" ")[0]} 👋
+              </p>
+            )}
+          </div>
+        </div>
 
         <div className="hidden xl:block">
           <h1 className="mb-0.5 text-lg font-bold text-slate-800 dark:text-slate-200">{title}</h1>
@@ -326,7 +341,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
 
           <button
             onClick={() => setSearchOpen(true)}
-            className="hidden items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-left transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 md:flex"
+            className="hidden items-center gap-2 rounded-xl bg-slate-100 px-4 py-2 text-left transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:hover:bg-slate-700 lg:flex"
           >
             <Search size={14} className="shrink-0 text-slate-500 dark:text-slate-400" />
             <span className="w-32 text-sm text-slate-500 dark:text-slate-400">Cari sesuatu...</span>
@@ -335,14 +350,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
             </span>
           </button>
 
-          <button
-            onClick={() => setSearchOpen(true)}
-            className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 md:hidden"
-          >
-            <Search size={16} />
-          </button>
-
-          <div className="flex items-center rounded-full bg-slate-100 p-1 dark:bg-slate-700/50">
+          <div className="hidden items-center rounded-full bg-slate-100 p-1 dark:bg-slate-700/50 lg:flex">
             <button
               onClick={toggleDark}
               title="Mode terang"
@@ -371,7 +379,7 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
             <button
               onClick={() => router.push("/admin/manajemen-password")}
               title="Permintaan reset password"
-              className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white"
+              className="relative hidden h-9 w-9 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-slate-700 dark:bg-slate-700/50 dark:text-slate-400 dark:hover:bg-slate-700 dark:hover:text-white lg:flex"
             >
               <Clock size={16} />
               {pendingResetCount > 0 && (
@@ -519,6 +527,34 @@ export function Topbar({ user, onMenuClick }: { user: UserPayload; onMenuClick: 
                     <UserCircle size={14} />
                     Profil Saya
                   </button>
+                  {user.role === "SISWA" && (
+                    <a
+                      href={KARTU_PELAJAR_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-700/50"
+                    >
+                      <CreditCard size={14} />
+                      Kartu Pelajar Digital
+                    </a>
+                  )}
+                  <button
+                    onClick={() => { setDropdownOpen(false); setSearchOpen(true); }}
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-700/50 lg:hidden"
+                  >
+                    <Search size={14} />
+                    Cari
+                  </button>
+                  <button
+                    onClick={toggleDark}
+                    className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-gray-600 transition-colors hover:bg-gray-50 dark:text-slate-300 dark:hover:bg-slate-700/50 lg:hidden"
+                  >
+                    {darkMounted && isDark ? <Sun size={14} /> : <Moon size={14} />}
+                    {darkMounted && isDark ? "Mode Terang" : "Mode Gelap"}
+                  </button>
+                  <div className="my-1 border-b border-gray-200 dark:border-slate-700 lg:hidden" />
+
                   <button
                     onClick={handleLogout}
                     className="flex w-full items-center gap-2.5 px-4 py-2.5 text-sm text-[#8B0000] transition-colors hover:bg-[#F7E8E8] dark:hover:bg-[#300000]/20"

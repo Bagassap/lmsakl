@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  BookOpen, Search, FileText, AlertCircle, GraduationCap, CalendarDays,
+  BookOpen, Search, FileText, AlertCircle, GraduationCap, CalendarDays, ChevronRight,
 } from "lucide-react";
 import type { MateriItem } from "./MateriFormModal";
 
@@ -27,6 +27,7 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
+  const [mapelFilter, setMapelFilter] = useState<string | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -44,18 +45,22 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
     })();
   }, []);
 
+  const uniqueMapel = useMemo(() => Array.from(new Set(list.map((m) => m.mapel))).sort(), [list]);
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return list;
-    return list.filter((m) =>
-      m.judul.toLowerCase().includes(q) ||
-      m.mapel.toLowerCase().includes(q) ||
-      (m.deskripsi ?? "").toLowerCase().includes(q)
-    );
-  }, [list, search]);
+    return list.filter((m) => {
+      if (mapelFilter && m.mapel !== mapelFilter) return false;
+      if (!q) return true;
+      return m.judul.toLowerCase().includes(q) ||
+        m.mapel.toLowerCase().includes(q) ||
+        (m.deskripsi ?? "").toLowerCase().includes(q);
+    });
+  }, [list, search, mapelFilter]);
 
   return (
     <div className="space-y-5">
+      <div className="hidden space-y-5 lg:block">
       {!embedded && (
         <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
@@ -159,6 +164,93 @@ export function MateriSiswaPage({ embedded = false }: { embedded?: boolean } = {
             </table>
           )}
         </div>
+      </div>
+      </div>
+
+      <div className="space-y-3 lg:hidden">
+        <div className="relative">
+          <Search size={15} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-500" />
+          <input value={search} onChange={(e) => setSearch(e.target.value)}
+            placeholder="Cari judul materi, mapel..."
+            className="w-full rounded-2xl border border-slate-100 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 shadow-[0_2px_8px_rgba(0,0,0,0.05)] outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 dark:border-slate-700 dark:bg-[#1c2434] dark:text-slate-200" />
+        </div>
+
+        {uniqueMapel.length > 1 && (
+          <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            <button type="button" onClick={() => setMapelFilter(null)}
+              className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold shadow-[0_2px_6px_rgba(0,0,0,0.05)] transition-colors"
+              style={mapelFilter === null ? { background: "#D7263D", color: "#fff" } : { background: "#fff", color: "#64748b" }}>
+              Semua
+            </button>
+            {uniqueMapel.map((mp) => (
+              <button key={mp} type="button" onClick={() => setMapelFilter(mp)}
+                className="shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold shadow-[0_2px_6px_rgba(0,0,0,0.05)] transition-colors"
+                style={mapelFilter === mp ? { background: "#D7263D", color: "#fff" } : { background: "#fff", color: "#64748b" }}>
+                {mp}
+              </button>
+            ))}
+          </div>
+        )}
+
+        <AnimatePresence>
+          {error && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              className="flex items-center gap-2 rounded-2xl border border-[#EBC4C4] bg-[#F7E8E8] px-4 py-3 text-sm text-[#750000] dark:border-[#300000]/40 dark:bg-[#300000]/20 dark:text-[#A62E2E]">
+              <AlertCircle size={14} className="shrink-0" />{error}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {loading && (
+          <div className="rounded-3xl bg-white py-14 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] dark:bg-[#1c2434]">
+            <p className="text-sm text-slate-400">Memuat data...</p>
+          </div>
+        )}
+        {!loading && filtered.length === 0 && (
+          <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] dark:bg-[#1c2434]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+              <BookOpen size={24} className="text-primary" />
+            </div>
+            <p className="mt-4 text-sm text-slate-400">{search.trim() ? `Tidak ada materi dengan kata kunci "${search.trim()}"` : "Belum ada materi dari gurumu"}</p>
+          </div>
+        )}
+        {!loading && filtered.length > 0 && (
+          <div className="space-y-2.5">
+            {filtered.map((m, idx) => {
+              const accent = idx % 2 === 0;
+              return (
+                <motion.button key={m.id} type="button"
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: idx * 0.03 }}
+                  whileTap={m.fileUrl ? { scale: 0.97 } : undefined}
+                  disabled={!m.fileUrl}
+                  onClick={() => m.fileUrl && router.push(`/siswa/materi/${m.id}`)}
+                  className={`relative flex w-full items-center gap-3 overflow-hidden rounded-[22px] p-4 text-left shadow-[0_4px_14px_-4px_rgba(0,0,0,0.10)] transition-shadow disabled:opacity-60 ${accent ? "bg-primary" : "bg-white dark:bg-[#1c2434]"}`}>
+                  {accent && <div className="pointer-events-none absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10" />}
+                  <span className={`relative flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${accent ? "bg-white/20" : "bg-primary/10"}`}>
+                    <FileText size={19} className={accent ? "text-white" : "text-primary"} />
+                  </span>
+                  <div className="relative min-w-0 flex-1">
+                    <p className={`truncate text-sm font-bold ${accent ? "text-white" : "text-slate-800 dark:text-white"}`}>{m.judul}</p>
+                    <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                      <span className={`inline-flex items-center gap-1 rounded-lg px-1.5 py-0.5 text-[9.5px] font-semibold ${accent ? "bg-white/20 text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300"}`}>
+                        <GraduationCap size={9} /> {m.mapel}
+                      </span>
+                      <span className={`flex items-center gap-1 text-[9.5px] font-medium ${accent ? "text-white/75" : "text-slate-500 dark:text-slate-400"}`}>
+                        <CalendarDays size={9} />{formatDate(m.createdAt)}
+                      </span>
+                    </div>
+                  </div>
+                  {m.fileUrl && (
+                    <span className={`relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${accent ? "bg-white/20 text-white" : "bg-primary/10 text-primary"}`}>
+                      <ChevronRight size={15} />
+                    </span>
+                  )}
+                </motion.button>
+              );
+            })}
+          </div>
+        )}
       </div>
     </div>
   );

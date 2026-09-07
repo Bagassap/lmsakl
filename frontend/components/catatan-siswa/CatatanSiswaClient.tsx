@@ -16,9 +16,6 @@ import {
   downloadCatatanPdfKelas, downloadCatatanPdfSiswa, downloadCatatanExcelKelas, downloadCatatanExcelSiswa,
 } from "./downloadCatatanPdf";
 
-// Grid kolom tabel catatan — meniru pola AbsensiHarianTable (baris nomor +
-// avatar + header gelap), supaya bahasa visual senada dengan tabel Absensi
-// Harian.
 const GRID_COLS = "28px 40px 1.9fr 1.6fr 90px 110px 120px";
 
 type SummaryItem = {
@@ -121,12 +118,9 @@ export function CatatanSiswaClient() {
       <DataSiswaHeader title="Catatan Siswa" eyebrow="Catatan Siswa" />
 
       <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-3">
-        {/* KIRI: satu card putih — filter, ringkasan, dan unduh laporan
-            sebagai zona-zona yang dipisah lewat garis saja. items-start di
-            grid induk supaya card ini tetap tinggi alaminya sendiri, tidak
-            ikut meregang setinggi card tabel di sebelah kanan. */}
+        
         <div className="flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800">
-          {/* Zona Filter */}
+          
           <div className="p-4 sm:p-5">
             <p className="mb-3 flex items-center gap-1.5 text-sm font-bold text-slate-700 dark:text-white">
               <Filter size={14} className="text-slate-400" /> Filter Catatan Siswa
@@ -161,8 +155,7 @@ export function CatatanSiswaClient() {
             )}
           </div>
 
-          {/* Zona Ringkasan — ikon sejajar teks, rata dengan card, tanpa
-              warna latar (cuma aksen kecil pada ikon). */}
+          
           <div className="border-t border-slate-100 p-4 sm:p-5 dark:border-slate-700/50">
             <p className="mb-4 text-sm font-bold text-slate-800 dark:text-white">
               Ringkasan {selectedKelas?.nama ?? "Kelas"}
@@ -188,7 +181,7 @@ export function CatatanSiswaClient() {
             </div>
           </div>
 
-          {/* Zona Laporan */}
+          
           <div className="border-t border-slate-100 p-4 sm:p-5 dark:border-slate-700">
             <div className="mb-3 flex items-center gap-2.5">
               <Download size={16} className="text-slate-400" />
@@ -214,8 +207,7 @@ export function CatatanSiswaClient() {
           </div>
         </div>
 
-        {/* KANAN: hanya tabel catatan, gaya senada AbsensiHarianTable
-            (header gelap, nomor baris, avatar, hover row). */}
+        
         <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:col-span-2">
           {loading && (
             <div className="space-y-3 p-6">

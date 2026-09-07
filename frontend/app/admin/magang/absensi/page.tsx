@@ -17,12 +17,6 @@ import { paginate } from "@/components/shared/PageSizeToggle";
 import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, WALLET_ON_LIME, WALLET_ON_TEXT, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl, formatTglSlash } from "@/components/absensi-harian/shared";
 import type { SiswaAbsensi, FilterAbsensi, RekapTempat, TempatMagang } from "@/components/absensi-magang/types";
 
-// Khusus admin, tombol ini SENGAJA menjangkau SEMUA tempat PKL sekaligus
-// (bukan cuma tempat yang sedang dipilih di grid kartu) — tempatMagangId
-// tidak dikirim sama sekali, backend menganggap request tanpa tempatMagangId
-// dari role ADMIN sebagai "semua tempat". Guru tetap dibatasi ke tempat
-// magang siswa bimbingannya (lihat versi KirimPengingatCard di halaman
-// Guru, yang masih mengirim tempatMagangId).
 function KirimPengingatCard({ tanggal, siswaList }: { tanggal: string; siswaList: SiswaAbsensi[] }) {
   const toast = useToast();
   const [sending, setSending] = useState(false);
@@ -42,7 +36,7 @@ function KirimPengingatCard({ tanggal, siswaList }: { tanggal: string; siswaList
       if (!res.ok) { toast.error("Gagal mengirim pengingat", data?.message ?? ""); return; }
 
       const text = belum.map((s, i) => `${i + 1}. ${s.nama}${s.nis ? ` (${s.nis})` : ""}`).join("\n");
-      try { await navigator.clipboard.writeText(text); } catch { /* clipboard opsional, notifikasi tetap terkirim */ }
+      try { await navigator.clipboard.writeText(text); } catch {}
 
       setSent(true);
       toast.success("Pengingat terkirim!", `Notifikasi masuk ke ${data.count} siswa di seluruh tempat PKL · daftar nama juga disalin untuk WA`);

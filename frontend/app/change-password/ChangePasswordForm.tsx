@@ -20,13 +20,6 @@ const item: Variants = {
 
 type Field = "newPassword" | "confirmPassword";
 
-// If the nama/tanggalLahir on file is itself wrong (a typo during
-// lengkapi-profil, or bad data from the initial CSV import), the student can
-// NEVER pass this self-service check — only an admin can rescue them (via
-// the "Lewati verifikasi identitas" bypass on reset). Below this threshold,
-// a failure is far more likely to just be an honest typo, so retrying is the
-// right first instinct; past it, we proactively point at the real way out
-// instead of leaving the student to retry the same losing move forever.
 const ESCALATE_AFTER_ATTEMPTS = 2;
 
 const FIELDS: { key: Field; label: string; placeholder: string; autoComplete: string; icon: typeof KeyRound }[] = [
@@ -34,7 +27,7 @@ const FIELDS: { key: Field; label: string; placeholder: string; autoComplete: st
   { key: "confirmPassword", label: "Konfirmasi Password Baru", placeholder: "Ulangi password baru", autoComplete: "new-password", icon: KeyRound },
 ];
 
-export function ChangePasswordForm({ profileCompleted, bypassIdentityVerification }: { profileCompleted: boolean; bypassIdentityVerification: boolean }) {
+export function ChangePasswordForm({ profileCompleted, bypassIdentityVerification, role }: { profileCompleted: boolean; bypassIdentityVerification: boolean; role: string }) {
   const [values, setValues] = useState<Record<Field, string>>({
     newPassword: "",
     confirmPassword: "",
@@ -103,10 +96,6 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
 
       if (!res.ok) {
         setError(data?.message || "Gagal mengubah password.");
-        // Only count attempts that actually included an identity check —
-        // a password-strength or "must match" validation failure isn't
-        // evidence the identity data on file is wrong, so it shouldn't push
-        // the student toward "go find an admin" prematurely.
         if (!bypassIdentityVerification) setIdentityFailedAttempts((n) => n + 1);
         setLoading(false);
         return;
@@ -136,8 +125,9 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
       >
         <Sparkles size={16} className="mt-0.5 shrink-0 text-[#D7263D]" />
         <p className="text-xs leading-relaxed text-black/65">
-          Selamat datang! Untuk keamanan akun Anda, silakan buat password baru.
-          Password default Anda adalah NIS Anda.
+          {role === "SISWA"
+            ? "Selamat datang! Untuk keamanan akun Anda, silakan buat password baru. Password default Anda adalah NIS Anda."
+            : "Selamat datang! Untuk keamanan akun Anda, silakan buat password baru sebelum melanjutkan."}
         </p>
       </motion.div>
 
@@ -189,7 +179,7 @@ export function ChangePasswordForm({ profileCompleted, bypassIdentityVerificatio
             <p className="text-[11px] text-black/40">
               {profileCompleted
                 ? "Tanggal lahir yang Anda isi saat melengkapi profil sebelumnya."
-                : "Nama lengkap sesuai data sekolah — bukan nama panggilan."}
+                : "Nama lengkap sesuai data sekolah — bukan nama panggilan. Gelar akademik (S.Kom, S.Pd, dll) tidak perlu diketik."}
             </p>
           </motion.div>
 

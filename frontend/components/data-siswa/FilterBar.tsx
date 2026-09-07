@@ -4,10 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Search, X, Users, Mars, Venus, Filter, Sparkles, School, ChevronDown } from "lucide-react";
 import { kelasShort, type SiswaCardData, type KelasRef } from "./shared";
 
-// #D7263D = referensi Nasabah's "primary" (dipakai literal di dot-grid pattern
-// & JENIS_COLOR.siswa di file referensi), sengaja di-hardcode di sini alih-alih
-// pakai token --color-primary bawaan (#D7263D) karena token itu dipakai luas
-// di luar Data Siswa (sidebar, topbar, dll) dan tidak boleh ikut berubah.
 const REF_PRIMARY = "#D7263D";
 const REF_FEMALE = "#5e0000";
 

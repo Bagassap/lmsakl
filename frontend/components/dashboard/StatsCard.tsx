@@ -4,10 +4,6 @@ import { useEffect } from "react";
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import type { LucideIcon } from "lucide-react";
 
-// Rotasi 4 warna resmi (merah brand/lime/oren/biru) dipakai sebagai gradient
-// badge ikon — mengikuti pola grid StatCard di menu Laporan bank mini, tapi
-// tetap dalam 4 warna keluarga brand lmsakl. Slot lime perlu teks/ikon hitam
-// (pola onLime) supaya kontras.
 const THEMES: { from: string; to: string; onLime: boolean }[] = [
   { from: "#D7263D", to: "#9E1B2E", onLime: false }, // merah (brand)
   { from: "#C3F84A", to: "#8FCB1F", onLime: true },  // lime
@@ -56,7 +52,7 @@ export default function StatsCard({
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4, boxShadow: "0 12px 32px rgba(0,0,0,0.10)" }}
       transition={{ duration: 0.4, delay, ease: [0.16, 1, 0.3, 1] }}
-      className="relative flex items-center gap-4 overflow-hidden rounded-3xl bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]"
+      className="relative flex items-center gap-2.5 overflow-hidden rounded-xl bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434] sm:gap-4 sm:rounded-3xl sm:p-5"
     >
       <div
         aria-hidden
@@ -68,21 +64,22 @@ export default function StatsCard({
         animate={{ scale: 1, opacity: 1, rotate: 0 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
         whileHover={{ scale: 1.1, rotate: 8 }}
-        className={`relative flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm ${theme.onLime ? "text-black" : "text-white"}`}
+        className={`relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl shadow-sm sm:h-14 sm:w-14 sm:rounded-2xl ${theme.onLime ? "text-black" : "text-white"}`}
         style={{ background: `linear-gradient(135deg, ${theme.from}, ${theme.to})` }}
       >
-        <Icon size={24} />
+        <Icon size={16} className="sm:hidden" />
+        <Icon size={24} className="hidden sm:block" />
       </motion.span>
 
       <div className="relative min-w-0 flex-1">
         <div className="flex items-baseline gap-1">
-          <motion.span className="text-2xl font-bold text-slate-800 tabular-nums dark:text-white">
+          <motion.span className="text-lg font-bold text-slate-800 tabular-nums dark:text-white sm:text-2xl">
             {count}
           </motion.span>
-          {suffix && <span className="text-sm font-semibold text-slate-400">{suffix}</span>}
+          {suffix && <span className="text-[11px] font-semibold text-slate-400 sm:text-sm">{suffix}</span>}
         </div>
-        <p className="mt-0.5 text-sm text-slate-500 dark:text-slate-400">{label}</p>
-        {sub && <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">{sub}</p>}
+        <p className="mt-0.5 truncate text-xs text-slate-500 dark:text-slate-400 sm:text-sm">{label}</p>
+        {sub && <p className="mt-0.5 truncate text-[9px] text-slate-400 dark:text-slate-500 sm:mt-1 sm:text-xs">{sub}</p>}
       </div>
     </motion.div>
   );

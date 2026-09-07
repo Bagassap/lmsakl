@@ -27,9 +27,6 @@ function formatTglSingkat(v: string): string {
   return d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
 }
 
-// Nomor bukti berikutnya — kalau baris terakhir sudah punya nomor urut
-// (mis. "005"), disarankan "006"; kalau tidak ada pola numerik, biarkan
-// kosong supaya siswa isi manual.
 function suggestNextNoBukti(rows: PraktikRow[]): string {
   const last = [...rows].reverse().find((r) => r.noBukti.trim());
   if (!last) return "001";
@@ -40,9 +37,6 @@ function suggestNextNoBukti(rows: PraktikRow[]): string {
   return `${prefix}${next}${suffix}`;
 }
 
-// Baris-baris jurnal dikelompokkan per transaksi (kunci = noBukti berurutan
-// sama) — satu transaksi biasanya 2+ baris akun (debit lalu kredit) diikuti
-// satu baris keterangan, persis format jurnal umum di buku/modul akuntansi.
 function groupByTransaksi(rows: PraktikRow[]): { key: string; indices: number[] }[] {
   const groups: { key: string; indices: number[] }[] = [];
   rows.forEach((r, idx) => {
@@ -62,15 +56,10 @@ export function PraktikAkuntansiGrid({
   rows: PraktikRow[];
   onChange?: (rows: PraktikRow[]) => void;
   readOnly?: boolean;
-  // Kalau diisi, tombol Reset akan mengembalikan grid ke baris awal ini
-  // (starter template yang disiapkan guru) alih-alih mengosongkan semua.
   initialRows?: PraktikRow[];
 }) {
   const groups = groupByTransaksi(rows);
 
-  // Menambah baris akun lain pada transaksi yang sedang berjalan (No. Bukti,
-  // Tanggal, Keterangan ikut baris terakhir) — dipakai untuk menambahkan
-  // baris akun kredit setelah baris akun debit pada transaksi yang sama.
   function addRowSameTransaksi() {
     const last = rows[rows.length - 1];
     onChange?.([...rows, emptyRow(last ? { noBukti: last.noBukti, tanggal: last.tanggal, keterangan: last.keterangan } : {})]);

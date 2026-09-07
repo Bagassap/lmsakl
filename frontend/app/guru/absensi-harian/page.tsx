@@ -16,10 +16,6 @@ import { paginate } from "@/components/shared/PageSizeToggle";
 import { STATUS_CFG, PULANG_CFG, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl } from "@/components/absensi-harian/shared";
 import type { Kelas, RekapKelas, SiswaAbsensi, FilterAbsensi } from "@/components/absensi-harian/types";
 
-// Same shape/size as the clickable kelas pill (icon badge + 2-line text),
-// but static (a div, not a button) with a muted icon — reads as a stat
-// display rather than an action, while still lining up visually in the
-// same flex-wrap row as the kelas pills.
 function MiniStat({ icon: Icon, value, label }: { icon: React.ElementType; value: string | number; label: string }) {
   return (
     <div className="flex h-full w-full items-center gap-2 rounded-2xl border-2 border-transparent bg-slate-50 px-3 py-2.5 dark:bg-slate-700/30">
@@ -34,11 +30,6 @@ function MiniStat({ icon: Icon, value, label }: { icon: React.ElementType; value
   );
 }
 
-// Klik ini benar-benar mengirim notifikasi in-app (lonceng Topbar) ke tiap
-// siswa yang belum tercatat absen — bukan cuma dekorasi — lewat endpoint
-// backend /absensi-harian/kirim-pengingat, sekaligus menyalin nama-nama itu
-// ke clipboard (pola yang sama dengan BelumAbsenPanel) untuk ditempel manual
-// sebagai pengingat WA.
 function KirimPengingatCard({ kelasId, tanggal, siswaList }: { kelasId: string; tanggal: string; siswaList: SiswaAbsensi[] }) {
   const toast = useToast();
   const [sending, setSending] = useState(false);
@@ -58,7 +49,7 @@ function KirimPengingatCard({ kelasId, tanggal, siswaList }: { kelasId: string; 
       if (!res.ok) { toast.error("Gagal mengirim pengingat", data?.message ?? ""); return; }
 
       const text = belum.map((s, i) => `${i + 1}. ${s.nama}${s.nis ? ` (${s.nis})` : ""}`).join("\n");
-      try { await navigator.clipboard.writeText(text); } catch { /* clipboard opsional, notifikasi tetap terkirim */ }
+      try { await navigator.clipboard.writeText(text); } catch {}
 
       setSent(true);
       toast.success("Pengingat terkirim!", `Notifikasi masuk ke ${data.count} siswa · daftar nama juga disalin untuk WA`);
@@ -243,10 +234,6 @@ export default function GuruAbsensiHarianPage() {
       .catch(() => {});
   }, []);
 
-  // Ambil rekap SEMUA kelas wali guru sekaligus (bukan cuma kelas terpilih)
-  // — sama seperti pola admin — supaya tiap kartu kelas bisa menampilkan
-  // statistik asli (hadir/total, persen, izin/sakit/alpa) tanpa syarat
-  // terpilih dulu, senada dengan desain kartu di halaman Admin.
   const loadRekap = useCallback(async () => {
     setLoading(true);
     try {

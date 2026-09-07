@@ -45,7 +45,8 @@ async function bootstrap() {
   });
 
   const port = process.env.PORT || 3001;
-  await app.listen(port);
-  console.log(`Backend berjalan di http://localhost:${port}/api`);
+  const host = process.env.HOST || '127.0.0.1';
+  await app.listen(port, host);
+  console.log(`Backend berjalan di http://${host}:${port}/api`);
 }
 bootstrap();

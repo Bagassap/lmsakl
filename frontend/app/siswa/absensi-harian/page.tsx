@@ -5,10 +5,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ClipboardCheck, MapPin, Camera, CheckCircle2, Loader2, Clock, RefreshCw,
   FileSignature, MessageSquareText, LogIn, LogOut, Moon, AlertCircle,
+  X, ChevronLeft, ChevronRight, ExternalLink,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { SignaturePad } from "@/components/absensi-harian/SignaturePad";
-import { STATUS_CFG, PULANG_CFG, BRAND_GRADIENT, resolveMediaSrc, todayJakarta } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, BRAND_GRADIENT, resolveMediaSrc, todayJakarta, parseLokasi } from "@/components/absensi-harian/shared";
 import type { StatusAbsensi, AbsenWindow } from "@/components/absensi-harian/types";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
 import { compressImage, readAsDataUrl, describePhotoError } from "@/lib/compressImage";
@@ -37,22 +38,8 @@ type StatusSaya = {
 type AbsensiSummary = { hadir: number; izin: number; sakit: number; alpa: number; total: number; persentase: number };
 type Tab = "DATANG" | "PULANG";
 
-// GPS is mandatory for Hadir/Pulang — there is no fallback that lets a
-// submission through without real coordinates. getCurrentPosition() is
-// blocked outright by browsers on non-HTTPS, non-localhost origins, so a
-// student who reaches this page via the bare IP (http://192.168.111.151)
-// instead of the real domain (https://pplg.smklimpung.id, served over
-// Cloudflare Tunnel) gets a specific message telling them to switch —
-// never a placeholder value standing in for a real location.
 const INSECURE_CONTEXT_MSG = "Akses GPS memerlukan koneksi aman. Silakan buka melalui https://pplg.smklimpung.id, jangan menggunakan alamat IP langsung.";
 
-// Jadwal jendela Absen Pulang (dan penyesuaian darurat seperti pulang lebih
-// awal/lebih lambat) sekarang dikelola admin lewat menu Jadwal Absen dan
-// dihitung server-side (currentWindow()/pulangWindowLabel() di
-// absensi-harian.service.ts). Label ditampilkan langsung dari respons API
-// (`pulangLabel`) alih-alih dihitung ulang di sini, supaya selalu sinkron
-// dengan jadwal yang benar-benar berlaku (termasuk override admin) tanpa
-// perlu perubahan kode di sisi frontend tiap ada penyesuaian jadwal.
 function getWindowInfo(window_: AbsenWindow, pulangLabel: string): { label: string; range: string } {
   if (window_ === "HADIR") return { label: "Jendela Absen Datang", range: "06:00 – 09:00 (Sen-Jum)" };
   if (window_ === "PULANG") return { label: "Jendela Absen Pulang", range: pulangLabel };
@@ -72,6 +59,8 @@ export default function SiswaAbsensiHarianPage() {
 
   const [activeTab, setActiveTab] = useState<Tab>("DATANG");
   const tabAutoSet = useRef(false);
+  const [wizardTab, setWizardTab] = useState<Tab | null>(null);
+  const [detailTab, setDetailTab] = useState<Tab | null>(null);
 
   const [lokasi, setLokasi] = useState<string | null>(null);
   const [lokasiLoading, setLokasiLoading] = useState(false);
@@ -112,9 +101,6 @@ export default function SiswaAbsensiHarianPage() {
 
   const window_ = data?.window ?? "CLOSED";
 
-  // Default the visible tab to whichever one is actually actionable right now,
-  // but only once on first load — after that the student is free to switch
-  // tabs to review either side without it jumping back on them.
   useEffect(() => {
     if (!tabAutoSet.current && data) {
       tabAutoSet.current = true;
@@ -180,10 +166,6 @@ export default function SiswaAbsensiHarianPage() {
     if (!file) return;
     setCompressingFoto(true);
     try {
-      // Compress first — the original (possibly multi-MB) file is only ever
-      // held as a short-lived in-memory handle here, never written to
-      // localStorage/IndexedDB/any persistent storage, so nothing survives
-      // to accumulate across failed attempts.
       const compressed = await compressImage(file);
       const preview = await readAsDataUrl(compressed);
       setFotoFile(compressed);
@@ -243,10 +225,15 @@ export default function SiswaAbsensiHarianPage() {
     { key: "PULANG", label: "Absen Pulang", icon: LogOut },
   ];
 
+  function openWizard(tab: Tab) {
+    setActiveTab(tab);
+    setWizardTab(tab);
+  }
+
   return (
     <div className="space-y-5">
 
-      <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+      <div className="relative hidden overflow-hidden rounded-2xl bg-primary p-6 lg:block">
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
         <div className="relative flex items-center gap-3 sm:gap-4">
@@ -267,11 +254,11 @@ export default function SiswaAbsensiHarianPage() {
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-12 gap-4 md:gap-5">
+          <div className="hidden grid-cols-12 gap-4 md:gap-5 lg:grid">
 
             <div className="col-span-12 xl:col-span-7">
 
-              {/* Tab switcher — both tabs always visible/clickable regardless of the active time window */}
+              
               <div className="mb-4 flex gap-2 rounded-2xl bg-slate-100 p-1.5 dark:bg-slate-800/60">
                 {TABS.map((t) => {
                   const active = activeTab === t.key;
@@ -398,6 +385,87 @@ export default function SiswaAbsensiHarianPage() {
               </motion.div>
             )}
           </div>
+
+          <div className="space-y-4 lg:hidden">
+            <div className="rounded-3xl bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+              <div className="relative grid grid-cols-2 divide-x divide-white/20 overflow-hidden rounded-2xl" style={{ background: BRAND_GRADIENT }}>
+                <div className="pointer-events-none absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10" />
+                <div className="pointer-events-none absolute -left-8 -bottom-8 h-24 w-24 rounded-full bg-white/8" />
+                <AttendanceTile
+                  icon={LogIn} label="Absen Datang" done={!!data?.sudahAbsen} doneLabel={cfg.label}
+                  doneWaktu={data?.record?.waktuAbsen} actionable={needsActionDatang}
+                  windowText={window_ === "HADIR" || window_ === "BOTH" ? "06.00–09.00" : "Ditutup"}
+                  onAction={() => openWizard("DATANG")} onDetail={() => setDetailTab("DATANG")}
+                />
+                <AttendanceTile
+                  icon={LogOut} label="Absen Pulang" done={!!data?.sudahPulang} doneLabel="Pulang"
+                  doneWaktu={data?.record?.waktuPulang} actionable={needsActionPulang}
+                  windowText={pulangLabel || "Ditutup"}
+                  onAction={() => openWizard("PULANG")} onDetail={() => setDetailTab("PULANG")}
+                />
+              </div>
+            </div>
+
+            {summary && (
+              <div className="rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]">
+                <h2 className="text-base font-bold text-slate-800 dark:text-white">Statistik Absensi</h2>
+                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Rekap kehadiran semester ini</p>
+                <StatisticRainbow
+                  hadir={summary.hadir} sakit={summary.sakit}
+                  izin={summary.izin} alpha={summary.alpa}
+                  total={summary.total}
+                />
+              </div>
+            )}
+
+            <MobileFormAbsen
+              open={wizardTab !== null} onClose={() => setWizardTab(null)}
+              activeTipe={activeTipe}
+              statusPilihan={statusPilihan} setStatusPilihan={setStatusPilihan}
+              showStatusPicker={wizardTab === "DATANG"}
+              lokasi={lokasi} lokasiLoading={lokasiLoading} lokasiError={lokasiError} onRetryLokasi={requestLokasi}
+              fotoPreview={fotoPreview} fileInputRef={fileInputRef}
+              onFotoChange={handleFotoChange} compressingFoto={compressingFoto}
+              onFotoClear={() => { setFotoFile(null); setFotoPreview(null); }}
+              catatan={catatan} setCatatan={setCatatan}
+              ttd={ttd} setTtd={setTtd}
+              submitting={submitting} onSubmit={handleSubmit}
+            />
+
+            <AnimatePresence>
+              {detailTab && (
+                <MobileDetailModal onClose={() => setDetailTab(null)} accent={detailTab === "PULANG" ? `linear-gradient(160deg,${PULANG_CFG.clr}dd,${PULANG_CFG.clr})` : BRAND_GRADIENT}>
+                  {detailTab === "DATANG" ? (
+                    <RingkasanAbsen
+                      title={`${cfg.label} Tercatat`}
+                      desc={<>Anda tercatat <b>{cfg.label}</b> hari ini</>}
+                      waktu={data?.record?.waktuAbsen}
+                      foto={data?.record?.foto}
+                      fotoLabel={status !== "HADIR" ? "Foto Surat Izin/Sakit" : "Foto Selfie"}
+                      ttd={data?.record?.ttd}
+                      lokasi={data?.record?.lokasi}
+                      catatan={data?.record?.catatan}
+                      footnote={`Absen pulang tersedia jam ${pulangLabel}`}
+                      onReload={() => loadStatus()}
+                      showMap
+                    />
+                  ) : (
+                    <RingkasanAbsen
+                      title="Kepulangan Tercatat"
+                      desc={<>Anda tercatat <b>Pulang</b> hari ini</>}
+                      waktu={data?.record?.waktuPulang}
+                      foto={data?.record?.fotoPulang}
+                      ttd={data?.record?.ttdPulang}
+                      lokasi={data?.record?.lokasiPulang}
+                      catatan={data?.record?.catatanPulang}
+                      onReload={() => loadStatus()}
+                      showMap
+                    />
+                  )}
+                </MobileDetailModal>
+              )}
+            </AnimatePresence>
+          </div>
         </>
       )}
     </div>
@@ -405,7 +473,7 @@ export default function SiswaAbsensiHarianPage() {
 }
 
 function RingkasanAbsen({
-  title, desc, waktu, foto, fotoLabel = "Foto Selfie", ttd, lokasi, catatan, footnote, onReload,
+  title, desc, waktu, foto, fotoLabel = "Foto Selfie", ttd, lokasi, catatan, footnote, onReload, showMap = false,
 }: {
   title: string;
   desc: React.ReactNode;
@@ -417,7 +485,9 @@ function RingkasanAbsen({
   catatan?: string | null;
   footnote?: string;
   onReload: () => void;
+  showMap?: boolean;
 }) {
+  const titik = showMap ? parseLokasi(lokasi) : null;
   return (
     <>
       <div className="relative px-6 py-8 text-center">
@@ -453,7 +523,17 @@ function RingkasanAbsen({
 
         {(lokasi || catatan) && (
           <div className="relative mx-auto mt-4 max-w-md space-y-2 text-left">
-            {lokasi && (
+            {lokasi && titik && (
+              <div className="overflow-hidden rounded-xl bg-white/10 backdrop-blur-sm">
+                <iframe src={`https://maps.google.com/maps?q=${titik.lat},${titik.lng}&output=embed`}
+                  className="h-32 w-full border-0" loading="lazy" title="Lokasi absen" />
+                <a href={`https://maps.google.com/maps?q=${titik.lat},${titik.lng}`} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-1.5 border-t border-white/10 px-3 py-2 text-[11px] font-semibold text-white/80 hover:text-white">
+                  <ExternalLink size={12} /> Buka di Google Maps
+                </a>
+              </div>
+            )}
+            {lokasi && !titik && (
               <div className="flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 backdrop-blur-sm">
                 <MapPin size={13} className="shrink-0 text-white/70" />
                 <span className="truncate font-mono text-[11px] text-white/80">{lokasi}</span>
@@ -654,5 +734,319 @@ function FormAbsen({
         </motion.button>
       </div>
     </div>
+  );
+}
+
+function AttendanceTile({
+  icon: Icon, label, done, doneLabel, doneWaktu, actionable, windowText, onAction, onDetail,
+}: {
+  icon: typeof LogIn;
+  label: string;
+  done: boolean;
+  doneLabel: string;
+  doneWaktu?: string | null;
+  actionable: boolean;
+  windowText: string;
+  onAction: () => void;
+  onDetail: () => void;
+}) {
+  return (
+    <button onClick={done ? onDetail : actionable ? onAction : undefined}
+      disabled={!done && !actionable}
+      className="relative flex flex-col items-center gap-1.5 px-3 py-5 text-center disabled:cursor-not-allowed">
+      <span className={`flex h-11 w-11 items-center justify-center rounded-2xl ${done ? "bg-white/25" : "bg-white/15"}`}>
+        <Icon size={19} className="text-white" />
+      </span>
+      <span className="text-xs font-bold text-white">{label}</span>
+      {done ? (
+        <span className="flex items-center gap-1 text-[10px] font-semibold text-white/80">
+          <CheckCircle2 size={11} /> {doneLabel} · {doneWaktu ?? "—"}
+        </span>
+      ) : actionable ? (
+        <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-bold text-white">Absen Sekarang</span>
+      ) : (
+        <span className="text-[10px] text-white/60">{windowText}</span>
+      )}
+    </button>
+  );
+}
+
+function MobileDetailModal({
+  onClose, accent, children,
+}: {
+  onClose: () => void;
+  accent: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        onClick={onClose} className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" />
+      <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+        transition={{ type: "spring", damping: 30, stiffness: 300 }}
+        className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl shadow-2xl"
+        style={{ background: accent }}>
+        <div className="sticky top-0 flex justify-end p-3">
+          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white">
+            <X size={16} />
+          </button>
+        </div>
+        {children}
+      </motion.div>
+    </>
+  );
+}
+
+function MobileFormAbsen({
+  open, onClose, activeTipe, statusPilihan, setStatusPilihan, showStatusPicker,
+  lokasi, lokasiLoading, lokasiError, onRetryLokasi, fotoPreview, fileInputRef, onFotoChange, compressingFoto, onFotoClear,
+  catatan, setCatatan, ttd, setTtd, submitting, onSubmit,
+}: {
+  open: boolean;
+  onClose: () => void;
+  activeTipe: "HADIR" | "IZIN" | "SAKIT" | "PULANG";
+  statusPilihan: "HADIR" | "IZIN" | "SAKIT";
+  setStatusPilihan: (s: "HADIR" | "IZIN" | "SAKIT") => void;
+  showStatusPicker: boolean;
+  lokasi: string | null;
+  lokasiLoading: boolean;
+  lokasiError: string | null;
+  onRetryLokasi: () => void;
+  fotoPreview: string | null;
+  fileInputRef: React.RefObject<HTMLInputElement | null>;
+  onFotoChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  compressingFoto: boolean;
+  onFotoClear: () => void;
+  catatan: string;
+  setCatatan: (v: string) => void;
+  ttd: string | null;
+  setTtd: (v: string | null) => void;
+  submitting: boolean;
+  onSubmit: () => void;
+}) {
+  const [step, setStep] = useState(0);
+  const [direction, setDirection] = useState(1);
+
+  useEffect(() => {
+    if (open) setStep(0);
+  }, [open]);
+
+  const isIzinSakit = activeTipe === "IZIN" || activeTipe === "SAKIT";
+  const steps = showStatusPicker ? ["foto", "lokasi", "status", "info"] : ["foto", "lokasi", "info"];
+  const stepKey = steps[step];
+
+  const fotoMissing = !fotoPreview;
+  const lokasiMissing = !lokasi;
+  const ttdMissing = !ttd;
+  const catatanMissing = isIzinSakit && !catatan.trim();
+  const canSubmit = !submitting && !compressingFoto && !fotoMissing && !lokasiMissing && !ttdMissing && !catatanMissing;
+
+  const accentColor = activeTipe === "PULANG" ? `linear-gradient(135deg,${PULANG_CFG.clr}dd,${PULANG_CFG.clr})` : BRAND_GRADIENT;
+  const fotoLabel = isIzinSakit ? "Foto Surat Izin/Sakit" : "Foto Selfie";
+
+  function goNext() {
+    if (step < steps.length - 1) {
+      setDirection(1);
+      setStep((s) => s + 1);
+    }
+  }
+
+  function goBack() {
+    if (step > 0) {
+      setDirection(-1);
+      setStep((s) => s - 1);
+    } else {
+      onClose();
+    }
+  }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            onClick={onClose} className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" />
+          <motion.div initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 30, stiffness: 300 }}
+            className="fixed inset-x-0 bottom-0 z-50 flex max-h-[92vh] flex-col overflow-hidden rounded-t-3xl bg-white dark:bg-[#1c2434]">
+            <div className="flex items-center justify-between px-5 pt-5">
+              <button onClick={goBack} className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                <ChevronLeft size={18} />
+              </button>
+              <div className="flex items-center gap-1.5">
+                {steps.map((s, i) => (
+                  <span key={s} className="h-1.5 rounded-full transition-all"
+                    style={{ width: i === step ? 20 : 6, background: i <= step ? accentColor : "#e2e8f0" }} />
+                ))}
+              </div>
+              <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-5 pb-6 pt-4">
+              <AnimatePresence mode="wait">
+                <motion.div key={stepKey}
+                  initial={{ opacity: 0, x: direction * 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: direction * -24 }}
+                  transition={{ duration: 0.25 }}>
+                  {stepKey === "foto" && (
+                    <div>
+                      <h3 className="text-base font-extrabold text-slate-800 dark:text-white">{fotoLabel}</h3>
+                      <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
+                        {isIzinSakit ? "Unggah foto surat keterangan izin/sakit" : "Ambil foto selfie untuk bukti kehadiran"}
+                      </p>
+                      <div className="mt-5">
+                        {fotoPreview ? (
+                          <div className="relative mx-auto flex h-40 w-40 items-center justify-center">
+                            <img src={fotoPreview} alt="Preview" className="h-40 w-40 rounded-2xl object-cover shadow-md" />
+                            <button onClick={onFotoClear}
+                              className="absolute -right-2 -top-2 flex h-7 w-7 items-center justify-center rounded-full bg-[#8B0000] text-white shadow-md">
+                              <X size={14} />
+                            </button>
+                          </div>
+                        ) : (
+                          <button onClick={() => fileInputRef.current?.click()} disabled={compressingFoto}
+                            className={`mx-auto flex h-40 w-full flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed text-slate-400 transition-colors hover:border-[#A62E2E] hover:text-[#A62E2E] disabled:cursor-wait disabled:opacity-70 ${
+                              fotoMissing ? "border-[#C25858] dark:border-[#470000]" : "border-slate-200 dark:border-slate-600"
+                            }`}>
+                            {compressingFoto ? (
+                              <>
+                                <Loader2 size={26} className="animate-spin" />
+                                <span className="text-xs font-semibold">Memproses foto...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Camera size={26} />
+                                <span className="text-xs font-semibold">{isIzinSakit ? "Unggah Foto" : "Ambil Foto"}</span>
+                              </>
+                            )}
+                          </button>
+                        )}
+                        <input ref={fileInputRef} type="file" accept="image/*" {...(isIzinSakit ? {} : { capture: "user" as const })}
+                          className="hidden" onChange={onFotoChange} />
+                        {fotoMissing && <p className="mt-2 text-center text-[11px] font-semibold text-[#8B0000]">{fotoLabel} wajib diisi</p>}
+                      </div>
+                    </div>
+                  )}
+
+                  {stepKey === "lokasi" && (
+                    <div>
+                      <h3 className="text-base font-extrabold text-slate-800 dark:text-white">Lokasi Absen</h3>
+                      <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">Pastikan GPS aktif agar lokasi terdeteksi akurat</p>
+                      <div className="mt-5 flex flex-col items-center gap-3 rounded-2xl border p-6 text-center"
+                        style={{
+                          borderColor: lokasiMissing ? "#C25858" : "#e2e8f0",
+                          backgroundColor: lokasi ? "#2962FF18" : "#8B000018",
+                        }}>
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full"
+                          style={{ backgroundColor: lokasi ? "#2962FF33" : "#8B000033" }}>
+                          <MapPin size={22} style={{ color: lokasi ? "#2962FF" : "#8B0000" }} />
+                        </span>
+                        {lokasiLoading ? (
+                          <span className="text-xs text-slate-400">Mendeteksi lokasi...</span>
+                        ) : lokasi ? (
+                          <span className="font-mono text-xs text-slate-600 dark:text-slate-300">{lokasi}</span>
+                        ) : (
+                          <>
+                            <span className="text-xs font-semibold text-[#8B0000]">{lokasiError ?? "Lokasi belum terdeteksi"}</span>
+                            <button type="button" onClick={onRetryLokasi}
+                              className="rounded-full bg-[#8B0000] px-4 py-1.5 text-[11px] font-bold text-white">
+                              Coba lagi
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {lokasiMissing && !lokasiLoading && (
+                        <p className="mt-2 text-center text-[11px] font-semibold text-[#8B0000]">Lokasi (GPS) wajib diisi</p>
+                      )}
+                    </div>
+                  )}
+
+                  {stepKey === "status" && (
+                    <div>
+                      <h3 className="text-base font-extrabold text-slate-800 dark:text-white">Status Kehadiran</h3>
+                      <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">Pilih status kehadiranmu hari ini</p>
+                      <div className="mt-5 space-y-2.5">
+                        {(["HADIR", "IZIN", "SAKIT"] as const).map((s) => {
+                          const c = STATUS_CFG[s];
+                          const active = statusPilihan === s;
+                          const Icon = c.icon;
+                          return (
+                            <button key={s} type="button" onClick={() => setStatusPilihan(s)}
+                              className="flex w-full items-center gap-3 rounded-2xl border-2 px-4 py-3.5 text-left transition-colors"
+                              style={active
+                                ? { borderColor: c.clr, background: c.bg }
+                                : { borderColor: "#e2e8f0", background: "transparent" }}>
+                              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+                                style={{ background: active ? c.clr : "#f1f5f9", color: active ? "#fff" : "#94a3b8" }}>
+                                <Icon size={16} />
+                              </span>
+                              <span className="text-sm font-bold" style={{ color: active ? c.clr : "#64748b" }}>{c.label}</span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {stepKey === "info" && (
+                    <div className="space-y-5">
+                      <div>
+                        <h3 className="text-base font-extrabold text-slate-800 dark:text-white">
+                          {isIzinSakit ? "Alasan & Tanda Tangan" : "Keterangan & Tanda Tangan"}
+                        </h3>
+                        <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">Lengkapi data terakhir sebelum mengirim</p>
+                      </div>
+
+                      <div>
+                        <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                          <MessageSquareText size={12} />
+                          {isIzinSakit
+                            ? <>Keterangan / Alasan <span className="text-[#A62E2E] normal-case">*wajib</span></>
+                            : "Keterangan (opsional)"}
+                        </p>
+                        <textarea value={catatan} onChange={(e) => setCatatan(e.target.value)} rows={3}
+                          placeholder={isIzinSakit ? "Tulis alasan izin/sakit..." : "Tulis keterangan tambahan..."}
+                          className={`w-full resize-none rounded-xl border bg-slate-50 px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 dark:bg-slate-900/40 dark:text-slate-200 ${
+                            catatanMissing ? "border-[#C25858] focus:ring-[#C25858] dark:border-[#470000]" : "border-slate-200 focus:ring-[#A62E2E] dark:border-slate-600"
+                          }`} />
+                        {catatanMissing && <p className="mt-1 text-[11px] font-semibold text-[#8B0000]">Keterangan wajib diisi</p>}
+                      </div>
+
+                      <div>
+                        <p className="mb-2 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-slate-400">
+                          <FileSignature size={12} /> Tanda Tangan <span className="text-[#A62E2E] normal-case">*wajib</span>
+                        </p>
+                        <div className={ttdMissing ? "rounded-xl ring-2 ring-[#C25858]" : ""}>
+                          <SignaturePad onChange={setTtd} />
+                        </div>
+                        {ttdMissing && <p className="mt-1 text-[11px] font-semibold text-[#8B0000]">Tanda tangan wajib diisi</p>}
+                      </div>
+                    </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="border-t border-slate-100 px-5 py-4 dark:border-slate-700/50">
+              {stepKey === "info" ? (
+                <motion.button whileTap={{ scale: 0.98 }} onClick={onSubmit} disabled={!canSubmit}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-bold text-white shadow-md disabled:opacity-50"
+                  style={{ background: accentColor }}>
+                  {submitting ? <Loader2 size={16} className="animate-spin" /> : (activeTipe === "PULANG" ? <LogOut size={16} /> : <LogIn size={16} />)}
+                  {submitting ? "Menyimpan..." : activeTipe === "PULANG" ? "Absen Pulang Sekarang" : `Absen ${STATUS_CFG[activeTipe].label} Sekarang`}
+                </motion.button>
+              ) : (
+                <button onClick={goNext}
+                  className="flex w-full items-center justify-center gap-2 rounded-xl py-3.5 text-sm font-bold text-white shadow-md"
+                  style={{ background: accentColor }}>
+                  Lanjut <ChevronRight size={16} />
+                </button>
+              )}
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
   );
 }

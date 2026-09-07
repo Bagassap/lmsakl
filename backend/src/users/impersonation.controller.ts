@@ -23,9 +23,6 @@ export class ImpersonationController {
     return this.service.stopImpersonate(req.user);
   }
 
-  // Not superadmin-gated: any admin may reset a student's password from
-  // admin/data-siswa. UsersService.resetPassword() still enforces that
-  // non-super-admin callers may only target SISWA accounts.
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(Role.ADMIN)
   @Patch(':id/reset-password')

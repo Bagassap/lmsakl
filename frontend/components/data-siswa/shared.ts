@@ -43,9 +43,6 @@ export function kelasShort(kelas: string): string {
   return kelas.replace("Akuntansi dan Keuangan Lembaga", "AKL");
 }
 
-// Ubah nomor HP Indonesia (format lokal 08xx, +62xx, atau 62xx) jadi link
-// wa.me — wa.me butuh kode negara tanpa "0" di depan (mis. 6281234567890).
-// Null kalau nomornya kosong/tidak punya digit sama sekali.
 export function waLink(noHp: string | null | undefined): string | null {
   const digits = (noHp ?? "").replace(/\D/g, "");
   if (!digits) return null;
@@ -83,7 +80,6 @@ type AlamatFields = {
   kabupaten: string | null;
 };
 
-// Format seragam: "Dukuh X, RT 003/RW 005, Desa Y, Kecamatan Z, Kabupaten W"
 export function formatAlamatLengkap(s: AlamatFields): string {
   const parts: string[] = [];
   if (s.dukuh) parts.push(`Dukuh ${s.dukuh}`);
@@ -94,7 +90,6 @@ export function formatAlamatLengkap(s: AlamatFields): string {
   return parts.length > 0 ? parts.join(", ") : "—";
 }
 
-// Palet vivid/solid — dipilih berdasarkan hash nama/id (sum charCode % 8) agar konsisten per siswa.
 export const AVATAR_PALETTE = [
   "#300000", // charcoal gelap
   "#5e0000", // charcoal

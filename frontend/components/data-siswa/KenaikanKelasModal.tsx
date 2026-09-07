@@ -6,16 +6,8 @@ import { X, ArrowUpCircle, GraduationCap, Loader2, Users, ArrowRight, AlertTrian
 import { useToast } from "@/components/shared/ToastSystem";
 import type { KelasRef } from "./shared";
 
-// dark:[color-scheme:dark] penting di sini — tanpa itu, browser tetap
-// merender popup <option> pakai tema terang bawaan OS meski <select>-nya
-// sendiri sudah gelap (Tailwind dark: tidak bisa menjangkau elemen <option>),
-// sehingga daftar kelas jadi teks gelap di atas background gelap saat dibuka.
 const SELECT_CLS = "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm font-semibold text-slate-700 outline-none focus:border-primary focus:bg-white focus:ring-2 focus:ring-primary/15 dark:border-slate-600 dark:bg-slate-700/60 dark:text-slate-100 dark:[color-scheme:dark]";
 
-// Jumlah siswa AKTIF di satu kelas — dihitung langsung dari /api/siswa
-// (sudah difilter AKTIF di backend) supaya preview di modal ini selalu
-// akurat, tidak pakai _count.siswa dari /api/kelas yang menghitung semua
-// siswa termasuk yang sudah LULUS.
 function useJumlahSiswaAktif(kelasId: string) {
   const [jumlah, setJumlah] = useState<number | null>(null);
   useEffect(() => {

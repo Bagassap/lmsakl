@@ -6,9 +6,6 @@ import { Role } from '../../generated/prisma/client';
 
 const SALT_ROUNDS = 10;
 
-// Sama seperti JURUSAN_OPTIONS di frontend/components/data-siswa/shared.ts —
-// dijaga tetap sinkron manual (bukan di-share lintas paket) karena keduanya
-// kecil & jarang berubah.
 const JURUSAN_VALID = ['Akuntansi dan Keuangan Lembaga'];
 
 const HEADER_ROW = ['No', 'Nama', 'NIS', 'Kelas', 'Jurusan', 'Angkatan', 'Jenis Kelamin'];

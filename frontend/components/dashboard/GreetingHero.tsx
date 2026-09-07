@@ -41,15 +41,15 @@ export default function GreetingHero({
         <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 text-2xl backdrop-blur-sm shadow-lg sm:h-14 sm:w-14 sm:text-3xl">
           {emoji}
         </div>
-        <div>
+        <div className="min-w-0 flex-1">
           <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">{text}</span>
-          <div className="flex flex-wrap items-center gap-2">
-            <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">{firstName}!</h1>
-            <span className={`rounded-lg px-2.5 py-0.5 text-[10px] font-bold ${badge.cls}`}>
+          <div className="flex min-w-0 flex-nowrap items-center gap-1.5 sm:flex-wrap sm:gap-2">
+            <h1 className="min-w-0 truncate text-lg font-extrabold leading-tight text-white sm:text-2xl">{firstName}!</h1>
+            <span className={`hidden shrink-0 rounded-lg px-2.5 py-0.5 text-[10px] font-bold sm:inline-block ${badge.cls}`}>
               {badge.label}
             </span>
             {kelas && (
-              <span className="rounded-lg bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold text-white/80">
+              <span className="shrink-0 rounded-lg bg-white/15 px-2 py-0.5 text-[9px] font-semibold text-white/80 sm:px-2.5 sm:text-[10px]">
                 {kelas}
               </span>
             )}

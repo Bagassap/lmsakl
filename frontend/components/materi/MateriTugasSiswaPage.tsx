@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import { BookOpen, Send } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { MateriSiswaPage } from "./MateriSiswaPage";
@@ -41,8 +42,6 @@ export function MateriTugasSiswaPage() {
 
   useEffect(() => { loadAll(); }, [loadAll]);
 
-  // Tugas PRAKTIK/PILIHAN_GANDA/ESSAY dikerjakan di lembar pengerjaan lockdown
-  // (halaman penuh), bukan modal — SUBMIT (kirim file) tetap pakai modal biasa.
   function handleKumpulkan(t: TugasItem) {
     if (LOCKDOWN_TIPE.has(t.tipe)) {
       router.push(`/siswa/materi/kerjakan/${t.id}`);
@@ -76,7 +75,7 @@ export function MateriTugasSiswaPage() {
 
   return (
     <div className="space-y-6">
-      <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
+      <div className="relative hidden overflow-hidden rounded-2xl bg-primary p-6 lg:block">
         <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
         <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
         <div className="relative flex items-center gap-3 sm:gap-4">
@@ -91,45 +90,73 @@ export function MateriTugasSiswaPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-[1fr_2.3fr]">
-        <div className="rounded-3xl border border-slate-100 bg-white p-8 shadow-lg dark:border-slate-700 dark:bg-slate-800">
-          <p className="mb-4 text-xs font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">Kategori</p>
-          <div className="flex flex-col gap-4">
-            <button type="button" onClick={() => setCategory("materi")}
-              className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl bg-primary px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
-              style={{
-                boxShadow: category === "materi" ? "0 8px 24px rgba(215,38,61,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
-                outline: category === "materi" ? "2px solid #D7263D" : "none",
-                outlineOffset: "3px",
-              }}>
-              <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-white/20">
-                <BookOpen size={16} />
-              </div>
-              <div className="relative">
-                <p className="text-xl font-black leading-tight">Materi</p>
-                <p className="mt-0.5 text-[11px] font-medium text-white/75">{materiCount} materi tersedia</p>
-              </div>
-            </button>
+      <div className="grid grid-cols-1 items-start gap-4 sm:gap-6 lg:grid-cols-[1fr_2.3fr]">
+        <div>
+          <div className="hidden rounded-3xl border border-slate-100 bg-white p-8 shadow-lg dark:border-slate-700 dark:bg-slate-800 lg:block">
+            <p className="mb-4 text-xs font-extrabold uppercase tracking-widest text-slate-400 dark:text-slate-500">Kategori</p>
+            <div className="flex flex-col gap-4">
+              <button type="button" onClick={() => setCategory("materi")}
+                className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl bg-primary px-5 py-5 text-left text-white transition-all hover:scale-[1.01] active:scale-[0.99]"
+                style={{
+                  boxShadow: category === "materi" ? "0 8px 24px rgba(215,38,61,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
+                  outline: category === "materi" ? "2px solid #D7263D" : "none",
+                  outlineOffset: "3px",
+                }}>
+                <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
+                <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-white/20">
+                  <BookOpen size={16} />
+                </div>
+                <div className="relative min-w-0">
+                  <p className="truncate text-xl font-black leading-tight">Materi</p>
+                  <p className="mt-0.5 truncate text-[11px] font-medium text-white/75">{materiCount} materi tersedia</p>
+                </div>
+              </button>
 
+              <button type="button" onClick={() => setCategory("tugas")}
+                className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-black transition-all hover:scale-[1.01] active:scale-[0.99]"
+                style={{
+                  background: "#C3F84A",
+                  boxShadow: category === "tugas" ? "0 8px 24px rgba(195,248,74,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
+                  outline: category === "tugas" ? "2px solid #C3F84A" : "none",
+                  outlineOffset: "3px",
+                }}>
+                <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-black/5" />
+                <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-black/10">
+                  <Send size={16} />
+                </div>
+                <div className="relative min-w-0">
+                  <p className="truncate text-xl font-black leading-tight">Tugas</p>
+                  <p className="mt-0.5 truncate text-[11px] font-medium text-black/75">
+                    {tugasList.length} tugas · {perluDikerjakan > 0 ? `${perluDikerjakan} belum dikerjakan` : "semua sudah dikumpulkan"}
+                  </p>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          <div className="isolate flex gap-1.5 rounded-2xl bg-slate-100 p-1.5 dark:bg-slate-800/60 lg:hidden">
+            <button type="button" onClick={() => setCategory("materi")}
+              className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold transition-colors"
+              style={{ color: category === "materi" ? "#fff" : "#94a3b8" }}>
+              {category === "materi" && (
+                <motion.span layoutId="materiTugasTabPill" className="absolute inset-0 rounded-xl bg-primary"
+                  transition={{ type: "spring", stiffness: 500, damping: 35 }} />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5"><BookOpen size={15} /> Materi</span>
+            </button>
             <button type="button" onClick={() => setCategory("tugas")}
-              className="relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl px-5 py-5 text-left text-black transition-all hover:scale-[1.01] active:scale-[0.99]"
-              style={{
-                background: "#C3F84A",
-                boxShadow: category === "tugas" ? "0 8px 24px rgba(195,248,74,0.35)" : "0 8px 24px rgba(0,0,0,0.15)",
-                outline: category === "tugas" ? "2px solid #C3F84A" : "none",
-                outlineOffset: "3px",
-              }}>
-              <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-black/5" />
-              <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl bg-black/10">
-                <Send size={16} />
-              </div>
-              <div className="relative">
-                <p className="text-xl font-black leading-tight">Tugas</p>
-                <p className="mt-0.5 text-[11px] font-medium text-black/75">
-                  {tugasList.length} tugas · {perluDikerjakan > 0 ? `${perluDikerjakan} belum dikerjakan` : "semua sudah dikumpulkan"}
-                </p>
-              </div>
+              className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-3 text-sm font-bold transition-colors"
+              style={{ color: category === "tugas" ? "#000" : "#94a3b8" }}>
+              {category === "tugas" && (
+                <motion.span layoutId="materiTugasTabPill" className="absolute inset-0 rounded-xl"
+                  style={{ background: "#C3F84A" }} transition={{ type: "spring", stiffness: 500, damping: 35 }} />
+              )}
+              <span className="relative z-10 flex items-center gap-1.5"><Send size={15} /> Tugas</span>
+              {perluDikerjakan > 0 && (
+                <span className="absolute -right-1 -top-1 z-10 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8B0000] px-1 text-[9px] font-bold text-white">
+                  {perluDikerjakan}
+                </span>
+              )}
             </button>
           </div>
         </div>

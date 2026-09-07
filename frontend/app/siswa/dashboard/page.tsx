@@ -4,16 +4,18 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import {
-  CheckCircle, XCircle, TrendingUp,
-  Bell, AlertCircle, RefreshCw, ChevronRight,
+  CheckCircle, CheckCircle2, XCircle, MinusCircle, TrendingUp,
+  Bell, AlertCircle, RefreshCw, ChevronRight, ArrowRight,
   Thermometer, Calendar, Megaphone, Clock, ClipboardCheck, GraduationCap,
+  BookOpen, NotebookPen, FileText,
 } from "lucide-react";
 import GreetingHero from "@/components/dashboard/GreetingHero";
-import { KartuPelajarBanner } from "@/components/shared/KartuPelajarBanner";
 import StatsCard from "@/components/dashboard/StatsCard";
+import { QuickAccessGrid } from "@/components/dashboard/QuickAccessCard";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
 import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal";
 import { timeAgo } from "@/components/dashboard/ActivityList";
+import { WALLET_GRADIENTS, WALLET_ON_TEXT } from "@/components/absensi-harian/shared";
 
 
 interface Pengumuman {
@@ -111,7 +113,7 @@ export default function SiswaDashboardPage() {
   if (loading) return (
     <div className="space-y-5">
       <Skeleton className="h-28 rounded-3xl" />
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">{[0,1,2,3].map(i => <Skeleton key={i} className="h-28" />)}</div>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">{[0,1,2,3].map(i => <Skeleton key={i} className="h-28" />)}</div>
       <div className="grid grid-cols-12 gap-4">
         <Skeleton className="col-span-12 h-72 xl:col-span-4" />
         <Skeleton className="col-span-12 h-72 xl:col-span-8" />
@@ -142,6 +144,10 @@ export default function SiswaDashboardPage() {
       label: "Absensi Harian",
       display: `${absensi.persentase}% hadir`,
       small: false,
+      validThru: data.kelas,
+      holder: user.nama,
+      footerLeftLabel: "Kelas",
+      footerRightLabel: "Siswa",
       gradient: "#D7263D",
       onLime: false,
       icon: ClipboardCheck,
@@ -151,6 +157,10 @@ export default function SiswaDashboardPage() {
       label: "Total Hadir",
       display: `${absensi.hadir}x`,
       small: false,
+      validThru: data.kelas,
+      holder: user.nama,
+      footerLeftLabel: "Kelas",
+      footerRightLabel: "Siswa",
       gradient: "#C3F84A",
       onLime: true,
       icon: CheckCircle,
@@ -160,6 +170,10 @@ export default function SiswaDashboardPage() {
       label: "Pengumuman",
       display: `${data.pengumuman.length} info`,
       small: false,
+      validThru: data.kelas,
+      holder: user.nama,
+      footerLeftLabel: "Kelas",
+      footerRightLabel: "Siswa",
       gradient: "#FF5722",
       onLime: false,
       icon: Megaphone,
@@ -169,6 +183,10 @@ export default function SiswaDashboardPage() {
       label: "Magang / PKL",
       display: belumMagang ? "Belum Magang" : `${magang.hadir ?? 0}x hadir`,
       small: belumMagang,
+      validThru: data.kelas,
+      holder: user.nama,
+      footerLeftLabel: "Kelas",
+      footerRightLabel: "Siswa",
       gradient: "#2962FF",
       onLime: false,
       icon: GraduationCap,
@@ -177,13 +195,148 @@ export default function SiswaDashboardPage() {
 
   return (
     <>
-      <div className="space-y-5">
+      <div className="relative isolate -m-4 space-y-5 overflow-hidden bg-[linear-gradient(180deg,#FCEEF0_0%,#FAFAED_55%)] p-4 dark:bg-[linear-gradient(180deg,#171f2b_0%,#1c2434_55%)] lg:hidden">
+        <div className="pointer-events-none absolute -right-16 -top-16 -z-10 h-64 w-64 rounded-full bg-[#D7263D]/25 blur-3xl dark:bg-[#D7263D]/25" />
+        <div className="pointer-events-none absolute -left-16 top-64 -z-10 h-48 w-48 rounded-full bg-[#C3F84A]/25 blur-3xl dark:bg-[#C3F84A]/15" />
+        <div className="pointer-events-none absolute -right-10 bottom-10 -z-10 h-40 w-40 rounded-full bg-[#9E1B2E]/20 blur-3xl dark:bg-[#9E1B2E]/25" />
+
+        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+          {data.kelas} · Wali: {data.waliKelas ?? "—"}
+        </p>
+
+        <div className="rounded-3xl bg-white p-3 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+          <Link
+            href="/siswa/absensi-harian"
+            className="relative flex flex-col overflow-hidden rounded-2xl p-4 text-white"
+            style={{ background: `linear-gradient(135deg, ${P}, #9E1B2E)` }}
+          >
+            <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
+            <div className="pointer-events-none absolute -bottom-8 -left-6 h-24 w-24 rounded-full bg-white/8" />
+            <div className="relative flex items-center justify-between">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20">
+                <ClipboardCheck size={17} />
+              </div>
+              <span className="rounded-full bg-white/20 px-2.5 py-1 text-[9.5px] font-bold uppercase tracking-wide">
+                Absensi Harian
+              </span>
+            </div>
+            <div className="relative mt-3 flex items-end justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-2xl font-black leading-none tabular-nums">{absensi.persentase}%</p>
+                <p className="mt-1 truncate text-[10.5px] text-white/75">{absensi.hadir} hari hadir bulan ini</p>
+              </div>
+              <span className="flex shrink-0 items-center gap-1 rounded-xl bg-white px-3 py-2 text-xs font-bold" style={{ color: P }}>
+                Detail <ArrowRight size={12} />
+              </span>
+            </div>
+          </Link>
+
+          <div className="grid grid-cols-5 gap-1.5 pt-4">
+            {[
+              { href: "/siswa/materi", label: "Materi", icon: BookOpen, color: "#D7263D" },
+              { href: "/siswa/pengumuman", label: "Pengumuman", icon: Megaphone, color: "#FF5722", badge: data.pengumuman.length },
+              { href: "/siswa/magang", label: "PKL", icon: GraduationCap, color: "#2962FF" },
+              { href: "/siswa/ujian-ukk", label: "UKK", icon: FileText, color: "#C3F84A", dark: true },
+              { href: "/siswa/catatan-siswa", label: "Catatan", icon: NotebookPen, color: "#5E0000" },
+            ].map((s, i) => (
+              <motion.div key={s.href}
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.35 + i * 0.05 }}
+                whileTap={{ scale: 0.92 }}
+              >
+                <Link href={s.href} className="flex flex-col items-center gap-1.5">
+                  <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl"
+                    style={{
+                      background: `linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), ${s.color}`,
+                      boxShadow: `0 5px 10px -3px ${s.color}80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)`,
+                    }}>
+                    <s.icon size={19} style={{ color: s.dark ? "#1c2434" : "#fff" }} />
+                    {!!s.badge && (
+                      <span className="absolute -right-1 -top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#8B0000] px-1 text-[9px] font-bold text-white shadow-sm">
+                        {s.badge}
+                      </span>
+                    )}
+                  </span>
+                  <span className="text-center text-[9.5px] font-semibold leading-tight text-slate-600 dark:text-slate-300">{s.label}</span>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-2.5">
+          {[
+            { icon: CheckCircle2, label: "Hadir", value: absensi.hadir },
+            { icon: Thermometer, label: "Sakit", value: absensi.sakit },
+            { icon: MinusCircle, label: "Alpa", value: absensi.alpa },
+            { icon: TrendingUp, label: "Kehadiran", value: `${absensi.persentase}%` },
+          ].map((s, i) => {
+            const bg = WALLET_GRADIENTS[i];
+            const onText = WALLET_ON_TEXT[i];
+            return (
+              <motion.div key={s.label}
+                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.4 + i * 0.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="relative flex items-center gap-2.5 overflow-hidden rounded-2xl p-3 shadow-[0_6px_16px_-6px_rgba(0,0,0,0.25)]"
+                style={{ background: bg, color: onText }}
+              >
+                <div className="pointer-events-none absolute -right-3 -top-3 h-14 w-14 rounded-full" style={{ backgroundColor: `${onText}26` }} />
+                <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${onText}33` }}>
+                  <s.icon size={16} style={{ color: onText }} />
+                </span>
+                <div className="relative flex min-w-0 items-baseline gap-1.5">
+                  <p className="text-sm font-extrabold leading-none">{s.value}</p>
+                  <p className="truncate text-[10px] leading-none" style={{ color: `${onText}D9` }}>{s.label}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="rounded-3xl bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+          <h2 className="text-sm font-bold text-slate-800 dark:text-white">Statistik Absensi</h2>
+          <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Rekap kehadiran semester ini</p>
+          <StatisticRainbow
+            hadir={absensi.hadir} sakit={absensi.sakit}
+            izin={absensi.izin} alpha={absensi.alpa}
+            total={absensi.total}
+          />
+        </div>
+
+        <div className="rounded-3xl bg-white shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+          <div className="flex items-center justify-between px-5 pt-5">
+            <h2 className="text-sm font-bold text-slate-800 dark:text-white">Pengumuman Terbaru</h2>
+            <ViewAll href="/siswa/pengumuman" />
+          </div>
+          {data.pengumuman.length === 0 ? (
+            <p className="px-5 py-8 text-center text-sm text-slate-500 dark:text-slate-400">Belum ada pengumuman</p>
+          ) : (
+            <ul className="mt-2 divide-y divide-slate-100 dark:divide-slate-700/40">
+              {data.pengumuman.slice(0, 3).map((p) => (
+                <li key={p.id}
+                  onClick={() => setSelectedSlug(p.slug)}
+                  className="flex cursor-pointer items-center gap-3 px-5 py-3.5 active:bg-slate-50 dark:active:bg-slate-700/20">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style={{ background: `${kColor(p.kategori)}18` }}>
+                    <Bell size={14} style={{ color: kColor(p.kategori) }} />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <p className="line-clamp-1 text-[13px] font-semibold text-slate-800 dark:text-white">{p.judul}</p>
+                    <p className="mt-0.5 text-[11px] text-slate-500 dark:text-slate-400">{p.author.nama} · {timeAgo(p.createdAt)}</p>
+                  </div>
+                  <ChevronRight size={15} className="shrink-0 text-slate-300" />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+
+      <div className="hidden space-y-5 lg:block">
 
         <GreetingHero nama={user.nama} role={user.role} kelas={data.kelas} />
 
-        <KartuPelajarBanner description="Cek & cetak kartu pelajarmu lewat portal e-Kartu" />
-
-        <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           <StatsCard icon={CheckCircle} label="Hadir"     value={absensi.hadir}      sub="Hari tercatat hadir" index={0} delay={0.05} />
           <StatsCard icon={Thermometer} label="Sakit"     value={absensi.sakit}      sub="Hari izin sakit" index={1} delay={0.10} />
           <StatsCard icon={XCircle}     label="Alpa"      value={absensi.alpa}       sub="Hari tanpa keterangan" index={2} delay={0.15} />
@@ -260,45 +413,7 @@ export default function SiswaDashboardPage() {
           </SectionCard>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {CARDS.map((card, i) => (
-            <motion.div key={card.label}
-              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-              whileHover={{ y: -4, scale: 1.01 }}
-              transition={{ duration: 0.35, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <Link href={card.href}
-                className={`relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 ${card.onLime ? "text-black" : "text-white"}`}
-                style={{ background: card.gradient, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
-              >
-                <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/10"}`} />
-                <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/8"}`} />
-                <div className="relative flex items-start justify-between">
-                  <div>
-                    <p className={`text-[10px] font-medium uppercase tracking-widest ${card.onLime ? "text-black/70" : "text-white/70"}`}>Akses Cepat</p>
-                    <p className="mt-0.5 text-sm font-bold">{card.label}</p>
-                  </div>
-                  <div className={`flex h-9 w-9 items-center justify-center rounded-full ${card.onLime ? "bg-black/10" : "bg-white/20"}`}>
-                    <card.icon size={17} />
-                  </div>
-                </div>
-                <div className="relative">
-                  <p className={`font-bold tabular-nums ${card.small ? "text-xl" : "text-3xl"}`}>{card.display}</p>
-                </div>
-                <div className="relative flex items-end justify-between">
-                  <div>
-                    <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Kelas</p>
-                    <p className="text-[11px] font-semibold">{data.kelas}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Siswa</p>
-                    <p className="max-w-25 truncate text-[11px] font-semibold">{user.nama}</p>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+        <QuickAccessGrid cards={CARDS} />
 
       </div>
 

@@ -35,9 +35,6 @@ type StatusSaya = {
 
 type Tab = "DATANG" | "PULANG";
 
-// GPS is mandatory for Hadir/Pulang — there is no fallback that lets a
-// submission through without real coordinates. getCurrentPosition() is
-// blocked outright by browsers on non-HTTPS, non-localhost origins.
 const INSECURE_CONTEXT_MSG = "Akses GPS memerlukan koneksi aman. Silakan buka melalui https://lmsakl.smklimpung.id, jangan menggunakan alamat IP langsung.";
 
 export default function SiswaMagangAbsensiPage() {

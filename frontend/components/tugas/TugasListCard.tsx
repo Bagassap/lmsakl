@@ -33,11 +33,8 @@ export function TugasListCard({
   onEditTugas: (t: TugasItem) => void;
   onDeleteTugas: (id: string) => void;
   onLihatSubmisi: (t: TugasItem) => void;
-  // Bila diisi, tombol Edit/Hapus per baris hanya tampil untuk tugas milik
-  // sendiri (createdBy.id === currentUserId) — ADMIN tetap bebas ke semua.
   currentUserId?: string;
   currentUserRole?: string;
-  // false = guru belum diampu mapel apa pun — tombol Tambah disembunyikan.
   canCreate?: boolean;
 }) {
   const [tab, setTab] = useState<"active" | "completed">("active");

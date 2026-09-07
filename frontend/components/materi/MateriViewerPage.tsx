@@ -6,8 +6,6 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, BookOpen, AlertCircle, Loader2, Download, FileText } from "lucide-react";
 import type { MateriItem } from "./MateriFormModal";
 
-// react-pdf touches browser-only Canvas APIs (DOMMatrix) at module-eval time,
-// yang crash saat SSR — muat khusus client, sama seperti MateriPdfViewerModal.
 const MateriPdfContinuous = dynamic(
   () => import("./MateriPdfContinuous").then((m) => m.MateriPdfContinuous),
   { ssr: false, loading: () => (
@@ -21,10 +19,6 @@ function isPdf(fileUrl: string | null, fileName: string | null) {
   return (fileName ?? fileUrl ?? "").toLowerCase().endsWith(".pdf");
 }
 
-// Halaman penuh (bukan modal) untuk melihat satu Materi — dulu modal dengan
-// navigasi "Halaman n/N" bertombol panah, sekarang halaman biasa dan semua
-// halaman PDF-nya ditumpuk vertikal, tinggal di-scroll (lihat
-// MateriPdfContinuous).
 export function MateriViewerPage({ materiId, backHref }: { materiId: string; backHref: string }) {
   const router = useRouter();
   const [materi, setMateri] = useState<MateriItem | null>(null);
@@ -35,9 +29,6 @@ export function MateriViewerPage({ materiId, backHref }: { materiId: string; bac
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  // Diberikan ke MateriPdfContinuous supaya indikator "Halaman n/N" di bawah
-  // ikut ter-update saat di-scroll, tanpa tombol geser — lihat komponen itu
-  // untuk cara pelacakannya (IntersectionObserver).
   const handlePageChange = useCallback((current: number, total: number) => {
     setCurrentPage(current);
     setTotalPages(total);
@@ -59,9 +50,6 @@ export function MateriViewerPage({ materiId, backHref }: { materiId: string; bac
   const proxyUrl = fileUrl ? `/api${fileUrl}` : null;
   const pdf = fileUrl ? isPdf(fileUrl, materi?.fileName ?? null) : false;
 
-  // File materi diambil lewat proxy Next.js (bukan langsung ke backend)
-  // supaya cookie sesi ikut terkirim, lalu dikonversi jadi blob URL sebelum
-  // diserahkan ke <Document>.
   useEffect(() => {
     setBlobUrl((prev) => { if (prev) URL.revokeObjectURL(prev); return null; });
     setPdfError(false);
@@ -75,11 +63,6 @@ export function MateriViewerPage({ materiId, backHref }: { materiId: string; bac
     return () => { cancelled = true; if (createdUrl) URL.revokeObjectURL(createdUrl); };
   }, [proxyUrl, pdf]);
 
-  // fixed inset-0 z-[9999] menutupi seluruh viewport (termasuk Sidebar/Topbar
-  // dari DashboardShell yang tetap ter-mount di baliknya, sama seperti pola
-  // yang dipakai halaman Kerjakan Tugas) — supaya "Lihat Materi" jadi
-  // pengalaman full-screen tanpa chrome dashboard, bukan sekadar halaman
-  // biasa di dalam <main> yang dibatasi sidebar+max-width.
   const TopBar = materi ? (
     <div className="relative flex shrink-0 items-center gap-3 overflow-hidden bg-primary px-4 py-3 sm:px-6 sm:py-4">
       <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />

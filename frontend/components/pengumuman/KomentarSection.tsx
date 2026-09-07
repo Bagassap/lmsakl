@@ -291,9 +291,6 @@ export function KomentarSection({
   }
 
   const PREVIEW_COUNT = 3;
-  // Show the 3 most recent top-level comments by default (komentar arrives
-  // oldest-first from the backend, and new ones are appended to the end) —
-  // full thread, oldest-first, only after "Lihat Semua Komentar" is clicked.
   const hasMore = komentar.length > PREVIEW_COUNT;
   const visibleKomentar = showAll || !hasMore ? komentar : komentar.slice(-PREVIEW_COUNT);
 

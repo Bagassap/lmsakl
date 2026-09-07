@@ -27,21 +27,14 @@ export function MateriListPage({
   embedded = false, currentUserId, currentUserRole, mapelOptions, canCreate = true,
 }: {
   embedded?: boolean;
-  // Bila diisi, tombol Edit/Hapus per baris hanya tampil untuk materi milik
-  // sendiri (createdBy.id === currentUserId) — ADMIN tetap bebas ke semua.
   currentUserId?: string;
   currentUserRole?: string;
-  // Diteruskan ke MateriFormModal — lihat dokumentasi prop di sana.
   mapelOptions?: string[];
-  // false = guru belum diampu mapel apa pun — tombol Tambah disembunyikan
-  // dan diganti pesan penjelasan.
   canCreate?: boolean;
 } = {}) {
   const toast = useToast();
   const router = useRouter();
   const pathname = usePathname();
-  // MateriListPage dipakai bareng oleh halaman Admin & Guru — tentukan route
-  // "Lihat materi" berdasarkan prefix path saat ini, bukan prop terpisah.
   const rolePrefix = pathname?.startsWith("/admin") ? "/admin" : "/guru";
   const canEdit = (m: MateriItem) => !currentUserRole || currentUserRole === "ADMIN" || m.createdBy.id === currentUserId;
   const [list, setList] = useState<MateriItem[]>([]);

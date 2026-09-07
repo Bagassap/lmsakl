@@ -20,9 +20,6 @@ export class UpdateTugasDto {
   @IsOptional()
   mapel?: string;
 
-  // undefined = field tidak dikirim (tidak diubah). Array kosong [] dikirim
-  // eksplisit sebagai '[]' saat guru memang ingin mengosongkan jadi "Semua
-  // Kelas" — sama seperti pola di UpdateMateriDto.
   @IsOptional()
   @Transform(({ value }) => parseKelasIds(value))
   @IsArray()

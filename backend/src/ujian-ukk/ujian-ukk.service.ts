@@ -97,9 +97,26 @@ export class UjianUkkService {
     });
   }
 
+  private async getOrCreateGlobalContainer() {
+    const existing = await this.prisma.tahapanUKK.findFirst({ where: { hariKe: 0 } });
+    if (existing) return existing;
+    return this.prisma.tahapanUKK.create({
+      data: {
+        hariKe: 0,
+        tipe: TipeUKK.INTERNAL,
+        judul: 'Berkas Umum UKK',
+        tanggal: new Date(),
+        jamMulai: '00:00',
+        jamSelesai: '23:59',
+        lokasi: '-',
+      },
+    });
+  }
+
   async createSoal(dto: Omit<CreateSoalDto, 'driveUrl'>, fileUrl: string, fileName: string) {
+    const tahapanId = dto.tahapanId || (await this.getOrCreateGlobalContainer()).id;
     return this.prisma.soalTahapanUKK.create({
-      data: { ...dto, fileUrl, fileName },
+      data: { ...dto, tahapanId, fileUrl, fileName },
       include: { tahapan: { select: { id: true, judul: true } } },
     });
   }

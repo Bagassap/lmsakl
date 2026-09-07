@@ -115,8 +115,16 @@ export class UjianUkkController {
     @Body() dto: SubmitProjectDto,
     @UploadedFile() file?: Express.Multer.File,
   ) {
-    const fileUrl  = file ? `/uploads/ukk-submisi/${file.filename}` : (dto.driveUrl ?? '');
+    const fileUrl  = file ? `/uploads/ukk-submisi/${file.filename}` : (dto.driveUrl ?? '').trim();
     const fileName = file ? file.originalname : 'Google Drive';
+
+    if (!file) {
+      if (!fileUrl) throw new BadRequestException('Link Google Drive wajib diisi');
+      if (!/^https:\/\/(drive|docs)\.google\.com\//.test(fileUrl)) {
+        throw new BadRequestException('Link harus dari Google Drive (drive.google.com atau docs.google.com)');
+      }
+    }
+
     return this.service.submitProject(req.user.id, dto, fileUrl, fileName);
   }
 

@@ -9,17 +9,10 @@ import { Avatar } from "@/components/shared/Avatar";
 import { useToast } from "@/components/shared/ToastSystem";
 import type { SiswaAbsensi } from "./types";
 
-// waktuAbsen is stored as an already-formatted "HH.mm" clock string (set via
-// toLocaleTimeString at check-in time, see app/siswa/absensi-harian/page.tsx),
-// not an ISO datetime — re-parsing it with `new Date()` produces Invalid Date.
 function formatJam(waktu?: string | null) {
   return waktu && waktu.trim() ? waktu : "-";
 }
 
-// Small white stat-card trigger, matching the reference's "Trading Fees"
-// cards: gradient circular icon badge on the left, big count + small label
-// on the right. Still clickable (opens the same DetailModal as before) —
-// only the visual shell changed, not the underlying interaction.
 function StatTrigger({
   title, icon: Icon, gradient, accent, items, total, hint, onOpen,
 }: {
@@ -58,10 +51,6 @@ function StatTrigger({
   );
 }
 
-// Baris ringkas — dipakai saat BelumAbsenPanel ditanam di dalam card lain
-// (mis. "Siswa Bermasalah") supaya gayanya menyatu dengan baris ranking di
-// card itu (badge bulat + nama/keterangan + angka berwarna di kanan),
-// bukan kartu putih melayang dengan bayangannya sendiri seperti StatTrigger.
 function CompactTrigger({
   title, icon: Icon, accent, items, total, onOpen,
 }: {

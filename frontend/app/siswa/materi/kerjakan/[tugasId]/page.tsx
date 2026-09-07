@@ -16,9 +16,6 @@ type Phase = "loading" | "error" | "intro" | "locked" | "diterima" | "active" | 
 
 type JawabanState = Record<string, string>;
 
-// Warna per tipe tugas — turunan dari rotasi 4-warna resmi brand lmsakl
-// (merah/lime/oren/biru): Praktik pakai biru tua, Pilihan Ganda pakai lime
-// (teks hitam mengikuti konvensi onLime), Essay pakai biru.
 const TIPE_STYLE: Record<string, { warna: string; text: string; icon: typeof Calculator }> = {
   PRAKTIK: { warna: "#1745B0", text: "#FFFFFF", icon: Calculator },
   PILIHAN_GANDA: { warna: "#C3F84A", text: "#000000", icon: ListChecks },
@@ -89,9 +86,6 @@ export default function KerjakanTugasPage() {
         return;
       }
       if (mySubmisi?.waktuMulai) {
-        // Percobaan sedang berjalan (misal halaman ter-refresh) — lanjutkan
-        // memakai deadline yang sudah tersimpan di server, jangan konsumsi
-        // percobaan baru.
         setPercobaanKe(mySubmisi.jumlahPercobaan ?? 1);
         setRows(parsePraktikRows(t.starterPraktik));
         setJawaban({});
@@ -113,8 +107,6 @@ export default function KerjakanTugasPage() {
 
   useEffect(() => { loadTugas(); }, [loadTugas]);
 
-  // Timer countdown — dihitung dari deadline yang dikirim server, bukan durasi
-  // lokal, supaya tidak bisa dimanipulasi lewat jam/JS di sisi klien.
   useEffect(() => {
     if (phase !== "active" || deadlineTs == null) return;
     const tick = () => setSisaMs(deadlineTs - Date.now());
@@ -143,10 +135,6 @@ export default function KerjakanTugasPage() {
     return payload;
   }, [tugas]);
 
-  // Kirim jawaban paksa (beacon, tetap terkirim walau halaman langsung
-  // ditutup) LALU logout — urutan ini penting supaya beacon sempat terkirim
-  // sebelum cookie sesi dihapus. redirectAfter=false dipakai di beforeunload
-  // karena memaksa navigasi saat halaman sedang unload itu sia-sia/berisiko.
   const fireForcedKeluar = useCallback((redirectAfter: boolean) => {
     if (firedRef.current || phaseRef.current !== "active") return;
     firedRef.current = true;
@@ -158,9 +146,7 @@ export default function KerjakanTugasPage() {
       } else {
         fetch(url, { method: "POST", body: payload, headers: { "Content-Type": "application/json" }, keepalive: true }).catch(() => {});
       }
-    } catch {
-      // sendBeacon jarang melempar error, tapi jaga-jaga agar tidak crash halaman.
-    }
+    } catch {}
     if (redirectAfter) {
       fetch("/api/auth/logout", { method: "POST" }).finally(() => {
         window.location.href = "/login";
@@ -168,9 +154,6 @@ export default function KerjakanTugasPage() {
     }
   }, [buildPayload]);
 
-  // Deteksi keluar halaman: visibilitychange (ganti tab/minimize/tutup) adalah
-  // sinyal paling andal; beforeunload untuk penutupan tab langsung; cleanup
-  // saat unmount untuk navigasi SPA internal (tombol back, dsb).
   useEffect(() => {
     if (phase !== "active") return;
     function onVisibility() {
@@ -190,7 +173,6 @@ export default function KerjakanTugasPage() {
     };
   }, [phase, fireForcedKeluar]);
 
-  // Anti salin-tempel di seluruh halaman selama mengerjakan.
   useEffect(() => {
     if (phase !== "active") return;
     const block = (e: Event) => e.preventDefault();
@@ -383,7 +365,6 @@ export default function KerjakanTugasPage() {
     );
   }
 
-  // phase === "active"
   const habisSebentarLagi = sisaMs != null && sisaMs <= 60_000;
 
   return (

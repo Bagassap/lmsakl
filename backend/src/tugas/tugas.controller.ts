@@ -90,8 +90,6 @@ export class TugasController {
     return this.service.resetPercobaan(id, { id: req.user.id, role: req.user.role });
   }
 
-  // Tambah 1x jatah percobaan tanpa reset penuh — lihat catatan di
-  // TugasService.tambahPercobaan.
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.GURU)
   @Put('submisi/:id/tambah-percobaan')
@@ -99,7 +97,6 @@ export class TugasController {
     return this.service.tambahPercobaan(id, { id: req.user.id, role: req.user.role });
   }
 
-  // Membuka lembar pengerjaan lockdown — mengonsumsi 1 percobaan.
   @UseGuards(RolesGuard)
   @Roles(Role.SISWA)
   @Post(':id/mulai-percobaan')
@@ -107,7 +104,6 @@ export class TugasController {
     return this.service.mulaiPercobaan(req.user.id, id);
   }
 
-  // Submit normal (klik "Selesai") dari lembar pengerjaan.
   @UseGuards(RolesGuard)
   @Roles(Role.SISWA)
   @Post(':id/submit-percobaan')
@@ -115,9 +111,6 @@ export class TugasController {
     return this.service.submitPercobaan(req.user.id, id, { ...dto, dipaksa: false });
   }
 
-  // Submit paksa — dipanggil otomatis oleh frontend (sendBeacon/fetch
-  // keepalive) begitu terdeteksi siswa meninggalkan halaman lembar
-  // pengerjaan. Selalu dipaksa=true terlepas dari body yang dikirim klien.
   @UseGuards(RolesGuard)
   @Roles(Role.SISWA)
   @Post(':id/paksa-keluar')

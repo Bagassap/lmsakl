@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { ScheduleModule } from '@nestjs/schedule';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
@@ -26,6 +27,7 @@ import { PengaturanModule } from './pengaturan/pengaturan.module';
     ThrottlerModule.forRoot([
       { name: 'default', ttl: 15 * 60 * 1000, limit: 5 },
     ]),
+    ScheduleModule.forRoot(),
     PrismaModule,
     AuthModule,
     KelasModule,

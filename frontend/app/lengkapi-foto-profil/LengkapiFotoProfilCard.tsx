@@ -33,7 +33,6 @@ export function LengkapiFotoProfilCard() {
       variants={cardVariants}
       className="relative z-10 flex w-full max-w-lg flex-col overflow-hidden rounded-[28px] bg-white shadow-[0_0_0_1px_rgba(215,38,61,0.12),0_4px_16px_rgba(215,38,61,0.08),0_20px_56px_rgba(215,38,61,0.14),0_40px_100px_rgba(215,38,61,0.10)]"
     >
-      {/* ── Header band: lockup horizontal, bukan panel sisi ────────── */}
       <div
         className="relative overflow-hidden px-6 py-5 sm:px-8 sm:py-6"
         style={{
@@ -79,7 +78,6 @@ export function LengkapiFotoProfilCard() {
         </div>
       </div>
 
-      {/* ── Konten: form terpusat, bukan grid dua kolom ─────────────── */}
       <div className="flex flex-col items-center px-6 py-8 text-center sm:px-10 sm:py-10">
         <p className="max-w-xs text-sm leading-relaxed text-black/55">
           Unggah satu foto diri yang jelas (rasio 1:1). Foto ini menjadi identitas Anda

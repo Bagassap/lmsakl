@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import GreetingHero from "@/components/dashboard/GreetingHero";
 import StatsCard from "@/components/dashboard/StatsCard";
+import { QuickAccessGrid } from "@/components/dashboard/QuickAccessCard";
 import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
 import { timeAgo } from "@/components/dashboard/ActivityList";
@@ -112,7 +113,7 @@ export default function GuruDashboardPage() {
   if (loading) return (
     <div className="space-y-5">
       <Skeleton className="h-28 rounded-3xl" />
-      <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">{[0,1,2,3].map(i => <Skeleton key={i} className="h-28" />)}</div>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">{[0,1,2,3].map(i => <Skeleton key={i} className="h-28" />)}</div>
       <div className="grid grid-cols-12 gap-4">
         <Skeleton className="col-span-12 h-72 xl:col-span-4" />
         <Skeleton className="col-span-12 h-72 xl:col-span-8" />
@@ -149,6 +150,9 @@ export default function GuruDashboardPage() {
       label: "Absensi Harian",
       value: data.kehadiran.hadir,
       suffix: " hadir",
+      validThru: "2024/2025",
+      holder: user.nama,
+      footerRightLabel: "Guru",
       gradient: "#D7263D",
       onLime: false,
       icon: ClipboardCheck,
@@ -158,6 +162,9 @@ export default function GuruDashboardPage() {
       label: "Siswa Diampu",
       value: data.siswaAmpu,
       suffix: " siswa",
+      validThru: "2024/2025",
+      holder: user.nama,
+      footerRightLabel: "Guru",
       gradient: "#C3F84A",
       onLime: true,
       icon: Users,
@@ -167,6 +174,9 @@ export default function GuruDashboardPage() {
       label: "Kelas Wali",
       value: kelasWali.length,
       suffix: " kelas",
+      validThru: "2024/2025",
+      holder: user.nama,
+      footerRightLabel: "Guru",
       gradient: "#FF5722",
       onLime: false,
       icon: GraduationCap,
@@ -176,6 +186,9 @@ export default function GuruDashboardPage() {
       label: "Pengumuman",
       value: data.pengumuman.length,
       suffix: " info",
+      validThru: "2024/2025",
+      holder: user.nama,
+      footerRightLabel: "Guru",
       gradient: "#2962FF",
       onLime: false,
       icon: Megaphone,
@@ -187,7 +200,7 @@ export default function GuruDashboardPage() {
 
       <GreetingHero nama={user.nama} role={user.role} />
 
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
         <StatsCard icon={Users}         label="Siswa Diampu" value={data.siswaAmpu}        sub="Di kelas yang Anda ampu" index={0} delay={0.05} />
         <StatsCard icon={GraduationCap} label="Kelas Wali"   value={kelasWali.length}      sub="Kelas dengan Anda sebagai wali" index={1} delay={0.10} />
         <StatsCard icon={TrendingUp}    label="Kehadiran"    value={data.kehadiran.hadir} suffix="hadir" sub="Siswa hadir hari ini" index={2} delay={0.15} />
@@ -238,45 +251,7 @@ export default function GuruDashboardPage() {
         </motion.div>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {CARDS.map((card, i) => (
-          <motion.div key={card.label}
-            initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -4, scale: 1.01 }}
-            transition={{ duration: 0.35, delay: 0.4 + i * 0.07, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <Link href={card.href}
-              className={`relative flex h-44 flex-col justify-between overflow-hidden rounded-2xl p-5 ${card.onLime ? "text-black" : "text-white"}`}
-              style={{ background: card.gradient, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }}
-            >
-              <div className={`pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/10"}`} />
-              <div className={`pointer-events-none absolute -bottom-4 right-12 h-20 w-20 rounded-full ${card.onLime ? "bg-black/5" : "bg-white/8"}`} />
-              <div className="relative flex items-start justify-between">
-                <div>
-                  <p className={`text-[10px] font-medium uppercase tracking-widest ${card.onLime ? "text-black/70" : "text-white/70"}`}>Akses Cepat</p>
-                  <p className="mt-0.5 text-sm font-bold">{card.label}</p>
-                </div>
-                <div className={`flex h-9 w-9 items-center justify-center rounded-full ${card.onLime ? "bg-black/10" : "bg-white/20"}`}>
-                  <card.icon size={17} />
-                </div>
-              </div>
-              <div className="relative">
-                <p className="text-3xl font-bold tabular-nums">{card.value}{card.suffix}</p>
-              </div>
-              <div className="relative flex items-end justify-between">
-                <div>
-                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>TA</p>
-                  <p className="text-[11px] font-semibold">2024/2025</p>
-                </div>
-                <div className="text-right">
-                  <p className={`text-[9px] font-medium uppercase tracking-wider ${card.onLime ? "text-black/60" : "text-white/60"}`}>Guru</p>
-                  <p className="max-w-25 truncate text-[11px] font-semibold">{user.nama}</p>
-                </div>
-              </div>
-            </Link>
-          </motion.div>
-        ))}
-      </div>
+      <QuickAccessGrid cards={CARDS} />
 
       <div className="grid grid-cols-12 gap-4 md:gap-5">
 

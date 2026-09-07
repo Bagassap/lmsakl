@@ -1,7 +1,3 @@
-/**
- * Local dev helper — creates/updates a single ADMIN user for testing.
- *   npx tsx scripts/create-local-admin.ts <email> <password> [nama]
- */
 import 'dotenv/config';
 import { PrismaClient } from '../generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';

@@ -44,12 +44,6 @@ export type LaporanSeringTidakHadir = {
   siswa: LaporanSeringTidakHadirRow[];
 };
 
-// Jadwal jendela absen (jam buka/tutup Datang & Pulang) kini datang dari
-// tabel JadwalAbsenOverride per tanggal, dikelola lewat menu admin di
-// Absensi Harian - bukan lagi konstanta tanggal hardcode yang butuh deploy
-// ulang tiap ada perubahan jadwal darurat (mis. pulang lebih awal). Field
-// yang null pada override berarti "pakai jadwal normal hari itu" untuk
-// batas tersebut.
 export type JadwalOverrideRow = {
   hadirStartMinutes: number | null;
   hadirEndMinutes: number | null;
@@ -58,10 +52,6 @@ export type JadwalOverrideRow = {
   keterangan: string | null;
 } | null;
 
-// Jadwal normal: Absen Datang 06.00-09.00 WIB Senin-Jumat. Absen Pulang
-// 14.00-17.00 WIB Senin-Kamis, atau 11.00-12.00 WIB khusus Jumat.
-// Sabtu-Minggu tidak ada jendela absen sama sekali (override tidak berlaku
-// di akhir pekan - lingkup fitur ini cuma menggeser jam pada hari efektif).
 function defaultHadirStart(): number { return 6 * 60; }
 function defaultHadirEnd(): number { return 9 * 60; }
 function defaultPulangStart(isFriday: boolean): number { return isFriday ? 11 * 60 : 14 * 60; }
@@ -104,10 +94,6 @@ function pulangWindowLabel(override: JadwalOverrideRow): string {
   return `${minutesLabel(pulangStart)}-${minutesLabel(pulangEnd)} WIB (${isFriday ? 'Jumat' : 'Senin-Kamis'}${note})`;
 }
 
-// GPS is mandatory for Hadir/Pulang — a truthy check alone lets a client
-// (buggy, stale-cached, or a direct API call bypassing the UI entirely)
-// submit a placeholder string like "GPS tidak tersedia" as if it were a
-// real location. Require an actual "lat,lng" pair within valid ranges.
 function isValidGpsLokasi(lokasi?: string): boolean {
   if (!lokasi) return false;
   const parts = lokasi.split(',');
@@ -202,9 +188,6 @@ export class AbsensiHarianService {
     return this.getAllRekap(tanggal, userId, role);
   }
 
-  // Kirim notifikasi in-app ke siswa yang belum absen hadir hari ini di satu
-  // kelas — hanya menyasar status null (murni belum absen), bukan yang sudah
-  // ditandai ALPA (itu sudah final, pengingat tidak relevan lagi buat mereka).
   async kirimPengingatAbsen(kelasId: string, tanggal: string, userId: string, role: string) {
     if (role === 'GURU') {
       const myKelasIds = await this.kelasService.getGuruKelasIds(userId);
@@ -232,12 +215,6 @@ export class AbsensiHarianService {
     return { count: belumAbsen.length };
   }
 
-  // "Sering tidak hadir" = siswa dengan minimal satu catatan Alpa dalam
-  // rolling window 7 hari (mingguan) atau 30 hari (bulanan) terakhir
-  // (hari ini inklusif), bukan minggu/bulan kalender — supaya laporan tetap
-  // relevan berapa pun tanggal hari ini. Diurutkan dari yang paling sering
-  // alpa. Hanya hari efektif (Senin-Jumat) yang dihitung, sama seperti rekap
-  // range lainnya.
   async getLaporanSeringTidakHadir(
     userId: string,
     role: string,
@@ -329,10 +306,6 @@ export class AbsensiHarianService {
         foto: rec?.foto ?? null, ttd: rec?.ttd ?? null, lokasi: rec?.lokasi ?? null,
         fotoPulang: rec?.fotoPulang ?? null, ttdPulang: rec?.ttdPulang ?? null, lokasiPulang: rec?.lokasiPulang ?? null,
       };
-      // A day with no record at all counts as Alpa in the RANGE SUMMARY only
-      // (unlike the single-day rekap, which leaves null status uncounted) —
-      // otherwise the 4 categories wouldn't add up to totalHariEfektif, and a
-      // multi-week/month recap needs that invariant to read as a real report.
       const tallyKey = (status ?? 'ALPA') as keyof typeof tally;
       if (tallyKey in tally) tally[tallyKey]++;
     }
@@ -497,9 +470,6 @@ export class AbsensiHarianService {
       where: { siswaId_tanggal: { siswaId: siswa.id, tanggal: tgl } },
     });
     return {
-      // "sudahAbsen" specifically means a Datang (HADIR/IZIN/SAKIT) submission
-      // exists — not just "some row exists for today", since a Pulang-only
-      // row (no prior Hadir) must not read as "already absen datang".
       sudahAbsen: !!record?.waktuAbsen,
       sudahPulang: !!record?.waktuPulang,
       status: record?.status ?? null,
@@ -537,8 +507,6 @@ export class AbsensiHarianService {
       if (!isValidGpsLokasi(extras.lokasi)) throw new BadRequestException('Lokasi (GPS) wajib diisi dan harus berupa koordinat valid untuk absen pulang');
       if (!extras.ttd) throw new BadRequestException('Tanda tangan wajib diisi untuk absen pulang');
 
-      // Pulang is allowed even without a prior Hadir, but it must never set/imply status HADIR by itself —
-      // status stays whatever it already was (null/IZIN/SAKIT/ALPA/HADIR untouched).
       const pulangData = {
         lokasiPulang: extras.lokasi,
         waktuPulang: extras.waktuAbsen,
@@ -553,7 +521,6 @@ export class AbsensiHarianService {
       });
     }
 
-    // HADIR / IZIN / SAKIT — one submission per day
     if (window !== 'HADIR' && window !== 'BOTH') {
       throw new ForbiddenException('Absen datang hanya tersedia jam 06.00-09.00 WIB (Senin-Jumat)');
     }
@@ -646,9 +613,6 @@ export class AbsensiHarianService {
     });
   }
 
-  // Jadwal hari ini (efektif, sudah menggabungkan default + override kalau
-  // ada) - dipakai kartu "Jadwal Absen" di halaman admin supaya admin selalu
-  // lihat jam yang BENAR-BENAR berlaku sekarang, bukan cuma jadwal normal.
   async getJadwalHariIni() {
     const tanggal = todayStr();
     const { dayOfWeek } = jakartaParts();
@@ -667,8 +631,6 @@ export class AbsensiHarianService {
     };
   }
 
-  // 14 hari ke belakang s.d. 60 hari ke depan - cukup untuk lihat riwayat
-  // terbaru dan menjadwalkan penyesuaian mendatang tanpa daftar tak terbatas.
   async listJadwalOverride() {
     const today = todayStr();
     return this.prisma.jadwalAbsenOverride.findMany({

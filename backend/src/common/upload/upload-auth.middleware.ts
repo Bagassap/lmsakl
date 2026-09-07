@@ -43,13 +43,11 @@ export function createUploadAuthMiddleware(
       return;
     }
 
-    // Staff (admin/guru) oversee all attendance/exam evidence — no ownership check needed.
     if (user.role === 'ADMIN' || user.role === 'GURU') {
       next();
       return;
     }
 
-    // Exam question documents are shared material for every participant of a tahapan.
     if (req.path.startsWith('/ukk-soal/')) {
       next();
       return;
@@ -68,9 +66,6 @@ export function createUploadAuthMiddleware(
     let owned = false;
 
     if (req.path.startsWith('/foto-profil/')) {
-      // Every siswa needs to see their own photo (topbar, sidebar, profil
-      // saya) but not classmates' — data-siswa's cross-student photo view is
-      // ADMIN/GURU-only and already short-circuits above.
       owned = user.fotoProfil === requestedUrl;
     } else if (req.path.startsWith('/absensi-harian/')) {
       const row = await prisma.absensiHarian.findFirst({

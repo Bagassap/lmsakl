@@ -39,9 +39,6 @@ export class UsersService {
     });
     if (!user) throw new NotFoundException('User tidak ditemukan');
 
-    // Regular admins may only reset student accounts (the only targets
-    // admin/data-siswa ever exposes) — resetting guru/admin accounts,
-    // including the super admin itself, stays super-admin-only.
     if (user.role !== Role.SISWA && admin.loginId !== SUPER_ADMIN_LOGIN_ID) {
       throw new ForbiddenException('Hanya super admin yang dapat mereset password akun ini');
     }
@@ -199,11 +196,6 @@ export class UsersService {
     });
   }
 
-  // Nonaktifkan bukan hard-delete — pola yang sama dipakai untuk siswa yang
-  // sudah lulus (lihat SiswaService.luluskanKelas): akun dinonaktifkan
-  // (tidak bisa login lagi) tapi seluruh riwayat data (materi, nilai UKK,
-  // bimbingan magang, dll) tetap tersimpan karena banyak tabel punya FK
-  // wajib ke Guru yang tidak boleh diputus begitu saja.
   async deactivateGuru(userId: string) {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },
@@ -270,8 +262,6 @@ export class UsersService {
   ) {
     const target = await this.prisma.user.findUnique({ where: { id: targetId } });
     if (!target) throw new NotFoundException('User tidak ditemukan');
-    // Blocks impersonating any admin account, which already covers the
-    // super admin — no separate check needed to protect it specifically.
     if (target.role === Role.ADMIN) {
       throw new ForbiddenException('Tidak dapat memantau akun admin');
     }

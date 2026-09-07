@@ -17,9 +17,6 @@ import { paginate } from "@/components/shared/PageSizeToggle";
 import { STATUS_CFG, PULANG_CFG, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl, formatTglSlash } from "@/components/absensi-harian/shared";
 import type { SiswaAbsensi, FilterAbsensi, RekapTempat, TempatMagang } from "@/components/absensi-magang/types";
 
-// Same shape/size as the clickable tempat pill (icon badge + 2-line text),
-// but static (a div, not a button) with a muted icon — reads as a stat
-// display rather than an action.
 function MiniStat({ icon: Icon, value, label }: { icon: React.ElementType; value: string | number; label: string }) {
   return (
     <div className="flex h-full w-full items-center gap-2 rounded-2xl border-2 border-transparent bg-slate-50 px-3 py-2.5 dark:bg-slate-700/30">
@@ -34,12 +31,6 @@ function MiniStat({ icon: Icon, value, label }: { icon: React.ElementType; value
   );
 }
 
-// Klik ini benar-benar mengirim notifikasi in-app (lonceng Topbar) ke tiap
-// siswa bimbingan yang belum tercatat absen — lewat endpoint backend
-// /magang/absensi/kirim-pengingat, sekaligus menyalin nama-nama itu ke
-// clipboard (pola yang sama dengan BelumAbsenPanel) untuk ditempel manual
-// sebagai pengingat WA. Guru wajib menyertakan tempatMagangId — dibatasi ke
-// tempat yang sedang dipilih, tidak seperti admin yang menjangkau semua tempat.
 function KirimPengingatCard({ tempatMagangId, tanggal, siswaList }: { tempatMagangId: string; tanggal: string; siswaList: SiswaAbsensi[] }) {
   const toast = useToast();
   const [sending, setSending] = useState(false);
@@ -59,7 +50,7 @@ function KirimPengingatCard({ tempatMagangId, tanggal, siswaList }: { tempatMaga
       if (!res.ok) { toast.error("Gagal mengirim pengingat", data?.message ?? ""); return; }
 
       const text = belum.map((s, i) => `${i + 1}. ${s.nama}${s.nis ? ` (${s.nis})` : ""}`).join("\n");
-      try { await navigator.clipboard.writeText(text); } catch { /* clipboard opsional, notifikasi tetap terkirim */ }
+      try { await navigator.clipboard.writeText(text); } catch {}
 
       setSent(true);
       toast.success("Pengingat terkirim!", `Notifikasi masuk ke ${data.count} siswa · daftar nama juga disalin untuk WA`);
@@ -220,10 +211,6 @@ export default function GuruMagangAbsensiPage() {
   const [tablePage, setTablePage] = useState(0);
   const [tablePageSize, setTablePageSize] = useState<number>(10);
 
-  // Guru pembimbing tidak punya endpoint "tempat saya" terpisah — daftar
-  // tempat PKL yang relevan diturunkan langsung dari rekap (tiap rekap sudah
-  // menyertakan objek tempatMagang lengkap), berbeda dari pola wali kelas di
-  // Absensi Harian yang punya /api/kelas/saya tersendiri.
   const loadRekap = useCallback(async () => {
     setLoading(true);
     try {

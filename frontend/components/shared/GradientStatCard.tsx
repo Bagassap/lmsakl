@@ -5,11 +5,6 @@ import type { ComponentType } from "react";
 
 type Tone = "blue" | "navy" | "green" | "lime" | "red" | "ink";
 
-// Rotasi 4 warna resmi brand lmsakl (merah/lime/oren/biru) dipetakan ke
-// tone di sini: navy=merah(brand), lime=lime, red=oren, blue=biru.
-// Layout meniru persis kartu selector "Materi"/"Tugas" di
-// components/materi/MateriTugasSiswaPage.tsx: tinggi tetap, icon badge di
-// atas, lalu nilai besar + label kecil menempel di bawah.
 const TONE_HEX: Record<Tone, string> = {
   navy: "#D7263D", // merah (brand)
   blue: "#2962FF", // biru

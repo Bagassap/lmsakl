@@ -9,10 +9,6 @@ import { useToast } from "@/components/shared/ToastSystem";
 const INPUT =
   "w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 pr-10 text-sm text-slate-800 placeholder:text-slate-400 transition-all hover:border-slate-300 focus:border-primary focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary/12 dark:border-slate-700 dark:bg-slate-800/60 dark:text-slate-200 dark:placeholder:text-slate-600 dark:focus:bg-slate-800";
 
-// Kartu slip dicetak di jendela terpisah (bukan window.print() pada modal
-// itu sendiri) supaya CSS/layout aplikasi tidak ikut ke kertas — slip ini
-// satu-satunya tempat password baru pernah terlihat, jadi tidak disimpan
-// di state React setelah modal ditutup ataupun dikirim ke server manapun.
 function printSlip(opts: { nama: string; loginId?: string; password: string }) {
   const w = window.open("", "_blank", "width=420,height=600");
   if (!w) return;
@@ -52,7 +48,6 @@ export function ResetPasswordModal({
 }) {
   const toast = useToast();
   const resetToNis = !!nis;
-  // Kalau status password belum diketahui (undefined), anggap konservatif "belum ganti".
   const alreadyChanged = resetToNis && mustChangePassword === false;
   const [newPassword, setNewPassword] = useState("");
   const [show, setShow] = useState(false);
@@ -83,10 +78,6 @@ export function ResetPasswordModal({
       const data = await res.json().catch(() => null);
       if (!res.ok) throw new Error(data?.message ?? `Error ${res.status}`);
       onSuccess?.();
-      // Modal tetap terbuka lewat layar sukses di bawah — ini satu-satunya
-      // momen password baru bisa dilihat/disalin/dicetak sebelum hash-nya
-      // yang tersimpan di server. Tidak ditutup otomatis supaya admin
-      // sempat menyalin/mencetaknya dulu.
       setSuccessPassword(resetToNis ? nis! : newPassword);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Gagal mereset password. Coba lagi.";

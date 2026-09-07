@@ -35,8 +35,6 @@ function RankBadge({ index }: { index: number }) {
   );
 }
 
-// Bar color varies with how bad the attendance actually is — dark under 50%,
-// red under 75%, blue otherwise.
 function severityColor(pct: number) {
   if (pct < 50) return "#300000";
   if (pct < 75) return "#9E1B2E";

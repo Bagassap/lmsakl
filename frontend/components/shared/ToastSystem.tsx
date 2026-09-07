@@ -49,12 +49,6 @@ function useDarkMode() {
   return dark;
 }
 
-// success=lime (#C3F84A) dan error=red dipakai konsisten di seluruh aplikasi
-// untuk menandai berhasil/gagal — dua warna ini di luar 4 warna resmi
-// palette brand, sengaja ditambahkan supaya status sukses/gagal tetap
-// intuitif (hijau=oke, merah=masalah). warning tetap oren (brand), info
-// pakai blue. `fg` = warna teks/ikon yang duduk di atas iconBg/btnBg —
-// lime terlalu terang untuk teks putih, jadi fg-nya hitam.
 const THEME = {
   success: {
     headerFrom:  "#ECFCCB",

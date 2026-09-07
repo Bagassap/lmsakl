@@ -7,10 +7,6 @@ const HARI  = ["Minggu","Senin","Selasa","Rabu","Kamis","Jumat","Sabtu"];
 const BULAN = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
 const WEEKDAY_NUM: Record<string, number> = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
 
-// Reads wall-clock WIB (Asia/Jakarta) explicitly via Intl, mirroring
-// jakartaParts() on the backend — a bare `new Date()` reads whatever
-// timezone the viewing device's OS/browser happens to be set to, which
-// this component must never silently relabel as "WIB".
 function jakartaNow() {
   const fmt = new Intl.DateTimeFormat("en-US", {
     timeZone: "Asia/Jakarta",

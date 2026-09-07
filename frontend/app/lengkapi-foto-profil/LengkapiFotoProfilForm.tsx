@@ -5,6 +5,7 @@ import { motion, type Variants } from "framer-motion";
 import Cropper, { type Area } from "react-easy-crop";
 import { Loader2, Upload, RotateCcw, ImagePlus } from "lucide-react";
 import { getCroppedImg } from "@/lib/getCroppedImg";
+import { compressImage, describePhotoError } from "@/lib/compressImage";
 
 const container: Variants = {
   hidden: {},
@@ -66,8 +67,17 @@ export function LengkapiFotoProfilForm() {
     setLoading(true);
     setError(null);
 
+    let file: File;
     try {
-      const file = await getCroppedImg(imageSrc, croppedAreaPixels);
+      const cropped = await getCroppedImg(imageSrc, croppedAreaPixels);
+      file = await compressImage(cropped);
+    } catch {
+      setError(describePhotoError().detail);
+      setLoading(false);
+      return;
+    }
+
+    try {
       const formData = new FormData();
       formData.append("foto", file);
 

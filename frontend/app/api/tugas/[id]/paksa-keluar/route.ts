@@ -3,10 +3,6 @@ import { NextResponse } from "next/server";
 
 const BACKEND = process.env.BACKEND_URL || "http://localhost:3001";
 
-// Dipanggil lewat navigator.sendBeacon (saat halaman akan unload) atau fetch
-// keepalive — body bisa datang sebagai Blob text/plain (bukan application/json)
-// karena sendBeacon tidak bisa set header custom, jadi baca sebagai teks lalu
-// parse manual alih-alih mengandalkan Content-Type header.
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const token = (await cookies()).get("token")?.value;
   if (!token) return NextResponse.json({ message: "Tidak terautentikasi" }, { status: 401 });

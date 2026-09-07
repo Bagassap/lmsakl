@@ -222,8 +222,6 @@ export class AbsensiMagangController {
     res.send(buffer);
   }
 
-  // Data JSON di balik export-pdf/export-excel di atas, dipakai halaman
-  // Rekap & Laporan untuk menampilkan tabel rekap sebelum diunduh.
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.GURU)
   @Get('rekap')
