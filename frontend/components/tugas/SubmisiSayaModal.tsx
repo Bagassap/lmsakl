@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle, AlertCircle, Download, Send, Calculator, ListChecks, PenLine } from "lucide-react";
+import { X, CheckCircle, AlertCircle, Download, Send, ListChecks, PenLine, Sheet } from "lucide-react";
 import type { TugasSubmisiItem } from "./types";
 import { formatTglJam } from "./types";
-import { TugasPraktikViewerModal } from "./TugasPraktikViewerModal";
 import { TugasJawabanViewerModal } from "./TugasJawabanViewerModal";
+import { TugasSpreadsheetViewerModal } from "./TugasSpreadsheetViewerModal";
 
 export function SubmisiSayaModal({
   target, judul, tipe, onClose, onKirimUlang,
@@ -17,12 +17,12 @@ export function SubmisiSayaModal({
   onClose: () => void;
   onKirimUlang: () => void;
 }) {
-  const [viewPraktik, setViewPraktik] = useState(false);
   const [viewJawaban, setViewJawaban] = useState(false);
+  const [viewSpreadsheet, setViewSpreadsheet] = useState(false);
   if (!target) return null;
   const isDiterima = target.status === "DITERIMA";
   const isRevisi = target.status === "REVISI";
-  const isPraktik = tipe ? tipe === "PRAKTIK" : target.submittedPraktik !== null;
+  const isSpreadsheet = tipe ? tipe === "SPREADSHEET" : target.submittedSpreadsheet !== null;
   const isSoalBased = tipe ? (tipe === "PILIHAN_GANDA" || tipe === "ESSAY") : !!(target.jawaban && target.jawaban.length > 0);
 
   return (
@@ -58,7 +58,7 @@ export function SubmisiSayaModal({
               </div>
             </div>
             <div className="space-y-4 overflow-y-auto p-6 pb-[max(1.5rem,env(safe-area-inset-bottom))]" style={{ maxHeight: "calc(92vh - 84px)" }}>
-              {(tipe === "PILIHAN_GANDA" || tipe === "ESSAY") && target.nilai !== null && (
+              {(tipe === "PILIHAN_GANDA" || tipe === "ESSAY" || tipe === "SPREADSHEET") && target.nilai !== null && (
                 <div className="flex items-center justify-between rounded-xl border border-[#F0A3AC] bg-[#FCF0F1] px-4 py-3 dark:border-[#D7263D]/30 dark:bg-[#D7263D]/10">
                   <p className="text-sm font-bold text-[#9E1B2E] dark:text-[#E8677A]">Nilai Kamu</p>
                   <p className="text-2xl font-black leading-none text-[#C22540] dark:text-[#E8677A]">{target.nilai}</p>
@@ -95,10 +95,11 @@ export function SubmisiSayaModal({
                   </div>
                 )}
               </div>
-              {isPraktik ? (
-                <button onClick={() => setViewPraktik(true)}
-                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold text-white bg-primary">
-                  <Calculator size={14} /> Lihat Jurnal Terkirim
+              {isSpreadsheet ? (
+                <button onClick={() => setViewSpreadsheet(true)}
+                  className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold text-white"
+                  style={{ background: "#FF5722" }}>
+                  <Sheet size={14} /> Lihat Spreadsheet Terkirim
                 </button>
               ) : isSoalBased ? (
                 <button onClick={() => setViewJawaban(true)}
@@ -122,19 +123,21 @@ export function SubmisiSayaModal({
           </motion.div>
         </motion.div>
       )}
-      <TugasPraktikViewerModal
-        open={viewPraktik}
-        onClose={() => setViewPraktik(false)}
-        title={judul ?? "Tugas"}
-        subtitle="Jurnal yang kamu kirimkan"
-        praktik={target.submittedPraktik}
-      />
       <TugasJawabanViewerModal
         open={viewJawaban}
         onClose={() => setViewJawaban(false)}
         judul={judul ?? "Tugas"}
         tipe={tipe ?? ""}
         jawaban={target.jawaban ?? []}
+        nilai={target.nilai}
+      />
+      <TugasSpreadsheetViewerModal
+        open={viewSpreadsheet}
+        onClose={() => setViewSpreadsheet(false)}
+        title={judul ?? "Tugas"}
+        subtitle="Spreadsheet yang kamu kirimkan"
+        snapshot={target.submittedSpreadsheet}
+        submisiId={target.id}
         nilai={target.nilai}
       />
     </AnimatePresence>

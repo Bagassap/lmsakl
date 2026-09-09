@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
-  ClipboardList, Search, Send, CheckCircle, AlertCircle, CalendarClock, GraduationCap, Calculator, ListChecks, PenLine, Download, Lock,
+  ClipboardList, Search, Send, CheckCircle, AlertCircle, CalendarClock, GraduationCap, ListChecks, PenLine, Sheet, Download, Lock,
+  SlidersHorizontal, X,
 } from "lucide-react";
 import { formatTgl, isTugasActive, tipeLabel, LOCKDOWN_TIPE, maksimalPercobaanEfektif } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
-const TIPE_BADGE: Record<string, { icon: typeof Calculator; cls: string }> = {
-  PRAKTIK: { icon: Calculator, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
+const TIPE_BADGE: Record<string, { icon: typeof ListChecks; cls: string }> = {
   PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/40 dark:text-[#E8677A]" },
   ESSAY: { icon: PenLine, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
+  SPREADSHEET: { icon: Sheet, cls: "bg-[#FFE0D6] text-[#B53D1A] dark:bg-[#FF5722]/20 dark:text-[#FF8A5C]" },
 };
 
 const ROW_PALETTES = [
@@ -42,25 +43,31 @@ function rowStatus(t: TugasItem, onKumpulkan: (t: TugasItem) => void, onLihatDet
     ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#E3ECFF", clr: "#1745B0", border: "#1745B0", onClick: () => onLihatDetail(mySubmisi!, t) }
     : overdue
     ? { label: "Terlambat", icon: <AlertCircle size={11} />, bg: "#EBC4C4", clr: "#300000", border: "#300000", onClick: () => onKumpulkan(t) }
-    : { label: t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY" ? "Kerjakan" : t.tipe === "PRAKTIK" ? "Mulai Praktik" : "Kumpulkan", icon: <Send size={11} />, bg: "#E3ECFF", clr: "#2962FF", border: "#2962FF", onClick: () => onKumpulkan(t) };
+    : { label: t.tipe === "PILIHAN_GANDA" || t.tipe === "ESSAY" ? "Kerjakan" : t.tipe === "SPREADSHEET" ? "Buka Spreadsheet" : "Kumpulkan", icon: <Send size={11} />, bg: "#E3ECFF", clr: "#2962FF", border: "#2962FF", onClick: () => onKumpulkan(t) };
 
   return { mySubmisi, isLockdown, isDiterima, btn };
 }
 
 export function TugasListCardSiswa({
-  tugasList, loading, onKumpulkan, onLihatDetail,
+  tugasList, loading, onKumpulkan, onLihatDetail, search, onSearchChange,
 }: {
   tugasList: TugasItem[];
   loading: boolean;
   onKumpulkan: (t: TugasItem) => void;
   onLihatDetail: (s: TugasSubmisiItem, t: TugasItem) => void;
+  search: string;
+  onSearchChange: (v: string) => void;
 }) {
   const [tab, setTab] = useState<"active" | "completed">("active");
-  const [search, setSearch] = useState("");
+  const [mapelFilter, setMapelFilter] = useState<string | null>(null);
+  const [showFilterSheet, setShowFilterSheet] = useState(false);
+
+  const uniqueMapel = useMemo(() => Array.from(new Set(tugasList.map((t) => t.mapel))).sort(), [tugasList]);
 
   const active = tugasList.filter((t) => isTugasActive(t));
   const completed = tugasList.filter((t) => !isTugasActive(t));
   const shown = (tab === "active" ? active : completed)
+    .filter((t) => !mapelFilter || t.mapel === mapelFilter)
     .filter((t) => t.judul.toLowerCase().includes(search.trim().toLowerCase()) || t.mapel.toLowerCase().includes(search.trim().toLowerCase()));
 
   return (
@@ -75,7 +82,7 @@ export function TugasListCardSiswa({
         </div>
         <div className="relative mb-3">
           <Search size={14} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-500" />
-          <input value={search} onChange={(e) => setSearch(e.target.value)}
+          <input value={search} onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Cari nama tugas atau mapel..."
             className="w-full rounded-xl border border-slate-200 bg-slate-50 py-2 pl-9 pr-3 text-xs text-slate-700 outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-200" />
         </div>
@@ -178,40 +185,36 @@ export function TugasListCardSiswa({
     </div>
 
     <div className="relative isolate -mx-4 space-y-3 overflow-hidden bg-surface px-4 py-3 dark:bg-[#1c2434] lg:hidden">
-      <div className="relative">
-        <Search size={15} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 dark:text-slate-500" />
-        <input value={search} onChange={(e) => setSearch(e.target.value)}
-          placeholder="Cari nama tugas atau mapel..."
-          className="w-full rounded-2xl border border-slate-100 bg-white py-3 pl-11 pr-4 text-sm text-slate-700 shadow-[0_2px_8px_rgba(0,0,0,0.05)] outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 dark:border-slate-700 dark:bg-[#1c2434] dark:text-slate-200" />
-      </div>
+      <div className="flex items-center justify-between gap-2 border-b border-slate-200 px-1 dark:border-slate-700">
+        <div className="flex items-center gap-5">
+          <button type="button" onClick={() => setTab("active")}
+            className="-mb-px flex items-center gap-1.5 border-b-2 pb-2.5 text-sm font-bold transition-colors"
+            style={tab === "active" ? { borderColor: "#D7263D", color: "#D7263D" } : { borderColor: "transparent", color: "#94a3b8" }}>
+            Aktif
+            <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+              style={tab === "active" ? { background: "#D7263D18", color: "#D7263D" } : { background: "#E2E8F0", color: "#94a3b8" }}>
+              {active.length}
+            </span>
+          </button>
+          <button type="button" onClick={() => setTab("completed")}
+            className="-mb-px flex items-center gap-1.5 border-b-2 pb-2.5 text-sm font-bold transition-colors"
+            style={tab === "completed" ? { borderColor: "#2962FF", color: "#2962FF" } : { borderColor: "transparent", color: "#94a3b8" }}>
+            Selesai
+            <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+              style={tab === "completed" ? { background: "#2962FF18", color: "#2962FF" } : { background: "#E2E8F0", color: "#94a3b8" }}>
+              {completed.length}
+            </span>
+          </button>
+        </div>
 
-      <div className="isolate flex gap-1.5 rounded-2xl bg-slate-100 p-1.5 dark:bg-slate-800/60">
-        <button type="button" onClick={() => setTab("active")}
-          className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition-colors"
-          style={{ color: tab === "active" ? "#fff" : "#94a3b8" }}>
-          {tab === "active" && (
-            <motion.span layoutId="tugasTabPill" className="absolute inset-0 rounded-xl bg-primary"
-              transition={{ type: "spring", stiffness: 500, damping: 35 }} />
-          )}
-          <span className="relative z-10">Aktif</span>
-          <span className="relative z-10 rounded-md px-1.5 py-0.5 text-[10px] font-bold"
-            style={tab === "active" ? { background: "rgba(255,255,255,0.25)" } : { background: "#E2E8F0" }}>
-            {active.length}
-          </span>
-        </button>
-        <button type="button" onClick={() => setTab("completed")}
-          className="relative flex flex-1 items-center justify-center gap-1.5 rounded-xl py-2.5 text-sm font-bold transition-colors"
-          style={{ color: tab === "completed" ? "#fff" : "#94a3b8" }}>
-          {tab === "completed" && (
-            <motion.span layoutId="tugasTabPill" className="absolute inset-0 rounded-xl"
-              style={{ background: "#2962FF" }} transition={{ type: "spring", stiffness: 500, damping: 35 }} />
-          )}
-          <span className="relative z-10">Selesai</span>
-          <span className="relative z-10 rounded-md px-1.5 py-0.5 text-[10px] font-bold"
-            style={tab === "completed" ? { background: "rgba(255,255,255,0.25)" } : { background: "#E2E8F0" }}>
-            {completed.length}
-          </span>
-        </button>
+        {uniqueMapel.length > 1 && (
+          <button type="button" onClick={() => setShowFilterSheet(true)}
+            className="relative -mb-px mb-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+            style={mapelFilter ? { background: "#D7263D18", color: "#D7263D" } : { background: "#F1F5F9", color: "#94a3b8" }}>
+            <SlidersHorizontal size={14} />
+            {mapelFilter && <span className="absolute right-0 top-0 h-2 w-2 rounded-full border-2 border-white" style={{ background: "#D7263D" }} />}
+          </button>
+        )}
       </div>
 
       {loading && (
@@ -288,6 +291,49 @@ export function TugasListCardSiswa({
         </div>
       )}
     </div>
+
+    <AnimatePresence>
+      {showFilterSheet && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center lg:hidden">
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowFilterSheet(false)}
+          />
+          <motion.div
+            initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            className="relative z-10 w-full overflow-hidden rounded-t-3xl bg-white dark:bg-[#1c2434]"
+            style={{ maxHeight: "80vh" }}
+          >
+            <div className="flex items-center justify-between px-5 pt-5">
+              <h3 className="text-base font-extrabold text-slate-800 dark:text-white">Filter Mata Pelajaran</h3>
+              <button type="button" onClick={() => setShowFilterSheet(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                <X size={15} />
+              </button>
+            </div>
+            <div className="max-h-[60vh] space-y-1.5 overflow-y-auto px-5 py-5">
+              <button type="button" onClick={() => { setMapelFilter(null); setShowFilterSheet(false); }}
+                className="flex w-full items-center justify-between gap-2 rounded-2xl border-2 px-4 py-3 text-left text-sm font-bold transition-colors"
+                style={mapelFilter === null ? { borderColor: "#D7263D", background: "#D7263D18", color: "#D7263D" } : { borderColor: "#F1F5F9", background: "transparent", color: "#334155" }}>
+                Semua Mapel
+                {mapelFilter === null && <CheckCircle size={16} style={{ color: "#D7263D" }} />}
+              </button>
+              {uniqueMapel.map((mp) => (
+                <button key={mp} type="button" onClick={() => { setMapelFilter(mp); setShowFilterSheet(false); }}
+                  className="flex w-full items-center justify-between gap-2 rounded-2xl border-2 px-4 py-3 text-left text-sm font-bold transition-colors"
+                  style={mapelFilter === mp ? { borderColor: "#D7263D", background: "#D7263D18", color: "#D7263D" } : { borderColor: "#F1F5F9", background: "transparent", color: "#334155" }}>
+                  {mp}
+                  {mapelFilter === mp && <CheckCircle size={16} style={{ color: "#D7263D" }} />}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
     </div>
   );
 }

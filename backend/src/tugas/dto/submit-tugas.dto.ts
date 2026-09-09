@@ -11,7 +11,7 @@ export class SubmitTugasDto {
 
   @IsString()
   @IsOptional()
-  submittedPraktik?: string;
+  submittedSpreadsheet?: string;
 
   @IsString()
   @IsOptional()

@@ -34,7 +34,7 @@ export function LoginCard() {
       className="relative z-10 flex h-[100dvh] w-full flex-col overflow-hidden bg-transparent shadow-none sm:h-auto sm:max-w-235 sm:flex-row-reverse sm:gap-4 sm:rounded-[36px] sm:bg-white sm:p-5 sm:shadow-[0_0_0_1px_rgba(180,83,9,0.14),0_4px_16px_rgba(215,38,61,0.08),0_20px_56px_rgba(215,38,61,0.14),0_40px_100px_rgba(180,83,9,0.10)]"
     >
       <div
-        className="relative flex flex-1 flex-col items-center justify-center overflow-hidden px-6 py-8 sm:w-[300px] sm:shrink-0 sm:flex-none sm:rounded-3xl sm:px-10 sm:py-12"
+        className="relative flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden px-6 py-8 sm:min-h-0 sm:w-[300px] sm:shrink-0 sm:flex-none sm:rounded-3xl sm:px-10 sm:py-12"
         style={{ backgroundColor: "#D7263D" }}
       >
         <Scale className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 text-[#F0A3AC]/[0.08] sm:h-36 sm:w-36" />
@@ -94,15 +94,15 @@ export function LoginCard() {
         </div>
       </div>
 
-      <div className="relative z-10 flex shrink-0 flex-col rounded-t-3xl bg-white px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-6 sm:flex-1 sm:rounded-3xl sm:px-12 sm:py-14">
-        <h2 className="text-xl font-semibold text-stone-900 sm:text-2xl">Selamat Datang Kembali</h2>
+      <div className="relative z-10 flex shrink-0 flex-col rounded-t-3xl bg-white px-6 pb-[max(1.25rem,env(safe-area-inset-bottom))] pt-5 sm:flex-1 sm:rounded-3xl sm:px-12 sm:py-14">
+        <h2 className="hidden text-2xl font-semibold text-stone-900 sm:block">Selamat Datang Kembali</h2>
         <p className="mt-2 hidden text-sm text-stone-500 sm:block">
           Masuk dengan NIS dan kata sandi Anda untuk mengakses LMS AKL
         </p>
 
         <LoginForm />
 
-        <p className="mt-4 text-center text-[10px] text-stone-400 sm:mt-8 sm:text-xs">
+        <p className="mt-8 hidden text-center text-xs text-stone-400 sm:block">
           {`© ${new Date().getFullYear()} LMS AKL · SMK Ma'arif NU 01 Limpung`}
         </p>
       </div>

@@ -1,30 +1,13 @@
 export type StatusTugas = "TERKIRIM" | "DITERIMA" | "REVISI";
-export type TugasTipe = "SUBMIT" | "PRAKTIK" | "PILIHAN_GANDA" | "ESSAY";
+export type TugasTipe = "SUBMIT" | "PILIHAN_GANDA" | "ESSAY" | "SPREADSHEET";
 
-export const LOCKDOWN_TIPE = new Set<string>(["PRAKTIK", "PILIHAN_GANDA", "ESSAY"]);
+export const LOCKDOWN_TIPE = new Set<string>(["PILIHAN_GANDA", "ESSAY", "SPREADSHEET"]);
 export const MAKSIMAL_PERCOBAAN = 2;
 
 export type TugasKelasRef = { id: string; nama: string };
 
-export type PraktikRow = {
-  noBukti: string;
-  tanggal: string;
-  kodeAkun: string;
-  akun: string;
-  keterangan: string;
-  debit: string;
-  kredit: string;
-};
-
-export function parsePraktikRows(raw: string | null | undefined): PraktikRow[] {
-  if (!raw) return [];
-  try {
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-}
+export type KelasSiswaItem = { id: string; nama: string | null; nis: string };
+export type SpreadsheetStarterRef = { siswaId: string; sourceUrl: string | null };
 
 export type TugasSoalItem = {
   id: string;
@@ -51,7 +34,7 @@ export type TugasSubmisiItem = {
   siswaId: string;
   fileUrl: string | null;
   fileName: string | null;
-  submittedPraktik: string | null;
+  submittedSpreadsheet: string | null;
   catatan: string | null;
   pesanRevisi: string | null;
   status: StatusTugas;
@@ -83,7 +66,7 @@ export type TugasItem = {
   tipe: string;
   fileUrl: string | null;
   fileName: string | null;
-  starterPraktik: string | null;
+  starterSpreadsheet: string | null;
   durasiMenit?: number | null;
   createdBy: { id: string; nama: string; role: string };
   createdAt: string;
@@ -91,6 +74,7 @@ export type TugasItem = {
   _count?: { submisi: number };
   submisi?: TugasSubmisiItem[];
   soal?: TugasSoalItem[];
+  spreadsheetStarters?: SpreadsheetStarterRef[];
 };
 
 export function formatTgl(s: string) {
@@ -113,9 +97,9 @@ export function statusInfo(s: StatusTugas) {
 }
 
 export function tipeLabel(tipe: string) {
-  if (tipe === "PRAKTIK") return "Praktik Akuntansi";
   if (tipe === "PILIHAN_GANDA") return "Pilihan Ganda";
   if (tipe === "ESSAY") return "Essay";
+  if (tipe === "SPREADSHEET") return "Spreadsheet";
   return "Kirim File";
 }
 

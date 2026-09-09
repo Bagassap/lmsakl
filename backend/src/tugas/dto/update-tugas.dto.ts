@@ -40,12 +40,16 @@ export class UpdateTugasDto {
 
   @IsString()
   @IsOptional()
-  @IsIn(['SUBMIT', 'PRAKTIK', 'PILIHAN_GANDA', 'ESSAY'])
+  @IsIn(['SUBMIT', 'PILIHAN_GANDA', 'ESSAY', 'SPREADSHEET'])
   tipe?: string;
 
   @IsString()
   @IsOptional()
-  starterPraktik?: string;
+  starterSpreadsheet?: string;
+
+  @IsString()
+  @IsOptional()
+  spreadsheetStarterLinks?: string;
 
   @IsString()
   @IsOptional()

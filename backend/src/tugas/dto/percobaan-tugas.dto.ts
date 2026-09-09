@@ -7,7 +7,7 @@ export class SubmitPercobaanDto {
 
   @IsString()
   @IsOptional()
-  submittedPraktik?: string;
+  submittedSpreadsheet?: string;
 
   @IsString()
   @IsOptional()

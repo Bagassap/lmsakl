@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import {
-  ClipboardList, Search, Plus, Pencil, Trash2, Send, CalendarClock, GraduationCap, Calculator, ListChecks, PenLine,
+  ClipboardList, Search, Plus, Pencil, Trash2, Send, CalendarClock, GraduationCap, ListChecks, PenLine, Sheet,
 } from "lucide-react";
 import { formatTgl, isTugasActive, tipeLabel } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
-const TIPE_BADGE: Record<string, { icon: typeof Calculator; cls: string }> = {
-  PRAKTIK: { icon: Calculator, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
+const TIPE_BADGE: Record<string, { icon: typeof ListChecks; cls: string }> = {
   PILIHAN_GANDA: { icon: ListChecks, cls: "bg-[#F8D6DA] text-[#9E1B2E] dark:bg-[#5C1420]/40 dark:text-[#E8677A]" },
   ESSAY: { icon: PenLine, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
+  SPREADSHEET: { icon: Sheet, cls: "bg-[#FFE0D6] text-[#B53D1A] dark:bg-[#FF5722]/20 dark:text-[#FF8A5C]" },
 };
 
 const ROW_PALETTES = [

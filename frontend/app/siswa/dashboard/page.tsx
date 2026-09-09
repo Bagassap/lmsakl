@@ -195,13 +195,16 @@ export default function SiswaDashboardPage() {
 
   return (
     <>
-      <div className="relative isolate -m-4 space-y-5 overflow-hidden bg-surface p-4 dark:bg-[#1c2434] lg:hidden">
+      <div className="relative isolate -m-4 overflow-hidden lg:hidden">
+        <div className="absolute inset-x-0 top-0 h-40 rounded-b-[32px] bg-primary" />
+
+        <div className="relative z-10 space-y-5 p-4">
 
         <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
           {data.kelas} · Wali: {data.waliKelas ?? "—"}
         </p>
 
-        <div className="rounded-3xl bg-white p-3 shadow-[0_2px_10px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+        <div className="rounded-3xl bg-white p-3 shadow-[0_10px_28px_-10px_rgba(215,38,61,0.35)] dark:bg-[#1c2434]">
           <Link
             href="/siswa/absensi-harian"
             className="relative flex flex-col overflow-hidden rounded-2xl p-4 text-white"
@@ -326,6 +329,7 @@ export default function SiswaDashboardPage() {
               ))}
             </ul>
           )}
+        </div>
         </div>
       </div>
 

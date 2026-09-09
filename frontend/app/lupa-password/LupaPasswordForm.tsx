@@ -121,7 +121,7 @@ export function LupaPasswordForm() {
       initial="hidden"
       animate="visible"
       variants={container}
-      className="mt-8 flex flex-col gap-5"
+      className="mt-3 flex flex-col gap-2.5 sm:mt-8 sm:gap-5"
     >
       <motion.div variants={item} className="flex flex-col gap-1.5">
         <label htmlFor="loginId" className="text-sm font-medium text-black/70">
@@ -185,7 +185,7 @@ export function LupaPasswordForm() {
             value={keterangan}
             onChange={(e) => setKeterangan(e.target.value)}
             placeholder="Alasan lupa password, atau info tambahan lain..."
-            className="w-full resize-none rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15"
+            className="h-14 w-full resize-none rounded-xl border border-black/10 bg-black/3 px-4 py-3 pl-11 text-sm text-black placeholder:text-black/35 outline-none transition-all focus:border-[#D7263D] focus:bg-white focus:ring-2 focus:ring-[#D7263D]/15 sm:h-auto"
           />
         </div>
       </motion.div>

@@ -1,17 +1,21 @@
 import {
-  Controller, Get, Post, Put, Delete, Param, Body,
-  UseGuards, Request, UseInterceptors, UploadedFile,
+  Controller, Get, Post, Put, Delete, Param, Query, Body,
+  UseGuards, Request, Res, UseInterceptors, UploadedFile,
 } from '@nestjs/common';
+import type { Response } from 'express';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import * as fs from 'fs';
 import { TugasService } from './tugas.service';
+import { SpreadsheetExportService } from './spreadsheet-export.service';
+import { SpreadsheetImportService } from './spreadsheet-import.service';
 import { CreateTugasDto } from './dto/create-tugas.dto';
 import { UpdateTugasDto } from './dto/update-tugas.dto';
 import { SubmitTugasDto } from './dto/submit-tugas.dto';
 import { SubmitPercobaanDto } from './dto/percobaan-tugas.dto';
 import { UpdateNilaiSubmisiDto } from './dto/update-nilai-submisi.dto';
+import { ImportSpreadsheetLinkDto } from './dto/import-spreadsheet-link.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { Roles } from '../common/decorators/roles.decorator';
@@ -38,7 +42,11 @@ const submisiStorage = makeStorage('tugas-submisi');
 @UseGuards(JwtAuthGuard)
 @Controller('tugas')
 export class TugasController {
-  constructor(private readonly service: TugasService) {}
+  constructor(
+    private readonly service: TugasService,
+    private readonly spreadsheetExportService: SpreadsheetExportService,
+    private readonly spreadsheetImportService: SpreadsheetImportService,
+  ) {}
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.GURU)
@@ -97,6 +105,18 @@ export class TugasController {
     return this.service.tambahPercobaan(id, { id: req.user.id, role: req.user.role });
   }
 
+  @Get('submisi/:id/export-spreadsheet')
+  async exportSpreadsheetSubmisi(@Param('id') id: string, @Request() req: any, @Res() res: Response) {
+    const { snapshotJson, filename } = await this.service.exportSpreadsheetSubmisi(id, { id: req.user.id, role: req.user.role });
+    const buffer = await this.spreadsheetExportService.build(snapshotJson);
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Length': buffer.length,
+    });
+    res.send(buffer);
+  }
+
   @UseGuards(RolesGuard)
   @Roles(Role.SISWA)
   @Post(':id/mulai-percobaan')
@@ -125,6 +145,28 @@ export class TugasController {
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN, Role.GURU)
+  @Get(':id/export-spreadsheet-template')
+  async exportSpreadsheetTemplate(@Param('id') id: string, @Request() req: any, @Res() res: Response) {
+    const { snapshotJson, filename } = await this.service.exportSpreadsheetTemplate(id, { id: req.user.id, role: req.user.role });
+    const buffer = await this.spreadsheetExportService.build(snapshotJson);
+    res.set({
+      'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Length': buffer.length,
+    });
+    res.send(buffer);
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.GURU)
+  @Get('kelas-siswa')
+  findKelasSiswa(@Query('kelasIds') kelasIds?: string) {
+    const ids = kelasIds ? kelasIds.split(',').filter(Boolean) : [];
+    return this.service.findKelasSiswa(ids);
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.GURU)
   @Get(':id/belum-mengumpulkan')
   findBelumMengumpulkan(@Param('id') id: string, @Request() req: any) {
     return this.service.findBelumMengumpulkan(id, { id: req.user.id, role: req.user.role });
@@ -133,6 +175,14 @@ export class TugasController {
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req: any) {
     return this.service.findOne(id, { id: req.user.id, role: req.user.role });
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN, Role.GURU)
+  @Post('import-spreadsheet-link')
+  async importSpreadsheetLink(@Body() dto: ImportSpreadsheetLinkDto) {
+    const snapshot = await this.spreadsheetImportService.importFromGoogleSheetsUrl(dto.url);
+    return { snapshot };
   }
 
   @UseGuards(RolesGuard)

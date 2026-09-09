@@ -32,7 +32,7 @@ export function LupaPasswordCard() {
       className="relative z-10 flex w-full max-w-235 flex-col gap-3 rounded-[36px] bg-white p-4 shadow-[0_0_0_1px_rgba(215,38,61,0.18),0_4px_16px_rgba(215,38,61,0.08),0_20px_56px_rgba(215,38,61,0.12),0_40px_100px_rgba(215,38,61,0.07)] sm:flex-row-reverse sm:gap-4 sm:p-5"
     >
       <div
-        className="relative overflow-hidden rounded-3xl px-6 py-5 sm:w-[320px] sm:shrink-0 sm:px-10 sm:py-12"
+        className="relative overflow-hidden rounded-3xl px-5 py-4 sm:w-[320px] sm:shrink-0 sm:px-10 sm:py-12"
         style={{
           backgroundColor: "#D7263D",
         }}
@@ -119,15 +119,15 @@ export function LupaPasswordCard() {
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col justify-center rounded-3xl bg-[#ffffff] px-8 py-10 sm:px-12 sm:py-14">
-        <h2 className="text-2xl font-semibold text-black">Lupa Password</h2>
-        <p className="mt-2 text-sm text-black/55">
+      <div className="flex flex-1 flex-col justify-center rounded-3xl bg-[#ffffff] px-6 py-5 sm:px-12 sm:py-14">
+        <h2 className="text-xl font-semibold text-black sm:text-2xl">Lupa Password</h2>
+        <p className="mt-1.5 text-sm text-black/55 sm:mt-2">
           Kirim permintaan reset password ke admin. Admin akan memproses secara manual.
         </p>
 
         <LupaPasswordForm />
 
-        <p className="mt-8 text-center text-xs text-black/35">
+        <p className="mt-4 text-center text-xs text-black/35 sm:mt-8">
           &copy; {new Date().getFullYear()} LMS AKL &middot; SMK Ma&apos;arif
           NU 01 Limpung
         </p>

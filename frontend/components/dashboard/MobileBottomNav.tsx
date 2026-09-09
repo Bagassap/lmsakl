@@ -8,7 +8,7 @@ import { LayoutGrid, X, Lock, ChevronRight } from "lucide-react";
 import type { UserPayload } from "@/lib/auth";
 import { useDashboardMenu, type MenuItem } from "./useDashboardMenu";
 
-const PINNED_KEYS = ["dashboard", "absensi-harian", "materi", "pengumuman"];
+const SIDE_KEYS = ["absensi-harian", "materi", "pengumuman"];
 const PINNED_LABELS: Record<string, string> = {
   dashboard: "Dashboard",
   "absensi-harian": "Absensi",
@@ -26,16 +26,47 @@ export function MobileBottomNav({ user }: { user: UserPayload }) {
   const { items, pendingResetCount } = useDashboardMenu(user);
   const [moreOpen, setMoreOpen] = useState(false);
 
-  const pinned = PINNED_KEYS
+  const dashboardItem = items.find((i) => i.key === "dashboard");
+  const side = SIDE_KEYS
     .map((key) => items.find((i) => i.key === key))
     .filter((i): i is MenuItem => !!i);
-  const rest = items.filter((i) => !PINNED_KEYS.includes(i.key));
+  const leftPinned = side.slice(0, 2);
+  const rightPinned = side.slice(2);
+  const rest = items.filter((i) => i.key !== "dashboard" && !SIDE_KEYS.includes(i.key));
   const moreActive = rest.some((i) => isItemActive(i, pathname));
+  const dashboardActive = dashboardItem ? isItemActive(dashboardItem, pathname) : false;
 
   return (
     <>
       <nav className="fixed inset-x-0 bottom-0 z-30 flex items-stretch border-t border-slate-100 bg-white pb-[env(safe-area-inset-bottom)] dark:border-slate-700 dark:bg-[#1c2434] lg:hidden">
-        {pinned.map((item) => {
+        {leftPinned.map((item) => {
+          const active = isItemActive(item, pathname);
+          return (
+            <Link
+              key={item.key}
+              href={item.href ?? "#"}
+              className="flex flex-1 flex-col items-center justify-center gap-0.5 py-2.5"
+            >
+              <item.icon size={20} className={active ? "text-primary" : "text-slate-400 dark:text-slate-500"} />
+              <span className={`text-[10px] font-semibold ${active ? "text-primary" : "text-slate-400 dark:text-slate-500"}`}>
+                {PINNED_LABELS[item.key]}
+              </span>
+            </Link>
+          );
+        })}
+
+        {dashboardItem && (
+          <Link href={dashboardItem.href ?? "#"} className="relative flex flex-1 flex-col items-center">
+            <span className="absolute -top-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-white shadow-[0_10px_24px_-6px_rgba(215,38,61,0.55)] ring-4 ring-white dark:ring-[#1c2434]">
+              <dashboardItem.icon size={22} />
+            </span>
+            <span className={`mt-8 text-[10px] font-semibold ${dashboardActive ? "text-primary" : "text-slate-400 dark:text-slate-500"}`}>
+              Dashboard
+            </span>
+          </Link>
+        )}
+
+        {rightPinned.map((item) => {
           const active = isItemActive(item, pathname);
           return (
             <Link

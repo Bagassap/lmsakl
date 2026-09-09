@@ -2,10 +2,9 @@
 
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Send, Loader2, Upload, File as FileIcon, CalendarClock, Calculator, ListChecks, PenLine, Download } from "lucide-react";
-import { PraktikAkuntansiGrid } from "./PraktikAkuntansiGrid";
-import type { TugasItem, PraktikRow } from "./types";
-import { formatTgl, parsePraktikRows } from "./types";
+import { X, Send, Loader2, Upload, File as FileIcon, CalendarClock, ListChecks, PenLine, Download } from "lucide-react";
+import type { TugasItem } from "./types";
+import { formatTgl } from "./types";
 
 function LampiranGuru({ tugas }: { tugas: TugasItem }) {
   if (!tugas.fileUrl) return null;
@@ -19,84 +18,6 @@ function LampiranGuru({ tugas }: { tugas: TugasItem }) {
         {tugas.fileName ?? "Lampiran dari guru"}
       </span>
     </a>
-  );
-}
-
-function SubmitPraktikModal({
-  tugas, onClose, onSubmit,
-}: {
-  tugas: TugasItem;
-  onClose: () => void;
-  onSubmit: (fd: FormData) => Promise<void>;
-}) {
-  const mySubmisi = tugas.submisi?.[0];
-  const [rows, setRows] = useState<PraktikRow[]>(
-    parsePraktikRows(mySubmisi?.submittedPraktik ?? tugas.starterPraktik)
-  );
-  const [catatan, setCatatan] = useState("");
-  const [saving, setSaving] = useState(false);
-
-  async function submit() {
-    setSaving(true);
-    const fd = new FormData();
-    fd.append("tugasId", tugas.id);
-    fd.append("submittedPraktik", JSON.stringify(rows));
-    if (catatan.trim()) fd.append("catatan", catatan.trim());
-    await onSubmit(fd);
-    setSaving(false);
-  }
-
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-        onClick={onClose} className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
-      <motion.div initial={{ opacity: 0, scale: 0.95, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95, y: 16 }}
-        transition={{ type: "spring", damping: 24, stiffness: 320 }}
-        className="relative flex h-[95dvh] w-full max-w-4xl flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800">
-        <div className="relative flex shrink-0 items-center gap-3 overflow-hidden px-6 py-4"
-          style={{ background: "#2962FF" }}>
-          <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/20">
-            <Calculator size={18} className="text-white" />
-          </div>
-          <div className="min-w-0 flex-1">
-            <h2 className="truncate text-base font-extrabold text-white">{tugas.judul}</h2>
-            <p className="flex items-center gap-1.5 text-xs text-white/70">
-              <CalendarClock size={11} /> Deadline {formatTgl(tugas.deadline)}
-            </p>
-          </div>
-          <button onClick={onClose}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white transition-colors hover:bg-white/25">
-            <X size={16} />
-          </button>
-        </div>
-
-        <div className="flex flex-1 flex-col overflow-y-auto p-5">
-          <LampiranGuru tugas={tugas} />
-          {tugas.deskripsi && (
-            <p className="mb-4 shrink-0 rounded-xl bg-slate-50 px-4 py-3 text-sm text-slate-600 dark:bg-slate-700/40 dark:text-slate-300">
-              {tugas.deskripsi}
-            </p>
-          )}
-          <div className="min-h-0 flex-1">
-            <PraktikAkuntansiGrid key={tugas.id} rows={rows} onChange={setRows} initialRows={parsePraktikRows(tugas.starterPraktik)} />
-          </div>
-          <div className="mt-4 flex shrink-0 flex-col gap-3 sm:flex-row sm:items-end">
-            <div className="flex-1">
-              <label className="mb-1 block text-xs font-semibold text-slate-500 dark:text-slate-400">Catatan (opsional)</label>
-              <input value={catatan} onChange={(e) => setCatatan(e.target.value)}
-                placeholder="Tambahkan keterangan jika diperlukan..."
-                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-700 outline-none focus:border-[#6B93FF] dark:border-slate-600 dark:bg-slate-700 dark:text-slate-200" />
-            </div>
-            <button onClick={submit} disabled={saving}
-              className="flex items-center justify-center gap-2 rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-sm disabled:opacity-60"
-              style={{ background: "#2962FF" }}>
-              {saving ? <><Loader2 size={14} className="animate-spin" /> Mengirim...</> : <><Send size={14} /> Kirim Tugas</>}
-            </button>
-          </div>
-        </div>
-      </motion.div>
-    </div>
   );
 }
 
@@ -328,8 +249,7 @@ export function SubmitTugasModal({
   return (
     <AnimatePresence>
       {tugas && (
-        tugas.tipe === "PRAKTIK" ? <SubmitPraktikModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
-        : tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY" ? <SubmitSoalModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
+        tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY" ? <SubmitSoalModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
         : <SubmitFileModal tugas={tugas} onClose={onClose} onSubmit={onSubmit} />
       )}
     </AnimatePresence>

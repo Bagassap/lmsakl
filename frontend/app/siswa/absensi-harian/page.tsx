@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ClipboardCheck, MapPin, Camera, CheckCircle2, Loader2, Clock, RefreshCw,
@@ -48,6 +49,7 @@ function getWindowInfo(window_: AbsenWindow, pulangLabel: string): { label: stri
 }
 
 export default function SiswaAbsensiHarianPage() {
+  const router = useRouter();
   const toast = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const today = todayJakarta();
@@ -386,24 +388,29 @@ export default function SiswaAbsensiHarianPage() {
             )}
           </div>
 
-          <div className="relative isolate -m-4 space-y-4 overflow-hidden bg-surface p-4 dark:bg-[#1c2434] lg:hidden">
-            <div className="rounded-3xl bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
-              <div className="relative grid grid-cols-2 divide-x divide-white/20 overflow-hidden rounded-2xl" style={{ background: BRAND_GRADIENT }}>
-                <div className="pointer-events-none absolute -right-6 -top-8 h-24 w-24 rounded-full bg-white/10" />
-                <div className="pointer-events-none absolute -left-8 -bottom-8 h-24 w-24 rounded-full bg-white/8" />
-                <AttendanceTile
-                  icon={LogIn} label="Absen Datang" done={!!data?.sudahAbsen} doneLabel={cfg.label}
-                  doneWaktu={data?.record?.waktuAbsen} actionable={needsActionDatang}
-                  windowText={window_ === "HADIR" || window_ === "BOTH" ? "06.00–09.00" : "Ditutup"}
-                  onAction={() => openWizard("DATANG")} onDetail={() => setDetailTab("DATANG")}
-                />
-                <AttendanceTile
-                  icon={LogOut} label="Absen Pulang" done={!!data?.sudahPulang} doneLabel="Pulang"
-                  doneWaktu={data?.record?.waktuPulang} actionable={needsActionPulang}
-                  windowText={pulangLabel || "Ditutup"}
-                  onAction={() => openWizard("PULANG")} onDetail={() => setDetailTab("PULANG")}
-                />
-              </div>
+          <div className="relative isolate -m-4 lg:hidden" style={{ background: BRAND_GRADIENT }}>
+            <div className="relative flex items-center px-4 pb-3 pt-4">
+              <button type="button" onClick={() => router.push("/siswa/dashboard")}
+                className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white active:bg-white/25">
+                <ChevronLeft size={18} />
+              </button>
+              <h1 className="absolute inset-x-0 text-center text-base font-bold text-white">Absensi Harian</h1>
+            </div>
+            <div className="space-y-4 rounded-t-[28px] bg-surface p-4 dark:bg-[#1c2434]">
+
+            <div className="grid grid-cols-2 gap-3">
+              <AttendanceTile
+                icon={LogIn} label="Absen Datang" accent={BRAND_GRADIENT} done={!!data?.sudahAbsen} doneLabel={cfg.label}
+                doneWaktu={data?.record?.waktuAbsen} actionable={needsActionDatang}
+                windowText={window_ === "HADIR" || window_ === "BOTH" ? "06.00–09.00" : "Ditutup"}
+                onAction={() => openWizard("DATANG")} onDetail={() => setDetailTab("DATANG")}
+              />
+              <AttendanceTile
+                icon={LogOut} label="Absen Pulang" accent={PULANG_CFG.clr} done={!!data?.sudahPulang} doneLabel="Pulang"
+                doneWaktu={data?.record?.waktuPulang} actionable={needsActionPulang}
+                windowText={pulangLabel || "Ditutup"}
+                onAction={() => openWizard("PULANG")} onDetail={() => setDetailTab("PULANG")}
+              />
             </div>
 
             {summary && (
@@ -465,6 +472,7 @@ export default function SiswaAbsensiHarianPage() {
                 </MobileDetailModal>
               )}
             </AnimatePresence>
+            </div>
           </div>
         </>
       )}
@@ -738,10 +746,11 @@ function FormAbsen({
 }
 
 function AttendanceTile({
-  icon: Icon, label, done, doneLabel, doneWaktu, actionable, windowText, onAction, onDetail,
+  icon: Icon, label, accent, done, doneLabel, doneWaktu, actionable, windowText, onAction, onDetail,
 }: {
   icon: typeof LogIn;
   label: string;
+  accent: string;
   done: boolean;
   doneLabel: string;
   doneWaktu?: string | null;
@@ -750,24 +759,46 @@ function AttendanceTile({
   onAction: () => void;
   onDetail: () => void;
 }) {
-  return (
-    <button onClick={done ? onDetail : actionable ? onAction : undefined}
-      disabled={!done && !actionable}
-      className="relative flex flex-col items-center gap-1.5 px-3 py-5 text-center disabled:cursor-not-allowed">
-      <span className={`flex h-11 w-11 items-center justify-center rounded-2xl ${done ? "bg-white/25" : "bg-white/15"}`}>
-        <Icon size={19} className="text-white" />
-      </span>
-      <span className="text-xs font-bold text-white">{label}</span>
-      {done ? (
-        <span className="flex items-center gap-1 text-[10px] font-semibold text-white/80">
-          <CheckCircle2 size={11} /> {doneLabel} · {doneWaktu ?? "—"}
+  if (done) {
+    return (
+      <motion.button type="button" whileTap={{ scale: 0.96 }} onClick={onDetail}
+        className="relative flex flex-col items-center gap-2 overflow-hidden rounded-3xl p-4 text-center shadow-[0_10px_24px_-10px_rgba(0,0,0,0.35)]"
+        style={{ background: accent }}>
+        <div className="pointer-events-none absolute -right-6 -top-8 h-20 w-20 rounded-full bg-white/10" />
+        <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20">
+          <Icon size={20} className="text-white" />
         </span>
-      ) : actionable ? (
-        <span className="rounded-full bg-white/20 px-2.5 py-0.5 text-[10px] font-bold text-white">Absen Sekarang</span>
-      ) : (
-        <span className="text-[10px] text-white/60">{windowText}</span>
-      )}
-    </button>
+        <p className="relative text-[11px] font-bold text-white/80">{label}</p>
+        <p className="relative font-mono text-lg font-black leading-none text-white">{doneWaktu ?? "—"}</p>
+        <span className="relative mt-0.5 flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[9.5px] font-bold text-white">
+          <CheckCircle2 size={10} /> {doneLabel}
+        </span>
+      </motion.button>
+    );
+  }
+  if (actionable) {
+    return (
+      <motion.button type="button" whileTap={{ scale: 0.96 }} onClick={onAction}
+        className="flex flex-col items-center gap-2 rounded-3xl border-2 border-dashed bg-white p-4 text-center dark:bg-[#1c2434]"
+        style={{ borderColor: `${accent}40` }}>
+        <span className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: accent }}>
+          <Icon size={20} className="text-white" />
+        </span>
+        <p className="text-[11px] font-bold" style={{ color: accent }}>{label}</p>
+        <span className="mt-0.5 rounded-full px-2.5 py-1 text-[9.5px] font-bold text-white" style={{ background: accent }}>
+          Ketuk untuk mulai
+        </span>
+      </motion.button>
+    );
+  }
+  return (
+    <div className="flex flex-col items-center gap-2 rounded-3xl bg-white p-4 text-center shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-700">
+        <Icon size={20} className="text-slate-400" />
+      </span>
+      <p className="text-[11px] font-bold text-slate-400">{label}</p>
+      <span className="mt-0.5 rounded-full bg-slate-100 px-2.5 py-1 text-[9.5px] font-semibold text-slate-400 dark:bg-slate-700">{windowText}</span>
+    </div>
   );
 }
 

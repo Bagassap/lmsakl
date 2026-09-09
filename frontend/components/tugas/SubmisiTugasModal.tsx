@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ClipboardList, CalendarClock, AlertCircle, CheckCircle, Download, Calculator, ListChecks, PenLine, UserX, RotateCcw, LogOut, PlusCircle } from "lucide-react";
+import { X, ClipboardList, CalendarClock, AlertCircle, CheckCircle, Download, ListChecks, PenLine, Sheet, UserX, RotateCcw, LogOut, PlusCircle } from "lucide-react";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 import { formatTgl, formatTglJam, statusInfo, LOCKDOWN_TIPE, maksimalPercobaanEfektif } from "./types";
-import { TugasPraktikViewerModal } from "./TugasPraktikViewerModal";
 import { TugasJawabanViewerModal } from "./TugasJawabanViewerModal";
+import { TugasSpreadsheetViewerModal } from "./TugasSpreadsheetViewerModal";
 
 type BelumSiswa = {
   id: string;
@@ -27,12 +27,12 @@ export function SubmisiTugasModal({
   onResetPercobaan?: (submisiId: string) => Promise<void>;
   onTambahPercobaan?: (submisiId: string) => Promise<void>;
 }) {
-  const [viewPraktikTarget, setViewPraktikTarget] = useState<TugasSubmisiItem | null>(null);
   const [viewJawabanTarget, setViewJawabanTarget] = useState<TugasSubmisiItem | null>(null);
+  const [viewSpreadsheetTarget, setViewSpreadsheetTarget] = useState<TugasSubmisiItem | null>(null);
   const [tab, setTab] = useState<"sudah" | "belum">("sudah");
   const [belumList, setBelumList] = useState<BelumSiswa[]>([]);
   const [belumLoading, setBelumLoading] = useState(false);
-  const isPraktik = tugas?.tipe === "PRAKTIK";
+  const isSpreadsheet = tugas?.tipe === "SPREADSHEET";
   const isSoalBased = tugas?.tipe === "PILIHAN_GANDA" || tugas?.tipe === "ESSAY";
   const isLockdown = !!tugas && LOCKDOWN_TIPE.has(tugas.tipe);
 
@@ -167,7 +167,7 @@ export function SubmisiTugasModal({
                         <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{nama}</p>
                         <p className="text-xs text-slate-400 truncate">{formatTglJam(s.submittedAt)}{s.catatan ? ` · ${s.catatan}` : ""}</p>
                       </div>
-                      {(tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY") && s.nilai !== null && (
+                      {(tugas.tipe === "PILIHAN_GANDA" || tugas.tipe === "ESSAY" || tugas.tipe === "SPREADSHEET") && s.nilai !== null && (
                         <span className="shrink-0 rounded-lg bg-[#FCF0F1] px-2.5 py-1 text-[11px] font-bold text-[#C22540] dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
                           Nilai {s.nilai}
                         </span>
@@ -199,10 +199,10 @@ export function SubmisiTugasModal({
                           <RotateCcw size={11} /> Reset
                         </button>
                       )}
-                      {isPraktik ? (
-                        <button onClick={() => setViewPraktikTarget(s)}
-                          className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl shrink-0 text-primary bg-primary/10">
-                          <Calculator size={12} /> Lihat Jurnal
+                      {isSpreadsheet ? (
+                        <button onClick={() => setViewSpreadsheetTarget(s)}
+                          className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-xl shrink-0 text-[#FF5722] bg-[#FF5722]/10">
+                          <Sheet size={12} /> Lihat Spreadsheet
                         </button>
                       ) : isSoalBased ? (
                         <button onClick={() => setViewJawabanTarget(s)}
@@ -251,13 +251,6 @@ export function SubmisiTugasModal({
         );
       })()}
     </AnimatePresence>
-    <TugasPraktikViewerModal
-      open={!!viewPraktikTarget}
-      onClose={() => setViewPraktikTarget(null)}
-      title={(viewPraktikTarget?.siswa?.user?.nama || viewPraktikTarget?.siswa?.nama) ?? "Siswa"}
-      subtitle={tugas?.judul}
-      praktik={viewPraktikTarget?.submittedPraktik ?? null}
-    />
     <TugasJawabanViewerModal
       open={!!viewJawabanTarget}
       onClose={() => setViewJawabanTarget(null)}
@@ -270,6 +263,21 @@ export function SubmisiTugasModal({
         if (!viewJawabanTarget) return;
         await onSimpanNilai(viewJawabanTarget.id, nilai);
         setViewJawabanTarget((prev) => (prev ? { ...prev, nilai, status: "DITERIMA", pesanRevisi: null } : prev));
+      }}
+    />
+    <TugasSpreadsheetViewerModal
+      open={!!viewSpreadsheetTarget}
+      onClose={() => setViewSpreadsheetTarget(null)}
+      title={(viewSpreadsheetTarget?.siswa?.user?.nama || viewSpreadsheetTarget?.siswa?.nama) ?? "Siswa"}
+      subtitle={tugas?.judul}
+      snapshot={viewSpreadsheetTarget?.submittedSpreadsheet ?? null}
+      submisiId={viewSpreadsheetTarget?.id ?? null}
+      nilai={viewSpreadsheetTarget?.nilai}
+      canGrade
+      onSaveNilai={async (nilai) => {
+        if (!viewSpreadsheetTarget) return;
+        await onSimpanNilai(viewSpreadsheetTarget.id, nilai);
+        setViewSpreadsheetTarget((prev) => (prev ? { ...prev, nilai, status: "DITERIMA", pesanRevisi: null } : prev));
       }}
     />
     </>

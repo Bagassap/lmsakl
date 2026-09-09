@@ -160,6 +160,7 @@ model Siswa {
   absensiHarian     AbsensiHarian[]
   catatanSiswa      CatatanSiswa[]
   tugasSubmisi      TugasSubmisi[]
+  tugasSpreadsheetStarter TugasSpreadsheetStarter[]
 
   @@map("siswa")
 }
@@ -263,8 +264,8 @@ model Tugas {
   tipe           String   @default("SUBMIT")
   fileUrl        String?
   fileName       String?
-  starterPraktik String?  @db.Text
-  durasiMenit    Int?
+  starterSpreadsheet String?  @db.Text
+  durasiMenit        Int?
   createdById    String
   createdBy      User     @relation(fields: [createdById], references: [id])
 
@@ -273,8 +274,25 @@ model Tugas {
 
   submisi TugasSubmisi[]
   soal    TugasSoal[]
+  spreadsheetStarters TugasSpreadsheetStarter[]
 
   @@map("tugas")
+}
+
+model TugasSpreadsheetStarter {
+  id        String   @id @default(cuid())
+  tugasId   String
+  tugas     Tugas    @relation(fields: [tugasId], references: [id], onDelete: Cascade)
+  siswaId   String
+  siswa     Siswa    @relation(fields: [siswaId], references: [id], onDelete: Cascade)
+  snapshot  String   @db.Text
+  sourceUrl String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([tugasId, siswaId])
+  @@map("tugas_spreadsheet_starter")
 }
 
 model TugasSoal {
@@ -302,7 +320,7 @@ model TugasSubmisi {
   siswa            Siswa       @relation(fields: [siswaId], references: [id])
   fileUrl          String?
   fileName         String?
-  submittedPraktik String?     @db.Text
+  submittedSpreadsheet String?     @db.Text
   catatan          String?
   pesanRevisi      String?
   status           StatusTugas @default(TERKIRIM)

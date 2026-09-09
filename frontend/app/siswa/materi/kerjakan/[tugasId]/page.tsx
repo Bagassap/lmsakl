@@ -1,25 +1,35 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import {
-  Loader2, Lock, ShieldAlert, Timer, Send, Calculator, ListChecks, PenLine,
+  Loader2, Lock, ShieldAlert, Timer, Send, ListChecks, PenLine, Sheet,
   CheckCircle2,
 } from "lucide-react";
-import { PraktikAkuntansiGrid } from "@/components/tugas/PraktikAkuntansiGrid";
 import { useToast } from "@/components/shared/ToastSystem";
-import { LOCKDOWN_TIPE, MAKSIMAL_PERCOBAAN, maksimalPercobaanEfektif, parsePraktikRows } from "@/components/tugas/types";
-import type { TugasItem, TugasSoalItem, PraktikRow } from "@/components/tugas/types";
+import { LOCKDOWN_TIPE, MAKSIMAL_PERCOBAAN, maksimalPercobaanEfektif } from "@/components/tugas/types";
+import type { TugasItem, TugasSoalItem } from "@/components/tugas/types";
+import type { UniverSpreadsheetHandle } from "@/components/tugas/UniverSpreadsheet";
+
+const UniverSpreadsheet = dynamic(() => import("@/components/tugas/UniverSpreadsheet").then((m) => m.UniverSpreadsheet), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-[70vh] items-center justify-center rounded-xl border border-slate-200 dark:border-slate-700">
+      <Loader2 size={22} className="animate-spin text-slate-400" />
+    </div>
+  ),
+});
 
 type Phase = "loading" | "error" | "intro" | "locked" | "diterima" | "active" | "submitted";
 
 type JawabanState = Record<string, string>;
 
-const TIPE_STYLE: Record<string, { warna: string; text: string; icon: typeof Calculator }> = {
-  PRAKTIK: { warna: "#1745B0", text: "#FFFFFF", icon: Calculator },
+const TIPE_STYLE: Record<string, { warna: string; text: string; icon: typeof ListChecks }> = {
   PILIHAN_GANDA: { warna: "#C3F84A", text: "#000000", icon: ListChecks },
   ESSAY: { warna: "#2962FF", text: "#FFFFFF", icon: PenLine },
+  SPREADSHEET: { warna: "#FF5722", text: "#FFFFFF", icon: Sheet },
 };
 
 function formatSisaWaktu(ms: number) {
@@ -46,18 +56,17 @@ export default function KerjakanTugasPage() {
   const [deadlineTs, setDeadlineTs] = useState<number | null>(null);
   const [sisaMs, setSisaMs] = useState<number | null>(null);
 
-  const [rows, setRows] = useState<PraktikRow[]>([]);
   const [jawaban, setJawaban] = useState<JawabanState>({});
   const [catatan, setCatatan] = useState("");
+  const spreadsheetRef = useRef<UniverSpreadsheetHandle>(null);
+  const spreadsheetWrapRef = useRef<HTMLDivElement>(null);
 
-  const rowsRef = useRef(rows);
   const jawabanRef = useRef(jawaban);
   const catatanRef = useRef(catatan);
   const phaseRef = useRef<Phase>("loading");
   const firedRef = useRef(false);
   const tugasIdRef = useRef(tugasId);
 
-  useEffect(() => { rowsRef.current = rows; }, [rows]);
   useEffect(() => { jawabanRef.current = jawaban; }, [jawaban]);
   useEffect(() => { catatanRef.current = catatan; }, [catatan]);
   useEffect(() => { phaseRef.current = phase; }, [phase]);
@@ -87,7 +96,6 @@ export default function KerjakanTugasPage() {
       }
       if (mySubmisi?.waktuMulai) {
         setPercobaanKe(mySubmisi.jumlahPercobaan ?? 1);
-        setRows(parsePraktikRows(t.starterPraktik));
         setJawaban({});
         setDeadlineTs(mySubmisi.deadlineWaktu ? new Date(mySubmisi.deadlineWaktu).getTime() : null);
         setPhase("active");
@@ -117,12 +125,12 @@ export default function KerjakanTugasPage() {
 
   const buildPayload = useCallback((dipaksa: boolean) => {
     const t = tugas;
-    const isPraktik = t?.tipe === "PRAKTIK";
+    const isSpreadsheet = t?.tipe === "SPREADSHEET";
     const isSoalBased = t?.tipe === "PILIHAN_GANDA" || t?.tipe === "ESSAY";
     const isPg = t?.tipe === "PILIHAN_GANDA";
     const payload: Record<string, unknown> = { dipaksa, catatan: catatanRef.current || undefined };
-    if (isPraktik) {
-      payload.submittedPraktik = JSON.stringify(rowsRef.current);
+    if (isSpreadsheet) {
+      payload.submittedSpreadsheet = spreadsheetRef.current?.getSnapshot() ?? "";
     }
     if (isSoalBased) {
       const soalList = t?.soal ?? [];
@@ -175,7 +183,10 @@ export default function KerjakanTugasPage() {
 
   useEffect(() => {
     if (phase !== "active") return;
-    const block = (e: Event) => e.preventDefault();
+    const block = (e: Event) => {
+      if (tugas?.tipe === "SPREADSHEET" && spreadsheetWrapRef.current?.contains(e.target as Node)) return;
+      e.preventDefault();
+    };
     document.addEventListener("copy", block);
     document.addEventListener("cut", block);
     document.addEventListener("paste", block);
@@ -202,7 +213,6 @@ export default function KerjakanTugasPage() {
       setPercobaanKe(d.percobaanKe);
       setMaksPercobaan(d.maksimalPercobaan ?? MAKSIMAL_PERCOBAAN);
       setDeadlineTs(d.deadlineWaktu ? new Date(d.deadlineWaktu).getTime() : null);
-      setRows(parsePraktikRows(d.tugas.starterPraktik));
       setJawaban({});
       setCatatan("");
       setTugas((prev) => (prev ? { ...prev, soal: d.tugas.soal ?? prev.soal } : prev));
@@ -310,7 +320,7 @@ export default function KerjakanTugasPage() {
 
   if (!tugas) return null;
 
-  const isPraktik = tugas.tipe === "PRAKTIK";
+  const isSpreadsheet = tugas.tipe === "SPREADSHEET";
   const isPg = tugas.tipe === "PILIHAN_GANDA";
   const isSoalBased = isPg || tugas.tipe === "ESSAY";
   const soalList = tugas.soal ?? [];
@@ -399,9 +409,9 @@ export default function KerjakanTugasPage() {
           </p>
         )}
 
-        {isPraktik && (
-          <div className="mx-auto max-w-5xl">
-            <PraktikAkuntansiGrid rows={rows} onChange={setRows} />
+        {isSpreadsheet && (
+          <div ref={spreadsheetWrapRef} className="mx-auto h-[70vh] max-w-6xl" style={{ userSelect: "text" }}>
+            <UniverSpreadsheet key={`attempt-${percobaanKe}`} ref={spreadsheetRef} initialSnapshot={tugas.starterSpreadsheet} />
           </div>
         )}
 

@@ -6,6 +6,7 @@ import { CreateTugasDto } from './dto/create-tugas.dto';
 import { UpdateTugasDto } from './dto/update-tugas.dto';
 import { SubmitTugasDto } from './dto/submit-tugas.dto';
 import { SubmitPercobaanDto } from './dto/percobaan-tugas.dto';
+import { SpreadsheetImportService } from './spreadsheet-import.service';
 
 type Actor = { id: string; role: string };
 
@@ -22,6 +23,11 @@ interface JawabanInput {
   soalId: string;
   jawabanPilihan?: string;
   jawabanEssay?: string;
+}
+
+interface SpreadsheetStarterLinkInput {
+  siswaId: string;
+  url: string;
 }
 
 const INCLUDE_KELAS_LIST = { select: { id: true, nama: true }, orderBy: { nama: 'asc' as const } };
@@ -41,11 +47,12 @@ function parseJsonArray<T>(raw: string | undefined, label: string): T[] {
 }
 
 const NEEDS_SOAL = new Set(['PILIHAN_GANDA', 'ESSAY']);
-const LOCKDOWN_TIPE = new Set(['PRAKTIK', 'PILIHAN_GANDA', 'ESSAY']);
+const LOCKDOWN_TIPE = new Set(['PILIHAN_GANDA', 'ESSAY', 'SPREADSHEET']);
+const DURASI_OPSIONAL_TIPE = new Set(['SPREADSHEET']);
 const MAKSIMAL_PERCOBAAN = 2;
 
 function parseDurasiMenit(tipe: string, raw: string | undefined): number | null {
-  if (!NEEDS_SOAL.has(tipe) && tipe !== 'PRAKTIK') return null;
+  if (!NEEDS_SOAL.has(tipe) && !DURASI_OPSIONAL_TIPE.has(tipe)) return null;
   if (raw === undefined || raw === '') {
     if (NEEDS_SOAL.has(tipe)) throw new BadRequestException('Durasi pengerjaan wajib diisi untuk tugas Pilihan Ganda/Essay');
     return null;
@@ -60,6 +67,7 @@ export class TugasService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly notificationService: NotificationService,
+    private readonly spreadsheetImportService: SpreadsheetImportService,
   ) {}
 
   private async siswaKelasId(userId: string): Promise<string | null> {
@@ -138,6 +146,33 @@ export class TugasService {
     }
   }
 
+  private async replaceSpreadsheetStarters(tugasId: string, tipe: string, linksJson: string | undefined) {
+    if (tipe !== 'SPREADSHEET' || linksJson === undefined) return [];
+    const links = parseJsonArray<SpreadsheetStarterLinkInput>(linksJson, 'spreadsheetStarterLinks');
+
+    const withUrl = links.filter((l) => l.siswaId && l.url && l.url.trim());
+    const siswaIdsWithUrl = new Set(withUrl.map((l) => l.siswaId));
+
+    await this.prisma.tugasSpreadsheetStarter.deleteMany({
+      where: { tugasId, siswaId: { notIn: withUrl.length ? Array.from(siswaIdsWithUrl) : ['__none__'] } },
+    });
+
+    const errors: { siswaId: string; message: string }[] = [];
+    for (const link of withUrl) {
+      try {
+        const snapshot = await this.spreadsheetImportService.importFromGoogleSheetsUrl(link.url.trim());
+        await this.prisma.tugasSpreadsheetStarter.upsert({
+          where: { tugasId_siswaId: { tugasId, siswaId: link.siswaId } },
+          create: { tugasId, siswaId: link.siswaId, snapshot, sourceUrl: link.url.trim() },
+          update: { snapshot, sourceUrl: link.url.trim() },
+        });
+      } catch (e) {
+        errors.push({ siswaId: link.siswaId, message: e instanceof BadRequestException ? e.message : 'Gagal mengimpor link' });
+      }
+    }
+    return errors;
+  }
+
   private async simpanJawabanSoal(tugasId: string, submisiId: string, tipe: string, jawabanJson: string | undefined) {
     const jawaban = parseJsonArray<JawabanInput>(jawabanJson, 'jawaban');
     const soalList = await this.prisma.tugasSoal.findMany({
@@ -210,7 +245,7 @@ export class TugasService {
   async findOne(id: string, actor: Actor) {
     const tugas = await this.prisma.tugas.findUnique({
       where: { id },
-      include: { kelasList: INCLUDE_KELAS_LIST, createdBy: INCLUDE_CREATED_BY, soal: SOAL_ORDER },
+      include: { kelasList: INCLUDE_KELAS_LIST, createdBy: INCLUDE_CREATED_BY, soal: SOAL_ORDER, spreadsheetStarters: { select: { siswaId: true, sourceUrl: true } } },
     });
     if (!tugas) throw new NotFoundException('Tugas tidak ditemukan');
 
@@ -251,17 +286,19 @@ export class TugasService {
         tipe,
         fileUrl,
         fileName,
-        starterPraktik: dto.starterPraktik,
+        starterSpreadsheet: dto.starterSpreadsheet,
         durasiMenit,
         createdById: actor.id,
       },
     });
     await this.replaceSoal(tugas.id, tipe, dto.soal);
+    const spreadsheetStarterErrors = await this.replaceSpreadsheetStarters(tugas.id, tipe, dto.spreadsheetStarterLinks);
     await this.notifySiswaBaru(kelasIds, 'Tugas baru', `${dto.mapel} — ${dto.judul}`);
-    return this.prisma.tugas.findUnique({
+    const result = await this.prisma.tugas.findUnique({
       where: { id: tugas.id },
-      include: { kelasList: INCLUDE_KELAS_LIST, createdBy: INCLUDE_CREATED_BY, soal: SOAL_ORDER },
+      include: { kelasList: INCLUDE_KELAS_LIST, createdBy: INCLUDE_CREATED_BY, soal: SOAL_ORDER, spreadsheetStarters: { select: { siswaId: true, sourceUrl: true } } },
     });
+    return { ...result, spreadsheetStarterErrors };
   }
 
   async update(id: string, dto: UpdateTugasDto, fileUrl: string | undefined, fileName: string | undefined, actor: Actor) {
@@ -284,7 +321,7 @@ export class TugasService {
         ...(dto.deskripsi !== undefined ? { deskripsi: dto.deskripsi } : {}),
         ...(dto.deadline !== undefined ? { deadline: new Date(dto.deadline) } : {}),
         ...(dto.tipe !== undefined ? { tipe: dto.tipe } : {}),
-        ...(dto.starterPraktik !== undefined ? { starterPraktik: dto.starterPraktik } : {}),
+        ...(dto.starterSpreadsheet !== undefined ? { starterSpreadsheet: dto.starterSpreadsheet } : {}),
         ...(durasiMenit !== undefined ? { durasiMenit } : {}),
         ...(fileUrl ? { fileUrl, fileName } : {}),
       },
@@ -292,10 +329,12 @@ export class TugasService {
     if (dto.soal !== undefined) {
       await this.replaceSoal(tugas.id, dto.tipe ?? existing.tipe, dto.soal);
     }
-    return this.prisma.tugas.findUnique({
+    const spreadsheetStarterErrors = await this.replaceSpreadsheetStarters(tugas.id, dto.tipe ?? existing.tipe, dto.spreadsheetStarterLinks);
+    const result = await this.prisma.tugas.findUnique({
       where: { id: tugas.id },
-      include: { kelasList: INCLUDE_KELAS_LIST, createdBy: INCLUDE_CREATED_BY, soal: SOAL_ORDER },
+      include: { kelasList: INCLUDE_KELAS_LIST, createdBy: INCLUDE_CREATED_BY, soal: SOAL_ORDER, spreadsheetStarters: { select: { siswaId: true, sourceUrl: true } } },
     });
+    return { ...result, spreadsheetStarterErrors };
   }
 
   async remove(id: string, actor: Actor) {
@@ -303,6 +342,15 @@ export class TugasService {
     if (!existing) throw new NotFoundException('Tugas tidak ditemukan');
     this.assertOwnerOrAdmin(actor, existing.createdById);
     return this.prisma.tugas.delete({ where: { id } });
+  }
+
+  async findKelasSiswa(kelasIds: string[]) {
+    if (kelasIds.length === 0) return [];
+    return this.prisma.siswa.findMany({
+      where: { kelasId: { in: kelasIds }, status: 'AKTIF' },
+      select: { id: true, nama: true, nis: true },
+      orderBy: [{ nama: 'asc' }],
+    });
   }
 
   async findBelumMengumpulkan(id: string, actor: Actor) {
@@ -359,19 +407,19 @@ export class TugasService {
     const tugas = await this.prisma.tugas.findUnique({ where: { id: dto.tugasId } });
     if (!tugas) throw new NotFoundException('Tugas tidak ditemukan');
 
-    const isPraktik = tugas.tipe === 'PRAKTIK';
+    const isSpreadsheet = tugas.tipe === 'SPREADSHEET';
     const isSoalBased = NEEDS_SOAL.has(tugas.tipe);
-    if (!isPraktik && !isSoalBased && !fileUrl) throw new BadRequestException('File jawaban wajib diunggah');
+    if (!isSpreadsheet && !isSoalBased && !fileUrl) throw new BadRequestException('File jawaban wajib diunggah');
 
-    const data = isPraktik
+    const data = isSpreadsheet
       ? {
-          submittedPraktik: dto.submittedPraktik ?? '',
+          submittedSpreadsheet: dto.submittedSpreadsheet ?? '',
           fileUrl: null,
           fileName: null,
         }
       : isSoalBased
-      ? { fileUrl: null, fileName: null, submittedPraktik: null }
-      : { fileUrl, fileName, submittedPraktik: null };
+      ? { fileUrl: null, fileName: null, submittedSpreadsheet: null }
+      : { fileUrl, fileName, submittedSpreadsheet: null };
 
     const submisi = await this.prisma.tugasSubmisi.upsert({
       where: { tugasId_siswaId: { tugasId: dto.tugasId, siswaId: siswa.id } },
@@ -492,10 +540,19 @@ export class TugasService {
         dipaksaKeluar: false,
         status: 'TERKIRIM',
         pesanRevisi: null,
-        submittedPraktik: null,
+        submittedSpreadsheet: null,
       },
     });
     await this.prisma.tugasJawaban.deleteMany({ where: { submisiId: submisi.id } });
+
+    let starterSpreadsheet = tugas.starterSpreadsheet;
+    if (tugas.tipe === 'SPREADSHEET') {
+      const personal = await this.prisma.tugasSpreadsheetStarter.findUnique({
+        where: { tugasId_siswaId: { tugasId, siswaId: siswa.id } },
+        select: { snapshot: true },
+      });
+      if (personal) starterSpreadsheet = personal.snapshot;
+    }
 
     return {
       submisiId: submisi.id,
@@ -509,7 +566,7 @@ export class TugasService {
         deskripsi: tugas.deskripsi,
         tipe: tugas.tipe,
         mapel: tugas.mapel,
-        starterPraktik: tugas.starterPraktik,
+        starterSpreadsheet,
         soal: tugas.soal.map(({ jawabanBenar: _jawabanBenar, ...rest }) => rest),
       },
     };
@@ -531,14 +588,14 @@ export class TugasService {
       throw new ForbiddenException('Percobaan Anda untuk tugas ini sudah habis');
     }
 
-    const isPraktik = tugas.tipe === 'PRAKTIK';
+    const isSpreadsheet = tugas.tipe === 'SPREADSHEET';
     const isSoalBased = NEEDS_SOAL.has(tugas.tipe);
     const terkunciBaru = submisi.jumlahPercobaan >= MAKSIMAL_PERCOBAAN + submisi.bonusPercobaan;
 
     const updated = await this.prisma.tugasSubmisi.update({
       where: { id: submisi.id },
       data: {
-        ...(isPraktik ? { submittedPraktik: dto.submittedPraktik ?? '' } : {}),
+        ...(isSpreadsheet ? { submittedSpreadsheet: dto.submittedSpreadsheet ?? '' } : {}),
         catatan: dto.catatan,
         status: 'TERKIRIM',
         dipaksaKeluar: !!dto.dipaksa,
@@ -586,5 +643,37 @@ export class TugasService {
       where: { id },
       data: { bonusPercobaan: { increment: 1 }, terkunci: false },
     });
+  }
+
+  async exportSpreadsheetSubmisi(id: string, actor: Actor) {
+    const submisi = await this.prisma.tugasSubmisi.findUnique({
+      where: { id },
+      include: {
+        tugas: { select: { tipe: true, judul: true, createdById: true } },
+        siswa: { select: { userId: true, nama: true } },
+      },
+    });
+    if (!submisi) throw new NotFoundException('Submisi tidak ditemukan');
+    if (submisi.tugas.tipe !== 'SPREADSHEET') throw new BadRequestException('Tugas ini bukan tipe Spreadsheet');
+    if (actor.role === 'SISWA') {
+      if (submisi.siswa.userId !== actor.id) throw new ForbiddenException('Ini bukan submisi Anda');
+      if (submisi.waktuMulai) throw new ForbiddenException('Tidak bisa mengunduh saat masih dalam sesi pengerjaan');
+    } else {
+      this.assertOwnerOrAdmin(actor, submisi.tugas.createdById);
+    }
+    if (!submisi.submittedSpreadsheet) throw new BadRequestException('Belum ada jawaban spreadsheet untuk diunduh');
+    return {
+      snapshotJson: submisi.submittedSpreadsheet,
+      filename: `${submisi.tugas.judul}_${submisi.siswa.nama ?? 'Siswa'}.xlsx`,
+    };
+  }
+
+  async exportSpreadsheetTemplate(id: string, actor: Actor) {
+    const tugas = await this.prisma.tugas.findUnique({ where: { id } });
+    if (!tugas) throw new NotFoundException('Tugas tidak ditemukan');
+    if (tugas.tipe !== 'SPREADSHEET') throw new BadRequestException('Tugas ini bukan tipe Spreadsheet');
+    this.assertOwnerOrAdmin(actor, tugas.createdById);
+    if (!tugas.starterSpreadsheet) throw new BadRequestException('Tugas ini tidak punya starter spreadsheet');
+    return { snapshotJson: tugas.starterSpreadsheet, filename: `${tugas.judul}_Template.xlsx` };
   }
 }
