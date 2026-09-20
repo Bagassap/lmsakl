@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   CalendarDays, User, GraduationCap, BookOpen, Phone, UserCheck, Users, Pencil, X, MapPin, CheckCircle2, XCircle, Hash, KeyRound,
+  MoreVertical, Eye, Trash2,
 } from "lucide-react";
 import {
   type SiswaCardData, toTitleCase, getNama, kelasShort, formatTempatTanggalLahir, formatAlamatLengkap,
@@ -10,6 +12,27 @@ import {
 } from "./shared";
 import { Avatar } from "@/components/shared/Avatar";
 import { ProgressRing } from "./ProgressRing";
+import { MobileDetailModal } from "@/components/shared/MobileDetailModal";
+
+function MobileRow({ icon: Icon, label, value, href }: {
+  icon: React.ElementType; label: string; value: string | null | undefined; href?: string | null;
+}) {
+  return (
+    <div className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 dark:border-slate-700/50 dark:bg-slate-700/30">
+      <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-400 dark:text-slate-500">
+        <Icon size={13} /> {label}
+      </span>
+      {href ? (
+        <a href={href} target="_blank" rel="noopener noreferrer" title="Kirim pesan WhatsApp"
+          className="mt-1 block break-words text-sm font-bold text-emerald-600 underline decoration-emerald-200 dark:text-emerald-400">
+          {value}
+        </a>
+      ) : (
+        <p className="mt-1 break-words text-sm font-bold text-slate-800 dark:text-white">{value || "—"}</p>
+      )}
+    </div>
+  );
+}
 
 const HEADER_GRADIENT = "#300000";
 const REF_PRIMARY = "#D7263D";
@@ -19,7 +42,7 @@ function FieldItem({ icon: Icon, label, value, full, href }: {
   icon: React.ElementType; label: string; value: string | null | undefined; full?: boolean; href?: string | null;
 }) {
   return (
-    <div className={full ? "sm:col-span-2" : undefined}>
+    <div className={full ? "col-span-2" : undefined}>
       <div className="flex items-center gap-1.5 text-slate-400 dark:text-slate-500">
         <Icon size={12} className="shrink-0" />
         <p className="text-[10px] font-bold uppercase tracking-wider">{label}</p>
@@ -43,9 +66,11 @@ function FieldItem({ icon: Icon, label, value, full, href }: {
   );
 }
 
-export function SiswaDetailModal({ siswa, onEdit, onClose }: {
-  siswa: SiswaCardData; onEdit?: () => void; onClose: () => void;
+export function SiswaDetailModal({ siswa, onEdit, onResetPassword, onImpersonate, onKeluarkan, onClose }: {
+  siswa: SiswaCardData; onEdit?: () => void; onResetPassword?: () => void; onImpersonate?: () => void; onKeluarkan?: () => void; onClose: () => void;
 }) {
+  const [actionsOpen, setActionsOpen] = useState(false);
+  const hasMobileActions = !!((onResetPassword || onImpersonate) && siswa.user) || !!onKeluarkan;
   const displayNama = toTitleCase(getNama(siswa));
   const tempatTanggal = formatTempatTanggalLahir(siswa.tempatLahir, siswa.tanggalLahir);
   const waliKelas = siswa.kelas.waliKelasGuru?.user.nama ?? null;
@@ -55,8 +80,9 @@ export function SiswaDetailModal({ siswa, onEdit, onClose }: {
   const sudahGanti = siswa.user ? siswa.user.mustChangePassword === false : null;
 
   return (
+    <>
     <AnimatePresence>
-      <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
+      <div className="fixed inset-0 z-100 hidden items-center justify-center p-4 lg:flex">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose} className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
         <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.94 }}
@@ -174,19 +200,19 @@ export function SiswaDetailModal({ siswa, onEdit, onClose }: {
               </div>
             </div>
 
-            <div className="mt-5 flex items-center justify-end gap-2 border-t border-slate-200 pt-3.5 dark:border-slate-700/50">
+            <div className="mt-5 flex flex-col-reverse gap-2 border-t border-slate-200 pt-3.5 dark:border-slate-700/50 sm:flex-row sm:items-center sm:justify-end">
               <button
                 type="button" onClick={onClose}
-                className="rounded-lg border-2 border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+                className="flex items-center justify-center rounded-lg border-2 border-slate-200 bg-white px-3.5 py-2.5 text-sm font-semibold text-slate-600 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 sm:py-1.5 sm:text-xs"
               >
-                <X size={12} className="mr-1 inline" /> Tutup
+                <X size={12} className="mr-1" /> Tutup
               </button>
               {onEdit && (
                 <motion.button
                   type="button" onClick={onEdit}
                   whileHover={{ scale: 1.03, boxShadow: "0 8px 20px rgba(37,99,235,0.4)" }}
                   whileTap={{ scale: 0.97 }}
-                  className="flex items-center gap-1.5 rounded-lg px-3.5 py-1.5 text-xs font-bold text-white shadow-sm"
+                  className="flex items-center justify-center gap-1.5 rounded-lg px-3.5 py-2.5 text-sm font-bold text-white shadow-sm sm:py-1.5 sm:text-xs"
                   style={{ background: HEADER_GRADIENT }}
                 >
                   <Pencil size={12} /> Edit Data
@@ -197,5 +223,113 @@ export function SiswaDetailModal({ siswa, onEdit, onClose }: {
         </motion.div>
       </div>
     </AnimatePresence>
+
+    <AnimatePresence>
+      <MobileDetailModal onClose={onClose} accent={HEADER_GRADIENT} className="lg:hidden">
+        <div className="relative px-6 pb-8 pt-10 text-center">
+          <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10" />
+          <div className="pointer-events-none absolute -bottom-10 -left-6 h-28 w-28 rounded-full bg-white/8" />
+
+          {hasMobileActions && (
+            <>
+              <button type="button" onClick={() => setActionsOpen((v) => !v)}
+                className="absolute right-14 top-4 z-20 flex h-8 w-8 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm">
+                <MoreVertical size={15} />
+              </button>
+              {actionsOpen && (
+                <div className="absolute right-4 top-14 z-30 w-56 overflow-hidden rounded-2xl bg-white text-left shadow-xl dark:bg-slate-800">
+                  {onResetPassword && siswa.user && (
+                    <button type="button" onClick={() => { onResetPassword(); setActionsOpen(false); }}
+                      className="flex w-full items-center gap-2.5 px-4 py-3 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:text-slate-200 dark:hover:bg-slate-700/50">
+                      <KeyRound size={15} style={{ color: REF_PRIMARY }} /> Reset Password
+                    </button>
+                  )}
+                  {onImpersonate && siswa.user && (
+                    <button type="button" onClick={() => { onImpersonate(); setActionsOpen(false); }}
+                      className="flex w-full items-center gap-2.5 border-t border-slate-100 px-4 py-3 text-left text-sm font-semibold text-slate-700 hover:bg-slate-50 dark:border-slate-700/50 dark:text-slate-200 dark:hover:bg-slate-700/50">
+                      <Eye size={15} style={{ color: REF_PRIMARY }} /> Pantau Akun
+                    </button>
+                  )}
+                  {onKeluarkan && (
+                    <button type="button" onClick={() => { onKeluarkan(); setActionsOpen(false); }}
+                      className="flex w-full items-center gap-2.5 border-t border-slate-100 px-4 py-3 text-left text-sm font-semibold text-red-500 hover:bg-red-50 dark:border-slate-700/50 dark:hover:bg-red-900/20">
+                      <Trash2 size={15} /> Keluarkan Siswa
+                    </button>
+                  )}
+                </div>
+              )}
+            </>
+          )}
+          <div className="relative mx-auto w-fit rounded-full border border-white/40" style={{ boxShadow: "0 0 0 3px rgba(255,255,255,0.18)" }}>
+            <Avatar src={siswa.user?.fotoProfil} nama={displayNama} sizePx={64} fallbackBg="rgba(255,255,255,0.22)" textClassName="text-lg font-extrabold" />
+          </div>
+          <h2 className="relative mt-3 break-words text-lg font-extrabold text-white">{displayNama}</h2>
+          <p className="relative mt-1 font-mono text-xs text-white/70">NIS: {siswa.nis}</p>
+          <span className="relative mt-2 inline-flex items-center rounded-lg bg-white/20 px-2.5 py-1 text-[11px] font-bold text-white backdrop-blur-sm">
+            {kelasShort(siswa.kelas.nama)}
+          </span>
+        </div>
+
+        <div className="relative -mt-4 rounded-t-3xl bg-white pb-6 pt-6 dark:bg-slate-800">
+          <div className="mx-auto max-w-md space-y-2 px-6 text-left">
+            <MobileRow icon={CalendarDays} label="Tempat & Tanggal Lahir" value={tempatTanggal} />
+            <MobileRow icon={User} label="Jenis Kelamin" value={siswa.jenisKelamin} />
+            <MobileRow icon={Phone} label="No. HP" value={siswa.noHp} href={waLink(siswa.noHp)} />
+            <MobileRow icon={MapPin} label="Alamat" value={alamatLengkap} />
+
+            <div className="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 dark:border-slate-700/50 dark:bg-slate-700/30">
+              <span className="flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-slate-400">
+                <KeyRound size={13} style={{ color: REF_PRIMARY }} /> Status Password
+              </span>
+              {sudahGanti === null ? (
+                <span className="text-xs font-bold text-slate-400">Belum ada akun</span>
+              ) : sudahGanti ? (
+                <span className="flex items-center gap-1 text-xs font-bold" style={{ color: REF_SUCCESS }}>
+                  <CheckCircle2 size={13} /> Sudah Ganti
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 text-xs font-bold text-slate-500 dark:text-slate-400">
+                  <XCircle size={13} /> Masih NIS
+                </span>
+              )}
+            </div>
+
+            <div className="rounded-xl border border-slate-100 bg-slate-50 px-4 py-3 dark:border-slate-700/50 dark:bg-slate-700/30">
+              <div className="flex items-center gap-3">
+                <ProgressRing percent={pct} size={36} />
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs font-bold text-slate-800 dark:text-white">Kelengkapan Data {pct}%</p>
+                  {missing.length === 0 ? (
+                    <p className="mt-0.5 flex items-center gap-1 text-[11px] text-[#1745B0] dark:text-[#6B93FF]">
+                      <CheckCircle2 size={11} /> Semua data sudah lengkap
+                    </p>
+                  ) : (
+                    <p className="mt-0.5 text-[11px] text-slate-400 dark:text-slate-500">
+                      Belum lengkap: {missing.map((m) => m.label).join(", ")}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <MobileRow icon={BookOpen} label="Jurusan" value={siswa.jurusan} />
+            <MobileRow icon={GraduationCap} label="Angkatan" value={String(siswa.angkatan)} />
+            <MobileRow icon={UserCheck} label="Wali Kelas" value={waliKelas} />
+            <MobileRow icon={Users} label="Nama Orang Tua" value={siswa.namaOrtu} />
+          </div>
+
+          {onEdit && (
+            <div className="mx-auto mt-4 max-w-md px-6">
+              <button type="button" onClick={onEdit}
+                className="flex w-full items-center justify-center gap-1.5 rounded-full py-3.5 text-sm font-extrabold text-white shadow-sm"
+                style={{ background: HEADER_GRADIENT }}>
+                <Pencil size={14} /> Edit Data
+              </button>
+            </div>
+          )}
+        </div>
+      </MobileDetailModal>
+    </AnimatePresence>
+    </>
   );
 }

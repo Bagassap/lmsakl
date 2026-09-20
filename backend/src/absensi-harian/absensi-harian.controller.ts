@@ -301,6 +301,13 @@ export class AbsensiHarianController {
 
   @UseGuards(RolesGuard)
   @Roles(Role.SISWA)
+  @Get('saya/riwayat')
+  getRiwayatSaya(@Query('tipe') tipe: string, @Request() req: any) {
+    return this.service.getRiwayatSaya(req.user.id, tipe === 'PULANG' ? 'PULANG' : 'HADIR');
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.SISWA)
   @Post('saya')
   @UseInterceptors(FileInterceptor('foto', { storage: absensiHarianStorage, ...imageUploadOptions }))
   async absenSendiri(

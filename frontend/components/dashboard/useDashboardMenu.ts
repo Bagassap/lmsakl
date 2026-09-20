@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   LayoutDashboard, Bell, Users, Briefcase,
-  FileText, UserCircle, KeyRound,
+  FileText, KeyRound,
   Building2, ClipboardCheck, FileBarChart,
   CalendarDays, Trophy, BookOpen, NotebookPen, Settings,
 } from "lucide-react";
@@ -63,7 +63,6 @@ export const MENUS: Record<string, MenuItem[]> = {
     { key: "pengumuman",   href: "/siswa/pengumuman",   label: "Pengumuman",  icon: Bell },
     { key: "materi",       href: "/siswa/materi",       label: "Materi",      icon: BookOpen },
     { key: "catatan-siswa", href: "/siswa/catatan-siswa", label: "Catatan Saya", icon: NotebookPen },
-    { key: "profil",       href: "/siswa/profil",       label: "Profil Saya", icon: UserCircle },
     {
       key: "magang", href: "/siswa/magang", label: "PKL", icon: Briefcase, locked: true,
       submenu: [

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Megaphone, Plus, Pin, MessageCircle,
@@ -353,6 +353,8 @@ function AccordionCard({
 
 export function PengumumanListPage({ canManage }: { canManage: boolean }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const dashboardHref = pathname.startsWith("/guru/") ? "/guru/dashboard" : pathname.startsWith("/admin/") ? "/admin/dashboard" : "/siswa/dashboard";
   const toast = useToast();
   const [list,          setList]          = useState<PengumumanItem[]>([]);
   const [loading,       setLoading]       = useState(true);
@@ -545,17 +547,15 @@ export function PengumumanListPage({ canManage }: { canManage: boolean }) {
 
       </div>
 
-      <div className={`relative isolate lg:hidden ${canManage ? "-mx-4" : "-m-4"}`} style={canManage ? undefined : { background: "#D7263D" }}>
-        {!canManage && (
-          <div className="relative flex items-center px-4 pb-3 pt-4">
-            <button type="button" onClick={() => router.push("/siswa/dashboard")}
-              className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white active:bg-white/25">
-              <ChevronLeft size={18} />
-            </button>
-            <h1 className="absolute inset-x-0 text-center text-base font-bold text-white">Pengumuman</h1>
-          </div>
-        )}
-        <div className={`space-y-4 px-4 py-4 ${canManage ? "bg-surface dark:bg-[#1c2434]" : "rounded-t-[28px] bg-surface dark:bg-[#1c2434]"}`}>
+      <div className="relative isolate -m-4 lg:hidden" style={{ background: "#D7263D" }}>
+        <div className="relative flex items-center px-4 pb-3 pt-4">
+          <button type="button" onClick={() => router.push(dashboardHref)}
+            className="relative z-10 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/15 text-white active:bg-white/25">
+            <ChevronLeft size={18} />
+          </button>
+          <h1 className="absolute inset-x-0 text-center text-base font-bold text-white">Pengumuman</h1>
+        </div>
+        <div className="space-y-4 rounded-t-[28px] bg-surface px-4 py-4 dark:bg-[#1c2434]">
 
         {canManage && (
           <motion.button

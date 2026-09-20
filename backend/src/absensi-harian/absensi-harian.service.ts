@@ -480,6 +480,25 @@ export class AbsensiHarianService {
     };
   }
 
+  async getRiwayatSaya(userId: string, tipe: 'HADIR' | 'PULANG') {
+    const siswa = await this.prisma.siswa.findUnique({ where: { userId } });
+    if (!siswa) return [];
+    const rows = await this.prisma.absensiHarian.findMany({
+      where: {
+        siswaId: siswa.id,
+        tanggal: todayStr(),
+        ...(tipe === 'HADIR' ? { waktuAbsen: { not: null } } : { waktuPulang: { not: null } }),
+      },
+      take: 1,
+      select: {
+        tanggal: true, status: true,
+        waktuAbsen: true, lokasi: true, foto: true, ttd: true, catatan: true,
+        waktuPulang: true, lokasiPulang: true, fotoPulang: true, ttdPulang: true, catatanPulang: true,
+      },
+    });
+    return rows;
+  }
+
   async absenSendiri(
     userId: string,
     tipe: 'HADIR' | 'PULANG' | 'IZIN' | 'SAKIT',

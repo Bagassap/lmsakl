@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { TrendingDown, ShieldCheck, Medal, AlertTriangle, Flame, Gauge, X, ArrowRight, ClipboardList } from "lucide-react";
 import { Avatar } from "@/components/shared/Avatar";
@@ -14,9 +15,9 @@ const INLINE_LIMIT = 5;
 const GRID_COLS = "36px 40px 2fr 1.4fr 80px 1.2fr";
 
 const RANK_STYLE = [
-  { bg: "#F8D6DA", clr: "#D7263D" }, // gold -> oren
-  { bg: "#EBC4C4", clr: "#8B0000" }, // silver -> charcoal
-  { bg: "#FAFAED", clr: "#B8B84A" }, // bronze -> platinum gelap
+  { bg: "#F8D6DA", clr: "#D7263D" },
+  { bg: "#EBC4C4", clr: "#8B0000" },
+  { bg: "#FAFAED", clr: "#B8B84A" },
 ];
 
 function RankBadge({ index }: { index: number }) {
@@ -63,11 +64,13 @@ function StatPill({
   );
 }
 
-export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList }: { kelasId: string; kelasNama?: string; siswaList?: SiswaAbsensi[] }) {
+export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList, compact, cta }: { kelasId: string; kelasNama?: string; siswaList?: SiswaAbsensi[]; compact?: boolean; cta?: boolean }) {
   const [periode, setPeriode] = useState<PeriodeLaporan>("mingguan");
   const [data, setData] = useState<LaporanData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!kelasId) { setData(null); setLoading(false); return; }
@@ -92,6 +95,36 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList }: { kel
 
   return (
     <>
+      {cta ? (
+        <button type="button" onClick={() => setShowModal(true)}
+          className="flex w-full items-center gap-3 rounded-3xl p-4 text-left transition-transform active:scale-[0.98]"
+          style={{ background: "#C3F84A" }}>
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-white">
+            <TrendingDown size={18} className="text-[#1c2434]" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-sm font-extrabold text-[#1c2434]">Siswa Bermasalah</p>
+            <p className="truncate text-[10.5px] font-semibold text-[#1c2434]">
+              {loading ? "Memuat..." : totalBermasalah > 0 ? `${totalBermasalah} siswa jarang absen · alpa tertinggi ${alpaTertinggi}x` : "Tidak ada catatan alpa"}
+            </p>
+          </div>
+          <ArrowRight size={16} className="shrink-0 text-[#1c2434]" />
+        </button>
+      ) : compact ? (
+        <button type="button" onClick={() => setShowModal(true)}
+          className="flex w-full items-center gap-3 rounded-2xl p-3 text-left" style={{ backgroundColor: "#F7E8E8" }}>
+          <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-white" style={{ backgroundColor: "#300000" }}>
+            <TrendingDown size={14} />
+          </span>
+          <div className="min-w-0 flex-1">
+            <p className="text-[12.5px] font-bold" style={{ color: "#300000" }}>Siswa Bermasalah</p>
+            <p className="truncate text-[10px] font-semibold" style={{ color: "#300000" }}>
+              {loading ? "Memuat..." : totalBermasalah > 0 ? `${totalBermasalah} siswa jarang absen · alpa tertinggi ${alpaTertinggi}x` : "Tidak ada catatan alpa"}
+            </p>
+          </div>
+          <ArrowRight size={14} className="shrink-0" style={{ color: "#300000" }} />
+        </button>
+      ) : (
       <div className="rounded-3xl border border-slate-100 bg-white p-5 shadow-sm dark:border-slate-700 dark:bg-slate-800">
         {siswaList && (
           <>
@@ -173,8 +206,10 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList }: { kel
           </button>
         )}
       </div>
+      )}
 
-      <AnimatePresence>
+      {mounted && createPortal(
+        <AnimatePresence>
         {showModal && (
           <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -286,7 +321,9 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList }: { kel
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </>
   );
 }

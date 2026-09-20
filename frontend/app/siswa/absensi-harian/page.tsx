@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -10,7 +11,7 @@ import {
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
 import { SignaturePad } from "@/components/absensi-harian/SignaturePad";
-import { STATUS_CFG, PULANG_CFG, BRAND_GRADIENT, resolveMediaSrc, todayJakarta, parseLokasi } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, BRAND_GRADIENT, formatTgl, resolveMediaSrc, todayJakarta, parseLokasi } from "@/components/absensi-harian/shared";
 import type { StatusAbsensi, AbsenWindow } from "@/components/absensi-harian/types";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
 import { compressImage, readAsDataUrl, describePhotoError } from "@/lib/compressImage";
@@ -39,6 +40,21 @@ type StatusSaya = {
 type AbsensiSummary = { hadir: number; izin: number; sakit: number; alpa: number; total: number; persentase: number };
 type Tab = "DATANG" | "PULANG";
 
+type RiwayatRow = {
+  tanggal: string;
+  status: StatusAbsensi | null;
+  waktuAbsen: string | null;
+  lokasi: string | null;
+  foto: string | null;
+  ttd: string | null;
+  catatan: string | null;
+  waktuPulang: string | null;
+  lokasiPulang: string | null;
+  fotoPulang: string | null;
+  ttdPulang: string | null;
+  catatanPulang: string | null;
+};
+
 const INSECURE_CONTEXT_MSG = "Akses GPS memerlukan koneksi aman. Silakan buka melalui https://pplg.smklimpung.id, jangan menggunakan alamat IP langsung.";
 
 function getWindowInfo(window_: AbsenWindow, pulangLabel: string): { label: string; range: string } {
@@ -62,7 +78,12 @@ export default function SiswaAbsensiHarianPage() {
   const [activeTab, setActiveTab] = useState<Tab>("DATANG");
   const tabAutoSet = useRef(false);
   const [wizardTab, setWizardTab] = useState<Tab | null>(null);
-  const [detailTab, setDetailTab] = useState<Tab | null>(null);
+
+  const [jam, setJam] = useState("--:--:--");
+  const [selectedRiwayatTab, setSelectedRiwayatTab] = useState<Tab>("DATANG");
+  const [riwayatData, setRiwayatData] = useState<RiwayatRow[] | null>(null);
+  const [riwayatLoading, setRiwayatLoading] = useState(false);
+  const [riwayatDetail, setRiwayatDetail] = useState<{ tab: Tab; row: RiwayatRow } | null>(null);
 
   const [lokasi, setLokasi] = useState<string | null>(null);
   const [lokasiLoading, setLokasiLoading] = useState(false);
@@ -100,6 +121,30 @@ export default function SiswaAbsensiHarianPage() {
     const id = setInterval(() => loadStatus(true), 60_000);
     return () => clearInterval(id);
   }, [loadStatus]);
+
+  useEffect(() => {
+    function tick() {
+      const fmt = new Intl.DateTimeFormat("en-US", { timeZone: "Asia/Jakarta", hour: "2-digit", minute: "2-digit", second: "2-digit", hourCycle: "h23" });
+      const parts = fmt.formatToParts(new Date());
+      const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "00";
+      setJam(`${get("hour")}:${get("minute")}:${get("second")}`);
+    }
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    setRiwayatData(null);
+    setRiwayatLoading(true);
+    fetch(`/api/absensi-harian/saya/riwayat?tipe=${selectedRiwayatTab === "DATANG" ? "HADIR" : "PULANG"}`)
+      .then((r) => r.json())
+      .then((list) => { if (!cancelled) setRiwayatData(Array.isArray(list) ? list : []); })
+      .catch(() => { if (!cancelled) setRiwayatData([]); })
+      .finally(() => { if (!cancelled) setRiwayatLoading(false); });
+    return () => { cancelled = true; };
+  }, [selectedRiwayatTab]);
 
   const window_ = data?.window ?? "CLOSED";
 
@@ -398,32 +443,99 @@ export default function SiswaAbsensiHarianPage() {
             </div>
             <div className="space-y-4 rounded-t-[28px] bg-surface p-4 dark:bg-[#1c2434]">
 
-            <div className="grid grid-cols-2 gap-3">
-              <AttendanceTile
-                icon={LogIn} label="Absen Datang" accent={BRAND_GRADIENT} done={!!data?.sudahAbsen} doneLabel={cfg.label}
-                doneWaktu={data?.record?.waktuAbsen} actionable={needsActionDatang}
-                windowText={window_ === "HADIR" || window_ === "BOTH" ? "06.00–09.00" : "Ditutup"}
-                onAction={() => openWizard("DATANG")} onDetail={() => setDetailTab("DATANG")}
-              />
-              <AttendanceTile
-                icon={LogOut} label="Absen Pulang" accent={PULANG_CFG.clr} done={!!data?.sudahPulang} doneLabel="Pulang"
-                doneWaktu={data?.record?.waktuPulang} actionable={needsActionPulang}
-                windowText={pulangLabel || "Ditutup"}
-                onAction={() => openWizard("PULANG")} onDetail={() => setDetailTab("PULANG")}
-              />
+            <div className="rounded-[28px] p-5 text-center shadow-[0_2px_8px_rgba(0,0,0,0.06)]" style={{ background: BRAND_GRADIENT }}>
+              <p className="text-xs font-semibold text-[#F0A3AC]">{formatTgl(today)}</p>
+              <p className="mt-1 font-mono text-4xl font-black tabular-nums text-white">{jam}</p>
+              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-white px-3 py-1.5 text-xs font-bold"
+                style={{ color: data?.sudahAbsen && data?.sudahPulang ? "#2962FF" : data?.sudahAbsen ? BRAND_GRADIENT : "#94A3B8" }}>
+                <Clock size={12} />
+                {data?.sudahAbsen && data?.sudahPulang
+                  ? "Absensi hari ini lengkap"
+                  : data?.sudahAbsen
+                    ? "Sudah absen datang, menunggu pulang"
+                    : "Belum absen hari ini"}
+              </div>
             </div>
 
-            {summary && (
-              <div className="rounded-2xl bg-white p-6 shadow-[0_2px_8px_rgba(0,0,0,0.07)] dark:bg-[#1c2434]">
-                <h2 className="text-base font-bold text-slate-800 dark:text-white">Statistik Absensi</h2>
-                <p className="mt-0.5 text-xs text-slate-500 dark:text-slate-400">Rekap kehadiran semester ini</p>
-                <StatisticRainbow
-                  hadir={summary.hadir} sakit={summary.sakit}
-                  izin={summary.izin} alpha={summary.alpa}
-                  total={summary.total}
-                />
+            <div className="rounded-[28px] bg-white p-3 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+              <div className="grid grid-cols-2 gap-3">
+                <RiwayatTabCard icon={LogIn} label="Absen Datang" active={selectedRiwayatTab === "DATANG"}
+                  onClick={() => setSelectedRiwayatTab("DATANG")} />
+                <RiwayatTabCard icon={LogOut} label="Absen Pulang" active={selectedRiwayatTab === "PULANG"}
+                  onClick={() => setSelectedRiwayatTab("PULANG")} />
               </div>
-            )}
+            </div>
+
+            <div className="rounded-3xl bg-white p-5 shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
+              <div className="flex items-center gap-2.5">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+                  style={{ background: selectedRiwayatTab === "PULANG" ? PULANG_CFG.clr : BRAND_GRADIENT }}>
+                  {selectedRiwayatTab === "DATANG" ? <LogIn size={18} /> : <LogOut size={18} />}
+                </span>
+                <div className="min-w-0">
+                  <h2 className="text-sm font-bold text-slate-800 dark:text-white">
+                    Riwayat Absen {selectedRiwayatTab === "DATANG" ? "Datang" : "Pulang"}
+                  </h2>
+                  <p className="truncate text-xs text-slate-400 dark:text-slate-500">Catatan hari ini</p>
+                </div>
+              </div>
+              <div className="mt-3 space-y-2.5">
+                {riwayatLoading ? (
+                  <div className="h-16 animate-pulse rounded-2xl bg-slate-100 dark:bg-slate-700" />
+                ) : !riwayatData || riwayatData.length === 0 ? (
+                  <div className="flex flex-col items-center gap-2 py-8 text-center">
+                    <Moon size={20} className="text-slate-300" />
+                    <p className="text-xs font-semibold text-slate-400">Belum ada riwayat hari ini</p>
+                  </div>
+                ) : (
+                  riwayatData.map((row) => {
+                    const waktu = selectedRiwayatTab === "DATANG" ? row.waktuAbsen : row.waktuPulang;
+                    const rowAccent = selectedRiwayatTab === "PULANG" ? PULANG_CFG.clr : BRAND_GRADIENT;
+                    return (
+                      <button key={row.tanggal} type="button"
+                        onClick={() => setRiwayatDetail({ tab: selectedRiwayatTab, row })}
+                        className="flex w-full items-center gap-3 rounded-2xl bg-slate-50 p-3 text-left dark:bg-slate-800">
+                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white" style={{ background: rowAccent }}>
+                          <Clock size={16} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="truncate text-sm font-bold text-slate-800 dark:text-white">{formatTgl(row.tanggal)}</p>
+                          <p className="truncate text-[11px] text-slate-400 dark:text-slate-500">
+                            {selectedRiwayatTab === "DATANG" ? (row.status ? STATUS_CFG[row.status].label : "Hadir") : "Pulang"} · {waktu ?? "—"}
+                          </p>
+                        </div>
+                        <ChevronRight size={16} className="shrink-0 text-slate-300" />
+                      </button>
+                    );
+                  })
+                )}
+              </div>
+            </div>
+
+            {(() => {
+              const mainTab: Tab = window_ === "PULANG"
+                ? "PULANG"
+                : window_ === "HADIR"
+                  ? "DATANG"
+                  : window_ === "BOTH"
+                    ? (needsActionDatang ? "DATANG" : "PULANG")
+                    : (needsActionDatang ? "DATANG" : needsActionPulang ? "PULANG" : (data?.sudahAbsen ? "PULANG" : "DATANG"));
+              const mainNeedsAction = mainTab === "DATANG" ? needsActionDatang : needsActionPulang;
+              const mainDone = mainTab === "DATANG" ? data?.sudahAbsen : data?.sudahPulang;
+              const mainAccent = mainTab === "PULANG" ? PULANG_CFG.clr : BRAND_GRADIENT;
+              const mainName = mainTab === "DATANG" ? "Absen Datang" : "Absen Pulang";
+              const label = mainDone ? `${mainName} Sudah Tercatat` : mainNeedsAction ? `${mainName} Sekarang` : `${mainName} Ditutup`;
+              return (
+                <motion.button whileTap={mainNeedsAction ? { scale: 0.97 } : undefined} type="button"
+                  disabled={!mainNeedsAction}
+                  onClick={() => mainNeedsAction && openWizard(mainTab)}
+                  className="flex w-full items-center justify-center gap-2 rounded-full py-4 text-sm font-extrabold shadow-[0_10px_24px_-10px_rgba(0,0,0,0.35)]"
+                  style={mainNeedsAction ? { background: mainAccent, color: "#fff" } : { background: "#E2E8F0", color: "#94A3B8" }}>
+                  {mainTab === "DATANG" ? <LogIn size={18} /> : <LogOut size={18} />}
+                  {label}
+                </motion.button>
+              );
+            })()}
 
             <MobileFormAbsen
               open={wizardTab !== null} onClose={() => setWizardTab(null)}
@@ -440,33 +552,36 @@ export default function SiswaAbsensiHarianPage() {
             />
 
             <AnimatePresence>
-              {detailTab && (
-                <MobileDetailModal onClose={() => setDetailTab(null)} accent={detailTab === "PULANG" ? `linear-gradient(160deg,${PULANG_CFG.clr}dd,${PULANG_CFG.clr})` : BRAND_GRADIENT}>
-                  {detailTab === "DATANG" ? (
+              {riwayatDetail && (
+                <MobileDetailModal onClose={() => setRiwayatDetail(null)} accent="#ffffff">
+                  {riwayatDetail.tab === "DATANG" ? (
                     <RingkasanAbsen
-                      title={`${cfg.label} Tercatat`}
-                      desc={<>Anda tercatat <b>{cfg.label}</b> hari ini</>}
-                      waktu={data?.record?.waktuAbsen}
-                      foto={data?.record?.foto}
-                      fotoLabel={status !== "HADIR" ? "Foto Surat Izin/Sakit" : "Foto Selfie"}
-                      ttd={data?.record?.ttd}
-                      lokasi={data?.record?.lokasi}
-                      catatan={data?.record?.catatan}
-                      footnote={`Absen pulang tersedia jam ${pulangLabel}`}
-                      onReload={() => loadStatus()}
+                      title={`${riwayatDetail.row.status ? STATUS_CFG[riwayatDetail.row.status].label : "Hadir"} Tercatat`}
+                      desc={<>Tercatat pada <b>{formatTgl(riwayatDetail.row.tanggal)}</b></>}
+                      waktu={riwayatDetail.row.waktuAbsen}
+                      foto={riwayatDetail.row.foto}
+                      fotoLabel={riwayatDetail.row.status !== "HADIR" ? "Foto Surat Izin/Sakit" : "Foto Selfie"}
+                      ttd={riwayatDetail.row.ttd}
+                      lokasi={riwayatDetail.row.lokasi}
+                      catatan={riwayatDetail.row.catatan}
+                      onReload={() => {}}
                       showMap
+                      onWhite
+                      accentColor={BRAND_GRADIENT}
                     />
                   ) : (
                     <RingkasanAbsen
                       title="Kepulangan Tercatat"
-                      desc={<>Anda tercatat <b>Pulang</b> hari ini</>}
-                      waktu={data?.record?.waktuPulang}
-                      foto={data?.record?.fotoPulang}
-                      ttd={data?.record?.ttdPulang}
-                      lokasi={data?.record?.lokasiPulang}
-                      catatan={data?.record?.catatanPulang}
-                      onReload={() => loadStatus()}
+                      desc={<>Tercatat pada <b>{formatTgl(riwayatDetail.row.tanggal)}</b></>}
+                      waktu={riwayatDetail.row.waktuPulang}
+                      foto={riwayatDetail.row.fotoPulang}
+                      ttd={riwayatDetail.row.ttdPulang}
+                      lokasi={riwayatDetail.row.lokasiPulang}
+                      catatan={riwayatDetail.row.catatanPulang}
+                      onReload={() => {}}
                       showMap
+                      onWhite
+                      accentColor={PULANG_CFG.clr}
                     />
                   )}
                 </MobileDetailModal>
@@ -482,6 +597,7 @@ export default function SiswaAbsensiHarianPage() {
 
 function RingkasanAbsen({
   title, desc, waktu, foto, fotoLabel = "Foto Selfie", ttd, lokasi, catatan, footnote, onReload, showMap = false,
+  onWhite = false, accentColor = BRAND_GRADIENT,
 }: {
   title: string;
   desc: React.ReactNode;
@@ -494,8 +610,84 @@ function RingkasanAbsen({
   footnote?: string;
   onReload: () => void;
   showMap?: boolean;
+  onWhite?: boolean;
+  accentColor?: string;
 }) {
   const titik = showMap ? parseLokasi(lokasi) : null;
+
+  if (onWhite) {
+    return (
+      <>
+        <div className="relative px-6 py-8 text-center">
+          <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring", damping: 10, delay: 0.1 }}
+            className="relative mx-auto flex h-16 w-16 items-center justify-center rounded-full shadow-lg" style={{ background: accentColor }}>
+            <CheckCircle2 size={30} className="text-white" />
+          </motion.div>
+          <h2 className="mt-4 text-lg font-extrabold text-slate-800 dark:text-white">{title}</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">{desc}</p>
+          <div className="mx-auto mt-5 flex max-w-xs items-center justify-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 dark:bg-slate-800">
+            <Clock size={14} className="text-slate-400" />
+            <span className="font-mono text-xl font-extrabold text-slate-800 dark:text-white">{waktu ?? "—"}</span>
+          </div>
+
+          <div className="relative mx-auto mt-6 grid max-w-md grid-cols-1 gap-3 sm:grid-cols-2">
+            {foto && (
+              <div className="flex flex-col items-center gap-1.5 rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
+                <img src={resolveMediaSrc(foto) ?? undefined} alt={fotoLabel}
+                  className="h-24 w-24 rounded-xl border-2 border-slate-200 object-cover shadow-md dark:border-slate-700" />
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">{fotoLabel}</span>
+              </div>
+            )}
+            {ttd && (
+              <div className="flex flex-col items-center gap-1.5 rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
+                <img src={resolveMediaSrc(ttd) ?? undefined} alt="Tanda tangan"
+                  className="h-24 w-full rounded-xl border-2 border-slate-200 bg-white object-contain shadow-md" />
+                <span className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">Tanda Tangan</span>
+              </div>
+            )}
+          </div>
+
+          {(lokasi || catatan) && (
+            <div className="relative mx-auto mt-4 max-w-md space-y-2 text-left">
+              {lokasi && titik && (
+                <div className="overflow-hidden rounded-xl bg-slate-50 dark:bg-slate-800">
+                  <iframe src={`https://maps.google.com/maps?q=${titik.lat},${titik.lng}&output=embed`}
+                    className="h-32 w-full border-0" loading="lazy" title="Lokasi absen" />
+                  <a href={`https://maps.google.com/maps?q=${titik.lat},${titik.lng}`} target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-between gap-2 px-3 py-2">
+                    <span className="truncate font-mono text-[10.5px] text-slate-500">{lokasi}</span>
+                    <span className="flex shrink-0 items-center gap-1 text-[10.5px] font-bold" style={{ color: accentColor }}>
+                      <ExternalLink size={10} /> Maps
+                    </span>
+                  </a>
+                </div>
+              )}
+              {lokasi && !titik && (
+                <div className="flex items-center gap-2 rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-800">
+                  <MapPin size={13} className="shrink-0 text-slate-400" />
+                  <span className="truncate font-mono text-[11px] text-slate-500">{lokasi}</span>
+                </div>
+              )}
+              {catatan && (
+                <div className="flex items-start gap-2 rounded-xl bg-slate-50 px-3 py-2 dark:bg-slate-800">
+                  <MessageSquareText size={13} className="mt-0.5 shrink-0 text-slate-400" />
+                  <span className="text-[11px] text-slate-500">{catatan}</span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {footnote && <p className="relative mt-5 text-[11px] text-slate-400">{footnote}</p>}
+        </div>
+        <div className="border-t border-slate-100 px-6 py-3 text-center dark:border-slate-700">
+          <button onClick={onReload} className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-700">
+            <RefreshCw size={12} /> Muat ulang
+          </button>
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="relative px-6 py-8 text-center">
@@ -745,60 +937,21 @@ function FormAbsen({
   );
 }
 
-function AttendanceTile({
-  icon: Icon, label, accent, done, doneLabel, doneWaktu, actionable, windowText, onAction, onDetail,
-}: {
+function RiwayatTabCard({ icon: Icon, label, active, onClick }: {
   icon: typeof LogIn;
   label: string;
-  accent: string;
-  done: boolean;
-  doneLabel: string;
-  doneWaktu?: string | null;
-  actionable: boolean;
-  windowText: string;
-  onAction: () => void;
-  onDetail: () => void;
+  active: boolean;
+  onClick: () => void;
 }) {
-  if (done) {
-    return (
-      <motion.button type="button" whileTap={{ scale: 0.96 }} onClick={onDetail}
-        className="relative flex flex-col items-center gap-2 overflow-hidden rounded-3xl p-4 text-center shadow-[0_10px_24px_-10px_rgba(0,0,0,0.35)]"
-        style={{ background: accent }}>
-        <div className="pointer-events-none absolute -right-6 -top-8 h-20 w-20 rounded-full bg-white/10" />
-        <span className="relative flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20">
-          <Icon size={20} className="text-white" />
-        </span>
-        <p className="relative text-[11px] font-bold text-white/80">{label}</p>
-        <p className="relative font-mono text-lg font-black leading-none text-white">{doneWaktu ?? "—"}</p>
-        <span className="relative mt-0.5 flex items-center gap-1 rounded-full bg-white/20 px-2.5 py-1 text-[9.5px] font-bold text-white">
-          <CheckCircle2 size={10} /> {doneLabel}
-        </span>
-      </motion.button>
-    );
-  }
-  if (actionable) {
-    return (
-      <motion.button type="button" whileTap={{ scale: 0.96 }} onClick={onAction}
-        className="flex flex-col items-center gap-2 rounded-3xl border-2 border-dashed bg-white p-4 text-center dark:bg-[#1c2434]"
-        style={{ borderColor: `${accent}40` }}>
-        <span className="flex h-12 w-12 items-center justify-center rounded-2xl" style={{ background: accent }}>
-          <Icon size={20} className="text-white" />
-        </span>
-        <p className="text-[11px] font-bold" style={{ color: accent }}>{label}</p>
-        <span className="mt-0.5 rounded-full px-2.5 py-1 text-[9.5px] font-bold text-white" style={{ background: accent }}>
-          Ketuk untuk mulai
-        </span>
-      </motion.button>
-    );
-  }
   return (
-    <div className="flex flex-col items-center gap-2 rounded-3xl bg-white p-4 text-center shadow-[0_2px_8px_rgba(0,0,0,0.06)] dark:bg-[#1c2434]">
-      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-700">
-        <Icon size={20} className="text-slate-400" />
+    <motion.button type="button" whileTap={{ scale: 0.96 }} onClick={onClick}
+      className="flex flex-col items-center gap-2 rounded-3xl p-4 text-center"
+      style={{ background: active ? BRAND_GRADIENT : "#F5F7FA" }}>
+      <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white">
+        <Icon size={20} style={{ color: active ? BRAND_GRADIENT : "#94A3B8" }} />
       </span>
-      <p className="text-[11px] font-bold text-slate-400">{label}</p>
-      <span className="mt-0.5 rounded-full bg-slate-100 px-2.5 py-1 text-[9.5px] font-semibold text-slate-400 dark:bg-slate-700">{windowText}</span>
-    </div>
+      <p className="text-[11px] font-bold" style={{ color: active ? "#fff" : "#64748B" }}>{label}</p>
+    </motion.button>
   );
 }
 
@@ -809,7 +962,7 @@ function MobileDetailModal({
   accent: string;
   children: React.ReactNode;
 }) {
-  return (
+  return createPortal(
     <>
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
         onClick={onClose} className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm" />
@@ -818,13 +971,14 @@ function MobileDetailModal({
         className="fixed inset-x-0 bottom-0 z-50 max-h-[85vh] overflow-y-auto rounded-t-3xl shadow-2xl"
         style={{ background: accent }}>
         <div className="sticky top-0 flex justify-end p-3">
-          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-white/15 text-white">
+          <button onClick={onClose} className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-700 dark:text-slate-300">
             <X size={16} />
           </button>
         </div>
         {children}
       </motion.div>
-    </>
+    </>,
+    document.body
   );
 }
 
@@ -857,10 +1011,13 @@ function MobileFormAbsen({
 }) {
   const [step, setStep] = useState(0);
   const [direction, setDirection] = useState(1);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     if (open) setStep(0);
   }, [open]);
+
+  useEffect(() => setMounted(true), []);
 
   const isIzinSakit = activeTipe === "IZIN" || activeTipe === "SAKIT";
   const steps = showStatusPicker ? ["foto", "lokasi", "status", "info"] : ["foto", "lokasi", "info"];
@@ -891,7 +1048,9 @@ function MobileFormAbsen({
     }
   }
 
-  return (
+  if (!mounted) return null;
+
+  return createPortal(
     <AnimatePresence>
       {open && (
         <>
@@ -1078,6 +1237,7 @@ function MobileFormAbsen({
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { PartyPopper, Search, Copy, Check, X, Clock, Info, MinusCircle, AlertCircle, Users } from "lucide-react";
 import { avatarColorFor } from "@/components/data-siswa/shared";
@@ -111,7 +112,7 @@ function DetailModal({
     }
   }
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
         onClick={onClose} className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
@@ -201,7 +202,8 @@ function DetailModal({
           </>
         )}
       </motion.div>
-    </div>
+    </div>,
+    document.body
   );
 }
 

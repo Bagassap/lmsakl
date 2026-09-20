@@ -200,10 +200,6 @@ export default function SiswaDashboardPage() {
 
         <div className="relative z-10 space-y-5 p-4">
 
-        <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
-          {data.kelas} · Wali: {data.waliKelas ?? "—"}
-        </p>
-
         <div className="rounded-3xl bg-white p-3 shadow-[0_10px_28px_-10px_rgba(215,38,61,0.35)] dark:bg-[#1c2434]">
           <Link
             href="/siswa/absensi-harian"

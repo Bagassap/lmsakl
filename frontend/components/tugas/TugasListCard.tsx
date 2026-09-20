@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ClipboardList, Search, Plus, Pencil, Trash2, Send, CalendarClock, GraduationCap, ListChecks, PenLine, Sheet,
+  SlidersHorizontal, CheckCircle, X, ChevronRight,
 } from "lucide-react";
+import { MobileDetailModal } from "@/components/shared/MobileDetailModal";
 import { formatTgl, isTugasActive, tipeLabel } from "./types";
 import type { TugasItem, TugasSubmisiItem } from "./types";
 
@@ -12,6 +15,12 @@ const TIPE_BADGE: Record<string, { icon: typeof ListChecks; cls: string }> = {
   ESSAY: { icon: PenLine, cls: "bg-[#E3ECFF] text-[#1745B0] dark:bg-[#1745B0]/40 dark:text-[#6B93FF]" },
   SPREADSHEET: { icon: Sheet, cls: "bg-[#FFE0D6] text-[#B53D1A] dark:bg-[#FF5722]/20 dark:text-[#FF8A5C]" },
 };
+
+function chunkOf4<T>(items: T[]): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += 4) out.push(items.slice(i, i + 4));
+  return out;
+}
 
 const ROW_PALETTES = [
   { bar: "#2962FF", gradient: "#2962FF" },
@@ -25,6 +34,7 @@ function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 export function TugasListCard({
   tugasList, submisiList, loading, onAddTugas, onEditTugas, onDeleteTugas, onLihatSubmisi,
   currentUserId, currentUserRole, canCreate = true,
+  mobileNative = false, search: controlledSearch, onSearchChange: controlledOnSearchChange,
 }: {
   tugasList: TugasItem[];
   submisiList: TugasSubmisiItem[];
@@ -36,18 +46,31 @@ export function TugasListCard({
   currentUserId?: string;
   currentUserRole?: string;
   canCreate?: boolean;
+  mobileNative?: boolean;
+  search?: string;
+  onSearchChange?: (v: string) => void;
 }) {
   const [tab, setTab] = useState<"active" | "completed">("active");
-  const [search, setSearch] = useState("");
+  const [internalSearch, setInternalSearch] = useState("");
+  const search = controlledSearch ?? internalSearch;
+  const setSearch = controlledOnSearchChange ?? setInternalSearch;
+  const [mapelFilter, setMapelFilter] = useState<string | null>(null);
+  const [showFilterSheet, setShowFilterSheet] = useState(false);
+  const [detailItem, setDetailItem] = useState<TugasItem | null>(null);
   const canEdit = (t: TugasItem) => !currentUserRole || currentUserRole === "ADMIN" || t.createdBy.id === currentUserId;
+
+  const uniqueMapel = useMemo(() => Array.from(new Set(tugasList.map((t) => t.mapel))).sort(), [tugasList]);
 
   const active = tugasList.filter((t) => isTugasActive(t));
   const completed = tugasList.filter((t) => !isTugasActive(t));
   const shown = (tab === "active" ? active : completed)
+    .filter((t) => !mapelFilter || t.mapel === mapelFilter)
     .filter((t) => t.judul.toLowerCase().includes(search.trim().toLowerCase()) || t.mapel.toLowerCase().includes(search.trim().toLowerCase()));
+  const chunked = useMemo(() => chunkOf4(shown), [shown]);
 
   return (
-    <div className="flex flex-col bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden">
+    <div>
+    <div className="hidden flex-col bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 overflow-hidden lg:flex">
       <div className="px-5 pt-5 pb-0 bg-primary-light/40">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
@@ -179,6 +202,207 @@ export function TugasListCard({
           </table>
         )}
       </div>
+    </div>
+
+    {mobileNative && (
+      <div className="relative isolate space-y-3 lg:hidden">
+        <div className="flex items-center justify-between gap-2 border-b border-slate-200 px-1 dark:border-slate-700">
+          <div className="flex items-center gap-5">
+            <button type="button" onClick={() => setTab("active")}
+              className="-mb-px flex items-center gap-1.5 border-b-2 pb-2.5 text-sm font-bold transition-colors"
+              style={tab === "active" ? { borderColor: "#2962FF", color: "#2962FF" } : { borderColor: "transparent", color: "#94a3b8" }}>
+              Aktif
+              <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+                style={tab === "active" ? { background: "#2962FF18", color: "#2962FF" } : { background: "#E2E8F0", color: "#94a3b8" }}>
+                {active.length}
+              </span>
+            </button>
+            <button type="button" onClick={() => setTab("completed")}
+              className="-mb-px flex items-center gap-1.5 border-b-2 pb-2.5 text-sm font-bold transition-colors"
+              style={tab === "completed" ? { borderColor: "#2962FF", color: "#2962FF" } : { borderColor: "transparent", color: "#94a3b8" }}>
+              Selesai
+              <span className="rounded-md px-1.5 py-0.5 text-[10px] font-bold"
+                style={tab === "completed" ? { background: "#2962FF18", color: "#2962FF" } : { background: "#E2E8F0", color: "#94a3b8" }}>
+                {completed.length}
+              </span>
+            </button>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            {uniqueMapel.length > 1 && (
+              <button type="button" onClick={() => setShowFilterSheet(true)}
+                className="relative -mb-px mb-1.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full"
+                style={mapelFilter ? { background: "#2962FF18", color: "#2962FF" } : { background: "#F1F5F9", color: "#94a3b8" }}>
+                <SlidersHorizontal size={14} />
+                {mapelFilter && <span className="absolute right-0 top-0 h-2 w-2 rounded-full border-2 border-white" style={{ background: "#2962FF" }} />}
+              </button>
+            )}
+            {canCreate && (
+              <button type="button" onClick={onAddTugas}
+                className="mb-1.5 flex items-center gap-1.5 rounded-full px-3.5 py-2 text-xs font-bold text-black shadow-sm"
+                style={{ background: "#C3F84A" }}>
+                <Plus size={13} /> Tambah
+              </button>
+            )}
+          </div>
+        </div>
+
+        {loading && (
+          <div className="rounded-3xl bg-white py-14 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] dark:bg-[#1c2434]">
+            <p className="text-sm text-slate-400">Memuat data...</p>
+          </div>
+        )}
+        {!loading && shown.length === 0 && (
+          <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] dark:bg-[#1c2434]">
+            <div className="flex h-14 w-14 items-center justify-center rounded-full" style={{ backgroundColor: "#C3F84A30" }}>
+              <ClipboardList size={24} style={{ color: "#8A9E1F" }} />
+            </div>
+            <p className="mt-4 text-sm text-slate-400">{search.trim() ? `Tidak ada tugas dengan nama "${search.trim()}"` : tab === "active" ? "Tidak ada tugas aktif" : "Tidak ada tugas selesai"}</p>
+          </div>
+        )}
+        {!loading && shown.length > 0 && (
+          <div className="space-y-2.5">
+            {chunked.map((group, gi) => (
+              <motion.div key={gi}
+                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: gi * 0.05 }}
+                className="divide-y divide-slate-100 overflow-hidden rounded-[22px] bg-white shadow-[0_4px_14px_-4px_rgba(0,0,0,0.10)] dark:divide-slate-700/50 dark:bg-[#1c2434]">
+                {group.map((t) => {
+                  const cnt = submisiList.filter((s) => s.tugasId === t.id).length;
+                  return (
+                    <button key={t.id} type="button" onClick={() => setDetailItem(t)}
+                      className="flex w-full items-center gap-3 p-4 text-left">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl" style={{ backgroundColor: "#2962FF18" }}>
+                        {(() => { const Icon = TIPE_BADGE[t.tipe]?.icon ?? ClipboardList; return <Icon size={18} style={{ color: "#2962FF" }} />; })()}
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-bold text-slate-800 dark:text-white">{t.judul}</p>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-1.5 py-0.5 text-[9.5px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                            <GraduationCap size={9} /> {t.mapel}
+                          </span>
+                          <span className="flex items-center gap-1 text-[9.5px] font-medium text-slate-500 dark:text-slate-400">
+                            <CalendarClock size={9} />{formatTgl(t.deadline)}
+                          </span>
+                        </div>
+                      </div>
+                      {cnt > 0 && (
+                        <span className="flex h-6 min-w-6 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-bold text-white" style={{ backgroundColor: "#2962FF" }}>
+                          {cnt}
+                        </span>
+                      )}
+                      <ChevronRight size={15} className="shrink-0 text-slate-300 dark:text-slate-600" />
+                    </button>
+                  );
+                })}
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
+    <AnimatePresence>
+      {detailItem && (() => {
+        const cnt = submisiList.filter((s) => s.tugasId === detailItem.id).length;
+        return (
+          <MobileDetailModal onClose={() => setDetailItem(null)} accent="#2962FF">
+            <div className="relative px-6 pb-6 pt-10 text-center">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10" />
+              <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-white/8" />
+              <div className="relative mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white/25 shadow-lg">
+                {(() => { const Icon = TIPE_BADGE[detailItem.tipe]?.icon ?? ClipboardList; return <Icon size={24} className="text-white" />; })()}
+              </div>
+              <h2 className="relative mt-3 text-lg font-extrabold text-white">{detailItem.judul}</h2>
+              <p className="relative mt-1 text-sm text-white/80">{detailItem.mapel} · {tipeLabel(detailItem.tipe)}</p>
+            </div>
+
+            <div className="relative mx-auto max-w-md space-y-2 px-6 text-left">
+              <div className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                <span className="text-xs font-semibold text-white/70">Deadline</span>
+                <span className="text-xs font-bold text-white">{formatTgl(detailItem.deadline)}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                <span className="text-xs font-semibold text-white/70">Terkumpul</span>
+                <span className="text-xs font-bold text-white">{cnt} siswa</span>
+              </div>
+              {detailItem.kelasList.length > 0 && (
+                <div className="rounded-xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                  <span className="mb-1.5 block text-xs font-semibold text-white/70">Kelas Target</span>
+                  <div className="flex flex-wrap gap-1">
+                    {detailItem.kelasList.map((k) => (
+                      <span key={k.id} className="rounded-lg bg-white/15 px-2 py-0.5 text-[10px] font-bold text-white">{k.nama}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="relative flex flex-col gap-2 px-6 pb-6 pt-4">
+              <button type="button" onClick={() => { setDetailItem(null); onLihatSubmisi(detailItem); }}
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-white py-3.5 text-sm font-extrabold text-[#2962FF] shadow-lg">
+                <Send size={16} /> Lihat Submisi{cnt > 0 ? ` (${cnt})` : ""}
+              </button>
+              {canEdit(detailItem) && (
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => { onEditTugas(detailItem); setDetailItem(null); }}
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-white/15 py-3 text-sm font-bold text-white">
+                    <Pencil size={14} /> Edit
+                  </button>
+                  <button type="button" onClick={() => { onDeleteTugas(detailItem.id); setDetailItem(null); }}
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-white/15 py-3 text-sm font-bold text-white">
+                    <Trash2 size={14} /> Hapus
+                  </button>
+                </div>
+              )}
+            </div>
+          </MobileDetailModal>
+        );
+      })()}
+    </AnimatePresence>
+
+    <AnimatePresence>
+      {showFilterSheet && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center lg:hidden">
+          <motion.div
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            transition={{ duration: 0.18 }}
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            onClick={() => setShowFilterSheet(false)}
+          />
+          <motion.div
+            initial={{ y: "100%" }} animate={{ y: 0 }} exit={{ y: "100%" }}
+            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            className="relative z-10 w-full overflow-hidden rounded-t-3xl bg-white dark:bg-[#1c2434]"
+            style={{ maxHeight: "80vh" }}
+          >
+            <div className="flex items-center justify-between px-5 pt-5">
+              <h3 className="text-base font-extrabold text-slate-800 dark:text-white">Filter Mata Pelajaran</h3>
+              <button type="button" onClick={() => setShowFilterSheet(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+                <X size={15} />
+              </button>
+            </div>
+            <div className="max-h-[60vh] space-y-1.5 overflow-y-auto px-5 py-5">
+              <button type="button" onClick={() => { setMapelFilter(null); setShowFilterSheet(false); }}
+                className="flex w-full items-center justify-between gap-2 rounded-2xl border-2 px-4 py-3 text-left text-sm font-bold transition-colors"
+                style={mapelFilter === null ? { borderColor: "#2962FF", background: "#2962FF18", color: "#2962FF" } : { borderColor: "#F1F5F9", background: "transparent", color: "#334155" }}>
+                Semua Mapel
+                {mapelFilter === null && <CheckCircle size={16} style={{ color: "#2962FF" }} />}
+              </button>
+              {uniqueMapel.map((mp) => (
+                <button key={mp} type="button" onClick={() => { setMapelFilter(mp); setShowFilterSheet(false); }}
+                  className="flex w-full items-center justify-between gap-2 rounded-2xl border-2 px-4 py-3 text-left text-sm font-bold transition-colors"
+                  style={mapelFilter === mp ? { borderColor: "#2962FF", background: "#2962FF18", color: "#2962FF" } : { borderColor: "#F1F5F9", background: "transparent", color: "#334155" }}>
+                  {mp}
+                  {mapelFilter === mp && <CheckCircle size={16} style={{ color: "#2962FF" }} />}
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
     </div>
   );
 }

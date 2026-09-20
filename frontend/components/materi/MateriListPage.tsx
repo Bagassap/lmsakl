@@ -5,13 +5,20 @@ import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   BookOpen, Plus, Search, FileText, Download, Pencil, Trash2, Eye,
-  AlertCircle, GraduationCap, CalendarDays,
+  AlertCircle, GraduationCap, CalendarDays, ChevronRight,
 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
+import { MobileDetailModal } from "@/components/shared/MobileDetailModal";
 import { MateriFormModal, type MateriItem } from "./MateriFormModal";
 
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric", timeZone: "Asia/Jakarta" });
+}
+
+function chunkOf4<T>(items: T[]): T[][] {
+  const out: T[][] = [];
+  for (let i = 0; i < items.length; i += 4) out.push(items.slice(i, i + 4));
+  return out;
 }
 
 const ROW_PALETTES = [
@@ -25,12 +32,16 @@ function rowPalette(i: number) { return ROW_PALETTES[i % ROW_PALETTES.length]; }
 
 export function MateriListPage({
   embedded = false, currentUserId, currentUserRole, mapelOptions, canCreate = true,
+  mobileNative = false, search: controlledSearch, onSearchChange: controlledOnSearchChange,
 }: {
   embedded?: boolean;
   currentUserId?: string;
   currentUserRole?: string;
   mapelOptions?: string[];
   canCreate?: boolean;
+  mobileNative?: boolean;
+  search?: string;
+  onSearchChange?: (v: string) => void;
 } = {}) {
   const toast = useToast();
   const router = useRouter();
@@ -40,9 +51,13 @@ export function MateriListPage({
   const [list, setList] = useState<MateriItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [search, setSearch] = useState("");
+  const [internalSearch, setInternalSearch] = useState("");
+  const search = controlledSearch ?? internalSearch;
+  const setSearch = controlledOnSearchChange ?? setInternalSearch;
+  const [mapelFilter, setMapelFilter] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<MateriItem | null>(null);
+  const [detailItem, setDetailItem] = useState<MateriItem | null>(null);
 
   const fetchList = useCallback(async () => {
     setLoading(true);
@@ -71,18 +86,24 @@ export function MateriListPage({
     }
   }
 
+  const uniqueMapel = useMemo(() => Array.from(new Set(list.map((m) => m.mapel))).sort(), [list]);
+
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
-    if (!q) return list;
-    return list.filter((m) =>
-      m.judul.toLowerCase().includes(q) ||
-      m.mapel.toLowerCase().includes(q) ||
-      m.kelasList.some((k) => k.nama.toLowerCase().includes(q))
-    );
-  }, [list, search]);
+    return list.filter((m) => {
+      if (mapelFilter && m.mapel !== mapelFilter) return false;
+      if (!q) return true;
+      return m.judul.toLowerCase().includes(q) ||
+        m.mapel.toLowerCase().includes(q) ||
+        m.kelasList.some((k) => k.nama.toLowerCase().includes(q));
+    });
+  }, [list, search, mapelFilter]);
+
+  const chunked = useMemo(() => chunkOf4(filtered), [filtered]);
 
   return (
     <div className="space-y-5">
+      <div className="hidden space-y-5 lg:block">
       {!embedded && (
         <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
           <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
@@ -239,6 +260,172 @@ export function MateriListPage({
           )}
         </div>
       </div>
+      </div>
+
+      {mobileNative && (
+        <div className="relative isolate -mx-4 space-y-3 px-4 lg:hidden">
+          <div className="flex items-center justify-between gap-2">
+            <span className="text-xs font-bold text-slate-400 dark:text-slate-500">{filtered.length} materi</span>
+            {canCreate && (
+              <button type="button" onClick={() => { setEditItem(null); setModalOpen(true); }}
+                className="flex items-center gap-1.5 rounded-full bg-primary px-3.5 py-2 text-xs font-bold text-white shadow-sm">
+                <Plus size={13} /> Tambah
+              </button>
+            )}
+          </div>
+
+          {uniqueMapel.length > 1 && (
+            <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <button type="button" onClick={() => setMapelFilter(null)}
+                className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold shadow-[0_2px_6px_rgba(0,0,0,0.05)] transition-colors ${
+                  mapelFilter === null ? "bg-primary text-white" : "bg-white text-slate-500"
+                }`}>
+                Semua
+              </button>
+              {uniqueMapel.map((mp) => (
+                <button key={mp} type="button" onClick={() => setMapelFilter(mp)}
+                  className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-bold shadow-[0_2px_6px_rgba(0,0,0,0.05)] transition-colors ${
+                    mapelFilter === mp ? "bg-primary text-white" : "bg-white text-slate-500"
+                  }`}>
+                  {mp}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <AnimatePresence>
+            {!canCreate && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="flex items-center gap-2 rounded-2xl border border-[#F8D6DA] bg-[#FCF0F1] px-4 py-3 text-sm text-[#9E1B2E] dark:border-[#5C1420]/40 dark:bg-[#5C1420]/20 dark:text-[#E8677A]">
+                <AlertCircle size={14} className="shrink-0" />
+                Anda belum terdaftar sebagai pengampu mata pelajaran apa pun, jadi belum bisa menambahkan materi.
+              </motion.div>
+            )}
+            {error && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                className="flex items-center gap-2 rounded-2xl border border-[#EBC4C4] bg-[#F7E8E8] px-4 py-3 text-sm text-[#750000] dark:border-[#300000]/40 dark:bg-[#300000]/20 dark:text-[#A62E2E]">
+                <AlertCircle size={14} className="shrink-0" />{error}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {loading && (
+            <div className="rounded-3xl bg-white py-14 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] dark:bg-[#1c2434]">
+              <p className="text-sm text-slate-400">Memuat data...</p>
+            </div>
+          )}
+          {!loading && filtered.length === 0 && (
+            <div className="flex flex-col items-center rounded-3xl bg-white px-6 py-14 text-center shadow-[0_2px_8px_rgba(0,0,0,0.05)] dark:bg-[#1c2434]">
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary/10">
+                <BookOpen size={24} className="text-primary" />
+              </div>
+              <p className="mt-4 text-sm text-slate-400">{search.trim() ? `Tidak ada materi dengan kata kunci "${search.trim()}"` : "Belum ada materi"}</p>
+              {!search.trim() && canCreate && (
+                <motion.button onClick={() => { setEditItem(null); setModalOpen(true); }}
+                  whileTap={{ scale: 0.97 }}
+                  className="mt-4 flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-white">
+                  <Plus size={14} /> Tambah Materi Pertama
+                </motion.button>
+              )}
+            </div>
+          )}
+          {!loading && filtered.length > 0 && (
+            <div className="space-y-2.5">
+              {chunked.map((group, gi) => (
+                <motion.div key={gi}
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25, delay: gi * 0.05 }}
+                  className="divide-y divide-slate-100 overflow-hidden rounded-[22px] bg-white shadow-[0_4px_14px_-4px_rgba(0,0,0,0.10)] dark:divide-slate-700/50 dark:bg-[#1c2434]">
+                  {group.map((m) => (
+                    <button key={m.id} type="button" onClick={() => setDetailItem(m)}
+                      className="flex w-full items-center gap-3 p-4 text-left">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-primary/10">
+                        <FileText size={18} className="text-primary" />
+                      </span>
+                      <div className="min-w-0 flex-1">
+                        <p className="truncate text-sm font-bold text-slate-800 dark:text-white">{m.judul}</p>
+                        <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+                          <span className="inline-flex items-center gap-1 rounded-lg bg-slate-100 px-1.5 py-0.5 text-[9.5px] font-semibold text-slate-600 dark:bg-slate-700 dark:text-slate-300">
+                            <GraduationCap size={9} /> {m.mapel}
+                          </span>
+                          <span className="flex items-center gap-1 text-[9.5px] font-medium text-slate-500 dark:text-slate-400">
+                            <CalendarDays size={9} />{formatDate(m.createdAt)}
+                          </span>
+                        </div>
+                      </div>
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                        <ChevronRight size={15} />
+                      </span>
+                    </button>
+                  ))}
+                </motion.div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <AnimatePresence>
+        {detailItem && (
+          <MobileDetailModal onClose={() => setDetailItem(null)} accent="#D7263D">
+            <div className="relative px-6 pb-6 pt-10 text-center">
+              <div className="pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-white/10" />
+              <div className="pointer-events-none absolute -bottom-10 -left-10 h-32 w-32 rounded-full bg-white/8" />
+              <div className="relative mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-white/25 shadow-lg">
+                <FileText size={24} className="text-white" />
+              </div>
+              <h2 className="relative mt-3 text-lg font-extrabold text-white">{detailItem.judul}</h2>
+              <p className="relative mt-1 text-sm text-white/80">{detailItem.mapel}</p>
+            </div>
+
+            <div className="relative mx-auto max-w-md space-y-2 px-6 text-left">
+              <div className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                <span className="text-xs font-semibold text-white/70">Tanggal Dibuat</span>
+                <span className="text-xs font-bold text-white">{formatDate(detailItem.createdAt)}</span>
+              </div>
+              <div className="flex items-center justify-between rounded-xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                <span className="text-xs font-semibold text-white/70">Dibuat Oleh</span>
+                <span className="text-xs font-bold text-white">{detailItem.createdBy.nama}</span>
+              </div>
+              {detailItem.kelasList.length > 0 && (
+                <div className="rounded-xl bg-white/10 px-4 py-3 backdrop-blur-sm">
+                  <span className="mb-1.5 block text-xs font-semibold text-white/70">Kelas Target</span>
+                  <div className="flex flex-wrap gap-1">
+                    {detailItem.kelasList.map((k) => (
+                      <span key={k.id} className="rounded-lg bg-white/15 px-2 py-0.5 text-[10px] font-bold text-white">{k.nama}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="relative flex flex-col gap-2 px-6 pb-6 pt-4">
+              <button type="button" onClick={() => { setDetailItem(null); router.push(`${rolePrefix}/materi/${detailItem.id}`); }}
+                className="flex w-full items-center justify-center gap-2 rounded-full bg-white py-3.5 text-sm font-extrabold text-primary shadow-lg">
+                <Eye size={16} /> Lihat Materi
+              </button>
+              {detailItem.fileUrl && (
+                <a href={detailItem.fileUrl} target="_blank" rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-white/15 py-3 text-sm font-bold text-white">
+                  <Download size={15} /> Unduh File
+                </a>
+              )}
+              {canEdit(detailItem) && (
+                <div className="flex gap-2">
+                  <button type="button" onClick={() => { setEditItem(detailItem); setModalOpen(true); setDetailItem(null); }}
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-white/15 py-3 text-sm font-bold text-white">
+                    <Pencil size={14} /> Edit
+                  </button>
+                  <button type="button" onClick={() => { handleDelete(detailItem); setDetailItem(null); }}
+                    className="flex flex-1 items-center justify-center gap-1.5 rounded-full bg-white/15 py-3 text-sm font-bold text-white">
+                    <Trash2 size={14} /> Hapus
+                  </button>
+                </div>
+              )}
+            </div>
+          </MobileDetailModal>
+        )}
+      </AnimatePresence>
 
       <MateriFormModal
         open={modalOpen}

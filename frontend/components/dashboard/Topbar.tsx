@@ -135,7 +135,7 @@ export function Topbar({ user }: { user: UserPayload }) {
   const router   = useRouter();
   const pathname = usePathname();
   const { title, subtitle } = getPageInfo(pathname);
-  const redHeader = pathname.startsWith("/siswa/");
+  const redHeader = pathname.startsWith("/siswa/") || pathname === "/admin/dashboard" || pathname === "/admin/absensi-harian" || pathname === "/admin/pengumuman" || pathname === "/admin/materi" || pathname === "/admin/data-siswa" || pathname === "/admin/catatan-siswa" || pathname === "/admin/manajemen-password" || pathname === "/admin/magang/penempatan" || pathname === "/admin/magang/absensi" || pathname === "/guru/dashboard" || pathname === "/guru/absensi-harian" || pathname === "/guru/pengumuman" || pathname === "/guru/materi" || pathname === "/guru/data-siswa" || pathname === "/guru/catatan-siswa" || pathname === "/guru/magang/penempatan" || pathname === "/guru/magang/absensi" || pathname === "/guru/magang/rekap" || pathname === "/guru/ujian-ukk/jadwal-soal";
 
   const [isDark, setIsDark] = useState(false);
   const [darkMounted, setDarkMounted] = useState(false);
@@ -302,6 +302,7 @@ export function Topbar({ user }: { user: UserPayload }) {
 
   async function handleLogout() {
     sessionStorage.removeItem("lms_session");
+    try { localStorage.removeItem("lms_last_path"); } catch {}
     await fetch("/api/auth/logout", { method: "POST" });
     window.location.replace("/login");
   }
@@ -310,8 +311,8 @@ export function Topbar({ user }: { user: UserPayload }) {
   return (
     <>
       <header
-        className={`sticky top-0 z-30 flex items-center gap-3 px-4 py-4 transition-colors duration-200 lg:bg-white lg:px-5 lg:py-5 lg:shadow-[0_1px_4px_rgba(0,0,0,0.08)] 2xl:px-10 ${
-          redHeader ? "bg-primary" : "bg-surface dark:bg-[#1c2434]"
+        className={`sticky top-0 z-30 flex items-center gap-3 px-4 py-4 transition-colors duration-200 lg:bg-white lg:px-5 lg:py-5 lg:shadow-[0_1px_4px_rgba(0,0,0,0.08)] lg:dark:bg-[#1c2434] 2xl:px-10 ${
+          redHeader ? "bg-primary lg:shadow-[0_1px_4px_rgba(0,0,0,0.08)]" : "bg-surface dark:bg-[#1c2434]"
         }`}
       >
         <div className="flex min-w-0 items-center gap-2 lg:hidden">
@@ -326,7 +327,7 @@ export function Topbar({ user }: { user: UserPayload }) {
               <span className={`text-[15px] font-black tracking-tight ${redHeader ? "text-white" : "text-slate-800 dark:text-white"}`}>LMS</span>
               <span className={`text-[9px] font-bold tracking-[0.15em] ${redHeader ? "text-white/60" : "text-primary"}`}>AKL</span>
             </span>
-            {pathname === "/siswa/dashboard" && (
+            {(pathname === "/siswa/dashboard" || pathname === "/guru/dashboard") && (
               <p className={`truncate text-[10px] font-semibold leading-tight ${redHeader ? "text-white/80" : "text-slate-500 dark:text-slate-400"}`}>
                 {jakartaGreetingWord()}, {user.nama.split(" ")[0]} 👋
               </p>
