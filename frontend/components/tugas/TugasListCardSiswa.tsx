@@ -39,6 +39,7 @@ function rowStatus(t: TugasItem, onKumpulkan: (t: TugasItem) => void, onLihatDet
   const overdue = !isTugasActive(t) && !mySubmisi;
   const isLockdown = LOCKDOWN_TIPE.has(t.tipe);
   const isTerkunci = isLockdown && !!mySubmisi?.terkunci && !isDiterima;
+  const bisaCobaLagi = isLockdown && isTerkirim && !isTerkunci;
 
   const btn = isTerkunci
     ? { label: "Percobaan Habis", icon: <Lock size={11} />, bg: "#F1F5F9", clr: "#94a3b8", border: "#e2e8f0", disabled: true, onClick: () => {} }
@@ -46,6 +47,8 @@ function rowStatus(t: TugasItem, onKumpulkan: (t: TugasItem) => void, onLihatDet
     ? { label: "Diterima", icon: <CheckCircle size={11} />, bg: "#ECFCCB", clr: "#4D7C0F", border: "#C3F84A", onClick: () => onLihatDetail(mySubmisi!, t) }
     : isRevisi
     ? { label: isLockdown ? "Kerjakan Ulang" : "Revisi", icon: <AlertCircle size={11} />, bg: "#D7263D", clr: "#D7263D", border: "#D7263D", onClick: () => (isLockdown ? onKumpulkan(t) : onLihatDetail(mySubmisi!, t)) }
+    : bisaCobaLagi
+    ? { label: "Kerjakan Lagi", icon: <Send size={11} />, bg: "#FFE0D6", clr: "#FF5722", border: "#FF5722", onClick: () => onKumpulkan(t) }
     : isTerkirim
     ? { label: "Terkirim", icon: <CheckCircle size={11} />, bg: "#E3ECFF", clr: "#1745B0", border: "#1745B0", onClick: () => onLihatDetail(mySubmisi!, t) }
     : overdue

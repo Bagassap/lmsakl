@@ -19,7 +19,7 @@ import { LaporanSeringTidakHadir } from "@/components/absensi-harian/LaporanSeri
 import { StatusBadge } from "@/components/absensi-harian/StatusBadge";
 import { Avatar } from "@/components/shared/Avatar";
 import { MobileDatePicker } from "@/components/shared/MobileDatePicker";
-import { paginate } from "@/components/shared/PageSizeToggle";
+import { PageSizeToggle, paginate } from "@/components/shared/PageSizeToggle";
 import {
   STATUS_CFG, PULANG_CFG, MONTH_NAMES, RANGE_MODE_CARDS, reportCardFg, todayJakarta, formatTgl,
   avatarColor,
@@ -764,20 +764,23 @@ export default function GuruAbsensiHarianPage() {
                   ))
                 )}
 
-                {tablePageCount > 1 && (
+                {filteredSiswa.length > 0 && (
                   <div className="flex items-center justify-between gap-2 pt-2">
                     <span className="text-xs text-slate-400">{tableStart}–{tableEnd} dari {filteredSiswa.length}</span>
-                    <div className="flex items-center gap-1">
-                      <button onClick={() => setTablePage((p) => Math.max(0, p - 1))} disabled={tablePage === 0}
-                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-500 disabled:opacity-30 dark:bg-slate-800">
-                        <ChevronLeft size={14} />
-                      </button>
-                      <span className="px-2 text-xs font-bold text-slate-500">{tablePage + 1}/{tablePageCount}</span>
-                      <button onClick={() => setTablePage((p) => Math.min(tablePageCount - 1, p + 1))} disabled={tablePage >= tablePageCount - 1}
-                        className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-500 disabled:opacity-30 dark:bg-slate-800">
-                        <ChevronDown size={14} className="-rotate-90" />
-                      </button>
-                    </div>
+                    <PageSizeToggle value={tablePageSize} onChange={setTablePageSize} />
+                  </div>
+                )}
+                {tablePageCount > 1 && (
+                  <div className="flex items-center justify-center gap-1 pt-2">
+                    <button onClick={() => setTablePage((p) => Math.max(0, p - 1))} disabled={tablePage === 0}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-500 disabled:opacity-30 dark:bg-slate-800">
+                      <ChevronLeft size={14} />
+                    </button>
+                    <span className="px-2 text-xs font-bold text-slate-500">{tablePage + 1}/{tablePageCount}</span>
+                    <button onClick={() => setTablePage((p) => Math.min(tablePageCount - 1, p + 1))} disabled={tablePage >= tablePageCount - 1}
+                      className="flex h-8 w-8 items-center justify-center rounded-full bg-white text-slate-500 disabled:opacity-30 dark:bg-slate-800">
+                      <ChevronDown size={14} className="-rotate-90" />
+                    </button>
                   </div>
                 )}
               </div>

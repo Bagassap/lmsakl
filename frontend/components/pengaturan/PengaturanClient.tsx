@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Briefcase, FileText, Info, Loader2, Settings } from "lucide-react";
+import { Briefcase, FileText, Info, Loader2 } from "lucide-react";
 import { useToast } from "@/components/shared/ToastSystem";
+import { DataSiswaHeader } from "@/components/data-siswa/DataSiswaHeader";
 
 type Pengaturan = { magangAktif: boolean; ukkAktif: boolean };
 type Key = keyof Pengaturan;
@@ -62,7 +63,6 @@ export function PengaturanClient() {
       .then((d) => setData({ magangAktif: !!d?.magangAktif, ukkAktif: !!d?.ukkAktif }))
       .catch(() => toast.error("Gagal memuat pengaturan"))
       .finally(() => setLoading(false));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function toggle(key: Key) {
@@ -90,22 +90,10 @@ export function PengaturanClient() {
   }
 
   return (
-    <div className="space-y-5 p-1">
-      <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
-        <div className="relative flex items-center gap-3 sm:gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
-            <Settings size={22} className="text-white sm:hidden" />
-            <Settings size={26} className="hidden text-white sm:block" />
-          </div>
-          <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Admin</span>
-            <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Pengaturan Sistem</h1>
-          </div>
-        </div>
-      </div>
+    <div>
+      <DataSiswaHeader eyebrow="Admin" title="Pengaturan Sistem" />
 
+      <div className="mt-0 space-y-6 lg:mt-5">
       {loading || !data ? (
         <div className="py-16 text-center text-sm font-semibold text-slate-400">Memuat…</div>
       ) : (
@@ -141,6 +129,7 @@ export function PengaturanClient() {
           </div>
         </>
       )}
+      </div>
     </div>
   );
 }
