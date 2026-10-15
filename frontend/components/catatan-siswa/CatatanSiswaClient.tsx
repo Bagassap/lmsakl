@@ -157,13 +157,11 @@ export function CatatanSiswaClient() {
                 {isNative && (
                   <div className={`flex shrink-0 items-center gap-1.5 ${isAdmin ? "lg:hidden" : ""}`}>
                     <button type="button" onClick={() => handleDownload("pdf")} disabled={!selectedKelasId || downloading !== null} title="Unduh PDF"
-                      className="flex h-10.5 w-10.5 items-center justify-center rounded-lg text-white shadow-sm transition-all hover:brightness-95 disabled:opacity-50"
-                      style={{ background: "#D7263D" }}>
+                      className="flex h-10.5 w-10.5 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 shadow-sm transition-all hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700">
                       {downloading === "pdf" ? <Loader2 size={15} className="animate-spin" /> : <FileText size={15} />}
                     </button>
                     <button type="button" onClick={() => handleDownload("excel")} disabled={!selectedKelasId || downloading !== null} title="Unduh Excel"
-                      className="flex h-10.5 w-10.5 items-center justify-center rounded-lg text-white shadow-sm transition-all hover:brightness-95 disabled:opacity-50"
-                      style={{ background: "#4D7C0F" }}>
+                      className="flex h-10.5 w-10.5 items-center justify-center rounded-lg border border-slate-200 bg-slate-50 text-slate-600 shadow-sm transition-all hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700">
                       {downloading === "excel" ? <Loader2 size={15} className="animate-spin" /> : <FileSpreadsheet size={15} />}
                     </button>
                   </div>
@@ -208,7 +206,13 @@ export function CatatanSiswaClient() {
           {!isGuru && (
             <div className={`border-t border-slate-100 p-4 sm:p-5 dark:border-slate-700 ${isAdmin ? "hidden lg:block" : ""}`}>
               <div className="mb-3 flex items-center gap-2.5">
-                <Download size={16} className="text-slate-400" />
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+                  style={{
+                    background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #5E0000",
+                    boxShadow: "0 5px 10px -3px #5E000080, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)",
+                  }}>
+                  <Download size={18} />
+                </span>
                 <div className="min-w-0">
                   <p className="text-sm font-bold text-slate-800 dark:text-white">Unduh Laporan</p>
                   <p className="truncate text-[11px] text-slate-400 dark:text-slate-500">Rekap {selectedKelas?.nama ?? "kelas ini"} & seluruh catatannya</p>
@@ -216,14 +220,12 @@ export function CatatanSiswaClient() {
               </div>
               <div className="flex gap-2">
                 <button type="button" onClick={() => handleDownload("pdf")} disabled={!selectedKelasId || downloading !== null}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:brightness-95 disabled:opacity-50"
-                  style={{ background: "#D7263D" }}>
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-600 transition-all hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700">
                   {downloading === "pdf" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
                   PDF
                 </button>
                 <button type="button" onClick={() => handleDownload("excel")} disabled={!selectedKelasId || downloading !== null}
-                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl px-3 py-2.5 text-xs font-bold text-white shadow-sm transition-all hover:brightness-95 disabled:opacity-50"
-                  style={{ background: "#4D7C0F" }}>
+                  className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-xs font-bold text-slate-600 transition-all hover:bg-slate-100 disabled:opacity-50 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700">
                   {downloading === "excel" ? <Loader2 size={13} className="animate-spin" /> : <FileSpreadsheet size={13} />}
                   Excel
                 </button>

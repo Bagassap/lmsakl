@@ -15,7 +15,7 @@ import { KehadiranAreaChart } from "@/components/dashboard/KehadiranAreaChart";
 import { StatisticRainbow } from "@/components/dashboard/StatisticRainbow";
 import { timeAgo } from "@/components/dashboard/ActivityList";
 import PengumumanDetailModal from "@/components/pengumuman/PengumumanDetailModal";
-import { WALLET_GRADIENTS, WALLET_ON_TEXT } from "@/components/absensi-harian/shared";
+import { WALLET_GRADIENTS, WALLET_ON_LIME } from "@/components/absensi-harian/shared";
 
 
 interface Pengumuman {
@@ -399,23 +399,25 @@ export default function GuruDashboardPage() {
           { icon: TrendingUp, label: "Hadir", value: hadirCount },
           { icon: Calendar, label: "% Hadir", value: `${data.kehadiran.persen}%` },
         ].map((s, i) => {
-          const bg = WALLET_GRADIENTS[i];
-          const onText = WALLET_ON_TEXT[i];
+          const color = WALLET_GRADIENTS[i];
+          const onLime = WALLET_ON_LIME[i];
           return (
             <motion.div key={s.label}
               initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: 0.4 + i * 0.05 }}
               whileTap={{ scale: 0.97 }}
-              className="relative flex items-center gap-2.5 overflow-hidden rounded-2xl p-3 shadow-[0_6px_16px_-6px_rgba(0,0,0,0.25)]"
-              style={{ background: bg, color: onText }}
+              className="flex items-center gap-2.5 rounded-2xl border border-slate-100 bg-white p-3 dark:border-slate-700 dark:bg-slate-800"
             >
-              <div className="pointer-events-none absolute -right-3 -top-3 h-14 w-14 rounded-full" style={{ backgroundColor: `${onText}26` }} />
-              <span className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-xl" style={{ backgroundColor: `${onText}33` }}>
-                <s.icon size={16} style={{ color: onText }} />
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl"
+                style={{
+                  background: `linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), ${color}`,
+                  boxShadow: `0 5px 10px -3px ${color}80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)`,
+                }}>
+                <s.icon size={16} style={{ color: onLime ? "#1c2434" : "#fff" }} />
               </span>
-              <div className="relative flex min-w-0 items-baseline gap-1.5">
-                <p className="text-sm font-extrabold leading-none">{s.value}</p>
-                <p className="truncate text-[10px] leading-none" style={{ color: `${onText}D9` }}>{s.label}</p>
+              <div className="flex min-w-0 items-baseline gap-1.5">
+                <p className="text-sm font-extrabold leading-none text-slate-800 dark:text-white">{s.value}</p>
+                <p className="truncate text-[10px] leading-none text-slate-400 dark:text-slate-500">{s.label}</p>
               </div>
             </motion.div>
           );

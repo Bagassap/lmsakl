@@ -66,7 +66,11 @@ export function PermintaanPasswordCard({
   return (
     <div className="flex flex-1 flex-col p-5">
       <div className="mb-3 flex items-center gap-2.5">
-        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary text-white">
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-white"
+          style={{
+            background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #D7263D",
+            boxShadow: "0 5px 10px -3px #D7263D80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)",
+          }}>
           <Inbox size={18} />
         </span>
         <div>
@@ -76,17 +80,23 @@ export function PermintaanPasswordCard({
       </div>
 
       <div className="grid grid-cols-2 gap-2.5">
-        <div className="rounded-2xl bg-[#8B0000] p-3">
-          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-white/80">
-            <Clock size={11} /> Pending
-          </p>
-          <p className="mt-1 text-lg font-bold text-white">{loading ? "—" : pending.length}</p>
+        <div className="flex items-center gap-2.5 rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: "#8B00001A", color: "#8B0000" }}>
+            <Clock size={15} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-lg font-extrabold leading-none text-slate-800 dark:text-white">{loading ? "—" : pending.length}</p>
+            <p className="mt-1 truncate text-[10px] font-semibold text-slate-400 dark:text-slate-500">Pending</p>
+          </div>
         </div>
-        <div className="rounded-2xl bg-[#C3F84A] p-3">
-          <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wide text-black/70">
-            <CheckCircle2 size={11} /> Selesai Hari Ini
-          </p>
-          <p className="mt-1 text-lg font-bold text-black">{loading ? "—" : selesaiHariIni}</p>
+        <div className="flex items-center gap-2.5 rounded-2xl border border-slate-100 p-3 dark:border-slate-700/50">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full" style={{ backgroundColor: "#4D7C0F1A", color: "#4D7C0F" }}>
+            <CheckCircle2 size={15} />
+          </span>
+          <div className="min-w-0">
+            <p className="text-lg font-extrabold leading-none text-slate-800 dark:text-white">{loading ? "—" : selesaiHariIni}</p>
+            <p className="mt-1 truncate text-[10px] font-semibold text-slate-400 dark:text-slate-500">Selesai Hari Ini</p>
+          </div>
         </div>
       </div>
 

@@ -123,7 +123,7 @@ export function TugasFormModal({
       setDurasiMenit(tugas?.durasiMenit ? String(tugas.durasiMenit) : "");
       setStarterSpreadsheet(tugas?.starterSpreadsheet ?? null);
       setSpreadsheetKey((k) => k + 1);
-      setImportLinkUrl("");
+      setImportLinkUrl(tugas?.starterSpreadsheetSourceUrl ?? "");
       setImportError("");
       const existingStarters = tugas?.spreadsheetStarters ?? [];
       setSpreadsheetMode(existingStarters.length > 0 ? "PER_SISWA" : "SAMA");
@@ -243,10 +243,11 @@ export function TugasFormModal({
       if (tipe !== "SUBMIT" && durasiMenit.trim()) fd.append("durasiMenit", durasiMenit.trim());
       if (tipe === "SPREADSHEET") {
         fd.append("starterSpreadsheet", spreadsheetRef.current?.getSnapshot() ?? starterSpreadsheet ?? "");
-        const links = spreadsheetMode === "PER_SISWA"
-          ? Object.entries(perSiswaLinks).filter(([, u]) => u.trim()).map(([siswaId, url]) => ({ siswaId, url: url.trim() }))
-          : [];
-        fd.append("spreadsheetStarterLinks", JSON.stringify(links));
+        fd.append("starterSpreadsheetSourceUrl", importLinkUrl.trim());
+        if (spreadsheetMode === "PER_SISWA") {
+          const links = Object.entries(perSiswaLinks).filter(([, u]) => u.trim()).map(([siswaId, url]) => ({ siswaId, url: url.trim() }));
+          fd.append("spreadsheetStarterLinks", JSON.stringify(links));
+        }
       }
       if (isSoalBased) {
         const payload = soalList
@@ -291,7 +292,7 @@ export function TugasFormModal({
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-[70] flex items-end justify-center p-0 sm:items-center sm:p-4">
           <motion.div
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             onClick={onClose}
@@ -300,7 +301,7 @@ export function TugasFormModal({
           <motion.div
             initial={{ opacity: 0, scale: 0.93, y: 16 }} animate={{ opacity: 1, scale: 1, y: 0 }} exit={{ opacity: 0, scale: 0.93, y: 16 }}
             transition={{ type: "spring", damping: 22, stiffness: 320 }}
-            className={`relative flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-3xl bg-white shadow-2xl dark:bg-slate-800 ${tipe === "SPREADSHEET" ? "max-w-5xl" : isSoalBased ? "max-w-3xl" : "max-w-lg"}`}
+            className={`relative flex max-h-[90dvh] w-full flex-col overflow-hidden rounded-t-3xl bg-white shadow-2xl dark:bg-slate-800 sm:rounded-3xl ${tipe === "SPREADSHEET" ? "max-w-5xl" : isSoalBased ? "max-w-3xl" : "max-w-lg"}`}
           >
             <div className="relative flex shrink-0 items-center gap-3 overflow-hidden bg-primary px-6 py-5">
               <div className="pointer-events-none absolute -right-8 -top-8 h-28 w-28 rounded-full bg-white/10" />

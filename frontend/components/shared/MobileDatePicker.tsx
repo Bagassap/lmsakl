@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { CalendarDays, ChevronDown, ChevronLeft, ChevronRight, X } from "lucide-react";
@@ -19,8 +19,6 @@ function pad(n: number) {
 
 export function MobileDatePicker({ value, onChange, light, flat }: { value: string; onChange: (v: string) => void; light?: boolean; flat?: boolean }) {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
   const sel = parseYmd(value);
   const [viewY, setViewY] = useState(sel.y);
   const [viewM, setViewM] = useState(sel.m);
@@ -67,7 +65,7 @@ export function MobileDatePicker({ value, onChange, light, flat }: { value: stri
         <ChevronDown size={12} className={light ? "text-primary" : "text-slate-400"} />
       </button>
 
-      {mounted && createPortal(
+      {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {open && (
             <div className="fixed inset-0 z-[60] flex items-end justify-center">

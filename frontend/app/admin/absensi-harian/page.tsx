@@ -21,7 +21,7 @@ import { StatusBadge } from "@/components/absensi-harian/StatusBadge";
 import { Avatar } from "@/components/shared/Avatar";
 import { MobileDatePicker } from "@/components/shared/MobileDatePicker";
 import { PageSizeToggle, paginate } from "@/components/shared/PageSizeToggle";
-import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, WALLET_ON_LIME, MONTH_NAMES, RANGE_MODE_CARDS, todayJakarta, formatTgl, avatarColor } from "@/components/absensi-harian/shared";
+import { STATUS_CFG, PULANG_CFG, WALLET_GRADIENTS, MONTH_NAMES, RANGE_MODE_CARDS, todayJakarta, formatTgl, avatarColor } from "@/components/absensi-harian/shared";
 import type { Kelas, RekapKelas, SiswaAbsensi, StatusAbsensi, FilterAbsensi } from "@/components/absensi-harian/types";
 
 function KirimPengingatCard({ kelasId, tanggal, siswaList }: { kelasId: string; tanggal: string; siswaList: SiswaAbsensi[] }) {
@@ -255,8 +255,6 @@ export default function AdminAbsensiHarianPage() {
   const [laporanOpen, setLaporanOpen] = useState(false);
   const [statusPageOpen, setStatusPageOpen] = useState(false);
   const [kelasPickerOpen, setKelasPickerOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
   const KELAS_PER_PAGE = 4;
 
   const loadKelasList = useCallback(async () => {
@@ -355,17 +353,15 @@ export default function AdminAbsensiHarianPage() {
   return (
     <>
       <div className="hidden space-y-5 p-1 lg:block">
-        <div className="relative overflow-hidden rounded-2xl bg-primary p-6">
-          <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
-          <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
+        <div className="relative overflow-hidden rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
           <div className="relative flex items-center gap-3 sm:gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14" style={{ background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #D7263D", boxShadow: "0 5px 10px -3px #D7263D80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)" }}>
               <ClipboardCheck size={22} className="text-white sm:hidden" />
               <ClipboardCheck size={26} className="hidden text-white sm:block" />
             </div>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Presensi Wajib Harian</span>
-              <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Absensi Harian</h1>
+              <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Presensi Wajib Harian</span>
+              <h1 className="text-xl font-extrabold leading-tight text-slate-800 dark:text-white sm:text-2xl">Absensi Harian</h1>
             </div>
           </div>
         </div>
@@ -402,24 +398,22 @@ export default function AdminAbsensiHarianPage() {
                     const s = kelasStat(k);
                     const isSelected = k.id === selectedId;
                     const idx = s.idx % WALLET_GRADIENTS.length;
-                    const gradient = WALLET_GRADIENTS[idx];
-                    const onLime = WALLET_ON_LIME[idx];
+                    const rawColor = WALLET_GRADIENTS[idx];
+                    const color = rawColor === "#C3F84A" ? "#4D7C0F" : rawColor;
                     return (
                       <button type="button" key={k.id} onClick={() => setSelectedId(k.id)}
-                        className={`relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl p-5 text-left transition-all ${onLime ? "text-black" : "text-white"}`}
-                        style={{
-                          background: gradient,
-                          boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
-                          outline: isSelected ? "2px solid white" : "2px solid transparent",
-                          outlineOffset: "3px",
-                        }}>
-                        <div className="pointer-events-none absolute -right-6 -top-6 h-28 w-28 rounded-full bg-white/10" />
-                        <div className={`relative flex h-9 w-9 items-center justify-center rounded-2xl ${onLime ? "bg-black/15" : "bg-white/20"}`}>
+                        className={`relative flex h-32 flex-col justify-between overflow-hidden rounded-2xl border p-5 text-left transition-all ${isSelected ? "" : "border-slate-100 bg-slate-50 dark:border-slate-700 dark:bg-slate-700/40"}`}
+                        style={isSelected ? { borderColor: color, backgroundColor: `${color}14` } : undefined}>
+                        <div className="relative flex h-9 w-9 items-center justify-center rounded-2xl text-white"
+                          style={{
+                            background: `linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), ${color}`,
+                            boxShadow: `0 5px 10px -3px ${color}80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)`,
+                          }}>
                           <BookOpen size={16} />
                         </div>
                         <div className="relative">
-                          <p className="truncate text-xl font-black leading-tight">{k.nama}</p>
-                          <p className={`mt-0.5 truncate text-[11px] font-medium ${onLime ? "text-black/70" : "text-white/75"}`}>{s.hd}/{s.tt} hadir hari ini</p>
+                          <p className="truncate text-xl font-black leading-tight text-slate-800 dark:text-white">{k.nama}</p>
+                          <p className="mt-0.5 truncate text-[11px] font-medium text-slate-500 dark:text-slate-400">{s.hd}/{s.tt} hadir hari ini</p>
                         </div>
                       </button>
                     );
@@ -624,7 +618,7 @@ export default function AdminAbsensiHarianPage() {
         </div>
       </div>
 
-      {mounted && createPortal(
+      {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {kelasPickerOpen && (
             <div className="fixed inset-0 z-[60] flex items-end justify-center">
@@ -668,7 +662,7 @@ export default function AdminAbsensiHarianPage() {
         document.body
       )}
 
-      {mounted && createPortal(
+      {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {statusPageOpen && (
             <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
@@ -766,7 +760,7 @@ export default function AdminAbsensiHarianPage() {
         document.body
       )}
 
-      {mounted && createPortal(
+      {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
           {laporanOpen && (
             <div className="fixed inset-0 z-50 flex items-end justify-center">

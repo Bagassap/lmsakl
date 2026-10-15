@@ -159,17 +159,15 @@ export default function ManajemenPasswordClient() {
 
   return (
     <div>
-      <div className="hidden overflow-hidden rounded-2xl bg-primary p-6 lg:block">
-        <div className="pointer-events-none absolute -right-10 -top-10 h-52 w-52 rounded-full bg-white/10" />
-        <div className="pointer-events-none absolute -bottom-8 right-32 h-36 w-36 rounded-full bg-white/8" />
+      <div className="hidden overflow-hidden rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800 lg:block">
         <div className="relative flex items-center gap-3 sm:gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm shadow-lg sm:h-14 sm:w-14">
+          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl sm:h-14 sm:w-14" style={{ background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #D7263D", boxShadow: "0 5px 10px -3px #D7263D80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)" }}>
             <KeyRound size={22} className="text-white sm:hidden" />
             <KeyRound size={26} className="hidden text-white sm:block" />
           </div>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-white/60">Superadmin</span>
-            <h1 className="text-xl font-extrabold leading-tight text-white sm:text-2xl">Manajemen Password</h1>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500">Superadmin</span>
+            <h1 className="text-xl font-extrabold leading-tight text-slate-800 dark:text-white sm:text-2xl">Manajemen Password</h1>
           </div>
         </div>
       </div>
@@ -214,25 +212,43 @@ export default function ManajemenPasswordClient() {
               onClick={() => setKelolaGuruOpen(true)}
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               title="Kelola Guru"
-              className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-primary px-2 py-3 text-white shadow-sm transition-all hover:brightness-105">
-              <GraduationCap size={18} />
-              <span className="text-[10px] font-bold leading-tight">Kelola Guru</span>
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-100 bg-slate-50 px-2 py-3 transition-all hover:border-primary/30 hover:bg-primary-light/20 dark:border-slate-700 dark:bg-slate-700/40 dark:hover:bg-slate-700/60">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl text-white"
+                style={{
+                  background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #D7263D",
+                  boxShadow: "0 5px 10px -3px #D7263D80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)",
+                }}>
+                <GraduationCap size={16} />
+              </span>
+              <span className="text-[10px] font-bold leading-tight text-slate-700 dark:text-slate-200">Kelola Guru</span>
             </motion.button>
             <motion.button
               onClick={() => setImportSiswaOpen(true)}
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               title="Impor Massal"
-              className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-primary px-2 py-3 text-white shadow-sm transition-all hover:brightness-105">
-              <FileSpreadsheet size={18} />
-              <span className="text-[10px] font-bold leading-tight">Impor Massal</span>
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-100 bg-slate-50 px-2 py-3 transition-all hover:border-primary/30 hover:bg-primary-light/20 dark:border-slate-700 dark:bg-slate-700/40 dark:hover:bg-slate-700/60">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl text-white"
+                style={{
+                  background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #D7263D",
+                  boxShadow: "0 5px 10px -3px #D7263D80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)",
+                }}>
+                <FileSpreadsheet size={16} />
+              </span>
+              <span className="text-[10px] font-bold leading-tight text-slate-700 dark:text-slate-200">Impor Massal</span>
             </motion.button>
             <motion.button
               onClick={() => setCreateAccountOpen(true)}
               whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
               title="Buat Akun"
-              className="flex flex-col items-center justify-center gap-1.5 rounded-xl bg-primary px-2 py-3 text-white shadow-sm transition-all hover:brightness-105">
-              <UserPlus size={18} />
-              <span className="text-[10px] font-bold leading-tight">Buat Akun</span>
+              className="flex flex-col items-center justify-center gap-1.5 rounded-xl border border-slate-100 bg-slate-50 px-2 py-3 transition-all hover:border-primary/30 hover:bg-primary-light/20 dark:border-slate-700 dark:bg-slate-700/40 dark:hover:bg-slate-700/60">
+              <span className="flex h-9 w-9 items-center justify-center rounded-xl text-white"
+                style={{
+                  background: "linear-gradient(155deg, rgba(255,255,255,0.4), rgba(255,255,255,0) 55%), #D7263D",
+                  boxShadow: "0 5px 10px -3px #D7263D80, inset 0 2px 2px rgba(255,255,255,0.5), inset 0 -3px 4px rgba(0,0,0,0.18)",
+                }}>
+                <UserPlus size={16} />
+              </span>
+              <span className="text-[10px] font-bold leading-tight text-slate-700 dark:text-slate-200">Buat Akun</span>
             </motion.button>
           </div>
 

@@ -25,20 +25,15 @@ export function DataSiswaExportButtons({ kelasId, kelasNama, jurusan }: { kelasI
     }
   }
 
-  const PDF_STYLE = { backgroundColor: "#EBC4C4", color: "#D7263D", borderColor: "#D7263D30" };
-  const EXCEL_STYLE = { backgroundColor: "#E3ECFF", color: "#0F9D58", borderColor: "#0F9D5830" };
+  const BTN_CLS = "flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold text-slate-600 transition-all hover:bg-slate-100 disabled:cursor-not-allowed disabled:opacity-40 dark:border-slate-600 dark:bg-slate-700/50 dark:text-slate-300 dark:hover:bg-slate-700";
 
   return (
     <div className="flex flex-wrap items-center gap-2">
-      <button type="button" onClick={() => run("pdf")} disabled={!!loadingKind}
-        className="flex items-center justify-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition-all hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-40"
-        style={PDF_STYLE}>
+      <button type="button" onClick={() => run("pdf")} disabled={!!loadingKind} className={BTN_CLS}>
         {loadingKind === "pdf" ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />}
         Download PDF
       </button>
-      <button type="button" onClick={() => run("excel")} disabled={!!loadingKind}
-        className="flex items-center justify-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition-all hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-40"
-        style={EXCEL_STYLE}>
+      <button type="button" onClick={() => run("excel")} disabled={!!loadingKind} className={BTN_CLS}>
         {loadingKind === "excel" ? <Loader2 size={13} className="animate-spin" /> : <FileSpreadsheet size={13} />}
         Download Excel
       </button>

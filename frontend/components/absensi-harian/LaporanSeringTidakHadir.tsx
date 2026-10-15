@@ -69,8 +69,6 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList, compact
   const [data, setData] = useState<LaporanData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
 
   useEffect(() => {
     if (!kelasId) { setData(null); setLoading(false); return; }
@@ -208,7 +206,7 @@ export function LaporanSeringTidakHadir({ kelasId, kelasNama, siswaList, compact
       </div>
       )}
 
-      {mounted && createPortal(
+      {typeof document !== "undefined" && createPortal(
         <AnimatePresence>
         {showModal && (
           <div className="fixed inset-0 z-100 flex items-center justify-center p-4">
